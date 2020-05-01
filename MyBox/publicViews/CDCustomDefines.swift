@@ -1,0 +1,154 @@
+//
+//  CDCustomDefines.swift
+//  MyRule
+//
+//  Created by changdong on 2018/11/12.
+//  Copyright © 2018 changdong. All rights reserved.
+//
+
+import UIKit
+import Foundation
+
+
+
+
+let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
+let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
+let CDViewHeight = iPhoneX ? CDSCREEN_HEIGTH-44-24-StatusHeight:CDSCREEN_HEIGTH-44-StatusHeight
+let iPhoneX = (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0) || (UIScreen.main.bounds.size.width == 414.0 && UIScreen.main.bounds.size.height == 869.0)
+let StatusHeight = UIApplication.shared.statusBarFrame.size.height
+
+
+let thumpImageWidth = (CDSCREEN_WIDTH-6.0)/4.0
+let thumpImageHeight = (CDSCREEN_WIDTH-6.0)/4.0
+
+
+//颜色的定义
+let CustomBlueColor = UIColor(red: 39/255, green: 162/255.0, blue: 242/255.0, alpha: 1.0)
+let TextDarkBlackColor  = UIColor(red:26/255.0, green:26/255.0,blue:26/255.0,alpha:1.0)
+let TextBlackColor     =  UIColor(red:61/255.0, green:81/255.0,blue:97/255.0,alpha:1.0)
+let TextLightBlackColor = UIColor(red:154/255.0, green:154/255.0,blue:154/255.0,alpha:1.0)
+let TextLightBlueColor  = UIColor(red:39/255.0,green:162/255.0,blue:242/255.0,alpha:1.0) //27a2f2
+let TextLightGrayColor =   UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,alpha:1.0)//#9a9a9a
+
+let SeparatorLightGrayColor =  UIColor(red:153/255.0,green:153/255.0,blue:153/255.0,alpha:1.0)//#999999
+
+let SeparatorGrayColor  = UIColor(red:243/255.0,green:243/255.0,blue:243/255.0,alpha:1.0)
+let TextGrayColor    =    UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,alpha:1.0)
+
+let LightBlueColor   =    UIColor(red:213/255.0,green:230/255.0,blue:244/255.0,alpha:1.0)
+let NavigationColor   =    UIColor(red:0/255.0,green:95/255.0,blue:187/255.0,alpha:1.0)
+let BaseBackGroundColor   =    UIColor(red:242/255.0,green:243/255.0,blue:243/255.0,alpha:1.0)
+
+let CustomPinkColor   =   UIColor(red:255/255.0,green:73/255.0,blue:0/255.0,alpha:1.0)
+let ProgressViewBgColor = UIColor(red:0, green:104/255.0,blue:183/255.0,alpha:0.3)
+
+let FIRSTUSERID = 100001
+let waterMarkTag = 98764
+let CDPrint = print
+let ROOTSUPERID = -1
+
+let CD_IsLogin = "isLogin"
+let CD_TouchId = "touchId"
+let CD_FakeType = "faketype"
+let CD_UserId = "userid"
+let CD_LoginType = "loginType"
+
+
+let DismissImagePicker = NSNotification.Name(rawValue: "DismissImagePicker")
+let NeedReloadData = NSNotification.Name(rawValue: "NeedReloadData")
+let DocumentInputFile = NSNotification.Name(rawValue: "DocumentInputFile")
+
+let RefreshProgress = NSNotification.Name(rawValue: "RefreshProgress")
+let BarsHiddenOrNot = NSNotification.Name(rawValue: "BarsHiddenOrNot")
+let PlayThePlayer = NSNotification.Name(rawValue: "PlayThePlayer")
+
+
+let TextBigFont = UIFont.systemFont(ofSize: 20)
+let TextMidFont =  UIFont.systemFont(ofSize: 17)
+let TextSmallFont =  UIFont.systemFont(ofSize: 12)
+let TextMidSmallFont = UIFont.systemFont(ofSize: 15)
+enum NSFolderType:Int {
+    case ImageFolder = 0
+    case AudioFolder = 1
+    case VideoFolder = 2
+    case TextFolder = 3
+    case OtherFolder = 4
+}
+//
+enum NSFileType:Int {
+    case PlainTextType = 0
+    case AudioType = 1
+    case ImageType = 2
+    case VideoType = 3
+    case URLContentType = 4
+    case PdfType = 5
+    case PptType = 6
+    case DocType = 7
+    case TxtType = 8
+    case ExclType = 9
+    case RtfType = 10
+    case GifType = 11
+    case ZipType = 12
+    case URLVideoType = 13
+    case OtherType = 14
+    case DirectoryType = 15
+}
+enum CDBrightType:Int {
+    case Bright = 1
+}
+enum CDEditorsType:Int {
+    case Crop = 1 //剪裁
+    case Filter = 2 //滤镜
+    case Bright = 3 //亮度
+    case Rotate = 4 //旋转
+    case Mosaic = 5//马赛克
+    case Watermark = 6 //水印
+    case Text = 7//文字
+}
+//
+let CDLoginReal = 0
+let CDLoginFake = 1
+
+let LockOn = 1   //可删除
+let LockOff = 2   //不可删除
+
+
+
+enum _LoginType:Int {
+    case ReadLogin
+    case FakeLogin
+}
+enum NSFileGrade:Int {
+    case lovely   //喜爱收藏
+    case normal   //普通
+
+
+}
+
+enum AlertType:Int
+{
+    case AlertShootVideoType = 1   // 录像
+    case AlertVideosType = 2      // 从系统库导入视频
+    case AlertPlayVideoType = 3    // 播放视频
+    case AlertTakePhotoType = 4    // 拍照
+    case AlertPhotosType = 5       // 从系统库导入图片
+    case AlertBrowsePhotosType = 6 // 浏览图片
+    case AlertMakeRecordType = 7   // 录音
+    case AlertRecordsType = 8      // 播放录音
+}
+
+
+
+enum SDImageFormat:NSInteger {
+    case SDImageFormatUndefined = -1
+    case SDImageFormatJPEG = 0
+    case SDImageFormatPNG = 1
+    case SDImageFormatGIF
+    case SDImageFormatTIFF
+    case SDImageFormatWebP
+    case SDImageFormatHEIC
+}
+
+let IOSVersion = Float(UIDevice.current.systemVersion)
+

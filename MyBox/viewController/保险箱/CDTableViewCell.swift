@@ -1,0 +1,119 @@
+//
+//  CDAudioCell.swift
+//  MyRule
+//
+//  Created by changdong on 2018/12/23.
+//  Copyright © 2018 changdong. All rights reserved.
+//
+
+import UIKit
+
+class CDTableViewCell: UITableViewCell {
+
+    var fileNameL:UILabel!
+    var fileCreateTimeL:UILabel!
+    var audioLengthL:UILabel!
+    var headImage:UIImageView!
+    var selectImage:UIImageView!
+    var isSelect:Bool = false
+    var showSelectIcon = false
+
+
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        let view = UIView()
+        self.selectedBackgroundView = view
+        self.selectedBackgroundView?.backgroundColor = LightBlueColor
+
+        headImage = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
+        self.contentView.addSubview(headImage)
+
+        fileNameL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: 10, width: CDSCREEN_WIDTH-75, height: 25))
+        fileNameL.textColor = TextBlackColor
+        fileNameL.font = TextMidFont
+        fileNameL.lineBreakMode = .byTruncatingMiddle
+        fileNameL.textAlignment = .left
+        self.contentView.addSubview(fileNameL)
+
+        fileCreateTimeL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: fileNameL.frame.maxY, width: 150, height: 25))
+        fileCreateTimeL.textColor = TextGrayColor
+        fileCreateTimeL.textAlignment = .left
+        fileCreateTimeL.font = TextSmallFont
+        self.contentView.addSubview(fileCreateTimeL)
+
+        audioLengthL = UILabel(frame:CGRect(x: CDSCREEN_WIDTH-100, y: fileNameL.frame.maxY, width: 80, height: 30))
+        audioLengthL.textAlignment = .center
+        audioLengthL.textColor = TextGrayColor
+        audioLengthL.font = TextSmallFont
+        self.contentView.addSubview(audioLengthL)
+        audioLengthL.isHidden = true
+
+        selectImage = UIImageView(frame: CGRect(x: CDSCREEN_WIDTH-15.0-30, y: 65.0/2-15.0, width: 30, height: 30))
+        selectImage.image = LoadImageByName(imageName:"no_selected", type: "png")
+        self.contentView.addSubview(selectImage)
+        isSelect = false
+
+        let line = UIView(frame: CGRect(x: 5, y: 64, width: CDSCREEN_WIDTH-10, height: 1))
+        line.backgroundColor = SeparatorGrayColor
+        self.contentView.addSubview(line)
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
+    func setConfigFileData(fileInfo:CDSafeFileInfo) {
+        fileNameL.text = fileInfo.fileName
+        fileCreateTimeL.text = timestampTurnString(timestamp: fileInfo.createTime)
+
+
+        if fileInfo.fileType == .AudioType {
+            audioLengthL.isHidden = false
+            audioLengthL.text = getMMSSFromSS(second: fileInfo.timeLength)
+        }else{
+            audioLengthL.isHidden = true
+        }
+        let imageName = CDSignalTon.shareInstance().returnImgName(type: fileInfo.fileType!.rawValue)
+        headImage.image = UIImage(named: imageName!)
+        
+
+        var frame = audioLengthL.frame
+        if showSelectIcon {
+            selectImage.isHidden = false
+            frame.origin.x = CDSCREEN_WIDTH-30-80
+            if !isSelect {
+                selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
+            }else{
+                selectImage.image = LoadImageByName(imageName: "selected", type: "png")
+
+            }
+        }else{
+            selectImage.isHidden = true
+            frame.origin.x = CDSCREEN_WIDTH-80
+        }
+        audioLengthL.frame = frame
+    }
+    func setConfigFolderData(folder:CDSafeFolder) {
+        fileNameL.text = folder.folderName
+        fileCreateTimeL.text = timestampTurnString(timestamp: folder.createTime)
+        headImage.backgroundColor = UIColor.red
+        
+        if showSelectIcon {
+            selectImage.isHidden = false
+            if !isSelect {
+                selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
+            }else{
+                selectImage.image = LoadImageByName(imageName: "selected", type: "png")
+
+            }
+        }else{
+            selectImage.isHidden = true
+        }
+    }
+    
+}

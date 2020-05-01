@@ -1,0 +1,1695 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		731DF4F5245800080043E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF4F4245800080043E97F /* Foundation.framework */; };
+		731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; };
+		731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; };
+		731DF53D245810710043E97F /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		731DF53E245810710043E97F /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		735513942457C19D009B7599 /* CDPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512512457C19C009B7599 /* CDPlayViewController.swift */; };
+		735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512522457C19C009B7599 /* CDMusicClassViewController.swift */; };
+		735513962457C19D009B7599 /* bar_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512542457C19C009B7599 /* bar_stop@2x.png */; };
+		735513972457C19D009B7599 /* music_recent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512552457C19C009B7599 /* music_recent@2x.png */; };
+		735513982457C19D009B7599 /* defaultMusicImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512562457C19C009B7599 /* defaultMusicImage@2x.png */; };
+		735513992457C19D009B7599 /* music_love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512572457C19C009B7599 /* music_love@2x.png */; };
+		7355139A2457C19D009B7599 /* 菜单左@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512582457C19C009B7599 /* 菜单左@2x.png */; };
+		7355139B2457C19D009B7599 /* bar_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512592457C19C009B7599 /* bar_list@2x.png */; };
+		7355139C2457C19D009B7599 /* 更改排序@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125A2457C19C009B7599 /* 更改排序@2x.png */; };
+		7355139D2457C19D009B7599 /* 添加至歌单@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125B2457C19C009B7599 /* 添加至歌单@2x.png */; };
+		7355139E2457C19D009B7599 /* 创建歌单.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125C2457C19C009B7599 /* 创建歌单.png */; };
+		7355139F2457C19D009B7599 /* bar_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125D2457C19C009B7599 /* bar_play@2x.png */; };
+		735513A02457C19D009B7599 /* 删除@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125E2457C19C009B7599 /* 删除@2x.png */; };
+		735513A12457C19D009B7599 /* editMusic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355125F2457C19C009B7599 /* editMusic@2x.png */; };
+		735513A22457C19D009B7599 /* 下一首播放@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512602457C19C009B7599 /* 下一首播放@2x.png */; };
+		735513A32457C19D009B7599 /* editClass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512612457C19C009B7599 /* editClass@2x.png */; };
+		735513A42457C19D009B7599 /* music_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512622457C19C009B7599 /* music_list@2x.png */; };
+		735513A52457C19D009B7599 /* 编辑歌单@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512632457C19C009B7599 /* 编辑歌单@2x.png */; };
+		735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512642457C19C009B7599 /* 菜单右@2x.png */; };
+		735513A72457C19D009B7599 /* 分享@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512652457C19C009B7599 /* 分享@2x.png */; };
+		735513A82457C19D009B7599 /* CDMusicDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512662457C19C009B7599 /* CDMusicDefines.swift */; };
+		735513A92457C19D009B7599 /* CDMusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512682457C19C009B7599 /* CDMusicManager.swift */; };
+		735513AA2457C19D009B7599 /* CDPlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512692457C19C009B7599 /* CDPlayerBar.swift */; };
+		735513AB2457C19D009B7599 /* CDMusicMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126A2457C19C009B7599 /* CDMusicMenuView.swift */; };
+		735513AC2457C19D009B7599 /* CDCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126B2457C19C009B7599 /* CDCollectionView.swift */; };
+		735513AD2457C19D009B7599 /* CDMusicClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126C2457C19C009B7599 /* CDMusicClassView.swift */; };
+		735513AE2457C19D009B7599 /* CDClassCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126D2457C19C009B7599 /* CDClassCell.swift */; };
+		735513AF2457C19D009B7599 /* CDMusicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126E2457C19C009B7599 /* CDMusicListView.swift */; };
+		735513B02457C19D009B7599 /* CDModifyClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355126F2457C19C009B7599 /* CDModifyClassViewController.swift */; };
+		735513B12457C19D009B7599 /* CDMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512702457C19C009B7599 /* CDMusicViewController.swift */; };
+		735513B22457C19D009B7599 /* CDSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512722457C19C009B7599 /* CDSettingViewController.swift */; };
+		735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512732457C19C009B7599 /* CDSetPwdViewController.swift */; };
+		735513B42457C19D009B7599 /* CDModifyPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512742457C19C009B7599 /* CDModifyPwdViewController.swift */; };
+		735513B52457C19D009B7599 /* CDSafeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512762457C19C009B7599 /* CDSafeViewController.swift */; };
+		735513B62457C19E009B7599 /* CDMarkFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512772457C19C009B7599 /* CDMarkFileViewController.swift */; };
+		735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512792457C19C009B7599 /* vault_setting@2x.png */; };
+		735513B82457C19E009B7599 /* output@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127A2457C19C009B7599 /* output@2x.png */; };
+		735513B92457C19E009B7599 /* addDir@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127B2457C19C009B7599 /* addDir@2x.png */; };
+		735513BA2457C19E009B7599 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127C2457C19C009B7599 /* edit@2x.png */; };
+		735513BB2457C19E009B7599 /* selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127D2457C19C009B7599 /* selected@2x.png */; };
+		735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127E2457C19C009B7599 /* menu_delete_grey@2x.png */; };
+		735513BD2457C19E009B7599 /* folderName_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355127F2457C19C009B7599 /* folderName_edit@2x.png */; };
+		735513BE2457C19E009B7599 /* addFile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512802457C19C009B7599 /* addFile@2x.png */; };
+		735513BF2457C19E009B7599 /* menu_forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512812457C19C009B7599 /* menu_forward@2x.png */; };
+		735513C02457C19E009B7599 /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512822457C19C009B7599 /* record@2x.png */; };
+		735513C12457C19E009B7599 /* sure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512832457C19C009B7599 /* sure@2x.png */; };
+		735513C22457C19E009B7599 /* no_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512842457C19C009B7599 /* no_selected@2x.png */; };
+		735513C32457C19E009B7599 /* input@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512852457C19C009B7599 /* input@2x.png */; };
+		735513C42457C19E009B7599 /* 视频@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512862457C19C009B7599 /* 视频@2x.png */; };
+		735513C52457C19E009B7599 /* 音频@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512872457C19C009B7599 /* 音频@2x.png */; };
+		735513C62457C19E009B7599 /* move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512882457C19C009B7599 /* move@2x.png */; };
+		735513C72457C19E009B7599 /* cloudDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512892457C19C009B7599 /* cloudDown@2x.png */; };
+		735513C82457C19E009B7599 /* menu_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128A2457C19C009B7599 /* menu_delete@2x.png */; };
+		735513C92457C19E009B7599 /* addText@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128B2457C19C009B7599 /* addText@2x.png */; };
+		735513CA2457C19E009B7599 /* chexiao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128C2457C19C009B7599 /* chexiao@2x.png */; };
+		735513CB2457C19E009B7599 /* menu_move_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128D2457C19C009B7599 /* menu_move_grey@2x.png */; };
+		735513CC2457C19E009B7599 /* append@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128E2457C19C009B7599 /* append@2x.png */; };
+		735513CD2457C19E009B7599 /* 图片@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355128F2457C19C009B7599 /* 图片@2x.png */; };
+		735513CE2457C19E009B7599 /* menu_forward_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512902457C19C009B7599 /* menu_forward_grey@2x.png */; };
+		735513CF2457C19E009B7599 /* folder_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512912457C19C009B7599 /* folder_rename@2x.png */; };
+		735513D02457C19E009B7599 /* hecheng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512922457C19C009B7599 /* hecheng@2x.png */; };
+		735513D12457C19E009B7599 /* append_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512932457C19C009B7599 /* append_grey@2x.png */; };
+		735513D22457C19E009B7599 /* sure-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512942457C19C009B7599 /* sure-grey@2x.png */; };
+		735513D32457C19E009B7599 /* file_video_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512962457C19C009B7599 /* file_video_big@2x.png */; };
+		735513D42457C19E009B7599 /* file_zip_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512972457C19C009B7599 /* file_zip_big@2x.png */; };
+		735513D52457C19E009B7599 /* file_excel_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512982457C19C009B7599 /* file_excel_big@2x.png */; };
+		735513D62457C19E009B7599 /* file_rtf_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512992457C19C009B7599 /* file_rtf_big@2x.png */; };
+		735513D72457C19E009B7599 /* file_doc_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129A2457C19C009B7599 /* file_doc_big@2x.png */; };
+		735513D82457C19E009B7599 /* file_other_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129B2457C19C009B7599 /* file_other_big@2x.png */; };
+		735513D92457C19E009B7599 /* file_ppt_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129C2457C19C009B7599 /* file_ppt_big@2x.png */; };
+		735513DA2457C19E009B7599 /* file_audio_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129D2457C19C009B7599 /* file_audio_big@2x.png */; };
+		735513DB2457C19E009B7599 /* file_pdf_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129E2457C19C009B7599 /* file_pdf_big@2x.png */; };
+		735513DC2457C19E009B7599 /* file_txt_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355129F2457C19C009B7599 /* file_txt_big@2x.png */; };
+		735513DD2457C19E009B7599 /* file_image_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A02457C19C009B7599 /* file_image_big@2x.png */; };
+		735513DE2457C19E009B7599 /* no_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A12457C19C009B7599 /* no_edit@2x.png */; };
+		735513DF2457C19E009B7599 /* menu_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A22457C19C009B7599 /* menu_move@2x.png */; };
+		735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A32457C19C009B7599 /* chexiao-grey@2x.png */; };
+		735513E12457C19E009B7599 /* 其他@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A42457C19C009B7599 /* 其他@2x.png */; };
+		735513E22457C19E009B7599 /* CDCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512A62457C19C009B7599 /* CDCircleView.swift */; };
+		735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A82457C19C009B7599 /* record_unrecord@2x.png */; };
+		735513E42457C19E009B7599 /* ic_safe_cancel_clickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */; };
+		735513E52457C19E009B7599 /* record_line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AA2457C19C009B7599 /* record_line2@2x.png */; };
+		735513E62457C19E009B7599 /* audiostop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AB2457C19C009B7599 /* audiostop@2x.png */; };
+		735513E72457C19E009B7599 /* record_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AC2457C19C009B7599 /* record_move@2x.png */; };
+		735513E82457C19E009B7599 /* ic_safe_save_recording_clickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */; };
+		735513E92457C19E009B7599 /* record_forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AE2457C19C009B7599 /* record_forward@2x.png */; };
+		735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AF2457C19C009B7599 /* record_recording@2x.png */; };
+		735513EB2457C19E009B7599 /* record_timeProgressBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */; };
+		735513EC2457C19E009B7599 /* record_detailInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B12457C19C009B7599 /* record_detailInfo@2x.png */; };
+		735513ED2457C19E009B7599 /* ic_safe_cancel_unclickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */; };
+		735513EE2457C19E009B7599 /* record_line1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B32457C19C009B7599 /* record_line1@2x.png */; };
+		735513EF2457C19E009B7599 /* audioplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B42457C19C009B7599 /* audioplay@2x.png */; };
+		735513F02457C19E009B7599 /* type_audio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B52457C19C009B7599 /* type_audio@2x.png */; };
+		735513F12457C19E009B7599 /* ic_safe_save_recording_unclickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */; };
+		735513F22457C19E009B7599 /* record_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B72457C19C009B7599 /* record_delete@2x.png */; };
+		735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512B82457C19C009B7599 /* CDAudioViewController.swift */; };
+		735513F42457C19E009B7599 /* CDAudioRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */; };
+		735513F52457C19E009B7599 /* CDFolderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BA2457C19C009B7599 /* CDFolderDetailViewController.swift */; };
+		735513F62457C19E009B7599 /* CDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BB2457C19C009B7599 /* CDTableViewCell.swift */; };
+		735513F72457C19E009B7599 /* CDToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BC2457C19C009B7599 /* CDToolBar.swift */; };
+		735513F82457C19E009B7599 /* CDFolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BD2457C19C009B7599 /* CDFolderListViewController.swift */; };
+		735513F92457C19E009B7599 /* CDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BE2457C19C009B7599 /* CDWebViewController.swift */; };
+		735513FA2457C19E009B7599 /* CDSafeFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */; };
+		735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C02457C19C009B7599 /* CDFileDetailViewController.swift */; };
+		735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C12457C19C009B7599 /* CDNewFolderViewController.swift */; };
+		735513FD2457C19E009B7599 /* CDTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C32457C19C009B7599 /* CDTextCell.swift */; };
+		735513FE2457C19E009B7599 /* linkIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C52457C19C009B7599 /* linkIcon@2x.png */; };
+		735513FF2457C19E009B7599 /* noteIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C62457C19C009B7599 /* noteIcon@2x.png */; };
+		735514002457C19E009B7599 /* linkVideoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C72457C19C009B7599 /* linkVideoIcon@2x.png */; };
+		735514012457C19E009B7599 /* CDNewTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C82457C19C009B7599 /* CDNewTextViewController.swift */; };
+		735514022457C19E009B7599 /* CDTextMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C92457C19C009B7599 /* CDTextMessageViewController.swift */; };
+		735514032457C19E009B7599 /* CDTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512CA2457C19C009B7599 /* CDTextViewController.swift */; };
+		735514052457C19E009B7599 /* CDDirNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512CC2457C19C009B7599 /* CDDirNavBar.swift */; };
+		735514062457C19E009B7599 /* CDVideoScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512CE2457C19C009B7599 /* CDVideoScrollerViewController.swift */; };
+		735514072457C19E009B7599 /* CDSegmentVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512CF2457C19C009B7599 /* CDSegmentVideoViewController.swift */; };
+		735514082457C19E009B7599 /* CDVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512D02457C19C009B7599 /* CDVideoViewController.swift */; };
+		735514092457C19E009B7599 /* CDVideoScrollerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512D12457C19C009B7599 /* CDVideoScrollerCell.swift */; };
+		7355140A2457C19E009B7599 /* 微调加@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512D32457C19C009B7599 /* 微调加@2x.png */; };
+		7355140B2457C19E009B7599 /* 微调减@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512D42457C19C009B7599 /* 微调减@2x.png */; };
+		7355140C2457C19E009B7599 /* 视频播放@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512D52457C19C009B7599 /* 视频播放@2x.png */; };
+		7355140D2457C19E009B7599 /* video@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512D62457C19C009B7599 /* video@2x.png */; };
+		7355140E2457C19E009B7599 /* sliderPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512D72457C19C009B7599 /* sliderPoint@2x.png */; };
+		7355140F2457C19E009B7599 /* CDAppendVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512D82457C19C009B7599 /* CDAppendVideoViewController.swift */; };
+		735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DA2457C19C009B7599 /* CDImageScrollView.swift */; };
+		735514112457C19E009B7599 /* CDImageScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DB2457C19C009B7599 /* CDImageScrollerViewController.swift */; };
+		735514122457C19E009B7599 /* CDImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DC2457C19C009B7599 /* CDImageCell.swift */; };
+		735514132457C19E009B7599 /* CDMosaicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DE2457C19C009B7599 /* CDMosaicView.swift */; };
+		735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E02457C19C009B7599 /* CDMosaicViewController.swift */; };
+		735514152457C19E009B7599 /* PECropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E32457C19D009B7599 /* PECropView.swift */; };
+		735514162457C19E009B7599 /* PECropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E42457C19D009B7599 /* PECropRectView.swift */; };
+		735514172457C19E009B7599 /* CDPhotoChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E52457C19D009B7599 /* CDPhotoChooseView.swift */; };
+		735514182457C19E009B7599 /* CDCorpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E62457C19D009B7599 /* CDCorpViewController.swift */; };
+		735514192457C19E009B7599 /* CDCropToolsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E72457C19D009B7599 /* CDCropToolsBar.swift */; };
+		7355141A2457C19E009B7599 /* CDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E82457C19D009B7599 /* CDTextView.swift */; };
+		7355141B2457C19E009B7599 /* CDCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E92457C19D009B7599 /* CDCropView.swift */; };
+		7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512EA2457C19D009B7599 /* CDBrightView.swift */; };
+		7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EC2457C19D009B7599 /* 裁剪@2x.png */; };
+		7355141E2457C19E009B7599 /* 顺时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */; };
+		7355141F2457C19E009B7599 /* 曝光度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EE2457C19D009B7599 /* 曝光度@2x.png */; };
+		735514202457C19E009B7599 /* 滤镜@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EF2457C19D009B7599 /* 滤镜@2x.png */; };
+		735514212457C19E009B7599 /* 水印@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F02457C19D009B7599 /* 水印@2x.png */; };
+		735514222457C19E009B7599 /* backward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F12457C19D009B7599 /* backward_disable@2x.png */; };
+		735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F22457C19D009B7599 /* 水平镜像@2x.png */; };
+		735514242457C19E009B7599 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F32457C19D009B7599 /* forward@2x.png */; };
+		735514252457C19E009B7599 /* backward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F42457C19D009B7599 /* backward@2x.png */; };
+		735514262457C19E009B7599 /* 马赛克@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F52457C19D009B7599 /* 马赛克@2x.png */; };
+		735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F62457C19D009B7599 /* 逆时针旋转@2x.png */; };
+		735514282457C19E009B7599 /* 白色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F72457C19D009B7599 /* 白色暗角@2x.png */; };
+		735514292457C19E009B7599 /* 色相@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F82457C19D009B7599 /* 色相@2x.png */; };
+		7355142A2457C19E009B7599 /* 锐度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F92457C19D009B7599 /* 锐度@2x.png */; };
+		7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FA2457C19D009B7599 /* 对比度@2x.png */; };
+		7355142C2457C19E009B7599 /* 色温@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FB2457C19D009B7599 /* 色温@2x.png */; };
+		7355142D2457C19E009B7599 /* 垂直镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FC2457C19D009B7599 /* 垂直镜像@2x.png */; };
+		7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FD2457C19D009B7599 /* 黑色暗角@2x.png */; };
+		7355142F2457C19E009B7599 /* 文字@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FE2457C19D009B7599 /* 文字@2x.png */; };
+		735514302457C19E009B7599 /* forward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FF2457C19D009B7599 /* forward_disable@2x.png */; };
+		735514312457C19E009B7599 /* 饱和度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513002457C19D009B7599 /* 饱和度@2x.png */; };
+		735514322457C19E009B7599 /* 亮度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513012457C19D009B7599 /* 亮度@2x.png */; };
+		735514332457C19E009B7599 /* 旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513022457C19D009B7599 /* 旋转@2x.png */; };
+		735514342457C19E009B7599 /* CDRotateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513032457C19D009B7599 /* CDRotateView.swift */; };
+		735514352457C19E009B7599 /* CDEditToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513042457C19D009B7599 /* CDEditToolView.swift */; };
+		735514362457C19E009B7599 /* CDNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513052457C19D009B7599 /* CDNavigationBar.swift */; };
+		735514372457C19E009B7599 /* CDImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513062457C19D009B7599 /* CDImageEditViewController.swift */; };
+		735514382457C19E009B7599 /* CDWaterMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513082457C19D009B7599 /* CDWaterMarkViewController.swift */; };
+		735514392457C19E009B7599 /* CDWaterMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513092457C19D009B7599 /* CDWaterMarkView.swift */; };
+		7355143A2457C19E009B7599 /* CDEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130B2457C19D009B7599 /* CDEdit.swift */; };
+		7355143B2457C19E009B7599 /* CDEditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130C2457C19D009B7599 /* CDEditManager.swift */; };
+		7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130D2457C19D009B7599 /* CDWatermarkView.swift */; };
+		7355143D2457C19E009B7599 /* CDImageEditModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130E2457C19D009B7599 /* CDImageEditModels.swift */; };
+		7355143E2457C19E009B7599 /* CDFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513112457C19D009B7599 /* CDFilterView.swift */; };
+		7355143F2457C19E009B7599 /* CDEditorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513122457C19D009B7599 /* CDEditorsView.swift */; };
+		735514402457C19E009B7599 /* 照片选中@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513142457C19D009B7599 /* 照片选中@2x.png */; };
+		735514412457C19E009B7599 /* love_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513152457C19D009B7599 /* love_normal@2x.png */; };
+		735514422457C19E009B7599 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513162457C19D009B7599 /* camera@2x.png */; };
+		735514432457C19E009B7599 /* 美图@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513172457C19D009B7599 /* 美图@2x.png */; };
+		735514442457C19E009B7599 /* 小图解密失败@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513182457C19D009B7599 /* 小图解密失败@2x.png */; };
+		735514452457C19E009B7599 /* fileDetail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513192457C19D009B7599 /* fileDetail@2x.png */; };
+		735514462457C19E009B7599 /* 正在解密@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355131A2457C19D009B7599 /* 正在解密@2x.png */; };
+		735514472457C19E009B7599 /* love_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355131B2457C19D009B7599 /* love_press@2x.png */; };
+		735514482457C19E009B7599 /* 图片加载失败@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355131C2457C19D009B7599 /* 图片加载失败@2x.png */; };
+		735514492457C19E009B7599 /* CDPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355131D2457C19D009B7599 /* CDPuzzleViewController.swift */; };
+		7355144A2457C19E009B7599 /* CDComposeGifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355131E2457C19D009B7599 /* CDComposeGifViewController.swift */; };
+		7355144B2457C19E009B7599 /* CDComposeVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355131F2457C19D009B7599 /* CDComposeVideoViewController.swift */; };
+		7355144C2457C19E009B7599 /* CDImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513202457C19D009B7599 /* CDImageViewController.swift */; };
+		7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513222457C19D009B7599 /* CDGuideViewController.swift */; };
+		7355144E2457C19E009B7599 /* CDLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513232457C19D009B7599 /* CDLockViewController.swift */; };
+		7355144F2457C19E009B7599 /* CDFaceLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513242457C19D009B7599 /* CDFaceLockViewController.swift */; };
+		735514502457C19E009B7599 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 735513262457C19D009B7599 /* Assets.xcassets */; };
+		735514522457C19E009B7599 /* CDPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132A2457C19D009B7599 /* CDPreviewViewController.swift */; };
+		735514532457C19E009B7599 /* CDAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132B2457C19D009B7599 /* CDAsset.swift */; };
+		735514542457C19E009B7599 /* CDAlbumPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */; };
+		735514552457C19E009B7599 /* CDAessetSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */; };
+		735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */; };
+		735514572457C19E009B7599 /* CDPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132F2457C19D009B7599 /* CDPreviewView.swift */; };
+		735514582457C19E009B7599 /* CDPhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513302457C19D009B7599 /* CDPhotoItemCell.swift */; };
+		735514592457C19E009B7599 /* CDPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513312457C19D009B7599 /* CDPreviewCell.swift */; };
+		7355145A2457C19E009B7599 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513332457C19D009B7599 /* play@2x.png */; };
+		7355145B2457C19E009B7599 /* videoFlag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513342457C19D009B7599 /* videoFlag@2x.png */; };
+		7355145C2457C19E009B7599 /* CDPhotoPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513352457C19D009B7599 /* CDPhotoPickViewController.swift */; };
+		7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513362457C19D009B7599 /* CDAssetTon.swift */; };
+		7355145E2457C19E009B7599 /* CDAlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513372457C19D009B7599 /* CDAlbumItem.swift */; };
+		7355145F2457C19E009B7599 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513392457C19D009B7599 /* UIImage+Gif.swift */; };
+		735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355133C2457C19D009B7599 /* CDCameraTopBar.swift */; };
+		735514612457C19E009B7599 /* CDCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355133D2457C19D009B7599 /* CDCameraViewController.swift */; };
+		735514622457C19E009B7599 /* takePhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355133F2457C19D009B7599 /* takePhoto.png */; };
+		735514632457C19E009B7599 /* cameraSwitch.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513402457C19D009B7599 /* cameraSwitch.png */; };
+		735514642457C19E009B7599 /* meiyan.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513412457C19D009B7599 /* meiyan.png */; };
+		735514652457C19E009B7599 /* retake@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513422457C19D009B7599 /* retake@2x.png */; };
+		735514662457C19E009B7599 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513432457C19D009B7599 /* save@2x.png */; };
+		735514672457C19E009B7599 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513442457C19D009B7599 /* frame.png */; };
+		735514682457C19E009B7599 /* CDCameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513452457C19D009B7599 /* CDCameraPreview.swift */; };
+		735514692457C19E009B7599 /* CDCameraBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513462457C19D009B7599 /* CDCameraBottomBar.swift */; };
+		735514822457C19E009B7599 /* CDMusicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136C2457C19D009B7599 /* CDMusicInfo.swift */; };
+		735514832457C19E009B7599 /* CDSafeFileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */; };
+		735514842457C19E009B7599 /* CDSafeFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136E2457C19D009B7599 /* CDSafeFolder.swift */; };
+		735514862457C19E009B7599 /* CDSqlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513702457C19D009B7599 /* CDSqlManager.swift */; };
+		735514872457C19E009B7599 /* CDUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513712457C19D009B7599 /* CDUserInfo.swift */; };
+		735514882457C19E009B7599 /* CDMusicClassInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513722457C19D009B7599 /* CDMusicClassInfo.swift */; };
+		735514892457C19E009B7599 /* CDAudioPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513742457C19D009B7599 /* CDAudioPlayView.swift */; };
+		7355148A2457C19E009B7599 /* CDConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513752457C19D009B7599 /* CDConfigFile.swift */; };
+		7355148B2457C19E009B7599 /* CDBaseAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513762457C19D009B7599 /* CDBaseAllViewController.swift */; };
+		7355148C2457C19E009B7599 /* CDPopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513772457C19D009B7599 /* CDPopMenuView.swift */; };
+		7355148D2457C19E009B7599 /* String+Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513782457C19D009B7599 /* String+Path.swift */; };
+		7355148E2457C19E009B7599 /* CDCustomDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513792457C19D009B7599 /* CDCustomDefines.swift */; };
+		7355148F2457C19E009B7599 /* CDEmojiHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355137A2457C19D009B7599 /* CDEmojiHandle.swift */; };
+		735514902457C19E009B7599 /* CDGeneralTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355137B2457C19D009B7599 /* CDGeneralTool.swift */; };
+		735514912457C19E009B7599 /* CDSliderDeleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355137D2457C19D009B7599 /* CDSliderDeleteCell.swift */; };
+		735514922457C19E009B7599 /* CDHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355137E2457C19D009B7599 /* CDHUD.swift */; };
+		735514932457C19E009B7599 /* CDSignalTon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355137F2457C19D009B7599 /* CDSignalTon.swift */; };
+		735514942457C19E009B7599 /* CDDeviceTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513802457C19D009B7599 /* CDDeviceTools.swift */; };
+		735514952457C19E009B7599 /* Data+format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513812457C19D009B7599 /* Data+format.swift */; };
+		735514962457C19E009B7599 /* String+encrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513822457C19D009B7599 /* String+encrypt.swift */; };
+		735514972457C19E009B7599 /* CDAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513862457C19D009B7599 /* CDAppDelegate.swift */; };
+		735514982457C19E009B7599 /* 密盒_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513882457C19D009B7599 /* 密盒_selected@2x.png */; };
+		735514992457C19E009B7599 /* 上导航栏-背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355138A2457C19D009B7599 /* 上导航栏-背景@2x.png */; };
+		7355149A2457C19E009B7599 /* icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7355138B2457C19D009B7599 /* icon.jpg */; };
+		7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355138C2457C19D009B7599 /* leftDown@2x.png */; };
+		7355149C2457C19E009B7599 /* leftUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355138D2457C19D009B7599 /* leftUp@2x.png */; };
+		7355149D2457C19E009B7599 /* rightDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355138E2457C19D009B7599 /* rightDown@2x.png */; };
+		7355149E2457C19E009B7599 /* rightUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7355138F2457C19D009B7599 /* rightUp@2x.png */; };
+		7355149F2457C19E009B7599 /* 下导航-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513902457C19D009B7599 /* 下导航-bg@2x.png */; };
+		735514A02457C19E009B7599 /* back_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513912457C19D009B7599 /* back_normal@2x.png */; };
+		735514A12457C19E009B7599 /* back_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513922457C19D009B7599 /* back_pressed@2x.png */; };
+		735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A32457C1C7009B7599 /* AVFoundation.framework */; };
+		735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A52457C1D1009B7599 /* CoreAudio.framework */; };
+		735514A82457C1DD009B7599 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A72457C1DD009B7599 /* CoreGraphics.framework */; };
+		735514AA2457C1E5009B7599 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A92457C1E5009B7599 /* CoreServices.framework */; };
+		735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514AC2457C1FF009B7599 /* LocalAuthentication.framework */; };
+		735514AF2457C20D009B7599 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514AE2457C20D009B7599 /* Photos.framework */; };
+		735514B12457C216009B7599 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B02457C216009B7599 /* Security.framework */; };
+		735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B22457C220009B7599 /* VideoToolbox.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		731DF53C245810670043E97F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				731DF53D245810710043E97F /* ZipArchive.framework in CopyFiles */,
+				731DF53E245810710043E97F /* SQLite.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		731DF4F4245800080043E97F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		731DF53824580F3B0043E97F /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQLite.framework; sourceTree = "<group>"; };
+		731DF53A24580FDD0043E97F /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		73550FE52457C0AB009B7599 /* MyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		735512512457C19C009B7599 /* CDPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPlayViewController.swift; sourceTree = "<group>"; };
+		735512522457C19C009B7599 /* CDMusicClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicClassViewController.swift; sourceTree = "<group>"; };
+		735512542457C19C009B7599 /* bar_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_stop@2x.png"; sourceTree = "<group>"; };
+		735512552457C19C009B7599 /* music_recent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music_recent@2x.png"; sourceTree = "<group>"; };
+		735512562457C19C009B7599 /* defaultMusicImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultMusicImage@2x.png"; sourceTree = "<group>"; };
+		735512572457C19C009B7599 /* music_love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music_love@2x.png"; sourceTree = "<group>"; };
+		735512582457C19C009B7599 /* 菜单左@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "菜单左@2x.png"; sourceTree = "<group>"; };
+		735512592457C19C009B7599 /* bar_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_list@2x.png"; sourceTree = "<group>"; };
+		7355125A2457C19C009B7599 /* 更改排序@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "更改排序@2x.png"; sourceTree = "<group>"; };
+		7355125B2457C19C009B7599 /* 添加至歌单@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "添加至歌单@2x.png"; sourceTree = "<group>"; };
+		7355125C2457C19C009B7599 /* 创建歌单.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "创建歌单.png"; sourceTree = "<group>"; };
+		7355125D2457C19C009B7599 /* bar_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_play@2x.png"; sourceTree = "<group>"; };
+		7355125E2457C19C009B7599 /* 删除@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "删除@2x.png"; sourceTree = "<group>"; };
+		7355125F2457C19C009B7599 /* editMusic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editMusic@2x.png"; sourceTree = "<group>"; };
+		735512602457C19C009B7599 /* 下一首播放@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "下一首播放@2x.png"; sourceTree = "<group>"; };
+		735512612457C19C009B7599 /* editClass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editClass@2x.png"; sourceTree = "<group>"; };
+		735512622457C19C009B7599 /* music_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music_list@2x.png"; sourceTree = "<group>"; };
+		735512632457C19C009B7599 /* 编辑歌单@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "编辑歌单@2x.png"; sourceTree = "<group>"; };
+		735512642457C19C009B7599 /* 菜单右@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "菜单右@2x.png"; sourceTree = "<group>"; };
+		735512652457C19C009B7599 /* 分享@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "分享@2x.png"; sourceTree = "<group>"; };
+		735512662457C19C009B7599 /* CDMusicDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicDefines.swift; sourceTree = "<group>"; };
+		735512682457C19C009B7599 /* CDMusicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicManager.swift; sourceTree = "<group>"; };
+		735512692457C19C009B7599 /* CDPlayerBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPlayerBar.swift; sourceTree = "<group>"; };
+		7355126A2457C19C009B7599 /* CDMusicMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicMenuView.swift; sourceTree = "<group>"; };
+		7355126B2457C19C009B7599 /* CDCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCollectionView.swift; sourceTree = "<group>"; };
+		7355126C2457C19C009B7599 /* CDMusicClassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicClassView.swift; sourceTree = "<group>"; };
+		7355126D2457C19C009B7599 /* CDClassCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDClassCell.swift; sourceTree = "<group>"; };
+		7355126E2457C19C009B7599 /* CDMusicListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicListView.swift; sourceTree = "<group>"; };
+		7355126F2457C19C009B7599 /* CDModifyClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModifyClassViewController.swift; sourceTree = "<group>"; };
+		735512702457C19C009B7599 /* CDMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicViewController.swift; sourceTree = "<group>"; };
+		735512722457C19C009B7599 /* CDSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettingViewController.swift; sourceTree = "<group>"; };
+		735512732457C19C009B7599 /* CDSetPwdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSetPwdViewController.swift; sourceTree = "<group>"; };
+		735512742457C19C009B7599 /* CDModifyPwdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModifyPwdViewController.swift; sourceTree = "<group>"; };
+		735512762457C19C009B7599 /* CDSafeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeViewController.swift; sourceTree = "<group>"; };
+		735512772457C19C009B7599 /* CDMarkFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarkFileViewController.swift; sourceTree = "<group>"; };
+		735512792457C19C009B7599 /* vault_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vault_setting@2x.png"; sourceTree = "<group>"; };
+		7355127A2457C19C009B7599 /* output@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "output@2x.png"; sourceTree = "<group>"; };
+		7355127B2457C19C009B7599 /* addDir@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addDir@2x.png"; sourceTree = "<group>"; };
+		7355127C2457C19C009B7599 /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
+		7355127D2457C19C009B7599 /* selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected@2x.png"; sourceTree = "<group>"; };
+		7355127E2457C19C009B7599 /* menu_delete_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_delete_grey@2x.png"; sourceTree = "<group>"; };
+		7355127F2457C19C009B7599 /* folderName_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folderName_edit@2x.png"; sourceTree = "<group>"; };
+		735512802457C19C009B7599 /* addFile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addFile@2x.png"; sourceTree = "<group>"; };
+		735512812457C19C009B7599 /* menu_forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_forward@2x.png"; sourceTree = "<group>"; };
+		735512822457C19C009B7599 /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
+		735512832457C19C009B7599 /* sure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sure@2x.png"; sourceTree = "<group>"; };
+		735512842457C19C009B7599 /* no_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_selected@2x.png"; sourceTree = "<group>"; };
+		735512852457C19C009B7599 /* input@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "input@2x.png"; sourceTree = "<group>"; };
+		735512862457C19C009B7599 /* 视频@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "视频@2x.png"; sourceTree = "<group>"; };
+		735512872457C19C009B7599 /* 音频@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "音频@2x.png"; sourceTree = "<group>"; };
+		735512882457C19C009B7599 /* move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "move@2x.png"; sourceTree = "<group>"; };
+		735512892457C19C009B7599 /* cloudDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloudDown@2x.png"; sourceTree = "<group>"; };
+		7355128A2457C19C009B7599 /* menu_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_delete@2x.png"; sourceTree = "<group>"; };
+		7355128B2457C19C009B7599 /* addText@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addText@2x.png"; sourceTree = "<group>"; };
+		7355128C2457C19C009B7599 /* chexiao@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chexiao@2x.png"; sourceTree = "<group>"; };
+		7355128D2457C19C009B7599 /* menu_move_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_move_grey@2x.png"; sourceTree = "<group>"; };
+		7355128E2457C19C009B7599 /* append@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "append@2x.png"; sourceTree = "<group>"; };
+		7355128F2457C19C009B7599 /* 图片@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "图片@2x.png"; sourceTree = "<group>"; };
+		735512902457C19C009B7599 /* menu_forward_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_forward_grey@2x.png"; sourceTree = "<group>"; };
+		735512912457C19C009B7599 /* folder_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder_rename@2x.png"; sourceTree = "<group>"; };
+		735512922457C19C009B7599 /* hecheng@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hecheng@2x.png"; sourceTree = "<group>"; };
+		735512932457C19C009B7599 /* append_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "append_grey@2x.png"; sourceTree = "<group>"; };
+		735512942457C19C009B7599 /* sure-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sure-grey@2x.png"; sourceTree = "<group>"; };
+		735512962457C19C009B7599 /* file_video_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_video_big@2x.png"; sourceTree = "<group>"; };
+		735512972457C19C009B7599 /* file_zip_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_zip_big@2x.png"; sourceTree = "<group>"; };
+		735512982457C19C009B7599 /* file_excel_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_excel_big@2x.png"; sourceTree = "<group>"; };
+		735512992457C19C009B7599 /* file_rtf_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_rtf_big@2x.png"; sourceTree = "<group>"; };
+		7355129A2457C19C009B7599 /* file_doc_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_doc_big@2x.png"; sourceTree = "<group>"; };
+		7355129B2457C19C009B7599 /* file_other_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_other_big@2x.png"; sourceTree = "<group>"; };
+		7355129C2457C19C009B7599 /* file_ppt_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_ppt_big@2x.png"; sourceTree = "<group>"; };
+		7355129D2457C19C009B7599 /* file_audio_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_audio_big@2x.png"; sourceTree = "<group>"; };
+		7355129E2457C19C009B7599 /* file_pdf_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_pdf_big@2x.png"; sourceTree = "<group>"; };
+		7355129F2457C19C009B7599 /* file_txt_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_txt_big@2x.png"; sourceTree = "<group>"; };
+		735512A02457C19C009B7599 /* file_image_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_image_big@2x.png"; sourceTree = "<group>"; };
+		735512A12457C19C009B7599 /* no_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_edit@2x.png"; sourceTree = "<group>"; };
+		735512A22457C19C009B7599 /* menu_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_move@2x.png"; sourceTree = "<group>"; };
+		735512A32457C19C009B7599 /* chexiao-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chexiao-grey@2x.png"; sourceTree = "<group>"; };
+		735512A42457C19C009B7599 /* 其他@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "其他@2x.png"; sourceTree = "<group>"; };
+		735512A62457C19C009B7599 /* CDCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCircleView.swift; sourceTree = "<group>"; };
+		735512A82457C19C009B7599 /* record_unrecord@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_unrecord@2x.png"; sourceTree = "<group>"; };
+		735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_cancel_clickable@2x.png"; sourceTree = "<group>"; };
+		735512AA2457C19C009B7599 /* record_line2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_line2@2x.png"; sourceTree = "<group>"; };
+		735512AB2457C19C009B7599 /* audiostop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audiostop@2x.png"; sourceTree = "<group>"; };
+		735512AC2457C19C009B7599 /* record_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_move@2x.png"; sourceTree = "<group>"; };
+		735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_save_recording_clickable@2x.png"; sourceTree = "<group>"; };
+		735512AE2457C19C009B7599 /* record_forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_forward@2x.png"; sourceTree = "<group>"; };
+		735512AF2457C19C009B7599 /* record_recording@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_recording@2x.png"; sourceTree = "<group>"; };
+		735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_timeProgressBG@2x.png"; sourceTree = "<group>"; };
+		735512B12457C19C009B7599 /* record_detailInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_detailInfo@2x.png"; sourceTree = "<group>"; };
+		735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_cancel_unclickable@2x.png"; sourceTree = "<group>"; };
+		735512B32457C19C009B7599 /* record_line1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_line1@2x.png"; sourceTree = "<group>"; };
+		735512B42457C19C009B7599 /* audioplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioplay@2x.png"; sourceTree = "<group>"; };
+		735512B52457C19C009B7599 /* type_audio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "type_audio@2x.png"; sourceTree = "<group>"; };
+		735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_save_recording_unclickable@2x.png"; sourceTree = "<group>"; };
+		735512B72457C19C009B7599 /* record_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_delete@2x.png"; sourceTree = "<group>"; };
+		735512B82457C19C009B7599 /* CDAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioViewController.swift; sourceTree = "<group>"; };
+		735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioRecordViewController.swift; sourceTree = "<group>"; };
+		735512BA2457C19C009B7599 /* CDFolderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFolderDetailViewController.swift; sourceTree = "<group>"; };
+		735512BB2457C19C009B7599 /* CDTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTableViewCell.swift; sourceTree = "<group>"; };
+		735512BC2457C19C009B7599 /* CDToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDToolBar.swift; sourceTree = "<group>"; };
+		735512BD2457C19C009B7599 /* CDFolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFolderListViewController.swift; sourceTree = "<group>"; };
+		735512BE2457C19C009B7599 /* CDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWebViewController.swift; sourceTree = "<group>"; };
+		735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFolderCell.swift; sourceTree = "<group>"; };
+		735512C02457C19C009B7599 /* CDFileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFileDetailViewController.swift; sourceTree = "<group>"; };
+		735512C12457C19C009B7599 /* CDNewFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNewFolderViewController.swift; sourceTree = "<group>"; };
+		735512C32457C19C009B7599 /* CDTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextCell.swift; sourceTree = "<group>"; };
+		735512C52457C19C009B7599 /* linkIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkIcon@2x.png"; sourceTree = "<group>"; };
+		735512C62457C19C009B7599 /* noteIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noteIcon@2x.png"; sourceTree = "<group>"; };
+		735512C72457C19C009B7599 /* linkVideoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkVideoIcon@2x.png"; sourceTree = "<group>"; };
+		735512C82457C19C009B7599 /* CDNewTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNewTextViewController.swift; sourceTree = "<group>"; };
+		735512C92457C19C009B7599 /* CDTextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextMessageViewController.swift; sourceTree = "<group>"; };
+		735512CA2457C19C009B7599 /* CDTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextViewController.swift; sourceTree = "<group>"; };
+		735512CC2457C19C009B7599 /* CDDirNavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDirNavBar.swift; sourceTree = "<group>"; };
+		735512CE2457C19C009B7599 /* CDVideoScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoScrollerViewController.swift; sourceTree = "<group>"; };
+		735512CF2457C19C009B7599 /* CDSegmentVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSegmentVideoViewController.swift; sourceTree = "<group>"; };
+		735512D02457C19C009B7599 /* CDVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoViewController.swift; sourceTree = "<group>"; };
+		735512D12457C19C009B7599 /* CDVideoScrollerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoScrollerCell.swift; sourceTree = "<group>"; };
+		735512D32457C19C009B7599 /* 微调加@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "微调加@2x.png"; sourceTree = "<group>"; };
+		735512D42457C19C009B7599 /* 微调减@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "微调减@2x.png"; sourceTree = "<group>"; };
+		735512D52457C19C009B7599 /* 视频播放@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "视频播放@2x.png"; sourceTree = "<group>"; };
+		735512D62457C19C009B7599 /* video@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@2x.png"; sourceTree = "<group>"; };
+		735512D72457C19C009B7599 /* sliderPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderPoint@2x.png"; sourceTree = "<group>"; };
+		735512D82457C19C009B7599 /* CDAppendVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAppendVideoViewController.swift; sourceTree = "<group>"; };
+		735512DA2457C19C009B7599 /* CDImageScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollView.swift; sourceTree = "<group>"; };
+		735512DB2457C19C009B7599 /* CDImageScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollerViewController.swift; sourceTree = "<group>"; };
+		735512DC2457C19C009B7599 /* CDImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageCell.swift; sourceTree = "<group>"; };
+		735512DE2457C19C009B7599 /* CDMosaicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicView.swift; sourceTree = "<group>"; };
+		735512E02457C19C009B7599 /* CDMosaicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicViewController.swift; sourceTree = "<group>"; };
+		735512E32457C19D009B7599 /* PECropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropView.swift; sourceTree = "<group>"; };
+		735512E42457C19D009B7599 /* PECropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropRectView.swift; sourceTree = "<group>"; };
+		735512E52457C19D009B7599 /* CDPhotoChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoChooseView.swift; sourceTree = "<group>"; };
+		735512E62457C19D009B7599 /* CDCorpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCorpViewController.swift; sourceTree = "<group>"; };
+		735512E72457C19D009B7599 /* CDCropToolsBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropToolsBar.swift; sourceTree = "<group>"; };
+		735512E82457C19D009B7599 /* CDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextView.swift; sourceTree = "<group>"; };
+		735512E92457C19D009B7599 /* CDCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropView.swift; sourceTree = "<group>"; };
+		735512EA2457C19D009B7599 /* CDBrightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrightView.swift; sourceTree = "<group>"; };
+		735512EC2457C19D009B7599 /* 裁剪@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "裁剪@2x.png"; sourceTree = "<group>"; };
+		735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "顺时针旋转@2x.png"; sourceTree = "<group>"; };
+		735512EE2457C19D009B7599 /* 曝光度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "曝光度@2x.png"; sourceTree = "<group>"; };
+		735512EF2457C19D009B7599 /* 滤镜@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "滤镜@2x.png"; sourceTree = "<group>"; };
+		735512F02457C19D009B7599 /* 水印@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水印@2x.png"; sourceTree = "<group>"; };
+		735512F12457C19D009B7599 /* backward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward_disable@2x.png"; sourceTree = "<group>"; };
+		735512F22457C19D009B7599 /* 水平镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水平镜像@2x.png"; sourceTree = "<group>"; };
+		735512F32457C19D009B7599 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		735512F42457C19D009B7599 /* backward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward@2x.png"; sourceTree = "<group>"; };
+		735512F52457C19D009B7599 /* 马赛克@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马赛克@2x.png"; sourceTree = "<group>"; };
+		735512F62457C19D009B7599 /* 逆时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "逆时针旋转@2x.png"; sourceTree = "<group>"; };
+		735512F72457C19D009B7599 /* 白色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "白色暗角@2x.png"; sourceTree = "<group>"; };
+		735512F82457C19D009B7599 /* 色相@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色相@2x.png"; sourceTree = "<group>"; };
+		735512F92457C19D009B7599 /* 锐度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "锐度@2x.png"; sourceTree = "<group>"; };
+		735512FA2457C19D009B7599 /* 对比度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "对比度@2x.png"; sourceTree = "<group>"; };
+		735512FB2457C19D009B7599 /* 色温@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色温@2x.png"; sourceTree = "<group>"; };
+		735512FC2457C19D009B7599 /* 垂直镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "垂直镜像@2x.png"; sourceTree = "<group>"; };
+		735512FD2457C19D009B7599 /* 黑色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "黑色暗角@2x.png"; sourceTree = "<group>"; };
+		735512FE2457C19D009B7599 /* 文字@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "文字@2x.png"; sourceTree = "<group>"; };
+		735512FF2457C19D009B7599 /* forward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward_disable@2x.png"; sourceTree = "<group>"; };
+		735513002457C19D009B7599 /* 饱和度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "饱和度@2x.png"; sourceTree = "<group>"; };
+		735513012457C19D009B7599 /* 亮度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "亮度@2x.png"; sourceTree = "<group>"; };
+		735513022457C19D009B7599 /* 旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "旋转@2x.png"; sourceTree = "<group>"; };
+		735513032457C19D009B7599 /* CDRotateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRotateView.swift; sourceTree = "<group>"; };
+		735513042457C19D009B7599 /* CDEditToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditToolView.swift; sourceTree = "<group>"; };
+		735513052457C19D009B7599 /* CDNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNavigationBar.swift; sourceTree = "<group>"; };
+		735513062457C19D009B7599 /* CDImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditViewController.swift; sourceTree = "<group>"; };
+		735513082457C19D009B7599 /* CDWaterMarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkViewController.swift; sourceTree = "<group>"; };
+		735513092457C19D009B7599 /* CDWaterMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkView.swift; sourceTree = "<group>"; };
+		7355130B2457C19D009B7599 /* CDEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEdit.swift; sourceTree = "<group>"; };
+		7355130C2457C19D009B7599 /* CDEditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditManager.swift; sourceTree = "<group>"; };
+		7355130D2457C19D009B7599 /* CDWatermarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWatermarkView.swift; sourceTree = "<group>"; };
+		7355130E2457C19D009B7599 /* CDImageEditModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditModels.swift; sourceTree = "<group>"; };
+		735513112457C19D009B7599 /* CDFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFilterView.swift; sourceTree = "<group>"; };
+		735513122457C19D009B7599 /* CDEditorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditorsView.swift; sourceTree = "<group>"; };
+		735513142457C19D009B7599 /* 照片选中@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "照片选中@2x.png"; sourceTree = "<group>"; };
+		735513152457C19D009B7599 /* love_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "love_normal@2x.png"; sourceTree = "<group>"; };
+		735513162457C19D009B7599 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
+		735513172457C19D009B7599 /* 美图@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美图@2x.png"; sourceTree = "<group>"; };
+		735513182457C19D009B7599 /* 小图解密失败@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "小图解密失败@2x.png"; sourceTree = "<group>"; };
+		735513192457C19D009B7599 /* fileDetail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileDetail@2x.png"; sourceTree = "<group>"; };
+		7355131A2457C19D009B7599 /* 正在解密@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "正在解密@2x.png"; sourceTree = "<group>"; };
+		7355131B2457C19D009B7599 /* love_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "love_press@2x.png"; sourceTree = "<group>"; };
+		7355131C2457C19D009B7599 /* 图片加载失败@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "图片加载失败@2x.png"; sourceTree = "<group>"; };
+		7355131D2457C19D009B7599 /* CDPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPuzzleViewController.swift; sourceTree = "<group>"; };
+		7355131E2457C19D009B7599 /* CDComposeGifViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDComposeGifViewController.swift; sourceTree = "<group>"; };
+		7355131F2457C19D009B7599 /* CDComposeVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDComposeVideoViewController.swift; sourceTree = "<group>"; };
+		735513202457C19D009B7599 /* CDImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageViewController.swift; sourceTree = "<group>"; };
+		735513222457C19D009B7599 /* CDGuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDGuideViewController.swift; sourceTree = "<group>"; };
+		735513232457C19D009B7599 /* CDLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDLockViewController.swift; sourceTree = "<group>"; };
+		735513242457C19D009B7599 /* CDFaceLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFaceLockViewController.swift; sourceTree = "<group>"; };
+		735513262457C19D009B7599 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7355132A2457C19D009B7599 /* CDPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewViewController.swift; sourceTree = "<group>"; };
+		7355132B2457C19D009B7599 /* CDAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAsset.swift; sourceTree = "<group>"; };
+		7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAlbumPickViewController.swift; sourceTree = "<group>"; };
+		7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAessetSelectionDelegate.swift; sourceTree = "<group>"; };
+		7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMediaPickerViewController.swift; sourceTree = "<group>"; };
+		7355132F2457C19D009B7599 /* CDPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewView.swift; sourceTree = "<group>"; };
+		735513302457C19D009B7599 /* CDPhotoItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoItemCell.swift; sourceTree = "<group>"; };
+		735513312457C19D009B7599 /* CDPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewCell.swift; sourceTree = "<group>"; };
+		735513332457C19D009B7599 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		735513342457C19D009B7599 /* videoFlag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "videoFlag@2x.png"; sourceTree = "<group>"; };
+		735513352457C19D009B7599 /* CDPhotoPickViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoPickViewController.swift; sourceTree = "<group>"; };
+		735513362457C19D009B7599 /* CDAssetTon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAssetTon.swift; sourceTree = "<group>"; };
+		735513372457C19D009B7599 /* CDAlbumItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAlbumItem.swift; sourceTree = "<group>"; };
+		735513392457C19D009B7599 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		7355133A2457C19D009B7599 /* SwiftGif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftGif.h; sourceTree = "<group>"; };
+		7355133C2457C19D009B7599 /* CDCameraTopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraTopBar.swift; sourceTree = "<group>"; };
+		7355133D2457C19D009B7599 /* CDCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraViewController.swift; sourceTree = "<group>"; };
+		7355133F2457C19D009B7599 /* takePhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = takePhoto.png; sourceTree = "<group>"; };
+		735513402457C19D009B7599 /* cameraSwitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraSwitch.png; sourceTree = "<group>"; };
+		735513412457C19D009B7599 /* meiyan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meiyan.png; sourceTree = "<group>"; };
+		735513422457C19D009B7599 /* retake@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retake@2x.png"; sourceTree = "<group>"; };
+		735513432457C19D009B7599 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
+		735513442457C19D009B7599 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
+		735513452457C19D009B7599 /* CDCameraPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraPreview.swift; sourceTree = "<group>"; };
+		735513462457C19D009B7599 /* CDCameraBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraBottomBar.swift; sourceTree = "<group>"; };
+		7355136C2457C19D009B7599 /* CDMusicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicInfo.swift; sourceTree = "<group>"; };
+		7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFileInfo.swift; sourceTree = "<group>"; };
+		7355136E2457C19D009B7599 /* CDSafeFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFolder.swift; sourceTree = "<group>"; };
+		735513702457C19D009B7599 /* CDSqlManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSqlManager.swift; sourceTree = "<group>"; };
+		735513712457C19D009B7599 /* CDUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUserInfo.swift; sourceTree = "<group>"; };
+		735513722457C19D009B7599 /* CDMusicClassInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicClassInfo.swift; sourceTree = "<group>"; };
+		735513742457C19D009B7599 /* CDAudioPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioPlayView.swift; sourceTree = "<group>"; };
+		735513752457C19D009B7599 /* CDConfigFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDConfigFile.swift; sourceTree = "<group>"; };
+		735513762457C19D009B7599 /* CDBaseAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBaseAllViewController.swift; sourceTree = "<group>"; };
+		735513772457C19D009B7599 /* CDPopMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPopMenuView.swift; sourceTree = "<group>"; };
+		735513782457C19D009B7599 /* String+Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Path.swift"; sourceTree = "<group>"; };
+		735513792457C19D009B7599 /* CDCustomDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCustomDefines.swift; sourceTree = "<group>"; };
+		7355137A2457C19D009B7599 /* CDEmojiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEmojiHandle.swift; sourceTree = "<group>"; };
+		7355137B2457C19D009B7599 /* CDGeneralTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDGeneralTool.swift; sourceTree = "<group>"; };
+		7355137D2457C19D009B7599 /* CDSliderDeleteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSliderDeleteCell.swift; sourceTree = "<group>"; };
+		7355137E2457C19D009B7599 /* CDHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDHUD.swift; sourceTree = "<group>"; };
+		7355137F2457C19D009B7599 /* CDSignalTon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSignalTon.swift; sourceTree = "<group>"; };
+		735513802457C19D009B7599 /* CDDeviceTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDeviceTools.swift; sourceTree = "<group>"; };
+		735513812457C19D009B7599 /* Data+format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+format.swift"; sourceTree = "<group>"; };
+		735513822457C19D009B7599 /* String+encrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+encrypt.swift"; sourceTree = "<group>"; };
+		735513862457C19D009B7599 /* CDAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAppDelegate.swift; sourceTree = "<group>"; };
+		735513882457C19D009B7599 /* 密盒_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "密盒_selected@2x.png"; sourceTree = "<group>"; };
+		7355138A2457C19D009B7599 /* 上导航栏-背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "上导航栏-背景@2x.png"; sourceTree = "<group>"; };
+		7355138B2457C19D009B7599 /* icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon.jpg; sourceTree = "<group>"; };
+		7355138C2457C19D009B7599 /* leftDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftDown@2x.png"; sourceTree = "<group>"; };
+		7355138D2457C19D009B7599 /* leftUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftUp@2x.png"; sourceTree = "<group>"; };
+		7355138E2457C19D009B7599 /* rightDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightDown@2x.png"; sourceTree = "<group>"; };
+		7355138F2457C19D009B7599 /* rightUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightUp@2x.png"; sourceTree = "<group>"; };
+		735513902457C19D009B7599 /* 下导航-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "下导航-bg@2x.png"; sourceTree = "<group>"; };
+		735513912457C19D009B7599 /* back_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_normal@2x.png"; sourceTree = "<group>"; };
+		735513922457C19D009B7599 /* back_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_pressed@2x.png"; sourceTree = "<group>"; };
+		735513932457C19D009B7599 /* MyRule.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MyRule.entitlements; sourceTree = "<group>"; };
+		735514A32457C1C7009B7599 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		735514A52457C1D1009B7599 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		735514A72457C1DD009B7599 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		735514A92457C1E5009B7599 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		735514AB2457C1F7009B7599 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		735514AC2457C1FF009B7599 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		735514AE2457C20D009B7599 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		735514B02457C216009B7599 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		735514B22457C220009B7599 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		7355152B2457D925009B7599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		73550FE22457C0AB009B7599 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */,
+				731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */,
+				735514A82457C1DD009B7599 /* CoreGraphics.framework in Frameworks */,
+				735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */,
+				735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */,
+				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
+				731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */,
+				735514B12457C216009B7599 /* Security.framework in Frameworks */,
+				735514AA2457C1E5009B7599 /* CoreServices.framework in Frameworks */,
+				735514AF2457C20D009B7599 /* Photos.framework in Frameworks */,
+				731DF4F5245800080043E97F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		731DF4FC2458099F0043E97F /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				731DF53A24580FDD0043E97F /* ZipArchive.framework */,
+				731DF53824580F3B0043E97F /* SQLite.framework */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		73550FDC2457C0AB009B7599 = {
+			isa = PBXGroup;
+			children = (
+				73550FE72457C0AB009B7599 /* MyBox */,
+				73550FE62457C0AB009B7599 /* Products */,
+				735514A22457C1C7009B7599 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		73550FE62457C0AB009B7599 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73550FE52457C0AB009B7599 /* MyBox.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		73550FE72457C0AB009B7599 /* MyBox */ = {
+			isa = PBXGroup;
+			children = (
+				731DF4FC2458099F0043E97F /* lib */,
+				735513842457C19D009B7599 /* appleLunch */,
+				735513832457C19D009B7599 /* Base.lproj */,
+				735513932457C19D009B7599 /* MyRule.entitlements */,
+				735513732457C19D009B7599 /* publicViews */,
+				735513892457C19D009B7599 /* resource */,
+				735513252457C19D009B7599 /* Supporting Files */,
+				735513282457C19D009B7599 /* ThirdParts */,
+				7355124F2457C19C009B7599 /* viewController */,
+			);
+			path = MyBox;
+			sourceTree = "<group>";
+		};
+		7355124F2457C19C009B7599 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+				735512502457C19C009B7599 /* 音乐盒 */,
+				735512712457C19C009B7599 /* Setting */,
+				735512752457C19C009B7599 /* 保险箱 */,
+				735513212457C19D009B7599 /* login */,
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		735512502457C19C009B7599 /* 音乐盒 */ = {
+			isa = PBXGroup;
+			children = (
+				735512512457C19C009B7599 /* CDPlayViewController.swift */,
+				735512522457C19C009B7599 /* CDMusicClassViewController.swift */,
+				735512532457C19C009B7599 /* image */,
+				735512662457C19C009B7599 /* CDMusicDefines.swift */,
+				735512672457C19C009B7599 /* View */,
+				7355126F2457C19C009B7599 /* CDModifyClassViewController.swift */,
+				735512702457C19C009B7599 /* CDMusicViewController.swift */,
+			);
+			path = "音乐盒";
+			sourceTree = "<group>";
+		};
+		735512532457C19C009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				735512542457C19C009B7599 /* bar_stop@2x.png */,
+				735512552457C19C009B7599 /* music_recent@2x.png */,
+				735512562457C19C009B7599 /* defaultMusicImage@2x.png */,
+				735512572457C19C009B7599 /* music_love@2x.png */,
+				735512582457C19C009B7599 /* 菜单左@2x.png */,
+				735512592457C19C009B7599 /* bar_list@2x.png */,
+				7355125A2457C19C009B7599 /* 更改排序@2x.png */,
+				7355125B2457C19C009B7599 /* 添加至歌单@2x.png */,
+				7355125C2457C19C009B7599 /* 创建歌单.png */,
+				7355125D2457C19C009B7599 /* bar_play@2x.png */,
+				7355125E2457C19C009B7599 /* 删除@2x.png */,
+				7355125F2457C19C009B7599 /* editMusic@2x.png */,
+				735512602457C19C009B7599 /* 下一首播放@2x.png */,
+				735512612457C19C009B7599 /* editClass@2x.png */,
+				735512622457C19C009B7599 /* music_list@2x.png */,
+				735512632457C19C009B7599 /* 编辑歌单@2x.png */,
+				735512642457C19C009B7599 /* 菜单右@2x.png */,
+				735512652457C19C009B7599 /* 分享@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		735512672457C19C009B7599 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				735512682457C19C009B7599 /* CDMusicManager.swift */,
+				735512692457C19C009B7599 /* CDPlayerBar.swift */,
+				7355126A2457C19C009B7599 /* CDMusicMenuView.swift */,
+				7355126B2457C19C009B7599 /* CDCollectionView.swift */,
+				7355126C2457C19C009B7599 /* CDMusicClassView.swift */,
+				7355126D2457C19C009B7599 /* CDClassCell.swift */,
+				7355126E2457C19C009B7599 /* CDMusicListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		735512712457C19C009B7599 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				735512722457C19C009B7599 /* CDSettingViewController.swift */,
+				735512732457C19C009B7599 /* CDSetPwdViewController.swift */,
+				735512742457C19C009B7599 /* CDModifyPwdViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		735512752457C19C009B7599 /* 保险箱 */ = {
+			isa = PBXGroup;
+			children = (
+				735512CD2457C19C009B7599 /*  视频 */,
+				735512D92457C19C009B7599 /* 图片 */,
+				735512C22457C19C009B7599 /* 文字 */,
+				735512A52457C19C009B7599 /* 语音 */,
+				735512C02457C19C009B7599 /* CDFileDetailViewController.swift */,
+				735512BA2457C19C009B7599 /* CDFolderDetailViewController.swift */,
+				735512BD2457C19C009B7599 /* CDFolderListViewController.swift */,
+				735512772457C19C009B7599 /* CDMarkFileViewController.swift */,
+				735512C12457C19C009B7599 /* CDNewFolderViewController.swift */,
+				735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */,
+				735512762457C19C009B7599 /* CDSafeViewController.swift */,
+				735512BB2457C19C009B7599 /* CDTableViewCell.swift */,
+				735512BC2457C19C009B7599 /* CDToolBar.swift */,
+				735512BE2457C19C009B7599 /* CDWebViewController.swift */,
+				735512782457C19C009B7599 /* Images */,
+			);
+			path = "保险箱";
+			sourceTree = "<group>";
+		};
+		735512782457C19C009B7599 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				735512792457C19C009B7599 /* vault_setting@2x.png */,
+				7355127A2457C19C009B7599 /* output@2x.png */,
+				7355127B2457C19C009B7599 /* addDir@2x.png */,
+				7355127C2457C19C009B7599 /* edit@2x.png */,
+				7355127D2457C19C009B7599 /* selected@2x.png */,
+				7355127E2457C19C009B7599 /* menu_delete_grey@2x.png */,
+				7355127F2457C19C009B7599 /* folderName_edit@2x.png */,
+				735512802457C19C009B7599 /* addFile@2x.png */,
+				735512812457C19C009B7599 /* menu_forward@2x.png */,
+				735512822457C19C009B7599 /* record@2x.png */,
+				735512832457C19C009B7599 /* sure@2x.png */,
+				735512842457C19C009B7599 /* no_selected@2x.png */,
+				735512852457C19C009B7599 /* input@2x.png */,
+				735512862457C19C009B7599 /* 视频@2x.png */,
+				735512872457C19C009B7599 /* 音频@2x.png */,
+				735512882457C19C009B7599 /* move@2x.png */,
+				735512892457C19C009B7599 /* cloudDown@2x.png */,
+				7355128A2457C19C009B7599 /* menu_delete@2x.png */,
+				7355128B2457C19C009B7599 /* addText@2x.png */,
+				7355128C2457C19C009B7599 /* chexiao@2x.png */,
+				7355128D2457C19C009B7599 /* menu_move_grey@2x.png */,
+				7355128E2457C19C009B7599 /* append@2x.png */,
+				7355128F2457C19C009B7599 /* 图片@2x.png */,
+				735512902457C19C009B7599 /* menu_forward_grey@2x.png */,
+				735512912457C19C009B7599 /* folder_rename@2x.png */,
+				735512922457C19C009B7599 /* hecheng@2x.png */,
+				735512932457C19C009B7599 /* append_grey@2x.png */,
+				735512942457C19C009B7599 /* sure-grey@2x.png */,
+				735512952457C19C009B7599 /* FileImage */,
+				735512A12457C19C009B7599 /* no_edit@2x.png */,
+				735512A22457C19C009B7599 /* menu_move@2x.png */,
+				735512A32457C19C009B7599 /* chexiao-grey@2x.png */,
+				735512A42457C19C009B7599 /* 其他@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		735512952457C19C009B7599 /* FileImage */ = {
+			isa = PBXGroup;
+			children = (
+				735512962457C19C009B7599 /* file_video_big@2x.png */,
+				735512972457C19C009B7599 /* file_zip_big@2x.png */,
+				735512982457C19C009B7599 /* file_excel_big@2x.png */,
+				735512992457C19C009B7599 /* file_rtf_big@2x.png */,
+				7355129A2457C19C009B7599 /* file_doc_big@2x.png */,
+				7355129B2457C19C009B7599 /* file_other_big@2x.png */,
+				7355129C2457C19C009B7599 /* file_ppt_big@2x.png */,
+				7355129D2457C19C009B7599 /* file_audio_big@2x.png */,
+				7355129E2457C19C009B7599 /* file_pdf_big@2x.png */,
+				7355129F2457C19C009B7599 /* file_txt_big@2x.png */,
+				735512A02457C19C009B7599 /* file_image_big@2x.png */,
+			);
+			path = FileImage;
+			sourceTree = "<group>";
+		};
+		735512A52457C19C009B7599 /* 语音 */ = {
+			isa = PBXGroup;
+			children = (
+				735512A62457C19C009B7599 /* CDCircleView.swift */,
+				735512A72457C19C009B7599 /* images */,
+				735512B82457C19C009B7599 /* CDAudioViewController.swift */,
+				735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */,
+			);
+			path = "语音";
+			sourceTree = "<group>";
+		};
+		735512A72457C19C009B7599 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				735512A82457C19C009B7599 /* record_unrecord@2x.png */,
+				735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */,
+				735512AA2457C19C009B7599 /* record_line2@2x.png */,
+				735512AB2457C19C009B7599 /* audiostop@2x.png */,
+				735512AC2457C19C009B7599 /* record_move@2x.png */,
+				735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */,
+				735512AE2457C19C009B7599 /* record_forward@2x.png */,
+				735512AF2457C19C009B7599 /* record_recording@2x.png */,
+				735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */,
+				735512B12457C19C009B7599 /* record_detailInfo@2x.png */,
+				735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */,
+				735512B32457C19C009B7599 /* record_line1@2x.png */,
+				735512B42457C19C009B7599 /* audioplay@2x.png */,
+				735512B52457C19C009B7599 /* type_audio@2x.png */,
+				735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */,
+				735512B72457C19C009B7599 /* record_delete@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		735512C22457C19C009B7599 /* 文字 */ = {
+			isa = PBXGroup;
+			children = (
+				735512CC2457C19C009B7599 /* CDDirNavBar.swift */,
+				735512C82457C19C009B7599 /* CDNewTextViewController.swift */,
+				735512C32457C19C009B7599 /* CDTextCell.swift */,
+				735512C92457C19C009B7599 /* CDTextMessageViewController.swift */,
+				735512CA2457C19C009B7599 /* CDTextViewController.swift */,
+				735512C42457C19C009B7599 /* images */,
+			);
+			path = "文字";
+			sourceTree = "<group>";
+		};
+		735512C42457C19C009B7599 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				735512C52457C19C009B7599 /* linkIcon@2x.png */,
+				735512C62457C19C009B7599 /* noteIcon@2x.png */,
+				735512C72457C19C009B7599 /* linkVideoIcon@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		735512CD2457C19C009B7599 /*  视频 */ = {
+			isa = PBXGroup;
+			children = (
+				735512D82457C19C009B7599 /* CDAppendVideoViewController.swift */,
+				735512CF2457C19C009B7599 /* CDSegmentVideoViewController.swift */,
+				735512D12457C19C009B7599 /* CDVideoScrollerCell.swift */,
+				735512CE2457C19C009B7599 /* CDVideoScrollerViewController.swift */,
+				735512D02457C19C009B7599 /* CDVideoViewController.swift */,
+				735512D22457C19C009B7599 /* image */,
+			);
+			path = " 视频";
+			sourceTree = "<group>";
+		};
+		735512D22457C19C009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				735512D32457C19C009B7599 /* 微调加@2x.png */,
+				735512D42457C19C009B7599 /* 微调减@2x.png */,
+				735512D52457C19C009B7599 /* 视频播放@2x.png */,
+				735512D62457C19C009B7599 /* video@2x.png */,
+				735512D72457C19C009B7599 /* sliderPoint@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		735512D92457C19C009B7599 /* 图片 */ = {
+			isa = PBXGroup;
+			children = (
+				7355131E2457C19D009B7599 /* CDComposeGifViewController.swift */,
+				7355131F2457C19D009B7599 /* CDComposeVideoViewController.swift */,
+				735512DC2457C19C009B7599 /* CDImageCell.swift */,
+				735512DB2457C19C009B7599 /* CDImageScrollerViewController.swift */,
+				735512DA2457C19C009B7599 /* CDImageScrollView.swift */,
+				735513202457C19D009B7599 /* CDImageViewController.swift */,
+				7355131D2457C19D009B7599 /* CDPuzzleViewController.swift */,
+				735513132457C19D009B7599 /* image */,
+				735512DD2457C19C009B7599 /* PhotoEdit */,
+			);
+			path = "图片";
+			sourceTree = "<group>";
+		};
+		735512DD2457C19C009B7599 /* PhotoEdit */ = {
+			isa = PBXGroup;
+			children = (
+				735512DE2457C19C009B7599 /* CDMosaicView.swift */,
+				735512DF2457C19C009B7599 /* mosaic */,
+				735512E12457C19C009B7599 /* Corp */,
+				735512E82457C19D009B7599 /* CDTextView.swift */,
+				735512E92457C19D009B7599 /* CDCropView.swift */,
+				735512EA2457C19D009B7599 /* CDBrightView.swift */,
+				735512EB2457C19D009B7599 /* images */,
+				735513032457C19D009B7599 /* CDRotateView.swift */,
+				735513042457C19D009B7599 /* CDEditToolView.swift */,
+				735513052457C19D009B7599 /* CDNavigationBar.swift */,
+				735513062457C19D009B7599 /* CDImageEditViewController.swift */,
+				735513072457C19D009B7599 /* Watermark */,
+				7355130A2457C19D009B7599 /* public */,
+				7355130C2457C19D009B7599 /* CDEditManager.swift */,
+				7355130D2457C19D009B7599 /* CDWatermarkView.swift */,
+				7355130E2457C19D009B7599 /* CDImageEditModels.swift */,
+				7355130F2457C19D009B7599 /* Etitors */,
+				735513112457C19D009B7599 /* CDFilterView.swift */,
+				735513122457C19D009B7599 /* CDEditorsView.swift */,
+			);
+			path = PhotoEdit;
+			sourceTree = "<group>";
+		};
+		735512DF2457C19C009B7599 /* mosaic */ = {
+			isa = PBXGroup;
+			children = (
+				735512E02457C19C009B7599 /* CDMosaicViewController.swift */,
+			);
+			path = mosaic;
+			sourceTree = "<group>";
+		};
+		735512E12457C19C009B7599 /* Corp */ = {
+			isa = PBXGroup;
+			children = (
+				735512E22457C19C009B7599 /* CropEditor */,
+				735512E52457C19D009B7599 /* CDPhotoChooseView.swift */,
+				735512E62457C19D009B7599 /* CDCorpViewController.swift */,
+				735512E72457C19D009B7599 /* CDCropToolsBar.swift */,
+			);
+			path = Corp;
+			sourceTree = "<group>";
+		};
+		735512E22457C19C009B7599 /* CropEditor */ = {
+			isa = PBXGroup;
+			children = (
+				735512E32457C19D009B7599 /* PECropView.swift */,
+				735512E42457C19D009B7599 /* PECropRectView.swift */,
+			);
+			path = CropEditor;
+			sourceTree = "<group>";
+		};
+		735512EB2457C19D009B7599 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				735512EC2457C19D009B7599 /* 裁剪@2x.png */,
+				735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */,
+				735512EE2457C19D009B7599 /* 曝光度@2x.png */,
+				735512EF2457C19D009B7599 /* 滤镜@2x.png */,
+				735512F02457C19D009B7599 /* 水印@2x.png */,
+				735512F12457C19D009B7599 /* backward_disable@2x.png */,
+				735512F22457C19D009B7599 /* 水平镜像@2x.png */,
+				735512F32457C19D009B7599 /* forward@2x.png */,
+				735512F42457C19D009B7599 /* backward@2x.png */,
+				735512F52457C19D009B7599 /* 马赛克@2x.png */,
+				735512F62457C19D009B7599 /* 逆时针旋转@2x.png */,
+				735512F72457C19D009B7599 /* 白色暗角@2x.png */,
+				735512F82457C19D009B7599 /* 色相@2x.png */,
+				735512F92457C19D009B7599 /* 锐度@2x.png */,
+				735512FA2457C19D009B7599 /* 对比度@2x.png */,
+				735512FB2457C19D009B7599 /* 色温@2x.png */,
+				735512FC2457C19D009B7599 /* 垂直镜像@2x.png */,
+				735512FD2457C19D009B7599 /* 黑色暗角@2x.png */,
+				735512FE2457C19D009B7599 /* 文字@2x.png */,
+				735512FF2457C19D009B7599 /* forward_disable@2x.png */,
+				735513002457C19D009B7599 /* 饱和度@2x.png */,
+				735513012457C19D009B7599 /* 亮度@2x.png */,
+				735513022457C19D009B7599 /* 旋转@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		735513072457C19D009B7599 /* Watermark */ = {
+			isa = PBXGroup;
+			children = (
+				735513082457C19D009B7599 /* CDWaterMarkViewController.swift */,
+				735513092457C19D009B7599 /* CDWaterMarkView.swift */,
+			);
+			path = Watermark;
+			sourceTree = "<group>";
+		};
+		7355130A2457C19D009B7599 /* public */ = {
+			isa = PBXGroup;
+			children = (
+				7355130B2457C19D009B7599 /* CDEdit.swift */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		7355130F2457C19D009B7599 /* Etitors */ = {
+			isa = PBXGroup;
+			children = (
+				735513102457C19D009B7599 /* images */,
+			);
+			path = Etitors;
+			sourceTree = "<group>";
+		};
+		735513102457C19D009B7599 /* images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		735513132457C19D009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				735513142457C19D009B7599 /* 照片选中@2x.png */,
+				735513152457C19D009B7599 /* love_normal@2x.png */,
+				735513162457C19D009B7599 /* camera@2x.png */,
+				735513172457C19D009B7599 /* 美图@2x.png */,
+				735513182457C19D009B7599 /* 小图解密失败@2x.png */,
+				735513192457C19D009B7599 /* fileDetail@2x.png */,
+				7355131A2457C19D009B7599 /* 正在解密@2x.png */,
+				7355131B2457C19D009B7599 /* love_press@2x.png */,
+				7355131C2457C19D009B7599 /* 图片加载失败@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		735513212457C19D009B7599 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				735513222457C19D009B7599 /* CDGuideViewController.swift */,
+				735513232457C19D009B7599 /* CDLockViewController.swift */,
+				735513242457C19D009B7599 /* CDFaceLockViewController.swift */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		735513252457C19D009B7599 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7355152B2457D925009B7599 /* Info.plist */,
+				735513262457C19D009B7599 /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		735513282457C19D009B7599 /* ThirdParts */ = {
+			isa = PBXGroup;
+			children = (
+				735513292457C19D009B7599 /* MuitPickImage */,
+				735513382457C19D009B7599 /* SwiftGif */,
+				7355133B2457C19D009B7599 /* CDCamera */,
+				7355136B2457C19D009B7599 /* sqlManger */,
+			);
+			path = ThirdParts;
+			sourceTree = "<group>";
+		};
+		735513292457C19D009B7599 /* MuitPickImage */ = {
+			isa = PBXGroup;
+			children = (
+				7355132A2457C19D009B7599 /* CDPreviewViewController.swift */,
+				7355132B2457C19D009B7599 /* CDAsset.swift */,
+				7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */,
+				7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */,
+				7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */,
+				7355132F2457C19D009B7599 /* CDPreviewView.swift */,
+				735513302457C19D009B7599 /* CDPhotoItemCell.swift */,
+				735513312457C19D009B7599 /* CDPreviewCell.swift */,
+				735513322457C19D009B7599 /* image */,
+				735513352457C19D009B7599 /* CDPhotoPickViewController.swift */,
+				735513362457C19D009B7599 /* CDAssetTon.swift */,
+				735513372457C19D009B7599 /* CDAlbumItem.swift */,
+			);
+			path = MuitPickImage;
+			sourceTree = "<group>";
+		};
+		735513322457C19D009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				735513332457C19D009B7599 /* play@2x.png */,
+				735513342457C19D009B7599 /* videoFlag@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		735513382457C19D009B7599 /* SwiftGif */ = {
+			isa = PBXGroup;
+			children = (
+				735513392457C19D009B7599 /* UIImage+Gif.swift */,
+				7355133A2457C19D009B7599 /* SwiftGif.h */,
+			);
+			path = SwiftGif;
+			sourceTree = "<group>";
+		};
+		7355133B2457C19D009B7599 /* CDCamera */ = {
+			isa = PBXGroup;
+			children = (
+				7355133C2457C19D009B7599 /* CDCameraTopBar.swift */,
+				7355133D2457C19D009B7599 /* CDCameraViewController.swift */,
+				7355133E2457C19D009B7599 /* image */,
+				735513452457C19D009B7599 /* CDCameraPreview.swift */,
+				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
+			);
+			path = CDCamera;
+			sourceTree = "<group>";
+		};
+		7355133E2457C19D009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				7355133F2457C19D009B7599 /* takePhoto.png */,
+				735513402457C19D009B7599 /* cameraSwitch.png */,
+				735513412457C19D009B7599 /* meiyan.png */,
+				735513422457C19D009B7599 /* retake@2x.png */,
+				735513432457C19D009B7599 /* save@2x.png */,
+				735513442457C19D009B7599 /* frame.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		7355136B2457C19D009B7599 /* sqlManger */ = {
+			isa = PBXGroup;
+			children = (
+				7355136C2457C19D009B7599 /* CDMusicInfo.swift */,
+				7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */,
+				7355136E2457C19D009B7599 /* CDSafeFolder.swift */,
+				735513702457C19D009B7599 /* CDSqlManager.swift */,
+				735513712457C19D009B7599 /* CDUserInfo.swift */,
+				735513722457C19D009B7599 /* CDMusicClassInfo.swift */,
+			);
+			path = sqlManger;
+			sourceTree = "<group>";
+		};
+		735513732457C19D009B7599 /* publicViews */ = {
+			isa = PBXGroup;
+			children = (
+				735513742457C19D009B7599 /* CDAudioPlayView.swift */,
+				735513752457C19D009B7599 /* CDConfigFile.swift */,
+				735513762457C19D009B7599 /* CDBaseAllViewController.swift */,
+				735513772457C19D009B7599 /* CDPopMenuView.swift */,
+				735513782457C19D009B7599 /* String+Path.swift */,
+				735513792457C19D009B7599 /* CDCustomDefines.swift */,
+				7355137A2457C19D009B7599 /* CDEmojiHandle.swift */,
+				7355137B2457C19D009B7599 /* CDGeneralTool.swift */,
+				7355137C2457C19D009B7599 /* Cell侧滑删除 */,
+				7355137E2457C19D009B7599 /* CDHUD.swift */,
+				7355137F2457C19D009B7599 /* CDSignalTon.swift */,
+				735513802457C19D009B7599 /* CDDeviceTools.swift */,
+				735513812457C19D009B7599 /* Data+format.swift */,
+				735513822457C19D009B7599 /* String+encrypt.swift */,
+			);
+			path = publicViews;
+			sourceTree = "<group>";
+		};
+		7355137C2457C19D009B7599 /* Cell侧滑删除 */ = {
+			isa = PBXGroup;
+			children = (
+				7355137D2457C19D009B7599 /* CDSliderDeleteCell.swift */,
+			);
+			path = "Cell侧滑删除";
+			sourceTree = "<group>";
+		};
+		735513832457C19D009B7599 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base.lproj;
+			sourceTree = "<group>";
+		};
+		735513842457C19D009B7599 /* appleLunch */ = {
+			isa = PBXGroup;
+			children = (
+				735513852457C19D009B7599 /* image */,
+				735513862457C19D009B7599 /* CDAppDelegate.swift */,
+				735513872457C19D009B7599 /* New Group */,
+			);
+			path = appleLunch;
+			sourceTree = "<group>";
+		};
+		735513852457C19D009B7599 /* image */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		735513872457C19D009B7599 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				735513882457C19D009B7599 /* 密盒_selected@2x.png */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		735513892457C19D009B7599 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				7355138A2457C19D009B7599 /* 上导航栏-背景@2x.png */,
+				7355138B2457C19D009B7599 /* icon.jpg */,
+				7355138C2457C19D009B7599 /* leftDown@2x.png */,
+				7355138D2457C19D009B7599 /* leftUp@2x.png */,
+				7355138E2457C19D009B7599 /* rightDown@2x.png */,
+				7355138F2457C19D009B7599 /* rightUp@2x.png */,
+				735513902457C19D009B7599 /* 下导航-bg@2x.png */,
+				735513912457C19D009B7599 /* back_normal@2x.png */,
+				735513922457C19D009B7599 /* back_pressed@2x.png */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		735514A22457C1C7009B7599 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				731DF4F4245800080043E97F /* Foundation.framework */,
+				735514B22457C220009B7599 /* VideoToolbox.framework */,
+				735514B02457C216009B7599 /* Security.framework */,
+				735514AE2457C20D009B7599 /* Photos.framework */,
+				735514AC2457C1FF009B7599 /* LocalAuthentication.framework */,
+				735514AB2457C1F7009B7599 /* libsqlite3.0.tbd */,
+				735514A92457C1E5009B7599 /* CoreServices.framework */,
+				735514A72457C1DD009B7599 /* CoreGraphics.framework */,
+				735514A52457C1D1009B7599 /* CoreAudio.framework */,
+				735514A32457C1C7009B7599 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		73550FE42457C0AB009B7599 /* MyBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73550FF92457C0AD009B7599 /* Build configuration list for PBXNativeTarget "MyBox" */;
+			buildPhases = (
+				73550FE12457C0AB009B7599 /* Sources */,
+				73550FE22457C0AB009B7599 /* Frameworks */,
+				73550FE32457C0AB009B7599 /* Resources */,
+				731DF53C245810670043E97F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyBox;
+			productName = MyBox;
+			productReference = 73550FE52457C0AB009B7599 /* MyBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		73550FDD2457C0AB009B7599 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "(c) Huawei Technologies Co., Ltd. 2012-2019.";
+				TargetAttributes = {
+					73550FE42457C0AB009B7599 = {
+						CreatedOnToolsVersion = 11.3;
+					};
+				};
+			};
+			buildConfigurationList = 73550FE02457C0AB009B7599 /* Build configuration list for PBXProject "MyBox" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 73550FDC2457C0AB009B7599;
+			productRefGroup = 73550FE62457C0AB009B7599 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				73550FE42457C0AB009B7599 /* MyBox */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		73550FE32457C0AB009B7599 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				735514642457C19E009B7599 /* meiyan.png in Resources */,
+				735513C32457C19E009B7599 /* input@2x.png in Resources */,
+				7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */,
+				735514432457C19E009B7599 /* 美图@2x.png in Resources */,
+				735513EC2457C19E009B7599 /* record_detailInfo@2x.png in Resources */,
+				735513BB2457C19E009B7599 /* selected@2x.png in Resources */,
+				735514292457C19E009B7599 /* 色相@2x.png in Resources */,
+				735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */,
+				735513CA2457C19E009B7599 /* chexiao@2x.png in Resources */,
+				735514442457C19E009B7599 /* 小图解密失败@2x.png in Resources */,
+				735513D42457C19E009B7599 /* file_zip_big@2x.png in Resources */,
+				735513C82457C19E009B7599 /* menu_delete@2x.png in Resources */,
+				735514302457C19E009B7599 /* forward_disable@2x.png in Resources */,
+				735514202457C19E009B7599 /* 滤镜@2x.png in Resources */,
+				7355149E2457C19E009B7599 /* rightUp@2x.png in Resources */,
+				735513F12457C19E009B7599 /* ic_safe_save_recording_unclickable@2x.png in Resources */,
+				735513CF2457C19E009B7599 /* folder_rename@2x.png in Resources */,
+				7355149C2457C19E009B7599 /* leftUp@2x.png in Resources */,
+				735513F22457C19E009B7599 /* record_delete@2x.png in Resources */,
+				735513C12457C19E009B7599 /* sure@2x.png in Resources */,
+				7355141F2457C19E009B7599 /* 曝光度@2x.png in Resources */,
+				7355145B2457C19E009B7599 /* videoFlag@2x.png in Resources */,
+				735513DB2457C19E009B7599 /* file_pdf_big@2x.png in Resources */,
+				735513E72457C19E009B7599 /* record_move@2x.png in Resources */,
+				735513E82457C19E009B7599 /* ic_safe_save_recording_clickable@2x.png in Resources */,
+				735513A52457C19D009B7599 /* 编辑歌单@2x.png in Resources */,
+				735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */,
+				735513E12457C19E009B7599 /* 其他@2x.png in Resources */,
+				735513A12457C19D009B7599 /* editMusic@2x.png in Resources */,
+				7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */,
+				7355149A2457C19E009B7599 /* icon.jpg in Resources */,
+				735513E42457C19E009B7599 /* ic_safe_cancel_clickable@2x.png in Resources */,
+				735513BE2457C19E009B7599 /* addFile@2x.png in Resources */,
+				735514982457C19E009B7599 /* 密盒_selected@2x.png in Resources */,
+				735514422457C19E009B7599 /* camera@2x.png in Resources */,
+				735513FE2457C19E009B7599 /* linkIcon@2x.png in Resources */,
+				7355139D2457C19D009B7599 /* 添加至歌单@2x.png in Resources */,
+				735513D32457C19E009B7599 /* file_video_big@2x.png in Resources */,
+				735514472457C19E009B7599 /* love_press@2x.png in Resources */,
+				7355142F2457C19E009B7599 /* 文字@2x.png in Resources */,
+				735514662457C19E009B7599 /* save@2x.png in Resources */,
+				735514322457C19E009B7599 /* 亮度@2x.png in Resources */,
+				735513BA2457C19E009B7599 /* edit@2x.png in Resources */,
+				735513D12457C19E009B7599 /* append_grey@2x.png in Resources */,
+				735513A42457C19D009B7599 /* music_list@2x.png in Resources */,
+				735514502457C19E009B7599 /* Assets.xcassets in Resources */,
+				735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */,
+				735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */,
+				735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */,
+				735513D82457C19E009B7599 /* file_other_big@2x.png in Resources */,
+				7355142C2457C19E009B7599 /* 色温@2x.png in Resources */,
+				735514212457C19E009B7599 /* 水印@2x.png in Resources */,
+				7355142D2457C19E009B7599 /* 垂直镜像@2x.png in Resources */,
+				735513992457C19D009B7599 /* music_love@2x.png in Resources */,
+				735514A12457C19E009B7599 /* back_pressed@2x.png in Resources */,
+				7355142A2457C19E009B7599 /* 锐度@2x.png in Resources */,
+				735513EF2457C19E009B7599 /* audioplay@2x.png in Resources */,
+				735514002457C19E009B7599 /* linkVideoIcon@2x.png in Resources */,
+				7355140A2457C19E009B7599 /* 微调加@2x.png in Resources */,
+				7355139E2457C19D009B7599 /* 创建歌单.png in Resources */,
+				735514482457C19E009B7599 /* 图片加载失败@2x.png in Resources */,
+				735513962457C19D009B7599 /* bar_stop@2x.png in Resources */,
+				735513DA2457C19E009B7599 /* file_audio_big@2x.png in Resources */,
+				735513DD2457C19E009B7599 /* file_image_big@2x.png in Resources */,
+				7355140B2457C19E009B7599 /* 微调减@2x.png in Resources */,
+				735513D92457C19E009B7599 /* file_ppt_big@2x.png in Resources */,
+				735513C92457C19E009B7599 /* addText@2x.png in Resources */,
+				735513D02457C19E009B7599 /* hecheng@2x.png in Resources */,
+				7355141E2457C19E009B7599 /* 顺时针旋转@2x.png in Resources */,
+				7355139F2457C19D009B7599 /* bar_play@2x.png in Resources */,
+				735513A02457C19D009B7599 /* 删除@2x.png in Resources */,
+				735513C02457C19E009B7599 /* record@2x.png in Resources */,
+				735513CD2457C19E009B7599 /* 图片@2x.png in Resources */,
+				735513CB2457C19E009B7599 /* menu_move_grey@2x.png in Resources */,
+				735513D52457C19E009B7599 /* file_excel_big@2x.png in Resources */,
+				735514A02457C19E009B7599 /* back_normal@2x.png in Resources */,
+				735514402457C19E009B7599 /* 照片选中@2x.png in Resources */,
+				7355139B2457C19D009B7599 /* bar_list@2x.png in Resources */,
+				735514242457C19E009B7599 /* forward@2x.png in Resources */,
+				735514672457C19E009B7599 /* frame.png in Resources */,
+				735513C62457C19E009B7599 /* move@2x.png in Resources */,
+				735514412457C19E009B7599 /* love_normal@2x.png in Resources */,
+				735514282457C19E009B7599 /* 白色暗角@2x.png in Resources */,
+				735514992457C19E009B7599 /* 上导航栏-背景@2x.png in Resources */,
+				735514222457C19E009B7599 /* backward_disable@2x.png in Resources */,
+				735513982457C19D009B7599 /* defaultMusicImage@2x.png in Resources */,
+				735513FF2457C19E009B7599 /* noteIcon@2x.png in Resources */,
+				735513BF2457C19E009B7599 /* menu_forward@2x.png in Resources */,
+				735513E52457C19E009B7599 /* record_line2@2x.png in Resources */,
+				735513C52457C19E009B7599 /* 音频@2x.png in Resources */,
+				735513D72457C19E009B7599 /* file_doc_big@2x.png in Resources */,
+				735514462457C19E009B7599 /* 正在解密@2x.png in Resources */,
+				735513C72457C19E009B7599 /* cloudDown@2x.png in Resources */,
+				735513E62457C19E009B7599 /* audiostop@2x.png in Resources */,
+				735513CC2457C19E009B7599 /* append@2x.png in Resources */,
+				735514252457C19E009B7599 /* backward@2x.png in Resources */,
+				735513C22457C19E009B7599 /* no_selected@2x.png in Resources */,
+				735514632457C19E009B7599 /* cameraSwitch.png in Resources */,
+				7355149F2457C19E009B7599 /* 下导航-bg@2x.png in Resources */,
+				735513ED2457C19E009B7599 /* ic_safe_cancel_unclickable@2x.png in Resources */,
+				735513DE2457C19E009B7599 /* no_edit@2x.png in Resources */,
+				735513DC2457C19E009B7599 /* file_txt_big@2x.png in Resources */,
+				735513A72457C19D009B7599 /* 分享@2x.png in Resources */,
+				735513CE2457C19E009B7599 /* menu_forward_grey@2x.png in Resources */,
+				735513A22457C19D009B7599 /* 下一首播放@2x.png in Resources */,
+				7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */,
+				735514652457C19E009B7599 /* retake@2x.png in Resources */,
+				7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */,
+				7355139C2457C19D009B7599 /* 更改排序@2x.png in Resources */,
+				735514312457C19E009B7599 /* 饱和度@2x.png in Resources */,
+				735513EE2457C19E009B7599 /* record_line1@2x.png in Resources */,
+				735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */,
+				735513F02457C19E009B7599 /* type_audio@2x.png in Resources */,
+				735513A32457C19D009B7599 /* editClass@2x.png in Resources */,
+				735514622457C19E009B7599 /* takePhoto.png in Resources */,
+				735513972457C19D009B7599 /* music_recent@2x.png in Resources */,
+				735514262457C19E009B7599 /* 马赛克@2x.png in Resources */,
+				7355140E2457C19E009B7599 /* sliderPoint@2x.png in Resources */,
+				735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */,
+				735513D62457C19E009B7599 /* file_rtf_big@2x.png in Resources */,
+				735513EB2457C19E009B7599 /* record_timeProgressBG@2x.png in Resources */,
+				735513B92457C19E009B7599 /* addDir@2x.png in Resources */,
+				735513D22457C19E009B7599 /* sure-grey@2x.png in Resources */,
+				735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */,
+				7355149D2457C19E009B7599 /* rightDown@2x.png in Resources */,
+				735513DF2457C19E009B7599 /* menu_move@2x.png in Resources */,
+				7355145A2457C19E009B7599 /* play@2x.png in Resources */,
+				7355139A2457C19D009B7599 /* 菜单左@2x.png in Resources */,
+				735513C42457C19E009B7599 /* 视频@2x.png in Resources */,
+				735513E92457C19E009B7599 /* record_forward@2x.png in Resources */,
+				7355140D2457C19E009B7599 /* video@2x.png in Resources */,
+				735514452457C19E009B7599 /* fileDetail@2x.png in Resources */,
+				735513B82457C19E009B7599 /* output@2x.png in Resources */,
+				735514332457C19E009B7599 /* 旋转@2x.png in Resources */,
+				735513BD2457C19E009B7599 /* folderName_edit@2x.png in Resources */,
+				7355140C2457C19E009B7599 /* 视频播放@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		73550FE12457C0AB009B7599 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				735514032457C19E009B7599 /* CDTextViewController.swift in Sources */,
+				735513B42457C19D009B7599 /* CDModifyPwdViewController.swift in Sources */,
+				735513F72457C19E009B7599 /* CDToolBar.swift in Sources */,
+				735513AB2457C19D009B7599 /* CDMusicMenuView.swift in Sources */,
+				735514552457C19E009B7599 /* CDAessetSelectionDelegate.swift in Sources */,
+				735514612457C19E009B7599 /* CDCameraViewController.swift in Sources */,
+				735514192457C19E009B7599 /* CDCropToolsBar.swift in Sources */,
+				735513F92457C19E009B7599 /* CDWebViewController.swift in Sources */,
+				7355141A2457C19E009B7599 /* CDTextView.swift in Sources */,
+				735514972457C19E009B7599 /* CDAppDelegate.swift in Sources */,
+				735513B12457C19D009B7599 /* CDMusicViewController.swift in Sources */,
+				7355145E2457C19E009B7599 /* CDAlbumItem.swift in Sources */,
+				735514382457C19E009B7599 /* CDWaterMarkViewController.swift in Sources */,
+				735514092457C19E009B7599 /* CDVideoScrollerCell.swift in Sources */,
+				735514372457C19E009B7599 /* CDImageEditViewController.swift in Sources */,
+				7355144C2457C19E009B7599 /* CDImageViewController.swift in Sources */,
+				735514112457C19E009B7599 /* CDImageScrollerViewController.swift in Sources */,
+				735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */,
+				735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */,
+				735514062457C19E009B7599 /* CDVideoScrollerViewController.swift in Sources */,
+				7355145C2457C19E009B7599 /* CDPhotoPickViewController.swift in Sources */,
+				735514172457C19E009B7599 /* CDPhotoChooseView.swift in Sources */,
+				7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */,
+				735513F62457C19E009B7599 /* CDTableViewCell.swift in Sources */,
+				735514352457C19E009B7599 /* CDEditToolView.swift in Sources */,
+				7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */,
+				735514832457C19E009B7599 /* CDSafeFileInfo.swift in Sources */,
+				735514922457C19E009B7599 /* CDHUD.swift in Sources */,
+				7355141B2457C19E009B7599 /* CDCropView.swift in Sources */,
+				7355144F2457C19E009B7599 /* CDFaceLockViewController.swift in Sources */,
+				7355144B2457C19E009B7599 /* CDComposeVideoViewController.swift in Sources */,
+				735514152457C19E009B7599 /* PECropView.swift in Sources */,
+				735513B02457C19D009B7599 /* CDModifyClassViewController.swift in Sources */,
+				735514182457C19E009B7599 /* CDCorpViewController.swift in Sources */,
+				735514902457C19E009B7599 /* CDGeneralTool.swift in Sources */,
+				735514342457C19E009B7599 /* CDRotateView.swift in Sources */,
+				735514912457C19E009B7599 /* CDSliderDeleteCell.swift in Sources */,
+				735513F42457C19E009B7599 /* CDAudioRecordViewController.swift in Sources */,
+				735513AD2457C19D009B7599 /* CDMusicClassView.swift in Sources */,
+				7355144A2457C19E009B7599 /* CDComposeGifViewController.swift in Sources */,
+				735513AA2457C19D009B7599 /* CDPlayerBar.swift in Sources */,
+				735514892457C19E009B7599 /* CDAudioPlayView.swift in Sources */,
+				735514492457C19E009B7599 /* CDPuzzleViewController.swift in Sources */,
+				7355143E2457C19E009B7599 /* CDFilterView.swift in Sources */,
+				735513F82457C19E009B7599 /* CDFolderListViewController.swift in Sources */,
+				735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */,
+				7355148C2457C19E009B7599 /* CDPopMenuView.swift in Sources */,
+				735514872457C19E009B7599 /* CDUserInfo.swift in Sources */,
+				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
+				735514132457C19E009B7599 /* CDMosaicView.swift in Sources */,
+				735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */,
+				7355143D2457C19E009B7599 /* CDImageEditModels.swift in Sources */,
+				7355148F2457C19E009B7599 /* CDEmojiHandle.swift in Sources */,
+				735513FA2457C19E009B7599 /* CDSafeFolderCell.swift in Sources */,
+				735513B62457C19E009B7599 /* CDMarkFileViewController.swift in Sources */,
+				735513AC2457C19D009B7599 /* CDCollectionView.swift in Sources */,
+				7355144E2457C19E009B7599 /* CDLockViewController.swift in Sources */,
+				735514542457C19E009B7599 /* CDAlbumPickViewController.swift in Sources */,
+				735513AF2457C19D009B7599 /* CDMusicListView.swift in Sources */,
+				735514932457C19E009B7599 /* CDSignalTon.swift in Sources */,
+				735514682457C19E009B7599 /* CDCameraPreview.swift in Sources */,
+				7355140F2457C19E009B7599 /* CDAppendVideoViewController.swift in Sources */,
+				7355145F2457C19E009B7599 /* UIImage+Gif.swift in Sources */,
+				7355143B2457C19E009B7599 /* CDEditManager.swift in Sources */,
+				735514522457C19E009B7599 /* CDPreviewViewController.swift in Sources */,
+				735513942457C19D009B7599 /* CDPlayViewController.swift in Sources */,
+				7355143F2457C19E009B7599 /* CDEditorsView.swift in Sources */,
+				735514862457C19E009B7599 /* CDSqlManager.swift in Sources */,
+				735513B52457C19D009B7599 /* CDSafeViewController.swift in Sources */,
+				735514022457C19E009B7599 /* CDTextMessageViewController.swift in Sources */,
+				735514942457C19E009B7599 /* CDDeviceTools.swift in Sources */,
+				735514122457C19E009B7599 /* CDImageCell.swift in Sources */,
+				735513FD2457C19E009B7599 /* CDTextCell.swift in Sources */,
+				7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */,
+				735513A92457C19D009B7599 /* CDMusicManager.swift in Sources */,
+				735513E22457C19E009B7599 /* CDCircleView.swift in Sources */,
+				735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */,
+				735514082457C19E009B7599 /* CDVideoViewController.swift in Sources */,
+				735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */,
+				735514592457C19E009B7599 /* CDPreviewCell.swift in Sources */,
+				7355143A2457C19E009B7599 /* CDEdit.swift in Sources */,
+				735514962457C19E009B7599 /* String+encrypt.swift in Sources */,
+				735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */,
+				735513F52457C19E009B7599 /* CDFolderDetailViewController.swift in Sources */,
+				735513B22457C19D009B7599 /* CDSettingViewController.swift in Sources */,
+				735514692457C19E009B7599 /* CDCameraBottomBar.swift in Sources */,
+				7355148B2457C19E009B7599 /* CDBaseAllViewController.swift in Sources */,
+				735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */,
+				735514052457C19E009B7599 /* CDDirNavBar.swift in Sources */,
+				735514822457C19E009B7599 /* CDMusicInfo.swift in Sources */,
+				7355148E2457C19E009B7599 /* CDCustomDefines.swift in Sources */,
+				735514952457C19E009B7599 /* Data+format.swift in Sources */,
+				735514162457C19E009B7599 /* PECropRectView.swift in Sources */,
+				735514012457C19E009B7599 /* CDNewTextViewController.swift in Sources */,
+				735514582457C19E009B7599 /* CDPhotoItemCell.swift in Sources */,
+				7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */,
+				735514072457C19E009B7599 /* CDSegmentVideoViewController.swift in Sources */,
+				7355148D2457C19E009B7599 /* String+Path.swift in Sources */,
+				735514392457C19E009B7599 /* CDWaterMarkView.swift in Sources */,
+				735514362457C19E009B7599 /* CDNavigationBar.swift in Sources */,
+				735513A82457C19D009B7599 /* CDMusicDefines.swift in Sources */,
+				735514532457C19E009B7599 /* CDAsset.swift in Sources */,
+				735513AE2457C19D009B7599 /* CDClassCell.swift in Sources */,
+				735514572457C19E009B7599 /* CDPreviewView.swift in Sources */,
+				735514842457C19E009B7599 /* CDSafeFolder.swift in Sources */,
+				7355148A2457C19E009B7599 /* CDConfigFile.swift in Sources */,
+				735514882457C19E009B7599 /* CDMusicClassInfo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		73550FF72457C0AD009B7599 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		73550FF82457C0AD009B7599 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		73550FFA2457C0AD009B7599 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DYB9KKF89M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyBox/lib",
+				);
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "MyBox/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hw.MyBox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		73550FFB2457C0AD009B7599 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DYB9KKF89M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyBox/lib",
+				);
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "MyBox/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hw.MyBox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		73550FE02457C0AB009B7599 /* Build configuration list for PBXProject "MyBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73550FF72457C0AD009B7599 /* Debug */,
+				73550FF82457C0AD009B7599 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73550FF92457C0AD009B7599 /* Build configuration list for PBXNativeTarget "MyBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73550FFA2457C0AD009B7599 /* Debug */,
+				73550FFB2457C0AD009B7599 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 73550FDD2457C0AB009B7599 /* Project object */;
+}
