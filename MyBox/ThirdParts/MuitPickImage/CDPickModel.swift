@@ -1,5 +1,5 @@
 //
-//  CDAlbumItem.swift
+//  CDPickModel.swift
 //  MyRule
 //
 //  Created by changdong on 2018/12/13.
@@ -9,7 +9,15 @@
 import UIKit
 import Photos
 
-class CDAlbumItem {
+/*
+ 将选中的图片，视频传出到MediaPick中处理
+ */
+protocol CDAssetSelectedDelagete{
+    func selectedAssetsComplete(assets:[CDPHAsset])
+}
+
+
+class CDAlbum {
     //相簿名称
     var title:String?
     //相簿资源
@@ -22,24 +30,20 @@ class CDAlbumItem {
         let asset = fetchResult[0]
         let size = CGSize(width: 60, height: 60)
         let imageManager = PHCachingImageManager()
-        imageManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: nil, resultHandler: { (image, nfo) in
-
+        imageManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
             self.firstImage = image
         })
     }
 }
 
 class CDPHAsset {
-    var asset = PHAsset()
-    var isSelected = Bool()
-    var isGif = Bool()
-    var videoSize = Int()
-    var filePath = String()
-    var videoTime = Int()
-    var timeStr = String()
-    var modifyDate = Int()
-    var fileName = String()
-
+    var asset = PHAsset() //媒体资源
+    var isSelected:String!//是否选中 "YES","NO"
+    var format:PhotoFormat! //资源类型
+    var fileName:String!
+    var fileSize:Int!
+    var fileUrl:URL!
+    var videoLength:Double!
 }
 
 
@@ -47,4 +51,11 @@ enum CDMediaType:Int {
     case CDMediaImage
     case CDMediaVideo
     case CDMediaImageAndVideo
+}
+
+
+enum PhotoFormat {
+    case Gif
+    case Live
+    case Normal
 }

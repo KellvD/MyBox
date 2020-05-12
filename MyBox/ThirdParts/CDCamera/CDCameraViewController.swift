@@ -14,7 +14,7 @@ import AVFoundation
     @objc optional func onCameraTakePhotoDidCancle(cameraVC:CDCameraViewController)
     @objc optional func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,videoUrl:URL)
 }
-class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDelegate,CDCameraBottomBarDelegate,CDCameraPreviewDelegate,UIGestureRecognizerDelegate {
+class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDelegate,CDCameraBottomBarDelegate,CDCameraPreviewDelegate,UIGestureRecognizerDelegate,AVCapturePhotoCaptureDelegate {
 
 
     var delegate:CDCameraViewControllerDelegate!
@@ -23,7 +23,7 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
     var device:AVCaptureDevice!
     var stillConnection:AVCaptureConnection!
     var imageInput:AVCaptureDeviceInput!
-    var imageOutput:AVCaptureStillImageOutput!
+    var imageOutput:AVCapturePhotoOutput!
 
     var videoInput:AVCaptureDeviceInput!
     var audioInput:AVCaptureDeviceInput!
@@ -131,8 +131,8 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
         if imageInput != nil {
             captureSession.removeInput(imageInput)
         }
-        imageOutput = AVCaptureStillImageOutput()
-        imageOutput.outputSettings = [AVVideoCodecKey:AVVideoCodecJPEG,AVVideoScalingModeKey:AVVideoScalingModeResize]
+        imageOutput = AVCapturePhotoOutput.init()
+
 
         if captureSession.canAddOutput(imageOutput){
             captureSession.addOutput(imageOutput)
@@ -179,6 +179,7 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
     }
     func onCameraPreviewToRetake() {
         photoPreview.isHidden = true
+        bottomBar.isHidden = false
         photoPreview.imageView.image = nil
         captureSession.startRunning()
     }
@@ -188,6 +189,10 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
     }
 
     func onCameraPreviewToSave() {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(savePhotoToLocal), nil)
+        
+    }
+    @objc func savePhotoToLocal(){
         delegate.onCameraTakePhotoDidFinshed!(cameraVC: self, image: image)
         photoPreview.isHidden = true
         photoPreview.imageView.image = nil
@@ -213,21 +218,28 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
             }
 
         }else{
-            imageOutput.captureStillImageAsynchronously(from: stillConnection) { (imageDataSampleBuffer, error) in
-                if error != nil{
-                    print("拍照失败：\(error.debugDescription)")
-                }else{
-                    let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer!)
-                    self.photoPreview.isHidden = false
-                    self.image = UIImage(data: data!)!
-//                    self.photoPreview.loadImage(image: self.image)
-                    if self.captureSession.isRunning {
-                        self.captureSession.stopRunning()
-                    }
-                }
+            let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg])
+            imageOutput.capturePhoto(with: setting, delegate: self)
+        }
+    }
+
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        if error != nil{
+            print("拍照失败：\(error.debugDescription)")
+        }else{
+
+            
+            let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
+
+            self.photoPreview.isHidden = false
+            self.bottomBar.isHidden = true
+            self.image = UIImage(data: data!)!
+            if self.captureSession.isRunning {
+                self.captureSession.stopRunning()
             }
         }
     }
+    
     func onFigPhoto() {
 
     }

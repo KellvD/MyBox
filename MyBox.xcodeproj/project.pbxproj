@@ -10,8 +10,6 @@
 		731DF4F5245800080043E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF4F4245800080043E97F /* Foundation.framework */; };
 		731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; };
 		731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; };
-		731DF53D245810710043E97F /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		731DF53E245810710043E97F /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		735513942457C19D009B7599 /* CDPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512512457C19C009B7599 /* CDPlayViewController.swift */; };
 		735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512522457C19C009B7599 /* CDMusicClassViewController.swift */; };
 		735513962457C19D009B7599 /* bar_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512542457C19C009B7599 /* bar_stop@2x.png */; };
@@ -117,7 +115,6 @@
 		735513FA2457C19E009B7599 /* CDSafeFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */; };
 		735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C02457C19C009B7599 /* CDFileDetailViewController.swift */; };
 		735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C12457C19C009B7599 /* CDNewFolderViewController.swift */; };
-		735513FD2457C19E009B7599 /* CDTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512C32457C19C009B7599 /* CDTextCell.swift */; };
 		735513FE2457C19E009B7599 /* linkIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C52457C19C009B7599 /* linkIcon@2x.png */; };
 		735513FF2457C19E009B7599 /* noteIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C62457C19C009B7599 /* noteIcon@2x.png */; };
 		735514002457C19E009B7599 /* linkVideoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512C72457C19C009B7599 /* linkVideoIcon@2x.png */; };
@@ -201,18 +198,13 @@
 		7355144F2457C19E009B7599 /* CDFaceLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513242457C19D009B7599 /* CDFaceLockViewController.swift */; };
 		735514502457C19E009B7599 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 735513262457C19D009B7599 /* Assets.xcassets */; };
 		735514522457C19E009B7599 /* CDPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132A2457C19D009B7599 /* CDPreviewViewController.swift */; };
-		735514532457C19E009B7599 /* CDAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132B2457C19D009B7599 /* CDAsset.swift */; };
 		735514542457C19E009B7599 /* CDAlbumPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */; };
-		735514552457C19E009B7599 /* CDAessetSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */; };
 		735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */; };
 		735514572457C19E009B7599 /* CDPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132F2457C19D009B7599 /* CDPreviewView.swift */; };
-		735514582457C19E009B7599 /* CDPhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513302457C19D009B7599 /* CDPhotoItemCell.swift */; };
-		735514592457C19E009B7599 /* CDPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513312457C19D009B7599 /* CDPreviewCell.swift */; };
-		7355145A2457C19E009B7599 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513332457C19D009B7599 /* play@2x.png */; };
 		7355145B2457C19E009B7599 /* videoFlag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513342457C19D009B7599 /* videoFlag@2x.png */; };
-		7355145C2457C19E009B7599 /* CDPhotoPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513352457C19D009B7599 /* CDPhotoPickViewController.swift */; };
+		7355145C2457C19E009B7599 /* CDAssetPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513352457C19D009B7599 /* CDAssetPickViewController.swift */; };
 		7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513362457C19D009B7599 /* CDAssetTon.swift */; };
-		7355145E2457C19E009B7599 /* CDAlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513372457C19D009B7599 /* CDAlbumItem.swift */; };
+		7355145E2457C19E009B7599 /* CDPickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513372457C19D009B7599 /* CDPickModel.swift */; };
 		7355145F2457C19E009B7599 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513392457C19D009B7599 /* UIImage+Gif.swift */; };
 		735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355133C2457C19D009B7599 /* CDCameraTopBar.swift */; };
 		735514612457C19E009B7599 /* CDCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355133D2457C19D009B7599 /* CDCameraViewController.swift */; };
@@ -224,12 +216,7 @@
 		735514672457C19E009B7599 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513442457C19D009B7599 /* frame.png */; };
 		735514682457C19E009B7599 /* CDCameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513452457C19D009B7599 /* CDCameraPreview.swift */; };
 		735514692457C19E009B7599 /* CDCameraBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513462457C19D009B7599 /* CDCameraBottomBar.swift */; };
-		735514822457C19E009B7599 /* CDMusicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136C2457C19D009B7599 /* CDMusicInfo.swift */; };
-		735514832457C19E009B7599 /* CDSafeFileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */; };
-		735514842457C19E009B7599 /* CDSafeFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355136E2457C19D009B7599 /* CDSafeFolder.swift */; };
 		735514862457C19E009B7599 /* CDSqlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513702457C19D009B7599 /* CDSqlManager.swift */; };
-		735514872457C19E009B7599 /* CDUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513712457C19D009B7599 /* CDUserInfo.swift */; };
-		735514882457C19E009B7599 /* CDMusicClassInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513722457C19D009B7599 /* CDMusicClassInfo.swift */; };
 		735514892457C19E009B7599 /* CDAudioPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513742457C19D009B7599 /* CDAudioPlayView.swift */; };
 		7355148A2457C19E009B7599 /* CDConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513752457C19D009B7599 /* CDConfigFile.swift */; };
 		7355148B2457C19E009B7599 /* CDBaseAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513762457C19D009B7599 /* CDBaseAllViewController.swift */; };
@@ -263,17 +250,42 @@
 		735514AF2457C20D009B7599 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514AE2457C20D009B7599 /* Photos.framework */; };
 		735514B12457C216009B7599 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B02457C216009B7599 /* Security.framework */; };
 		735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B22457C220009B7599 /* VideoToolbox.framework */; };
+		7399ADC4246257820010434B /* CDLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399ADC3246257820010434B /* CDLogViewController.swift */; };
+		73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E824657210001EC3EF /* 37x-Checkmark.png */; };
+		73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E924657210001EC3EF /* 37x-Error@2x.png */; };
+		73D1A0EE24657211001EC3EF /* 37x-Error.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0EA24657210001EC3EF /* 37x-Error.png */; };
+		73D1A0EF24657211001EC3EF /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0EB24657211001EC3EF /* 37x-Checkmark@2x.png */; };
+		73D1A45524696B52001EC3EF /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 73D1A45424696B52001EC3EF /* demo.c */; };
+		73D1A45724697756001EC3EF /* sliderThumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A45624697756001EC3EF /* sliderThumb@2x.png */; };
+		73FC55D42462C1D10052E117 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73FC55D32462C1D10052E117 /* play@2x.png */; };
+		73FC55D724654DBA0052E117 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FC55D624654DBA0052E117 /* MBProgressHUD.framework */; };
+		73FC55D824654E500052E117 /* MBProgressHUD.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 73FC55D624654DBA0052E117 /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73FC55DA2465503C0052E117 /* CDHUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FC55D92465503C0052E117 /* CDHUDManager.swift */; };
+		EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */; };
+		EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFC242F7245BF7DE00DDC829 /* file_dir_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFC242F6245BF7DE00DDC829 /* file_dir_big@2x.png */; };
+		EFC2431E245C307300DDC829 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFC2431B245C307300DDC829 /* RxCocoa.framework */; };
+		EFC2431F245C307300DDC829 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFC2431C245C307300DDC829 /* RxRelay.framework */; };
+		EFC24320245C307300DDC829 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFC2431D245C307300DDC829 /* RxSwift.framework */; };
+		EFC24321245C309F00DDC829 /* RxCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431B245C307300DDC829 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFC24322245C309F00DDC829 /* RxRelay.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431C245C307300DDC829 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFC24323245C309F00DDC829 /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431D245C307300DDC829 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		731DF53C245810670043E97F /* CopyFiles */ = {
+		EFC242F3245BF6AF00DDC829 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				731DF53D245810710043E97F /* ZipArchive.framework in CopyFiles */,
-				731DF53E245810710043E97F /* SQLite.framework in CopyFiles */,
+				73FC55D824654E500052E117 /* MBProgressHUD.framework in CopyFiles */,
+				EFC24321245C309F00DDC829 /* RxCocoa.framework in CopyFiles */,
+				EFC24322245C309F00DDC829 /* RxRelay.framework in CopyFiles */,
+				EFC24323245C309F00DDC829 /* RxSwift.framework in CopyFiles */,
+				EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */,
+				EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +401,6 @@
 		735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFolderCell.swift; sourceTree = "<group>"; };
 		735512C02457C19C009B7599 /* CDFileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFileDetailViewController.swift; sourceTree = "<group>"; };
 		735512C12457C19C009B7599 /* CDNewFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNewFolderViewController.swift; sourceTree = "<group>"; };
-		735512C32457C19C009B7599 /* CDTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextCell.swift; sourceTree = "<group>"; };
 		735512C52457C19C009B7599 /* linkIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkIcon@2x.png"; sourceTree = "<group>"; };
 		735512C62457C19C009B7599 /* noteIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noteIcon@2x.png"; sourceTree = "<group>"; };
 		735512C72457C19C009B7599 /* linkVideoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkVideoIcon@2x.png"; sourceTree = "<group>"; };
@@ -473,20 +484,14 @@
 		735513242457C19D009B7599 /* CDFaceLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFaceLockViewController.swift; sourceTree = "<group>"; };
 		735513262457C19D009B7599 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7355132A2457C19D009B7599 /* CDPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewViewController.swift; sourceTree = "<group>"; };
-		7355132B2457C19D009B7599 /* CDAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAsset.swift; sourceTree = "<group>"; };
 		7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAlbumPickViewController.swift; sourceTree = "<group>"; };
-		7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAessetSelectionDelegate.swift; sourceTree = "<group>"; };
 		7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMediaPickerViewController.swift; sourceTree = "<group>"; };
 		7355132F2457C19D009B7599 /* CDPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewView.swift; sourceTree = "<group>"; };
-		735513302457C19D009B7599 /* CDPhotoItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoItemCell.swift; sourceTree = "<group>"; };
-		735513312457C19D009B7599 /* CDPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewCell.swift; sourceTree = "<group>"; };
-		735513332457C19D009B7599 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
 		735513342457C19D009B7599 /* videoFlag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "videoFlag@2x.png"; sourceTree = "<group>"; };
-		735513352457C19D009B7599 /* CDPhotoPickViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoPickViewController.swift; sourceTree = "<group>"; };
+		735513352457C19D009B7599 /* CDAssetPickViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAssetPickViewController.swift; sourceTree = "<group>"; };
 		735513362457C19D009B7599 /* CDAssetTon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAssetTon.swift; sourceTree = "<group>"; };
-		735513372457C19D009B7599 /* CDAlbumItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAlbumItem.swift; sourceTree = "<group>"; };
+		735513372457C19D009B7599 /* CDPickModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPickModel.swift; sourceTree = "<group>"; };
 		735513392457C19D009B7599 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
-		7355133A2457C19D009B7599 /* SwiftGif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftGif.h; sourceTree = "<group>"; };
 		7355133C2457C19D009B7599 /* CDCameraTopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraTopBar.swift; sourceTree = "<group>"; };
 		7355133D2457C19D009B7599 /* CDCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraViewController.swift; sourceTree = "<group>"; };
 		7355133F2457C19D009B7599 /* takePhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = takePhoto.png; sourceTree = "<group>"; };
@@ -497,12 +502,7 @@
 		735513442457C19D009B7599 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		735513452457C19D009B7599 /* CDCameraPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraPreview.swift; sourceTree = "<group>"; };
 		735513462457C19D009B7599 /* CDCameraBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraBottomBar.swift; sourceTree = "<group>"; };
-		7355136C2457C19D009B7599 /* CDMusicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicInfo.swift; sourceTree = "<group>"; };
-		7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFileInfo.swift; sourceTree = "<group>"; };
-		7355136E2457C19D009B7599 /* CDSafeFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeFolder.swift; sourceTree = "<group>"; };
 		735513702457C19D009B7599 /* CDSqlManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSqlManager.swift; sourceTree = "<group>"; };
-		735513712457C19D009B7599 /* CDUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUserInfo.swift; sourceTree = "<group>"; };
-		735513722457C19D009B7599 /* CDMusicClassInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicClassInfo.swift; sourceTree = "<group>"; };
 		735513742457C19D009B7599 /* CDAudioPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioPlayView.swift; sourceTree = "<group>"; };
 		735513752457C19D009B7599 /* CDConfigFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDConfigFile.swift; sourceTree = "<group>"; };
 		735513762457C19D009B7599 /* CDBaseAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBaseAllViewController.swift; sourceTree = "<group>"; };
@@ -539,6 +539,24 @@
 		735514B02457C216009B7599 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		735514B22457C220009B7599 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		7355152B2457D925009B7599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7399ADC3246257820010434B /* CDLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLogViewController.swift; sourceTree = "<group>"; };
+		73D1A0E824657210001EC3EF /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
+		73D1A0E924657210001EC3EF /* 37x-Error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Error@2x.png"; sourceTree = "<group>"; };
+		73D1A0EA24657210001EC3EF /* 37x-Error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Error.png"; sourceTree = "<group>"; };
+		73D1A0EB24657211001EC3EF /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
+		73D1A45224696B51001EC3EF /* MyBox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyBox-Bridging-Header.h"; sourceTree = "<group>"; };
+		73D1A45324696B52001EC3EF /* demo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = demo.h; sourceTree = "<group>"; };
+		73D1A45424696B52001EC3EF /* demo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = demo.c; sourceTree = "<group>"; };
+		73D1A45624697756001EC3EF /* sliderThumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderThumb@2x.png"; sourceTree = "<group>"; };
+		73FC55D32462C1D10052E117 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		73FC55D52463E2E60052E117 /* CDDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDDefines.h; sourceTree = "<group>"; };
+		73FC55D624654DBA0052E117 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MBProgressHUD.framework; sourceTree = "<group>"; };
+		73FC55D92465503C0052E117 /* CDHUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDHUDManager.swift; sourceTree = "<group>"; };
+		EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSqlModel.swift; sourceTree = "<group>"; };
+		EFC242F6245BF7DE00DDC829 /* file_dir_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_dir_big@2x.png"; sourceTree = "<group>"; };
+		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
+		EFC2431C245C307300DDC829 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxRelay.framework; sourceTree = "<group>"; };
+		EFC2431D245C307300DDC829 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxSwift.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,11 +564,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC2431E245C307300DDC829 /* RxCocoa.framework in Frameworks */,
 				735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */,
+				EFC24320245C307300DDC829 /* RxSwift.framework in Frameworks */,
 				731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */,
+				EFC2431F245C307300DDC829 /* RxRelay.framework in Frameworks */,
 				735514A82457C1DD009B7599 /* CoreGraphics.framework in Frameworks */,
 				735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */,
 				735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */,
+				73FC55D724654DBA0052E117 /* MBProgressHUD.framework in Frameworks */,
 				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
 				731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */,
 				735514B12457C216009B7599 /* Security.framework in Frameworks */,
@@ -566,6 +588,10 @@
 		731DF4FC2458099F0043E97F /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				73FC55D624654DBA0052E117 /* MBProgressHUD.framework */,
+				EFC2431B245C307300DDC829 /* RxCocoa.framework */,
+				EFC2431C245C307300DDC829 /* RxRelay.framework */,
+				EFC2431D245C307300DDC829 /* RxSwift.framework */,
 				731DF53A24580FDD0043E97F /* ZipArchive.framework */,
 				731DF53824580F3B0043E97F /* SQLite.framework */,
 			);
@@ -592,10 +618,8 @@
 		73550FE72457C0AB009B7599 /* MyBox */ = {
 			isa = PBXGroup;
 			children = (
-				731DF4FC2458099F0043E97F /* lib */,
 				735513842457C19D009B7599 /* appleLunch */,
-				735513832457C19D009B7599 /* Base.lproj */,
-				735513932457C19D009B7599 /* MyRule.entitlements */,
+				731DF4FC2458099F0043E97F /* lib */,
 				735513732457C19D009B7599 /* publicViews */,
 				735513892457C19D009B7599 /* resource */,
 				735513252457C19D009B7599 /* Supporting Files */,
@@ -673,6 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				735512722457C19C009B7599 /* CDSettingViewController.swift */,
+				7399ADC3246257820010434B /* CDLogViewController.swift */,
 				735512732457C19C009B7599 /* CDSetPwdViewController.swift */,
 				735512742457C19C009B7599 /* CDModifyPwdViewController.swift */,
 			);
@@ -706,6 +731,7 @@
 			children = (
 				735512792457C19C009B7599 /* vault_setting@2x.png */,
 				7355127A2457C19C009B7599 /* output@2x.png */,
+				73D1A45624697756001EC3EF /* sliderThumb@2x.png */,
 				7355127B2457C19C009B7599 /* addDir@2x.png */,
 				7355127C2457C19C009B7599 /* edit@2x.png */,
 				7355127D2457C19C009B7599 /* selected@2x.png */,
@@ -744,6 +770,7 @@
 		735512952457C19C009B7599 /* FileImage */ = {
 			isa = PBXGroup;
 			children = (
+				EFC242F6245BF7DE00DDC829 /* file_dir_big@2x.png */,
 				735512962457C19C009B7599 /* file_video_big@2x.png */,
 				735512972457C19C009B7599 /* file_zip_big@2x.png */,
 				735512982457C19C009B7599 /* file_excel_big@2x.png */,
@@ -762,10 +789,10 @@
 		735512A52457C19C009B7599 /* 语音 */ = {
 			isa = PBXGroup;
 			children = (
+				735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */,
+				735512B82457C19C009B7599 /* CDAudioViewController.swift */,
 				735512A62457C19C009B7599 /* CDCircleView.swift */,
 				735512A72457C19C009B7599 /* images */,
-				735512B82457C19C009B7599 /* CDAudioViewController.swift */,
-				735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */,
 			);
 			path = "语音";
 			sourceTree = "<group>";
@@ -798,10 +825,12 @@
 			children = (
 				735512CC2457C19C009B7599 /* CDDirNavBar.swift */,
 				735512C82457C19C009B7599 /* CDNewTextViewController.swift */,
-				735512C32457C19C009B7599 /* CDTextCell.swift */,
 				735512C92457C19C009B7599 /* CDTextMessageViewController.swift */,
 				735512CA2457C19C009B7599 /* CDTextViewController.swift */,
+				73D1A45324696B52001EC3EF /* demo.h */,
+				73D1A45424696B52001EC3EF /* demo.c */,
 				735512C42457C19C009B7599 /* images */,
+				73D1A45224696B51001EC3EF /* MyBox-Bridging-Header.h */,
 			);
 			path = "文字";
 			sourceTree = "<group>";
@@ -1002,8 +1031,10 @@
 		735513252457C19D009B7599 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				735513832457C19D009B7599 /* Base.lproj */,
 				7355152B2457D925009B7599 /* Info.plist */,
 				735513262457C19D009B7599 /* Assets.xcassets */,
+				735513932457C19D009B7599 /* MyRule.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1011,6 +1042,7 @@
 		735513282457C19D009B7599 /* ThirdParts */ = {
 			isa = PBXGroup;
 			children = (
+				73D1A0E6246571E5001EC3EF /* CDHUD */,
 				735513292457C19D009B7599 /* MuitPickImage */,
 				735513382457C19D009B7599 /* SwiftGif */,
 				7355133B2457C19D009B7599 /* CDCamera */,
@@ -1022,18 +1054,14 @@
 		735513292457C19D009B7599 /* MuitPickImage */ = {
 			isa = PBXGroup;
 			children = (
-				7355132A2457C19D009B7599 /* CDPreviewViewController.swift */,
-				7355132B2457C19D009B7599 /* CDAsset.swift */,
 				7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */,
-				7355132D2457C19D009B7599 /* CDAessetSelectionDelegate.swift */,
-				7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */,
-				7355132F2457C19D009B7599 /* CDPreviewView.swift */,
-				735513302457C19D009B7599 /* CDPhotoItemCell.swift */,
-				735513312457C19D009B7599 /* CDPreviewCell.swift */,
-				735513322457C19D009B7599 /* image */,
-				735513352457C19D009B7599 /* CDPhotoPickViewController.swift */,
+				735513352457C19D009B7599 /* CDAssetPickViewController.swift */,
 				735513362457C19D009B7599 /* CDAssetTon.swift */,
-				735513372457C19D009B7599 /* CDAlbumItem.swift */,
+				7355132E2457C19D009B7599 /* CDMediaPickerViewController.swift */,
+				735513372457C19D009B7599 /* CDPickModel.swift */,
+				7355132F2457C19D009B7599 /* CDPreviewView.swift */,
+				7355132A2457C19D009B7599 /* CDPreviewViewController.swift */,
+				735513322457C19D009B7599 /* image */,
 			);
 			path = MuitPickImage;
 			sourceTree = "<group>";
@@ -1041,7 +1069,7 @@
 		735513322457C19D009B7599 /* image */ = {
 			isa = PBXGroup;
 			children = (
-				735513332457C19D009B7599 /* play@2x.png */,
+				73FC55D32462C1D10052E117 /* play@2x.png */,
 				735513342457C19D009B7599 /* videoFlag@2x.png */,
 			);
 			path = image;
@@ -1051,7 +1079,6 @@
 			isa = PBXGroup;
 			children = (
 				735513392457C19D009B7599 /* UIImage+Gif.swift */,
-				7355133A2457C19D009B7599 /* SwiftGif.h */,
 			);
 			path = SwiftGif;
 			sourceTree = "<group>";
@@ -1059,11 +1086,11 @@
 		7355133B2457C19D009B7599 /* CDCamera */ = {
 			isa = PBXGroup;
 			children = (
+				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
+				735513452457C19D009B7599 /* CDCameraPreview.swift */,
 				7355133C2457C19D009B7599 /* CDCameraTopBar.swift */,
 				7355133D2457C19D009B7599 /* CDCameraViewController.swift */,
 				7355133E2457C19D009B7599 /* image */,
-				735513452457C19D009B7599 /* CDCameraPreview.swift */,
-				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
 			);
 			path = CDCamera;
 			sourceTree = "<group>";
@@ -1084,12 +1111,8 @@
 		7355136B2457C19D009B7599 /* sqlManger */ = {
 			isa = PBXGroup;
 			children = (
-				7355136C2457C19D009B7599 /* CDMusicInfo.swift */,
-				7355136D2457C19D009B7599 /* CDSafeFileInfo.swift */,
-				7355136E2457C19D009B7599 /* CDSafeFolder.swift */,
 				735513702457C19D009B7599 /* CDSqlManager.swift */,
-				735513712457C19D009B7599 /* CDUserInfo.swift */,
-				735513722457C19D009B7599 /* CDMusicClassInfo.swift */,
+				EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */,
 			);
 			path = sqlManger;
 			sourceTree = "<group>";
@@ -1098,19 +1121,20 @@
 			isa = PBXGroup;
 			children = (
 				735513742457C19D009B7599 /* CDAudioPlayView.swift */,
-				735513752457C19D009B7599 /* CDConfigFile.swift */,
 				735513762457C19D009B7599 /* CDBaseAllViewController.swift */,
-				735513772457C19D009B7599 /* CDPopMenuView.swift */,
-				735513782457C19D009B7599 /* String+Path.swift */,
+				73FC55D52463E2E60052E117 /* CDDefines.h */,
+				735513752457C19D009B7599 /* CDConfigFile.swift */,
 				735513792457C19D009B7599 /* CDCustomDefines.swift */,
+				735513802457C19D009B7599 /* CDDeviceTools.swift */,
 				7355137A2457C19D009B7599 /* CDEmojiHandle.swift */,
 				7355137B2457C19D009B7599 /* CDGeneralTool.swift */,
-				7355137C2457C19D009B7599 /* Cell侧滑删除 */,
 				7355137E2457C19D009B7599 /* CDHUD.swift */,
+				735513772457C19D009B7599 /* CDPopMenuView.swift */,
 				7355137F2457C19D009B7599 /* CDSignalTon.swift */,
-				735513802457C19D009B7599 /* CDDeviceTools.swift */,
+				7355137C2457C19D009B7599 /* Cell侧滑删除 */,
 				735513812457C19D009B7599 /* Data+format.swift */,
 				735513822457C19D009B7599 /* String+encrypt.swift */,
+				735513782457C19D009B7599 /* String+Path.swift */,
 			);
 			path = publicViews;
 			sourceTree = "<group>";
@@ -1188,6 +1212,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		73D1A0E6246571E5001EC3EF /* CDHUD */ = {
+			isa = PBXGroup;
+			children = (
+				73D1A0E7246571F5001EC3EF /* image */,
+				73FC55D92465503C0052E117 /* CDHUDManager.swift */,
+			);
+			path = CDHUD;
+			sourceTree = "<group>";
+		};
+		73D1A0E7246571F5001EC3EF /* image */ = {
+			isa = PBXGroup;
+			children = (
+				73D1A0E824657210001EC3EF /* 37x-Checkmark.png */,
+				73D1A0EB24657211001EC3EF /* 37x-Checkmark@2x.png */,
+				73D1A0EA24657210001EC3EF /* 37x-Error.png */,
+				73D1A0E924657210001EC3EF /* 37x-Error@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1198,7 +1242,7 @@
 				73550FE12457C0AB009B7599 /* Sources */,
 				73550FE22457C0AB009B7599 /* Frameworks */,
 				73550FE32457C0AB009B7599 /* Resources */,
-				731DF53C245810670043E97F /* CopyFiles */,
+				EFC242F3245BF6AF00DDC829 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1221,6 +1265,7 @@
 				TargetAttributes = {
 					73550FE42457C0AB009B7599 = {
 						CreatedOnToolsVersion = 11.3;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -1258,6 +1303,7 @@
 				735513CA2457C19E009B7599 /* chexiao@2x.png in Resources */,
 				735514442457C19E009B7599 /* 小图解密失败@2x.png in Resources */,
 				735513D42457C19E009B7599 /* file_zip_big@2x.png in Resources */,
+				73FC55D42462C1D10052E117 /* play@2x.png in Resources */,
 				735513C82457C19E009B7599 /* menu_delete@2x.png in Resources */,
 				735514302457C19E009B7599 /* forward_disable@2x.png in Resources */,
 				735514202457C19E009B7599 /* 滤镜@2x.png in Resources */,
@@ -1275,6 +1321,7 @@
 				735513A52457C19D009B7599 /* 编辑歌单@2x.png in Resources */,
 				735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */,
 				735513E12457C19E009B7599 /* 其他@2x.png in Resources */,
+				EFC242F7245BF7DE00DDC829 /* file_dir_big@2x.png in Resources */,
 				735513A12457C19D009B7599 /* editMusic@2x.png in Resources */,
 				7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */,
 				7355149A2457C19E009B7599 /* icon.jpg in Resources */,
@@ -1293,6 +1340,7 @@
 				735513D12457C19E009B7599 /* append_grey@2x.png in Resources */,
 				735513A42457C19D009B7599 /* music_list@2x.png in Resources */,
 				735514502457C19E009B7599 /* Assets.xcassets in Resources */,
+				73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */,
 				735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */,
 				735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */,
 				735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */,
@@ -1325,10 +1373,12 @@
 				735514A02457C19E009B7599 /* back_normal@2x.png in Resources */,
 				735514402457C19E009B7599 /* 照片选中@2x.png in Resources */,
 				7355139B2457C19D009B7599 /* bar_list@2x.png in Resources */,
+				73D1A0EE24657211001EC3EF /* 37x-Error.png in Resources */,
 				735514242457C19E009B7599 /* forward@2x.png in Resources */,
 				735514672457C19E009B7599 /* frame.png in Resources */,
 				735513C62457C19E009B7599 /* move@2x.png in Resources */,
 				735514412457C19E009B7599 /* love_normal@2x.png in Resources */,
+				73D1A0EF24657211001EC3EF /* 37x-Checkmark@2x.png in Resources */,
 				735514282457C19E009B7599 /* 白色暗角@2x.png in Resources */,
 				735514992457C19E009B7599 /* 上导航栏-背景@2x.png in Resources */,
 				735514222457C19E009B7599 /* backward_disable@2x.png in Resources */,
@@ -1361,6 +1411,7 @@
 				735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */,
 				735513F02457C19E009B7599 /* type_audio@2x.png in Resources */,
 				735513A32457C19D009B7599 /* editClass@2x.png in Resources */,
+				73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */,
 				735514622457C19E009B7599 /* takePhoto.png in Resources */,
 				735513972457C19D009B7599 /* music_recent@2x.png in Resources */,
 				735514262457C19E009B7599 /* 马赛克@2x.png in Resources */,
@@ -1373,7 +1424,7 @@
 				735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */,
 				7355149D2457C19E009B7599 /* rightDown@2x.png in Resources */,
 				735513DF2457C19E009B7599 /* menu_move@2x.png in Resources */,
-				7355145A2457C19E009B7599 /* play@2x.png in Resources */,
+				73D1A45724697756001EC3EF /* sliderThumb@2x.png in Resources */,
 				7355139A2457C19D009B7599 /* 菜单左@2x.png in Resources */,
 				735513C42457C19E009B7599 /* 视频@2x.png in Resources */,
 				735513E92457C19E009B7599 /* record_forward@2x.png in Resources */,
@@ -1397,14 +1448,13 @@
 				735513B42457C19D009B7599 /* CDModifyPwdViewController.swift in Sources */,
 				735513F72457C19E009B7599 /* CDToolBar.swift in Sources */,
 				735513AB2457C19D009B7599 /* CDMusicMenuView.swift in Sources */,
-				735514552457C19E009B7599 /* CDAessetSelectionDelegate.swift in Sources */,
 				735514612457C19E009B7599 /* CDCameraViewController.swift in Sources */,
 				735514192457C19E009B7599 /* CDCropToolsBar.swift in Sources */,
 				735513F92457C19E009B7599 /* CDWebViewController.swift in Sources */,
 				7355141A2457C19E009B7599 /* CDTextView.swift in Sources */,
 				735514972457C19E009B7599 /* CDAppDelegate.swift in Sources */,
 				735513B12457C19D009B7599 /* CDMusicViewController.swift in Sources */,
-				7355145E2457C19E009B7599 /* CDAlbumItem.swift in Sources */,
+				7355145E2457C19E009B7599 /* CDPickModel.swift in Sources */,
 				735514382457C19E009B7599 /* CDWaterMarkViewController.swift in Sources */,
 				735514092457C19E009B7599 /* CDVideoScrollerCell.swift in Sources */,
 				735514372457C19E009B7599 /* CDImageEditViewController.swift in Sources */,
@@ -1413,13 +1463,13 @@
 				735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */,
 				735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */,
 				735514062457C19E009B7599 /* CDVideoScrollerViewController.swift in Sources */,
-				7355145C2457C19E009B7599 /* CDPhotoPickViewController.swift in Sources */,
+				7355145C2457C19E009B7599 /* CDAssetPickViewController.swift in Sources */,
 				735514172457C19E009B7599 /* CDPhotoChooseView.swift in Sources */,
+				73D1A45524696B52001EC3EF /* demo.c in Sources */,
 				7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */,
 				735513F62457C19E009B7599 /* CDTableViewCell.swift in Sources */,
 				735514352457C19E009B7599 /* CDEditToolView.swift in Sources */,
 				7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */,
-				735514832457C19E009B7599 /* CDSafeFileInfo.swift in Sources */,
 				735514922457C19E009B7599 /* CDHUD.swift in Sources */,
 				7355141B2457C19E009B7599 /* CDCropView.swift in Sources */,
 				7355144F2457C19E009B7599 /* CDFaceLockViewController.swift in Sources */,
@@ -1440,7 +1490,6 @@
 				735513F82457C19E009B7599 /* CDFolderListViewController.swift in Sources */,
 				735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */,
 				7355148C2457C19E009B7599 /* CDPopMenuView.swift in Sources */,
-				735514872457C19E009B7599 /* CDUserInfo.swift in Sources */,
 				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
 				735514132457C19E009B7599 /* CDMosaicView.swift in Sources */,
 				735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */,
@@ -1462,19 +1511,19 @@
 				7355143F2457C19E009B7599 /* CDEditorsView.swift in Sources */,
 				735514862457C19E009B7599 /* CDSqlManager.swift in Sources */,
 				735513B52457C19D009B7599 /* CDSafeViewController.swift in Sources */,
+				73FC55DA2465503C0052E117 /* CDHUDManager.swift in Sources */,
 				735514022457C19E009B7599 /* CDTextMessageViewController.swift in Sources */,
 				735514942457C19E009B7599 /* CDDeviceTools.swift in Sources */,
 				735514122457C19E009B7599 /* CDImageCell.swift in Sources */,
-				735513FD2457C19E009B7599 /* CDTextCell.swift in Sources */,
 				7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */,
 				735513A92457C19D009B7599 /* CDMusicManager.swift in Sources */,
 				735513E22457C19E009B7599 /* CDCircleView.swift in Sources */,
 				735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */,
 				735514082457C19E009B7599 /* CDVideoViewController.swift in Sources */,
 				735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */,
-				735514592457C19E009B7599 /* CDPreviewCell.swift in Sources */,
 				7355143A2457C19E009B7599 /* CDEdit.swift in Sources */,
 				735514962457C19E009B7599 /* String+encrypt.swift in Sources */,
+				7399ADC4246257820010434B /* CDLogViewController.swift in Sources */,
 				735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */,
 				735513F52457C19E009B7599 /* CDFolderDetailViewController.swift in Sources */,
 				735513B22457C19D009B7599 /* CDSettingViewController.swift in Sources */,
@@ -1482,24 +1531,20 @@
 				7355148B2457C19E009B7599 /* CDBaseAllViewController.swift in Sources */,
 				735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */,
 				735514052457C19E009B7599 /* CDDirNavBar.swift in Sources */,
-				735514822457C19E009B7599 /* CDMusicInfo.swift in Sources */,
 				7355148E2457C19E009B7599 /* CDCustomDefines.swift in Sources */,
 				735514952457C19E009B7599 /* Data+format.swift in Sources */,
 				735514162457C19E009B7599 /* PECropRectView.swift in Sources */,
 				735514012457C19E009B7599 /* CDNewTextViewController.swift in Sources */,
-				735514582457C19E009B7599 /* CDPhotoItemCell.swift in Sources */,
 				7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */,
 				735514072457C19E009B7599 /* CDSegmentVideoViewController.swift in Sources */,
 				7355148D2457C19E009B7599 /* String+Path.swift in Sources */,
 				735514392457C19E009B7599 /* CDWaterMarkView.swift in Sources */,
 				735514362457C19E009B7599 /* CDNavigationBar.swift in Sources */,
 				735513A82457C19D009B7599 /* CDMusicDefines.swift in Sources */,
-				735514532457C19E009B7599 /* CDAsset.swift in Sources */,
 				735513AE2457C19D009B7599 /* CDClassCell.swift in Sources */,
+				EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */,
 				735514572457C19E009B7599 /* CDPreviewView.swift in Sources */,
-				735514842457C19E009B7599 /* CDSafeFolder.swift in Sources */,
 				7355148A2457C19E009B7599 /* CDConfigFile.swift in Sources */,
-				735514882457C19E009B7599 /* CDMusicClassInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1624,6 +1669,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DYB9KKF89M;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1637,8 +1683,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hw.MyBox;
+				PRODUCT_BUNDLE_IDENTIFIER = hw.bridge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyBox/viewController/保险箱/文字/MyBox-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1648,6 +1696,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DYB9KKF89M;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1661,8 +1710,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hw.MyBox;
+				PRODUCT_BUNDLE_IDENTIFIER = hw.bridge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyBox/viewController/保险箱/文字/MyBox-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

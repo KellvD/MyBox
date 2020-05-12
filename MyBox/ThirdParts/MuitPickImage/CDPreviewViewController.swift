@@ -10,17 +10,19 @@ import UIKit
 import Photos
 
 class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPreviewDelegate {
-    private let bottom_H:CGFloat = 85+48+1
-    var assetArr:[CDPHAsset] = []
-    var mainCollectionView:CDPreviewView!
-    var followCollectionView:CDPreviewView!
 
-    var imageManager:PHCachingImageManager!
-    var editBtn:UIButton!
-    var sendBtn:UIButton!
-    var bottomV:UIView!
-    var isVideo:Bool!
-    var assetDelegate:CDAessetSelectionDelagete!
+    public var assetArr:[CDPHAsset] = []
+    public var isVideo:Bool!
+    public var assetDelegate:CDAssetSelectedDelagete!
+
+    private let bottom_H:CGFloat = 85+48+1
+    private var mainCollectionView:CDPreviewView!
+    private var followCollectionView:CDPreviewView!
+    private var imageManager:PHCachingImageManager!
+    private var editBtn:UIButton!
+    private var sendBtn:UIButton!
+    private var bottomV:UIView!
+
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -31,7 +33,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         super.viewDidLoad()
 
         let mainLayout = UICollectionViewFlowLayout()
-        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH , height: CDViewHeight - 64)
+        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDViewHeight - 64)
         mainLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         mainLayout.minimumLineSpacing = 2
         mainLayout.minimumInteritemSpacing = 2
@@ -81,26 +83,25 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
 
     }
 
-    
+    //TODO:预览发送
     @objc func previewSendBtnClick(){
-
         var selectArr:[CDPHAsset] = []
         for asset:CDPHAsset in self.assetArr {
-            if asset.isSelected {
+            if asset.isSelected == "true" {
                 selectArr.append(asset)
             }
         }
         DispatchQueue.global().async {
-            self.assetDelegate.selectedAssets(assets: selectArr)
+            self.assetDelegate.selectedAssetsComplete(assets: selectArr)
 
         }
-
     }
 
     
     func selectFollowWith(indexPath: IndexPath) {
         stopMainPreviewPlay()
         self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        self.mainCollectionView.reloadData()
     }
     func scrollMainPreview(indexPath: IndexPath) {
         

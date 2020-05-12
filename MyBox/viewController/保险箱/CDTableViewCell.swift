@@ -71,17 +71,8 @@ class CDTableViewCell: UITableViewCell {
         fileNameL.text = fileInfo.fileName
         fileCreateTimeL.text = timestampTurnString(timestamp: fileInfo.createTime)
 
-
-        if fileInfo.fileType == .AudioType {
-            audioLengthL.isHidden = false
-            audioLengthL.text = getMMSSFromSS(second: fileInfo.timeLength)
-        }else{
-            audioLengthL.isHidden = true
-        }
         let imageName = CDSignalTon.shareInstance().returnImgName(type: fileInfo.fileType!.rawValue)
         headImage.image = UIImage(named: imageName!)
-        
-
         var frame = audioLengthL.frame
         if showSelectIcon {
             selectImage.isHidden = false
@@ -90,18 +81,23 @@ class CDTableViewCell: UITableViewCell {
                 selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
             }else{
                 selectImage.image = LoadImageByName(imageName: "selected", type: "png")
-
             }
         }else{
             selectImage.isHidden = true
             frame.origin.x = CDSCREEN_WIDTH-80
         }
         audioLengthL.frame = frame
+        if fileInfo.fileType == .AudioType {
+            audioLengthL.isHidden = false
+            audioLengthL.text = getMMSSFromSS(second: fileInfo.timeLength)
+        }else{
+            audioLengthL.isHidden = true
+        }
     }
     func setConfigFolderData(folder:CDSafeFolder) {
         fileNameL.text = folder.folderName
         fileCreateTimeL.text = timestampTurnString(timestamp: folder.createTime)
-        headImage.backgroundColor = UIColor.red
+        headImage.image = UIImage(named: "file_dir_big")
         
         if showSelectIcon {
             selectImage.isHidden = false

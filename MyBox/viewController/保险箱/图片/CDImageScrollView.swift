@@ -36,7 +36,6 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
     @objc func singleTapAction() {
         NotificationCenter.default.post(name: BarsHiddenOrNot, object: nil)

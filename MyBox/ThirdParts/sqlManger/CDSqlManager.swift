@@ -353,7 +353,21 @@ class CDSqlManager: NSObject {
                 folderInfo.userId = item[db_userId]
                 folderInfo.superId = item[db_superId]
                 folderInfo.folderPath = item[db_folderPath]
+                folderInfo.isSelected = .CDFalse
                 totalArr.append(folderInfo)
+            }
+        } catch  {
+            CDPrint(item:"querySubAllFolder-->error:\(error)")
+        }
+        return totalArr
+
+    }
+    public func querySubAllFolderId(folderId:Int) -> [Int]{
+        var totalArr:[Int] = []
+        do {
+            for item in (try db.prepare(SafeFolder.where(db_superId == folderId))) {
+                let folderId = item[db_folderId]
+                totalArr.append(folderId)
             }
         } catch  {
             CDPrint(item:"querySubAllFolder-->error:\(error)")
@@ -429,8 +443,6 @@ class CDSqlManager: NSObject {
         }
     }
     public func deleteAllSubSafeFolder(superId:Int){
-        let subFolderId = <#value#>
-        
         do{
             try db.run(SafeFolder.filter(db_superId >= superId).delete())
             CDPrint(item:"deleteAllSubSafeFolder-->success")
@@ -479,6 +491,7 @@ class CDSqlManager: NSObject {
                 folderInfo.identify = item[db_identify]
                 folderInfo.createTime = item[db_createTime]
                 folderInfo.userId = item[db_userId]
+                folderInfo.isSelected = .CDFalse
                 if folderInfo.isLock == LockOn {
                     unlockArr.append(folderInfo)
                 }else{
@@ -506,7 +519,6 @@ class CDSqlManager: NSObject {
     public func addSafeFileInfo(fileInfo:CDSafeFileInfo) -> Void {
 
         let fileId = queryMaxFileId() + 1
-
         do{
             try db.run(SafeFileInfo.insert(
                 db_fileId <- fileId,
@@ -570,6 +582,7 @@ class CDSqlManager: NSObject {
                 file.thumbImagePath = item[db_thumbImagePath]
                 file.userId = item[db_userId]
                 file.markInfo = item[db_markInfo]
+                file.isSelected = .CDFalse
                 fileArr.append(file)
             }
         } catch  {
@@ -598,6 +611,7 @@ class CDSqlManager: NSObject {
                 file.thumbImagePath = item[db_thumbImagePath]
                 file.userId = item[db_userId]
                 file.markInfo = item[db_markInfo]
+                
             }
         } catch  {
             CDPrint(item:"queryOneSafeFileWithFileId -->error:\(error)")
@@ -615,8 +629,7 @@ class CDSqlManager: NSObject {
     }
     public func deleteAllSubSafeFile(folderId:Int){
         do{
-            try db.run(SafeFileInfo.filter(db_folderId >= folderId).delete())
-            //delete from SafeFileInfo where db_folderId = folderId
+            try db.run(SafeFileInfo.filter(db_folderId == folderId).delete())
             CDPrint(item:"deleteAllSubSafeFile-->success")
         }catch{
             CDPrint(item:"deleteAllSubSafeFile-->error:\(error)")

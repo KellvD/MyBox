@@ -10,24 +10,20 @@ import UIKit
 import AVFoundation
 
 class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CDMediaPickerDelegate,CDCameraViewControllerDelegate,CDComposeGifViewControllerDelegate {
-
-
-
-    var toolbar:CDToolBar!
-    var popView:CDPopMenuView!
-
-    var selectBtn:UIButton!
-    var backBtn:UIButton!
-    var collectionView:UICollectionView!
-    var imageArr:[CDSafeFileInfo] = []
-
-    var isEditSelected = Bool()
-    var folderInfo:CDSafeFolder!
-    var selectDic = NSMutableDictionary()
-    var selectCount:Int = 0
-    var selectedImageArr:[CDSafeFileInfo] = []
-    var outputImageArr:[CDSafeFileInfo] = []
-    var isNeedReloadData:Bool = false
+    
+    
+    
+    public var folderInfo:CDSafeFolder!
+    
+    private var toolbar:CDToolBar!
+    private var selectBtn:UIButton!
+    private var backBtn:UIButton!
+    private var collectionView:UICollectionView!
+    private var imageArr:[CDSafeFileInfo] = []
+    private var selectCount:Int = 0
+    private var selectedImageArr:[CDSafeFileInfo] = []
+    private var outputImageArr:[CDSafeFileInfo] = []
+    private var isNeedReloadData:Bool = false
 
     deinit {
         removeNotification()
@@ -42,7 +38,6 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         super.viewDidLoad()
         self.title = "图片文件"
         isNeedReloadData = true
-        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-20)/4 , height: (CDSCREEN_WIDTH-20)/4)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
@@ -52,8 +47,6 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
 
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight - 48), collectionViewLayout: layout)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageCellIdrr")
-//        print(NSStringFromCGRect(collectionView.frame))
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.white
@@ -87,8 +80,9 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             self.selectBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: true)
-            isEditSelected = true
-
+            imageArr.forEach { (file) in
+                file.isSelected = .CDFalse
+            }
 
         }else{
             //1.返回变全选
@@ -96,39 +90,33 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             self.selectBtn.setImage(UIImage(named: "edit"), for: .normal)
             //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: false)
-            isEditSelected = false
             selectedImageArr.removeAll()
-            for i in 0..<imageArr.count {
-                selectDic.setObject("NO", forKey: "\(i)" as NSCopying)
+            imageArr.forEach { (file) in
+                file.isSelected = .CDTrue
             }
-            collectionView.reloadData()
         }
+        collectionView.reloadData()
     }
 
     //返回
     @objc func backBtnClick() -> Void {
-        if isEditSelected { //
+        if selectBtn.isSelected { //
             selectedImageArr.removeAll()
-            selectDic.removeAllObjects()
             if (self.backBtn.titleLabel?.text == "全选") { //全选
                 backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
                 backBtn.contentHorizontalAlignment = .left
                 self.backBtn.setTitle("全不选", for: .normal)
-                for i in 0..<imageArr.count {
-                    selectDic.setObject("YES", forKey: "\(i)" as NSCopying)
+                imageArr.forEach { (file) in
+                    file.isSelected = .CDTrue
                 }
                 selectCount = imageArr.count
-
-            }else{
-                self.backBtn.setTitle("全选", for: .normal)
-                for i in 0..<imageArr.count {
-                    selectDic.setObject("NO", forKey: "\(i)" as NSCopying)
-                }
-                selectCount = 0
-            }
-            if selectCount > 0{
                 toolbar.enableReloadBar(isSelected: true)
             }else{
+                self.backBtn.setTitle("全选", for: .normal)
+                imageArr.forEach { (file) in
+                    file.isSelected = .CDFalse
+                }
+                selectCount = 0
                 toolbar.enableReloadBar(isSelected: false)
             }
             collectionView.reloadData()
@@ -137,36 +125,45 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         }
 
     }
-
+    
+    func refreshData() {
+        selectedImageArr.removeAll()
+        toolbar.enableReloadBar(isSelected: false)
+        imageArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: folderInfo.folderId)
+        collectionView.reloadData()
+    }
+    
     func handelSelectedArr(){
         selectedImageArr.removeAll()
-        let allkey:[String] = selectDic.allKeys as! [String]
-        for key:String in allkey {
-            let states:String = selectDic.object(forKey: key) as! String
-            if states == "YES" {
-                let row:Int = Int(key) ?? 0
-                let fileIm = imageArr[row]
-                selectedImageArr.append(fileIm)
+        imageArr.forEach { (file) in
+            if file.isSelected == .CDTrue {
+                selectedImageArr.append(file)
             }
         }
     }
     //TODO:分享事件
     @objc func shareBarItemClick(){
-
         handelSelectedArr()
-        if selectedImageArr.count <= 0{
-            return
+        var shareArr:[NSObject] = []
+        for index in 0..<self.selectedImageArr.count{
+            let file:CDSafeFileInfo = self.selectedImageArr[index]
+            let imagePath = String.ImagePath().appendingPathComponent(str: file.filePath.lastPathComponent())
+            
+            if file.fileType == .GifType {
+                let url = URL(fileURLWithPath: imagePath)
+                shareArr.append(url as NSObject)
+            }else{
+                let image = UIImage(contentsOfFile: imagePath)!
+                shareArr.append(image)
+            }
         }
-        presentShareActivityWith(dataArr: selectedImageArr)
+        presentShareActivityWith2(dataArr: shareArr)
     }
     //移动
     @objc func moveBarItemClick(){
 
         isNeedReloadData = false
         handelSelectedArr()
-        if selectedImageArr.count <= 0{
-            return
-        }
         let folderList = CDFolderListViewController()
         folderList.title = "文件夹列表"
         folderList.selectedArr = selectedImageArr
@@ -178,32 +175,56 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     //导出
     @objc func outputBarItemClick(){
         handelSelectedArr()
-        if selectedImageArr.count <= 0{
-            return
-        }
         let outAlert = UIAlertController(title: nil, message: "您确定要导入选中的图片到系统相册？", preferredStyle: .alert)
-        outAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
-
-        }))
+        outAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
         outAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUD.showLoading(text: "正在处理")
+                CDHUDManager.shareInstance().showWait(text: "正在处理...")
                 self.outputImageArr = self.selectedImageArr
-                self.outputPhoto()
+                self.outputPhotoToLocal()
             }
         }))
         present(outAlert, animated: false, completion: nil)
 
     }
+    func outputPhotoToLocal() -> Void {
+        if self.outputImageArr.count > 0 {
+            for index in 0..<self.outputImageArr.count{
+                let file:CDSafeFileInfo = self.outputImageArr[index]
+                let fileName = file.filePath.lastPathComponent()
+                let imagePath = String.ImagePath().appendingPathComponent(str: fileName)
+                let urlC =  URL(fileURLWithPath: imagePath)
+                var dataC = Data()
+                do {
+                     dataC = try Data(contentsOf:urlC)
+                } catch {
+                    print("catch log")
+                }
+                let imageD:UIImage! = UIImage(data: dataC)
+                UIImageWriteToSavedPhotosAlbum(imageD, self, #selector(outputPhotoComlplete), nil)
+            }
 
+        }else{
+            DispatchQueue.main.async {
+                CDHUDManager.shareInstance().hideWait()
+                CDHUDManager.shareInstance().showComplete(text: "导出成功!")
+            }
+
+        }
+    }
+    @objc func outputPhotoComlplete() {
+        outputImageArr.remove(at: 0)
+        outputPhotoToLocal()
+
+    }
+
+    
+    
     //删除
     @objc func deleteBarItemClick(){
         handelSelectedArr()
         var btnTitle = String()
-
-        if selectedImageArr.count <= 0{
-            return
-        }else if selectedImageArr.count > 1{
+        if selectedImageArr.count > 1{
             btnTitle = "删除\(selectedImageArr.count)张图片"
         }else{
             btnTitle = "删除照片"
@@ -211,7 +232,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
 
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUD.showLoading(text: "正在处理...")
+            CDHUDManager.shareInstance().showWait(text: "删除中...")
             DispatchQueue.global().async {
                 self.deleteTheSelectImage()
             }
@@ -221,6 +242,25 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         self.present(sheet, animated: true, completion: nil)
 
     }
+    func deleteTheSelectImage() -> Void {
+        for index in 0..<selectedImageArr.count{
+            let fileInfo = selectedImageArr[index]
+            //删除加密小题
+            let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+            fileManagerDeleteFileWithFilePath(filePath: thumbPath)
+            //删除加密大图
+            let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+            fileManagerDeleteFileWithFilePath(filePath: defaultPath)
+            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+        }
+        DispatchQueue.main.async {
+            CDHUDManager.shareInstance().hideWait()
+            CDHUDManager.shareInstance().showComplete(text: "删除完成！")
+            self.refreshData()
+            self.multisSelectBtnClick()
+        }
+    }
+    //TODO:删除
     @objc func appendItemClick(){
         handelSelectedArr()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -246,6 +286,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
+    //TODO:沙盒
     @objc func documentItemClick(){
         let documentTypes = ["public.image"]
         super.subFolderId = folderInfo.folderId
@@ -271,6 +312,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 camera.delegate = self
                 camera.isVideo = false
                 camera.modalPresentationStyle = .fullScreen
+                CDSignalTon.shareInstance().customPickerView = camera
                 self.present(camera, animated: true, completion: nil)
 
             }
@@ -284,12 +326,10 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         UIApplication.shared.isIdleTimerDisabled = true
         let cdPicker = CDMediaPickerViewController(isVideo: false)
         cdPicker.pickerDelegate = self
-        CDAssetTon.instance.mediaType = "public.image"
+        CDAssetTon.instance.mediaType = .CDMediaImage
         CDSignalTon.shareInstance().customPickerView = cdPicker
         cdPicker.modalPresentationStyle = .fullScreen
         self.present(cdPicker, animated: true, completion: nil)
-
-
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -301,60 +341,37 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCellIdrr", for: indexPath) as! CDImageCell
-        setConfig(cell: cell, indexPath: indexPath)
+        let tmpFile:CDSafeFileInfo = imageArr[indexPath.item]
+        cell.setImageData(fileInfo: tmpFile,isMutilEdit: selectBtn.isSelected)
 
         return cell
     }
 
-    func setConfig(cell:CDImageCell,indexPath:IndexPath) {
-        let fileInfo:CDSafeFileInfo = imageArr[indexPath.item]
-        if selectBtn.isSelected {
-            let selectState:String = selectDic.object(forKey: "\(indexPath.item)") as! String
-            if selectState == "YES" {
-                cell.selectedView.isHidden = false
-            }else{
-                cell.selectedView.isHidden = true
-            }
-
-        }else{
-            cell.selectedView.isHidden = true
-        }
-        if fileInfo.fileType == .GifType{
-            cell.gifL.isHidden = false
-        }else{
-            cell.gifL.isHidden = true
-        }
-
-        let tmpPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
-        var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
-        if mImgage == nil {
-            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
-        }
-        cell.backgroundView = UIImageView(image: mImgage)
-    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let cell:CDImageCell = collectionView.cellForItem(at: indexPath) as! CDImageCell
 
         if selectBtn.isSelected{
-            var selectState = ""
+            let tmFile = imageArr[indexPath.item]
+            
             var hidden = cell.selectedView.isHidden
-            if hidden {
+            if tmFile.isSelected == .CDFalse { //本地点击之前未选中
                 hidden = false
-                selectState = "YES"
                 selectCount += 1
+                tmFile.isSelected = .CDTrue
             }else{
                 hidden = true
                 selectCount -= 1
-                selectState = "NO"
+                tmFile.isSelected = .CDFalse
             }
             cell.selectedView.isHidden = hidden
-            cell.backgroundColor = UIColor.red
-            selectDic.setObject(selectState, forKey: "\(indexPath.item)" as NSCopying)
             if selectCount > 0 {
-                toolbar.deleteItem.tintColor = CustomPinkColor
                 toolbar.enableReloadBar(isSelected: true)
-                if selectCount > 16{
+                //拼图：2-16张，GIF不能拼
+                if selectCount > 16
+                    || selectCount < 2
+                    || tmFile.fileType == .GifType{
                     toolbar.appendItem.isEnabled = false
                 }else{
                     toolbar.appendItem.isEnabled = true
@@ -382,135 +399,39 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, image: UIImage) {
         CDSignalTon.shareInstance().handleToSaveImage(image: image, folderId: folderInfo.folderId)
         self.isNeedReloadData = true
+        CDSignalTon.shareInstance().customPickerView = nil
         cameraVC.dismiss(animated: true, completion: nil)
     }
 
     func onCameraTakePhotoDidCancle(cameraVC: CDCameraViewController) {
-
+        CDSignalTon.shareInstance().customPickerView = nil
         cameraVC.dismiss(animated: true, completion: nil)
 
     }
     //TODO:CDMeidaPickerDelegate
-    func onSelectedMediaPickerDidFinished(picker: CDMediaPickerViewController, info: NSMutableDictionary) {
-        let defualtImagePath = info["savePath"] as! String
-        let imageHeight = info["imageHeight"] as! Double
-        let imageWidth = info["imageWidth"] as! Double
-        let isLast = info["isLast"] as! Bool
-        let time = info["time"] as! Int
-        var fileName = info["fileName"] as! String
-        let isGif = info["isGif"] as! Bool
-
-        let fileNameArr = fileName.components(separatedBy: ".")
-        fileName = fileNameArr.first!
-
-        //缩略图路径
-        let thumpImagePath = String.thumpImagePath().appendingFormat("/\(time).jpg")
-        var bigData = Data()
-        do {
-            bigData = try Data(contentsOf: URL(fileURLWithPath: defualtImagePath))
-        } catch  {
-
-        }
-
-        let defualtImage = UIImage(data:bigData)!
-        let thumbImage = scaleImageAndCropToMaxSize(image: defualtImage, newSize: CGSize(width: 200, height: 200))
-        let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
-
-        do {
-            try tmpData.write(to: URL(fileURLWithPath: thumpImagePath))
-        } catch  {
-
-        }
-        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-        fileInfo.folderId = self.folderInfo.folderId
-        fileInfo.fileName = fileName
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: defualtImagePath)
-        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumpImagePath)
-        fileInfo.fileSize = getFileSizeAtPath(filePath: defualtImagePath)
-        fileInfo.fileWidth = imageWidth
-        fileInfo.fileHeight = imageHeight
-        fileInfo.createTime = Int(time)
-        fileInfo.fileType = isGif == true ? .GifType : .ImageType
-        fileInfo.userId = CDUserId()
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-        if isLast{
+    func mediaPickerDidFinished(picker: CDMediaPickerViewController, data: NSObject, isLast: Bool) {
+        let originalImage = data as! UIImage
+        CDSignalTon.shareInstance().handleToSaveImage(image: originalImage, folderId: folderInfo.folderId)
+        self.isNeedReloadData = true
+        if isLast {
             DispatchQueue.main.async {
-                CDSignalTon.shareInstance().customPickerView = nil;
-                self.refreshData()
+                CDSignalTon.shareInstance().customPickerView = nil
                 picker.dismiss(animated: true, completion: nil)
+                self.refreshData()
+                CDHUDManager.shareInstance().hideWait()
+                CDHUDManager.shareInstance().showComplete(text: "导入完成！")
             }
+            
         }
     }
 
-    func onSelectedMediaPickerDidCancle(picker: CDMediaPickerViewController) {
+
+    func mediaPickerDidCancle(picker: CDMediaPickerViewController) {
         CDSignalTon.shareInstance().customPickerView = nil
         picker.dismiss(animated: true, completion: nil)
     }
 
-    func outputPhoto() -> Void {
-        if self.outputImageArr.count > 0 {
-            for index in 0..<self.outputImageArr.count{
-                let file:CDSafeFileInfo = self.outputImageArr[index]
-                let fileName = file.filePath.lastPathComponent()
-                let imagePath = String.ImagePath().appendingPathComponent(str: fileName)
-                let urlC =  URL(fileURLWithPath: imagePath)
-                var dataC = Data()
-                do {
-                     dataC = try Data(contentsOf:urlC)
-                } catch {
-                    print("catch log")
-                }
-                let imageD:UIImage! = UIImage(data: dataC)
-                UIImageWriteToSavedPhotosAlbum(imageD, self, #selector(savePhoto(imageD:)), nil)
-                savePhoto(imageD: imageD)
-            }
-
-        }else{
-            DispatchQueue.main.async {
-                CDHUD.hide()
-                CDHUD.showText(text: "导出成功")
-            }
-
-        }
-    }
-    @objc func savePhoto(imageD:UIImage) {
-        let filsC:CDSafeFileInfo = outputImageArr[0];
-        let fileName = filsC.filePath.lastPathComponent()
-        let decryFilePath = String.thumpImagePath().appendingPathComponent(str: fileName)
-        fileManagerDeleteFileWithFilePath(filePath: decryFilePath)
-        outputImageArr.remove(at: 0)
-        outputPhoto()
-
-    }
-
-    func deleteTheSelectImage() -> Void {
-        for index in 0..<selectedImageArr.count{
-            let fileInfo = selectedImageArr[index]
-            //删除加密小题
-            let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: thumbPath)
-            //删除加密大图
-            let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
-        }
-        DispatchQueue.main.async {
-            CDHUD.hide()
-            CDHUD.showText(text: "删除成功")
-            self.refreshData()
-            self.multisSelectBtnClick()
-        }
-    }
-    func refreshData() {
-        selectedImageArr.removeAll()
-        selectDic.removeAllObjects()
-        toolbar.enableReloadBar(isSelected: false)
-        imageArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: folderInfo.folderId)
-        for index in 0..<imageArr.count{
-            selectDic.setObject("NO", forKey: "\(index)" as NSCopying)
-        }
-        collectionView.reloadData()
-    }
+    
     //TODO:NSNotications
     @objc func onNeedReloadData() {
         isNeedReloadData = true
@@ -542,6 +463,57 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         // Dispose of any resources that can be recreated.
     }
 
+    //    func onSelectedMediaPickerDidFinished(picker: CDMediaPickerViewController, info: NSMutableDictionary) {
+    //        let defualtImagePath = info["savePath"] as! String
+    //        let imageHeight = info["imageHeight"] as! Double
+    //        let imageWidth = info["imageWidth"] as! Double
+    //        let isLast = info["isLast"] as! Bool
+    //        let time = info["time"] as! Int
+    //        var fileName = info["fileName"] as! String
+    //        let isGif = info["isGif"] as! Bool
+    //
+    //        let fileNameArr = fileName.components(separatedBy: ".")
+    //        fileName = fileNameArr.first!
+    //
+    //        //缩略图路径
+    //        let thumpImagePath = String.thumpImagePath().appendingFormat("/\(time).jpg")
+    //        var bigData = Data()
+    //        do {
+    //            bigData = try Data(contentsOf: URL(fileURLWithPath: defualtImagePath))
+    //        } catch  {
+    //
+    //        }
+    //
+    //        let defualtImage = UIImage(data:bigData)!
+    //        let thumbImage = scaleImageAndCropToMaxSize(image: defualtImage, newSize: CGSize(width: 200, height: 200))
+    //        let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
+    //
+    //        do {
+    //            try tmpData.write(to: URL(fileURLWithPath: thumpImagePath))
+    //        } catch  {
+    //
+    //        }
+    //        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
+    //        fileInfo.folderId = self.folderInfo.folderId
+    //        fileInfo.fileName = fileName
+    //        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: defualtImagePath)
+    //        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumpImagePath)
+    //        fileInfo.fileSize = getFileSizeAtPath(filePath: defualtImagePath)
+    //        fileInfo.fileWidth = imageWidth
+    //        fileInfo.fileHeight = imageHeight
+    //        fileInfo.createTime = Int(time)
+    //        fileInfo.fileType = isGif == true ? .GifType : .ImageType
+    //        fileInfo.userId = CDUserId()
+    //        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+    //        if isLast{
+    //            DispatchQueue.main.async {
+    //                CDSignalTon.shareInstance().customPickerView = nil;
+    //                self.refreshData()
+    //                picker.dismiss(animated: true, completion: nil)
+    //            }
+    //        }
+    //    }
+    
     //    //TODO:UIImagePickerControllerDelegate
     //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     //        isNeedReloadData = true

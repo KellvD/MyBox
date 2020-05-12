@@ -13,7 +13,7 @@ class CDSettingViewController: CDBaseAllViewController,UITableViewDelegate,UITab
     var fakeSwi:UISwitch! = UISwitch()
     var gestureSwi:UISwitch! = UISwitch()
     var tableview:UITableView! = UITableView()
-
+    var logSwi:UISwitch! = UISwitch()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class CDSettingViewController: CDBaseAllViewController,UITableViewDelegate,UITab
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

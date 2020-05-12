@@ -49,95 +49,57 @@ class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDo
             self.present(documentPicker, animated: true, completion: nil)
         }
     }
+    
     //TODO:UIDocumentPickerDelegate
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        let fileUrlAuthozied = url.startAccessingSecurityScopedResource()
-        if fileUrlAuthozied {
-            let fileCoordinator = NSFileCoordinator()
-            fileCoordinator.coordinate(readingItemAt: url, options: [], error: nil) { (newUrl) in
-                let urlStr = url.absoluteString
-                var fileName = urlStr.getFileNameFromPath()
-                fileName = fileName.removingPercentEncoding()
-                let suffix = urlStr.pathExtension()
-                let contentData = NSData(contentsOf: newUrl)
-                let fileType = checkFileTypeWithExternString(externStr: suffix)
-                let currentTime = getCurrentTimestamp()
-                let fileInfo = CDSafeFileInfo()
-                fileInfo.folderId = subFolderId
-                fileInfo.userId = CDUserId()
-                fileInfo.fileName = fileName
-                fileInfo.createTime = currentTime
-                fileInfo.fileType = fileType
-                let filePath:String!
-                if subFolderType == .ImageFolder{
-                    filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                    contentData?.write(toFile: filePath, atomically: true)
-                    let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).jpg")
-                    let image = UIImage(data: contentData! as Data)!
-                    let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
-                    let tmpData:NSData = thumbImage.jpegData(compressionQuality: 1.0)! as! NSData
-                    tmpData.write(toFile: thumbPath, atomically: true)
-
-                    fileInfo.fileWidth = Double(image.size.width)
-                    fileInfo.fileHeight = Double(image.size.height)
-                    fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
-
-                }else if subFolderType == .AudioFolder ||
-                    subFolderType == .VideoFolder{
-                    let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-                    let urlAsset: AVURLAsset = AVURLAsset(url: url, options: opts)
-                    let voiceTime = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
-                    fileInfo.timeLength = voiceTime
-                    if subFolderType == .VideoFolder{
-                        filePath = String.VideoPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                        contentData?.write(toFile: filePath, atomically: true)
-
-                        let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                        let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: filePath)
-                        let data = image.jpegData(compressionQuality: 1.0)
-                        do {
-                            try data?.write(to: URL(fileURLWithPath: thumbPath))
-                        } catch  {
-
-                        }
-                        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
-                    }else{
-                        filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                        contentData?.write(toFile: filePath, atomically: true)
-
-                    }
-
-                }else{
-                    filePath = String.OtherPath().appendingPathComponent(str: "\(fileName).\(suffix)")
-                    contentData?.write(toFile: filePath, atomically: true)
-                }
-                let fileSize = getFileSizeAtPath(filePath: filePath)
-                fileInfo.fileSize = fileSize
-                fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: filePath)
-                CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-                NotificationCenter.default.post(name: DocumentInputFile, object: nil)
-                url.stopAccessingSecurityScopedResource()
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        CDSignalTon.shareInstance().customPickerView = nil
+//        DispatchQueue.main.async {
+            
+//        }
+        CDHUDManager.shareInstance().showProgress(text: "文件存储中...")
+        for index in 0..<urls.count {
+            let subUrl = urls[index]
+            let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
+            if fileUrlAuthozied {
+//                let fileCoordinator = NSFileCoordinator()
+//                fileCoordinator.coordinate(readingItemAt: url, options: [], error: nil) { (newUrl) in
+                    let urlPath = subUrl.absoluteString
+                CDSignalTon.shareInstance().saveSafeFileInfo(filePath: urlPath, folderId: subFolderId, subFolderType: subFolderType)
+//                CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: fileName)
+//                }
+                
+            }else{
+                CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: "fileName")
             }
-        }else{
-            let alert = UIAlertController(title: nil, message: "申请访问受限", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            
+            
         }
-
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: DocumentInputFile, object: nil)
+//            CDHUDManager.shareInstance().hideProgress()
+//        CDHUDManager.shareInstance().showComplete(text: "导入完成！")
+//        }
+        
     }
 
-    func presentShareActivityWith(dataArr:[NSObject]) {
-        let activity = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
-        activity.excludedActivityTypes =
-            [UIActivity.ActivityType.postToFacebook,
-        UIActivity.ActivityType.postToTencentWeibo,
-        UIActivity.ActivityType.airDrop,
-        UIActivity.ActivityType.saveToCameraRoll,
-        UIActivity.ActivityType.print,
-        UIActivity.ActivityType.mail]
-        self.present(activity, animated: true, completion: nil)
+    //分享
+    func presentShareActivityWith2(dataArr:[NSObject]) {
+        let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
+        activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
+            if complete {
+                CDHUDManager.shareInstance().showComplete(text: "分享成功！")
+            }
+        }
+        self.present(activityVC, animated: true, completion: nil)
     }
-
+    
+    func presentShareActivityWith(dataArr:[URL],completion: @escaping((_ complete:Bool,_ error:Error?) -> Void)) {
+        let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
+        activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
+            completion(complete,error)
+        }
+        self.present(activityVC, animated: true, completion: nil)
+    }
     func alertSpaceWarn(alertType:AlertType) {
         var message:String!
 
@@ -182,4 +144,50 @@ class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDo
     }
     */
 
+}
+
+
+
+class CDActivity: UIActivity {
+    var title:String!
+    var imageName:String!
+    var url:URL?
+    var shareContext:[Any]?
+    
+    
+    
+    init(title:String,imageName:String,url:URL?,shareContext:[Any]?) {
+        super.init()
+        self.title = title
+        self.imageName = imageName
+        self.url = url
+        self.shareContext = shareContext
+    }
+    override class var activityCategory: UIActivity.Category {
+        return .share
+    }
+    
+    override var activityImage: UIImage? {
+        return UIImage(named: imageName)
+    }
+    
+    override var activityTitle: String? {
+        return title
+    }
+    
+    override var activityType: UIActivity.ActivityType? {
+        return UIActivity.ActivityType("CDActivity")
+    }
+    
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
+        if activityItems.count > 0 {
+            return true
+        }
+        return false
+    }
+    
+    override func perform() {
+        self.activityDidFinish(true)
+    }
+    
 }

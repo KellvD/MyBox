@@ -17,9 +17,8 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     var dirNavBar:CDDirNavBar!
     var textTD:(foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo])!
     var isEditSelected = Bool()
-    var selectFileDic:NSMutableDictionary = NSMutableDictionary()
-    var selectFolderDic:NSMutableDictionary = NSMutableDictionary()
-    var selectCount:Int = 0
+    var selectFileCount:Int = 0
+    var selectFolderCount:Int = 0
     var selectedFileArr:[CDSafeFileInfo] = []
     var selectedFolderArr:[CDSafeFolder] = []
     var isNeedReloadData:Bool = false
@@ -38,7 +37,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "文本文件"
@@ -47,71 +46,59 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         dirNavBar = CDDirNavBar(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 48))
         dirNavBar.dirDelegate = self
         view.addSubview(dirNavBar)
-
+        
         tableblew = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - 48 - dirNavBar.frame.height), style: .plain)
         tableblew.delegate = self
         tableblew.dataSource = self
         tableblew.separatorStyle = .none
         self.view.addSubview(tableblew)
         tableblew.register(CDTableViewCell.self, forCellReuseIdentifier: "textCellId")
-
+        
         self.selectBtn = UIButton(type: .custom)
         self.selectBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
         self.selectBtn.setImage(UIImage(named: "edit"), for: .normal);
         self.selectBtn.addTarget(self, action: #selector(multisSelectBtnClick), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.selectBtn!)
-
+        
         self.backBtn = UIButton(type: .custom)
         self.backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 45)
         self.backBtn.setTitle("返回", for: .normal)
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
-
+        
         self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .TextFolder, superVC: self)
         self.view.addSubview(self.toolbar)
         hiddenDirNavBar()
         registerNotification()
-
+        
+        
+        
     }
+    
+    
     func refreshData(superId:Int) {
         selectedFileArr.removeAll()
         selectedFolderArr.removeAll()
-        selectFileDic.removeAllObjects()
-        selectFolderDic.removeAllObjects()
         toolbar.enableReloadBar(isSelected: false)
         textTD = CDSqlManager.instance().queryAllContentFromFolder(folderId: superId)
-        for index in 0..<textTD.filesArr.count{
-            selectFileDic.setObject("NO", forKey: "\(index)" as NSCopying)
-        }
-        for index in 0..<textTD.foldersArr.count{
-            selectFolderDic.setObject("NO", forKey: "\(index)" as NSCopying)
-        }
         currentFolderId = folderInfo.folderId;
         tableblew.reloadData()
     }
-
+    
     func handelSelectedArr(){
         selectedFileArr.removeAll()
         selectedFolderArr.removeAll()
-        let fileAllkey:[String] = selectFileDic.allKeys as! [String]
-        for key:String in fileAllkey {
-            let states:String = selectFileDic.object(forKey: key) as! String
-            if states == "YES" {
-                let row:Int = Int(key) ?? 0
-                let fileIm = textTD.filesArr[row]
-                selectedFileArr.append(fileIm)
-            }
-        }
-        let folderAllkey:[String] = selectFolderDic.allKeys as! [String]
-        for key:String in folderAllkey {
-            let states:String = selectFolderDic.object(forKey: key) as! String
-            if states == "YES" {
-                let row:Int = Int(key) ?? 0
-                let folderIm = textTD.foldersArr[row]
-                selectedFolderArr.append(folderIm)
-            }
-        }
         
+        textTD.filesArr.forEach { (tmpFile) in
+            if tmpFile.isSelected == .CDTrue {
+                selectedFileArr.append(tmpFile)
+            }
+        }
+        textTD.foldersArr.forEach { (tmpFolder) in
+            if tmpFolder.isSelected == .CDTrue {
+                selectedFolderArr.append(tmpFolder)
+            }
+        }
     }
     //多选
     @objc func multisSelectBtnClick() -> Void {
@@ -123,18 +110,17 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: true)
             isEditSelected = true
-
+            
         }else{
             //1.返回变全选
             self.backBtn.setTitle("返回", for: .normal)
             self.selectBtn.setImage(UIImage(named: "edit"), for: .normal)
-            //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: false)
             isEditSelected = false
         }
         tableblew.reloadData()
     }
-
+    
     //返回
     @objc func backBtnClick() -> Void {
         if isEditSelected { //
@@ -146,33 +132,29 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else{
             self.navigationController?.popViewController(animated: true)
         }
-
+        
     }
-    @objc func addItemClick(){
-        let textVC = CDNewTextViewController()
-        textVC.folderId = folderInfo.folderId
-        self.navigationController?.pushViewController(textVC, animated: true)
-
-    }
-
+    
+    
+    //选择文件夹目录
     func onSelectedDirWithFolderId(folderId: Int) {
         if folderId == folderInfo.folderId { //根目录
             hiddenDirNavBar()
-            
         }
         refreshData(superId: folderId)
     }
-
+    
     func hiddenDirNavBar(){
-        CDSignalTon.shareInstance().dirNavArr.removeAllObjects()
-        UIView.animate(withDuration: 0.25) {
-            self.dirNavBar.isHidden = true
+        UIView.animate(withDuration: 0.5, animations: {
             var frame = self.tableblew.frame
             if frame.origin.y > 0.0{
                 frame.origin.y = 0.0
                 frame.size.height += 48.0
                 self.tableblew.frame = frame
             }
+        }) { (flag) in
+            self.dirNavBar.isHidden = true
+            CDSignalTon.shareInstance().dirNavArr.removeAllObjects()
         }
     }
     func showDirNavBar(){
@@ -188,14 +170,42 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
     //TODO:分享事件
     @objc func shareBarItemClick(){
-
         handelSelectedArr()
-        if selectedFileArr.count <= 0{
+        if selectedFolderArr.count > 0 {
+            CDHUDManager.shareInstance().showText(text: "文件夹不支持分享")
             return
         }
-
+        if selectedFileArr.count <= 0 {
+            return
+        }
+        
     }
-
+    @objc func moveBarItemClick(){
+        isNeedReloadData = false
+        handelSelectedArr()
+        if selectedFolderArr.count > 0 {
+            CDHUDManager.shareInstance().showText(text: "文件夹不支持移动")
+            return
+        }
+        if selectedFileArr.count <= 0 {
+            return
+        }
+        let folderList = CDFolderListViewController()
+        folderList.title = "文件夹列表"
+        folderList.selectedArr = selectedFileArr
+        folderList.folderType = .TextFolder
+        folderList.folderId = folderInfo.folderId
+        self.navigationController?.pushViewController(folderList, animated: true)
+    }
+    @objc func outputBarItemClick(){
+        handelSelectedArr()
+        let fileInfo = self.selectedFileArr[0]
+        let filePath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+        let vc = UIDocumentInteractionController(url: URL(fileURLWithPath: filePath))
+        //       vc.delegate = self
+        //        vc.presentPreview(animated: true)
+        vc.presentOpenInMenu(from: CGRect(x: 0, y: 100, width: 300, height: 130), in: self.view, animated: true)
+    }
     //删除
     @objc func deleteBarItemClick(){
         handelSelectedArr()
@@ -209,10 +219,12 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else{
             btnTitle = "删除文件"
         }
-
+        
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUD.showLoading(text: "正在处理...")
+            DispatchQueue.main.async {
+                CDHUDManager.shareInstance().showWait(text: "删除中...")
+            }
             DispatchQueue.global().async {
                 for index in 0..<self.selectedFileArr.count{
                     let fileInfo = self.selectedFileArr[index]
@@ -228,29 +240,35 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                      */
                     let folderPath = String.libraryUserdataPath().appendingPathComponent(str: folderInfo.folderPath)
                     try! FileManager.default.removeItem(atPath: folderPath)
-                    CDSqlManager.instance().deleteAllSubSafeFile(folderId: folderInfo.folderId)
-                    CDSqlManager.instance().deleteAllSubSafeFolder(superId: folderInfo.folderId)
-                    
-                    
+                    //删除数据库中数据，逐级删除文件
+                    func deleteAllSubContent(subFolderId:Int){
+                        //删除一级目录
+                        CDSqlManager.instance().deleteOneFolder(folderId: subFolderId)
+                        //删除目录下子文件
+                        CDSqlManager.instance().deleteAllSubSafeFile(folderId: subFolderId)
+                        
+                        let subAllFolders = CDSqlManager.instance().querySubAllFolderId(folderId: subFolderId)
+                        for folderId in subAllFolders {
+                            deleteAllSubContent(subFolderId: folderId)
+                        }
+                    }
+                    deleteAllSubContent(subFolderId: folderInfo.folderId)
                 }
-                
-                
                 DispatchQueue.main.async {
                     self.refreshData(superId: self.currentFolderId)
                     self.multisSelectBtnClick()
-                    CDHUD.hide()
-                    CDHUD.showInfo(text: "删除成功")
+                    CDHUDManager.shareInstance().hideWait()
+                    CDHUDManager.shareInstance().showText(text: "文件删除完成")
                 }
             }
-
         }))
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
     }
-
-    func outputBarItemClick(){
-        
-    }
+    
+    
+    
+    //TODO:
     @objc func documentItemClick(){
         //查询地址：https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259
         let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.archive"]
@@ -258,7 +276,12 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         super.subFolderType = folderInfo.folderType
         presentDocumentPicker(documentTypes: documentTypes)
     }
-    
+    @objc func addItemClick(){
+        let textVC = CDNewTextViewController()
+        textVC.folderId = folderInfo.folderId
+        self.navigationController?.pushViewController(textVC, animated: true)
+        
+    }
     //TODO:UITableViewDelegate
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -271,7 +294,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             return 0.01
         }else{
             if textTD.filesArr.count == 0 || textTD.foldersArr.count == 0 {
-                    return 0.01
+                return 0.01
             }else{
                 return 15
             }
@@ -291,10 +314,10 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else{
             return textTD.filesArr.count
         }
-       
+        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cellId = "textCellId"
         var cell:CDTableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? CDTableViewCell
         if cell == nil {
@@ -304,14 +327,16 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if selectBtn.isSelected {
             cell.showSelectIcon = true
             tableView.isScrollEnabled = true
-            var selectState = String()
+            var selectState:CDSelectedStatus!
             if indexPath.section == 0 {
-                selectState = selectFolderDic.object(forKey: "\(indexPath.item)") as! String
+                let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
+                selectState = folder.isSelected
             }else{
-                selectState = selectFileDic.object(forKey: "\(indexPath.item)") as! String
+                let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
+                selectState = fileInfo.isSelected
             }
             
-            if selectState == "YES" {
+            if selectState == .CDTrue {
                 cell.isSelect = true
             }else{
                 cell.isSelect = false
@@ -321,7 +346,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             tableView.isScrollEnabled = true
         }
         if indexPath.section == 0 {
-            let folder:CDSafeFolder = textTD.foldersArr[indexPath.item]
+            let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
             cell.setConfigFolderData(folder: folder)
         }else{
             let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
@@ -332,33 +357,41 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if selectBtn.isSelected{
-            var selectState = String()
             if indexPath.section == 0 {
-                selectState = selectFolderDic.object(forKey: "\(indexPath.item)") as! String
+                let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
+                if folder.isSelected == .CDTrue {
+                    selectFolderCount -= 1
+                    folder.isSelected = .CDFalse
+                }else{
+                    selectFolderCount += 1
+                    folder.isSelected = .CDTrue
+                }
             }else{
-                selectState = selectFileDic.object(forKey: "\(indexPath.item)") as! String
-            }
-            if selectState == "YES" {
-                selectCount -= 1
-                selectState = "NO"
-            }else{
-                
-                selectCount += 1
-                selectState = "YES"
-            }
-            if indexPath.section == 0 {
-                selectFolderDic.setObject(selectState, forKey: "\(indexPath.row)" as NSCopying)
-            }else{
-                selectFileDic.setObject(selectState, forKey: "\(indexPath.row)" as NSCopying)
+                let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
+                if fileInfo.isSelected == .CDTrue {
+                    selectFolderCount -= 1
+                    fileInfo.isSelected = .CDFalse
+                }else{
+                    selectFileCount += 1
+                    fileInfo.isSelected = .CDTrue
+                }
             }
             
-            if selectCount > 0 {
-                toolbar.deleteItem.tintColor = CustomPinkColor
+            if selectFileCount + selectFolderCount > 0 {
+                //                toolbar.deleteItem.tintColor = CustomPinkColor
                 toolbar.enableReloadBar(isSelected: true)
+                if selectFolderCount >= 1 {
+                    toolbar.moveItem.isEnabled = false
+                    toolbar.outputItem.isEnabled = false
+                }else{
+                    toolbar.moveItem.isEnabled = true
+                    toolbar.outputItem.isEnabled = true
+                }
             }else{
                 toolbar.enableReloadBar(isSelected: false)
             }
-            if selectCount == textTD.filesArr.count + textTD.foldersArr.count {
+            if selectFileCount == textTD.filesArr.count &&
+                selectFolderCount == textTD.foldersArr.count {
                 backBtn.setTitle("全不选", for: .normal)
             }else{
                 backBtn.setTitle("全选", for: .normal)
@@ -397,32 +430,39 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if selectBtn.isSelected{
-            var selectState = String()
             if indexPath.section == 0 {
-                selectState = selectFolderDic.object(forKey: "\(indexPath.item)") as! String
+                let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
+                if folder.isSelected == .CDTrue {
+                    selectFolderCount -= 1
+                    folder.isSelected = .CDFalse
+                }else{
+                    selectFolderCount += 1
+                    folder.isSelected = .CDTrue
+                }
             }else{
-                selectState = selectFileDic.object(forKey: "\(indexPath.item)") as! String
+                let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
+                if fileInfo.isSelected == .CDTrue {
+                    selectFolderCount -= 1
+                    fileInfo.isSelected = .CDFalse
+                }else{
+                    selectFileCount += 1
+                    fileInfo.isSelected = .CDTrue
+                }
             }
-            if selectState == "YES" {
-                selectCount -= 1
-                selectState = "NO"
-            }else{
-
-                selectCount += 1
-                selectState = "YES"
-            }
-            if indexPath.section == 0 {
-                selectFolderDic.setObject(selectState, forKey: "\(indexPath.row)" as NSCopying)
-            }else{
-                selectFileDic.setObject(selectState, forKey: "\(indexPath.row)" as NSCopying)
-            }
-            if selectCount > 0 {
-                toolbar.deleteItem.tintColor = CustomPinkColor
+            if selectFileCount + selectFolderCount > 0 {
                 toolbar.enableReloadBar(isSelected: true)
+                if selectFolderCount >= 1 {
+                    toolbar.moveItem.isEnabled = false
+                    toolbar.shareItem.isEnabled = false
+                }else{
+                    toolbar.moveItem.isEnabled = true
+                    toolbar.shareItem.isEnabled = true
+                }
             }else{
                 toolbar.enableReloadBar(isSelected: false)
             }
-            if selectCount == textTD.filesArr.count + textTD.foldersArr.count {
+            if selectFileCount == textTD.filesArr.count &&
+                selectFolderCount == textTD.foldersArr.count {
                 backBtn.setTitle("全不选", for: .normal)
             }else{
                 backBtn.setTitle("全选", for: .normal)
@@ -430,28 +470,32 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }
     }
     
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        if indexPath.section == 0 {
-        let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
-                let folderDVC = CDFolderDetailViewController()
-                folderDVC.folderInfo = folder
-                self.navigationController?.pushViewController(folderDVC, animated: true)
-            }
-            detail.backgroundColor = UIColor.blue
-            return [detail]
-        }else{
-            let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
-                let fileDVC = CDFileDetailViewController()
-                fileDVC.fileInfo = fileInfo
-                self.navigationController?.pushViewController(fileDVC, animated: true)
-            }
-            detail.backgroundColor = UIColor.blue
-            return [detail]
-        }
+    
+    internal func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        //        if indexPath.section == 0 {
+        //            let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
+        //            let detail = UIContextualAction(style: .normal, title: "详情") { (action, view, nil) in
+        //                let folderDVC = CDFolderDetailViewController()
+        //                folderDVC.folderInfo = folder
+        //                self.navigationController?.pushViewController(folderDVC, animated: true)
+        //            }
+        //            detail.image = UIImage(named: "menu_delete")
+        //            detail.backgroundColor = UIColor.blue
+        //            return [detail]
+        //        }else{
+        //            let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
+        //            let detail = UIContextualAction(style: .destructive, title: "") { (action, view, nil) in
+        //                let fileDVC = CDFileDetailViewController()
+        //                fileDVC.fileInfo = fileInfo
+        //                self.navigationController?.pushViewController(fileDVC, animated: true)
+        //            }
+        //            detail.image = UIImage(named: "menu_delete")
+        //
+        //            return [detail]
+        //        }
+        return []
     }
+    
     func unArchiveZip(fileInfo:CDSafeFileInfo){
         let zipPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
         //取压缩文件的目录
@@ -462,54 +506,54 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                 desDirPath = desDirPath + timestampTurnString(timestamp: getCurrentTimestamp())
             }
         }
+        //获取解压文件夹中所有子文件，文件夹保存
+        func getAllContentsOfDirectory(dirPath:String,superId:Int){
+            //先保存文件夹，再取子文件保存，子文件夹重复操作
+            saveSubFolders(path: dirPath, superId: superId) { (folderId) in
+                let T = CDGeneralTool.getAllContentsOfDirectory(dirPath: dirPath)
+                for fileName in T.filesArr {
+                    self.saveSubFiles(path: fileName, superId: folderId)
+                }
+                if T.directoiesArr.count > 0 {
+                    for dirName in T.directoiesArr {
+                        getAllContentsOfDirectory(dirPath: dirName, superId: folderId)
+                    }
+                }else{
+                    CDHUDManager.shareInstance().hideWait()
+                    CDHUDManager.shareInstance().showText(text: "解压完成")
+                    self.refreshData(superId: self.folderInfo.folderId)
+                }
+            }
+        }
+        
+        //加压
+        func unArchiveZipToDirectory(password:String?){
+            CDHUDManager.shareInstance().showWait(text: "解压中...")
+            let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: password)
+            if error == nil {
+                getAllContentsOfDirectory(dirPath: desDirPath, superId: self.currentFolderId)
+            }else{
+                CDHUDManager.shareInstance().hideWait()
+                CDHUDManager.shareInstance().showText(text: "解压失败:" + error!.localizedDescription)
+            }
+        }
+        
+        //判断压缩包是否加密
         if  CDGeneralTool.checkPasswordIsProtectedZip(zipFile: zipPath){
             let alert = UIAlertController(title: "本压缩包为加密加锁", message: "请输入解压密码", preferredStyle: .alert)
             var tmpTextFiled:UITextField!
-
-            alert.addTextField { (textFiled) in
-                tmpTextFiled = textFiled
-            }
+            alert.addTextField { (textFiled) in tmpTextFiled = textFiled }
             alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
                 let password = tmpTextFiled.text ?? fileInfo.fileName
-                let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: password)
-                if error == nil {
-                    CDHUD.showLoading()
-                    self.getAllContentsOfDirectory(dirPath: desDirPath, superId: self.currentFolderId)
-                }else{
-                    CDHUD.showText(text: "解压失败:" + error!.localizedDescription)
-                }
+                unArchiveZipToDirectory(password: password)
             }))
-            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
-
-            }))
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
             present(alert, animated: true, completion: nil)
         }else{
-            let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: nil)
-            if error == nil {
-//                CDHUD.showLoading()
-                getAllContentsOfDirectory(dirPath: desDirPath, superId: folderInfo.folderId)
-            }else{
-                CDHUD.showText(text: "解压失败:" + error!.localizedDescription)
-            }
+            unArchiveZipToDirectory(password: nil)
         }
     }
-    func getAllContentsOfDirectory(dirPath:String,superId:Int){
-        //先保存文件夹，再取子文件保存，子文件夹重复操作
-        saveSubFolders(path: dirPath, superId: superId) { (folderId) in
-            let T = CDGeneralTool.getAllContentsOfDirectory(dirPath: dirPath)
-            for fileName in T.filesArr {
-                self.saveSubFiles(path: fileName, superId: folderId)
-            }
-            if T.directoiesArr.count > 0 {
-                for dirName in T.directoiesArr {
-                    self.getAllContentsOfDirectory(dirPath: dirName, superId: folderId)
-                }
-            }else{
-                CDHUD.showText(text: "解压成功")
-                self.refreshData(superId: self.folderInfo.folderId)
-            }
-        }
-    }
+    
     //保存文件夹,并返回该文件夹的FolderId,作为保存子文件的folderId、文件夹的superId
     func saveSubFolders(path:String,superId:Int,Return:@escaping(_ folderId:Int) -> Void) {
         let nowTime = getCurrentTimestamp()
@@ -533,7 +577,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         let suffix = path.pathExtension()
         fileInfo.fileType = checkFileTypeWithExternString(externStr: suffix)
         fileInfo.fileSize = getFileSizeAtPath(filePath: path)
-
+        
         let currentTime = getCurrentTimestamp()
         fileInfo.folderId = superId
         fileInfo.userId = CDUserId()
@@ -545,18 +589,18 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
         NotificationCenter.default.removeObserver(self, name: DocumentInputFile, object: nil)
-
+        
     }
     func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(onNeedReloadData), name: NeedReloadData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDocumentInputFileSuccess), name: DocumentInputFile, object: nil)
-
-
+        
+        
     }
     //TODO:NSNotications
     @objc func onNeedReloadData() {
         isNeedReloadData = true
-
+        
     }
     @objc func onDocumentInputFileSuccess(){
         refreshData(superId: folderInfo.folderId)
@@ -571,5 +615,5 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
         return self.view
     }
-
+    
 }

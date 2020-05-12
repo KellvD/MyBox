@@ -119,6 +119,6 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
 
     }
     func onHandleOneMusicToShare(musicInfo: CDMusicInfo) {
-        presentShareActivityWith(dataArr: [musicInfo])
+//        presentShareActivityWith(dataArr: [musicInfo])
     }
 }

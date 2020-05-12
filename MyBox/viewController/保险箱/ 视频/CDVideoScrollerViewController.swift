@@ -138,8 +138,9 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
     @objc func shareItemClick()
     {
         let fileInfo = fileArr[currentIndex]
-        let selectedVideoArr:[CDSafeFileInfo] = [fileInfo]
-        presentShareActivityWith(dataArr: selectedVideoArr)
+        let videoPath = String.VideoPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+        let url = URL(fileURLWithPath: videoPath)
+//        presentShareActivityWith(dataArr: [url])
 
     }
     //TODO:收藏

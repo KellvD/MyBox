@@ -55,6 +55,8 @@ let CD_UserId = "userid"
 let CD_LoginType = "loginType"
 
 
+
+
 let DismissImagePicker = NSNotification.Name(rawValue: "DismissImagePicker")
 let NeedReloadData = NSNotification.Name(rawValue: "NeedReloadData")
 let DocumentInputFile = NSNotification.Name(rawValue: "DocumentInputFile")
@@ -81,18 +83,15 @@ enum NSFileType:Int {
     case AudioType = 1
     case ImageType = 2
     case VideoType = 3
-    case URLContentType = 4
-    case PdfType = 5
-    case PptType = 6
-    case DocType = 7
-    case TxtType = 8
-    case ExclType = 9
-    case RtfType = 10
-    case GifType = 11
-    case ZipType = 12
-    case URLVideoType = 13
-    case OtherType = 14
-    case DirectoryType = 15
+    case PdfType = 4
+    case PptType = 5
+    case DocType = 6
+    case TxtType = 7
+    case ExclType = 8
+    case RtfType = 9
+    case GifType = 10
+    case ZipType = 11
+    case OtherType = 12
 }
 enum CDBrightType:Int {
     case Bright = 1
@@ -150,5 +149,9 @@ enum SDImageFormat:NSInteger {
     case SDImageFormatHEIC
 }
 
+enum CDSelectedStatus:String {
+    case CDTrue = "selected_true" //选中
+    case CDFalse = "selected_false"  //未选中
+}
 let IOSVersion = Float(UIDevice.current.systemVersion)
 

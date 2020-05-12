@@ -46,5 +46,93 @@ class CDImageCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    func setScrollerImageData(fileInfo:CDSafeFileInfo){
+        self.scroller.isHidden = false
+        DispatchQueue.global().async {
+            let tmpPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
+            let tmpImage = UIImage(contentsOfFile: tmpPath)
+            let tmpData = NSData(contentsOfFile: tmpPath)
+            let imageSize = tmpImage!.size
+            var isWidthLonger = false
+            if Int(imageSize.width) > Int(imageSize.height){
+                isWidthLonger = false
+            }
+            var newSize = CGSize()
+            if isWidthLonger{
+                let tempWidth = CGFloat(5500)
 
+                if Int(imageSize.width) > Int(tempWidth) {
+                    newSize = CGSize(width: tempWidth, height: tempWidth * imageSize.height / imageSize.width)
+                } else {
+                    newSize = imageSize
+                }
+            }else{
+                let tempHeight = CGFloat(5500)
+                if imageSize.height > tempHeight {
+                    newSize = CGSize(width: tempHeight * imageSize.width / imageSize.height, height: tempHeight)
+                } else {
+                    newSize = imageSize
+                }
+            }
+            var new = UIImage()
+            UIGraphicsBeginImageContext(newSize)
+            let context = UIGraphicsGetCurrentContext()
+            if context != nil {
+                tmpImage?.draw(in: CGRect(x: 0.0, y: 0.0, width: newSize.width, height: newSize.height))
+                new = UIGraphicsGetImageFromCurrentImageContext()!
+            }
+            UIGraphicsEndImageContext()
+            DispatchQueue.main.async(execute: {
+                self.scroller.loadImageView(image: new, gifData: tmpData!)
+            })
+
+        }
+
+    }
+    func setImageData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
+        if isMutilEdit {
+            if fileInfo.isSelected == .CDTrue {
+                self.selectedView.isHidden = false
+            }else{
+                self.selectedView.isHidden = true
+            }
+
+        }else{
+            self.selectedView.isHidden = true
+        }
+        if fileInfo.fileType == .GifType{
+            self.gifL.isHidden = false
+        }else{
+            self.gifL.isHidden = true
+        }
+
+        let tmpPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
+        var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
+        if mImgage == nil {
+            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+        }
+        self.backgroundView = UIImageView(image: mImgage)
+    }
+    
+    
+    func setVideoData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
+        if isMutilEdit {
+            if fileInfo.isSelected == .CDTrue {
+                self.selectedView.isHidden = false
+            }else{
+                self.selectedView.isHidden = true
+            }
+        }else{
+            self.selectedView.isHidden = true
+        }
+
+        let tmpPath = String.thumpVideoPath().appendingFormat("/%@",fileInfo.thumbImagePath.lastPathComponent())
+        var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
+        if mImgage == nil {
+            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+        }
+        self.videoSizeL.isHidden = false
+        self.videoSizeL.text = getMMSSFromSS(second: fileInfo.timeLength)
+        self.backgroundView = UIImageView(image: mImgage)
+    }
 }

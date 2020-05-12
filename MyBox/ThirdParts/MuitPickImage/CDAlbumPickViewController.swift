@@ -10,14 +10,10 @@ import UIKit
 import Photos
 
 class CDAlbumPickViewController: UITableViewController {
-
-
-
-    var ablumList:[CDAlbumItem] = []
+    var ablumList:[CDAlbum] = []
     var folderId = Int()
     var isSelectedVideo:Bool!
-    var assetDelegate:CDAessetSelectionDelagete!
-
+    var assetDelegate:CDAssetSelectedDelagete!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,8 +94,6 @@ class CDAlbumPickViewController: UITableViewController {
             countlabel.textColor = TextLightBlackColor
             cell.addSubview(countlabel)
 
-
-
             let separatorLine = UILabel(frame: CGRect(x: 15, y: 84, width: CDSCREEN_WIDTH-15, height: 1))
             separatorLine.tag = 104
             separatorLine.backgroundColor = SeparatorGrayColor
@@ -112,7 +106,7 @@ class CDAlbumPickViewController: UITableViewController {
         let separatorLine = cell.viewWithTag(104) as! UILabel
 
 
-        let alum:CDAlbumItem = ablumList[indexPath.row]
+        let alum:CDAlbum = ablumList[indexPath.row]
         titleLabel.text = alum.title;
         countLabel.text = "\(alum.fetchResult.count) 张"
         headImage.image = alum.firstImage
@@ -128,8 +122,8 @@ class CDAlbumPickViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let alum:CDAlbumItem = ablumList[indexPath.row]
-        let imageItemVC = CDPhotoPickViewController()
+        let alum:CDAlbum = ablumList[indexPath.row]
+        let imageItemVC = CDAssetPickViewController()
         imageItemVC.albumItem = alum
         imageItemVC.isVideo = isSelectedVideo
         imageItemVC.assetDelegate = assetDelegate

@@ -88,10 +88,9 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         return 0.1
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let folder = CDSignalTon.shareInstance().dirNavArr[indexPath.item] as! CDSafeFolder
         CDSignalTon.shareInstance().dirNavArr.removeObjects(in: NSRange(location: indexPath.item + 1,length: CDSignalTon.shareInstance().dirNavArr.count - 1 -  indexPath.item))
         self.reloadBarData()
-        let folder = CDSignalTon.shareInstance().dirNavArr[indexPath.item] as! CDSafeFolder
         self.dirDelegate.onSelectedDirWithFolderId(folderId: folder.folderId)
     }
     

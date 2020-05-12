@@ -10,18 +10,16 @@ import UIKit
 let PADDING = 10
 
 class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource {
-
-
-
-    var inputArr:[CDSafeFileInfo] = []
-    var currentIndex:Int!
-    var totalCount:Int!
-    var toolBar:UIImageView!
-    var shareItem:UIButton!
-    var loveItem:UIButton!
-    var editItem:UIButton!
-    var deleteItem:UIButton!
-    var indexLabel:UILabel!
+    
+    public var inputArr:[CDSafeFileInfo] = [] //所有照片文件
+    public var currentIndex:Int!   //当前索引位置
+    
+    private var toolBar:UIImageView!
+    private var shareItem:UIButton!
+    private var loveItem:UIButton!
+    private var editItem:UIButton!
+    private var deleteItem:UIButton!
+    private var indexLabel:UILabel!
 
     var collectionView:UICollectionView!
     var isPushNext = false  //
@@ -38,7 +36,6 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        totalCount = inputArr.count
         let fileInfo = inputArr[currentIndex]
         self.title = fileInfo.fileName
         let layout = UICollectionViewFlowLayout()
@@ -65,7 +62,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         indexLabel.textAlignment = .center
         indexLabel.textColor = UIColor.lightGray
         indexLabel.font = TextMidFont
-        indexLabel.text = String(format: "%d/%d", currentIndex+1,totalCount)
+        indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
         indexLabel.backgroundColor = UIColor.clear
         self.view.addSubview(indexLabel)
 
@@ -113,56 +110,11 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageScrollerr", for: indexPath) as! CDImageCell
-        cell.scroller.isHidden = false
-        setConfig(scroller: cell.scroller, indexPath: indexPath)
+        let tmpFile:CDSafeFileInfo = inputArr[indexPath.item]
+        cell.setScrollerImageData(fileInfo: tmpFile)
         return cell
     }
 
-    func setConfig(scroller:CDImageScrollView,indexPath:IndexPath) {
-
-        let fileInfo:CDSafeFileInfo = inputArr[indexPath.item]
-
-        DispatchQueue.global().async {
-            let tmpPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
-            let tmpImage = UIImage(contentsOfFile: tmpPath)
-            let tmpData = NSData(contentsOfFile: tmpPath)
-            let imageSize = tmpImage!.size
-            var isWidthLonger = false
-            if Int(imageSize.width) > Int(imageSize.height){
-                isWidthLonger = false
-            }
-            var newSize = CGSize()
-            if isWidthLonger{
-                let tempWidth = CGFloat(5500)
-
-                if Int(imageSize.width) > Int(tempWidth) {
-                    newSize = CGSize(width: tempWidth, height: tempWidth * imageSize.height / imageSize.width)
-                } else {
-                    newSize = imageSize
-                }
-            }else{
-                let tempHeight = CGFloat(5500)
-                if imageSize.height > tempHeight {
-                    newSize = CGSize(width: tempHeight * imageSize.width / imageSize.height, height: tempHeight)
-                } else {
-                    newSize = imageSize
-                }
-            }
-            var new = UIImage()
-            UIGraphicsBeginImageContext(newSize)
-            let context = UIGraphicsGetCurrentContext()
-            if context != nil {
-                tmpImage?.draw(in: CGRect(x: 0.0, y: 0.0, width: newSize.width, height: newSize.height))
-                new = UIGraphicsGetImageFromCurrentImageContext()!
-            }
-            UIGraphicsEndImageContext()
-            DispatchQueue.main.async(execute: {
-                scroller.loadImageView(image: new, gifData: tmpData!)
-            })
-
-        }
-
-    }
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let firstIndexPath = collectionView.indexPathsForVisibleItems.first
 
@@ -184,9 +136,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
 
         self.title = fileinfo.fileName
         currentIndex = page
-        indexLabel.text = String(format: "%d/%d", currentIndex+1,totalCount)
+        indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
     }
-
+    
+    
     @objc func detailBtnClicked(){
         let fileInfo = inputArr[currentIndex]
         let fileDetail = CDFileDetailViewController()
@@ -197,9 +150,11 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
     @objc func shareItemClick()
     {
         let fileInfo = inputArr[currentIndex]
-        let selectedImageArr:[CDSafeFileInfo] = [fileInfo]
-        presentShareActivityWith(dataArr: selectedImageArr)
+        let imagePath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+        let url = URL(fileURLWithPath: imagePath)
+//        presentShareActivityWith(dataArr: [url])
     }
+    
     //TODO:收藏
     @objc func loveItemClick()
     {
@@ -214,10 +169,8 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
             CDSqlManager.instance().updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
-
-        self.inputArr[currentIndex] = fileInfo
-
     }
+    
     //TODO:删除
     @objc func deleteItemItemClick()
     {
@@ -232,16 +185,13 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {
-                CDHUD.hide()
-                CDHUD.showText(text: "删除成功")
+                CDHUDManager.shareInstance().showComplete(text: "删除完成！")
                 self.collectionView.reloadData()
-                NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
-
+                NotificationCenter.default.post(name: NeedReloadData, object: nil)
             }
 
         }))
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-        
         self.present(sheet, animated: true, completion: nil)
 
     }
@@ -251,22 +201,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         editVC.modalPresentationStyle = .fullScreen
         self.present(editVC, animated: true, completion: nil)
     }
-    func setTitleWithCurrentIndex(){
-
-    }
+    
 
     //TODO:NotificationCenter
     @objc func onBarsHiddenOrNot(){
-
-        if isPushNext {
-            if #available(iOS 13, *) {
-//                UIApplication.shared.windows.first.windowScene.statusBarManager.isStatusBarHidden = false
-
-            }else{
-                UIApplication.shared.isStatusBarHidden = false
-            }
-            return
-        }
 
         if self.toolBar.isHidden {
             self.toolBar.isHidden = false

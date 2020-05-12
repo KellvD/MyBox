@@ -146,10 +146,15 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     @objc func shareBarItemClick(){
 
         handelSelectedArr()
-        if selectedAudioArr.count <= 0{
-            return
+        var shareArr:[URL] = []
+        for index in 0..<self.selectedAudioArr.count{
+            let file:CDSafeFileInfo = self.selectedAudioArr[index]
+            let videoPath = String.AudioPath().appendingPathComponent(str: file.filePath.lastPathComponent())
+            let url = URL(fileURLWithPath: videoPath)
+            shareArr.append(url)
+
         }
-        presentShareActivityWith(dataArr: selectedAudioArr)
+//        presentShareActivityWith(dataArr: shareArr)
     }
 
     //删除

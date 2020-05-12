@@ -46,7 +46,6 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
             if #available(iOS 11.0, *) {
                 documentPicker.allowsMultipleSelection = true
             }
-            CDSignalTon.shareInstance().customPickerView = documentPicker
             self.present(documentPicker, animated: true, completion: nil)
         }
     }
@@ -70,73 +69,73 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 
     }
 
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        DispatchQueue.global().async {
-            DispatchQueue.main.async {
-                CDHUD.showInfo(text: "加载中。。。")
-            }
-            for url:URL in urls {
-                let fileUrlAuthozied = url.startAccessingSecurityScopedResource()
-                if fileUrlAuthozied {
-                    let fileCoordinator = NSFileCoordinator()
-                    fileCoordinator.coordinate(readingItemAt: url, options: [], error: nil) { (newUrl) in
-
-
-
-                        let urlStr = newUrl.absoluteString
-                        var fileName = urlStr.getFileNameFromPath()
-                        fileName = fileName.removingPercentEncoding()
-                        let suffix = urlStr.pathExtension()
-
-                        let musicPath = String.MusicPath().appendingPathComponent(str: "\(fileName).\(suffix)")
-                        if !FileManager.default.fileExists(atPath: musicPath){
-                            do{
-                                let data = try Data(contentsOf: newUrl)
-                                try data.write(to: URL(fileURLWithPath: musicPath))
-                            }catch{
-
-                            }
-                            let muiscInfo = CDSignalTon.shareInstance().getMusicInfoFromMusicFile(filePath: musicPath)
-
-                            let imagePath = String.MusicImagePath().appendingPathComponent(str: "\(fileName).png")
-                            let imageData = muiscInfo.image.pngData()
-
-                            do{
-                                try imageData?.write(to: URL(fileURLWithPath: imagePath))
-                            }catch{
-
-                            }
-                            let info = CDMusicInfo()
-                            info.musicName = fileName
-                            info.musicSinger = muiscInfo.artist
-                            info.musicPath =  String.changeFilePathAbsoluteToRelectivepPath(absolutePath: musicPath)
-                            info.musicImage = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: imagePath)
-                            info.musicClassId = 3
-                            info.musicTimeLength = muiscInfo.length
-                            CDSqlManager.instance().addOneMusicInfoWith(musicInfo: info)
-
-                        }
-                    }
-
-                    url.stopAccessingSecurityScopedResource()
-                }else{
-                    let alert = UIAlertController(title: nil, message: "申请访问受限", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-            }
-            DispatchQueue.main.async {
-                CDHUD.hide()
-                CDHUD.showText(text: "加载完成")
-            }
-        }
-        let musicArr = CDSqlManager.instance().queryAllMusic()
-        listView.listDataArr = musicArr
-        listView.reloadData()
-    }
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        
-    }
+//    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//        DispatchQueue.global().async {
+//            DispatchQueue.main.async {
+//                CDHUD.showInfo(text: "加载中。。。")
+//            }
+//            for url:URL in urls {
+//                let fileUrlAuthozied = url.startAccessingSecurityScopedResource()
+//                if fileUrlAuthozied {
+//                    let fileCoordinator = NSFileCoordinator()
+//                    fileCoordinator.coordinate(readingItemAt: url, options: [], error: nil) { (newUrl) in
+//
+//
+//
+//                        let urlStr = newUrl.absoluteString
+//                        var fileName = urlStr.getFileNameFromPath()
+//                        fileName = fileName.removingPercentEncoding()
+//                        let suffix = urlStr.pathExtension()
+//
+//                        let musicPath = String.MusicPath().appendingPathComponent(str: "\(fileName).\(suffix)")
+//                        if !FileManager.default.fileExists(atPath: musicPath){
+//                            do{
+//                                let data = try Data(contentsOf: newUrl)
+//                                try data.write(to: URL(fileURLWithPath: musicPath))
+//                            }catch{
+//
+//                            }
+//                            let muiscInfo = CDSignalTon.shareInstance().getMusicInfoFromMusicFile(filePath: musicPath)
+//
+//                            let imagePath = String.MusicImagePath().appendingPathComponent(str: "\(fileName).png")
+//                            let imageData = muiscInfo.image.pngData()
+//
+//                            do{
+//                                try imageData?.write(to: URL(fileURLWithPath: imagePath))
+//                            }catch{
+//
+//                            }
+//                            let info = CDMusicInfo()
+//                            info.musicName = fileName
+//                            info.musicSinger = muiscInfo.artist
+//                            info.musicPath =  String.changeFilePathAbsoluteToRelectivepPath(absolutePath: musicPath)
+//                            info.musicImage = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: imagePath)
+//                            info.musicClassId = 3
+//                            info.musicTimeLength = muiscInfo.length
+//                            CDSqlManager.instance().addOneMusicInfoWith(musicInfo: info)
+//
+//                        }
+//                    }
+//
+//                    url.stopAccessingSecurityScopedResource()
+//                }else{
+//                    let alert = UIAlertController(title: nil, message: "申请访问受限", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
+//                    self.present(alert, animated: true, completion: nil)
+//                    return
+//                }
+//            }
+//            DispatchQueue.main.async {
+//                CDHUD.hide()
+//                CDHUD.showText(text: "加载完成")
+//            }
+//        }
+//        let musicArr = CDSqlManager.instance().queryAllMusic()
+//        listView.listDataArr = musicArr
+//        listView.reloadData()
+//    }
+//    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+//        
+//    }
 
 }

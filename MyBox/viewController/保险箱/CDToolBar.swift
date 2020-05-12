@@ -46,14 +46,9 @@ class CDToolBar: UIImageView {
             self.inputItem.addTarget(superVC, action: #selector(inputItemClick), for: .touchUpInside)
             self.addSubview(self.inputItem)
         }else{
+            spqce0 = (frame.width - 45*2)/3
             self.addItem = UIButton(type:.custom)
-            if foldertype == .TextFolder {
-                spqce0 = (frame.width - 45*3)/4
-                self.addItem.setImage(UIImage(named: "addText"), for: .normal)
-            }else{
-                spqce0 = (frame.width - 45*2)/3
-                self.addItem.setImage(UIImage(named: "record"), for: .normal)
-            }
+            self.addItem.setImage(UIImage(named: "record"), for: .normal)
             self.addItem.frame = CGRect(x: spqce0 * 2 + 45, y: 1.5, width: 45, height: 45)
             self.addItem.addTarget(superVC, action: #selector(addItemClick), for: .touchUpInside)
             self.addSubview(self.addItem)

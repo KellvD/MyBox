@@ -11,7 +11,7 @@ import Photos
 import AssetsLibrary
 class CDAssetTon: NSObject {
 
-    var mediaType:String?
+    var mediaType:CDMediaType!
     static let instance = CDAssetTon()
     class func shareInstance() -> CDAssetTon {
         return instance
@@ -33,72 +33,39 @@ class CDAssetTon: NSObject {
         }
 
     }
-    func getAlbumType() -> CDMediaType {
 
-        if mediaType == "public.image"{
-            return .CDMediaImage
-        }else if mediaType == "public.movie"{
-            return .CDMediaVideo
-        }else{
-            return .CDMediaImageAndVideo
-        }
-    }
     //TODO:获取图片列表
-    func getAllAlbums(WithFinished Finished: @escaping ([CDAlbumItem]) -> Void) {
+    func getAllAlbums(WithFinished Finished: @escaping ([CDAlbum]) -> Void) {
 
-        var allAlbumArr:[CDAlbumItem] = []
-        let mediaType = getAlbumType()
+        var allAlbumArr:[CDAlbum] = []
         PHPhotoLibrary.requestAuthorization( { (status) in
-            
-            //列出所有系统的智能相册
+            //列出所有相册,由subtype决定
             let options = PHFetchOptions()
-            let defaultAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: options)
-
-
-            for i in 0..<defaultAlbums.count{
+            let albums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
+            
+            for i in 0..<albums.count{
                 let resultsOptions = PHFetchOptions()
-                if mediaType == .CDMediaVideo{
+                if self.mediaType == .CDMediaVideo{
                     resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
-                }else if mediaType == .CDMediaImage{
+                }else if self.mediaType == .CDMediaImage{
                     resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
                 }else{
                     resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.unknown.rawValue)
                 }
-
-                let defaluC = defaultAlbums[i]
+                
+                let defaluC = albums[i]
                 let assetsFetchResult = PHAsset.fetchAssets(in: defaluC, options: resultsOptions)
                 if assetsFetchResult.count>0 {
                     let title = self.titleOfAlbumForChinse(title: defaluC.localizedTitle)
                     if title != "最近删除"{
-                        allAlbumArr.append(CDAlbumItem(title:title, fetchResult:assetsFetchResult))
-
+                        allAlbumArr.append(CDAlbum(title:title, fetchResult:assetsFetchResult))
+                        
                     }
                 }
             }
-
-            //列出所有用户自建相册
-//            let userAblum:PHFetchResult<PHCollection> = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-//            for i in 0..<userAblum.count{
-//                let resultsOptions = PHFetchOptions()
-//                if mediaType == .CDMediaVideo{
-//                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
-//                }else if mediaType == .CDMediaImage{
-//                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-//                }else{
-//                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.unknown.rawValue)
-//                }
-//
-//                let userIdc:PHCollection = userAblum[i]
-//                let assetsFetchResult = PHAsset.fetchAssets(in: userIdc as! PHAssetCollection, options: resultsOptions)
-//                if assetsFetchResult.count>0 {
-//                    let title = self.titleOfAlbumForChinse(title: userIdc.localizedTitle)
-//
-//                    allAlbumArr.append(CDAlbumItem(title:title, fetchResult:assetsFetchResult))
-//                }
-//            }
             Finished(allAlbumArr)
         })
-
+        
     }
 
     //TODO:相册名转为中文
@@ -124,36 +91,6 @@ class CDAssetTon: NSObject {
         }
         return title
     }
-
-//    func getAssetsFromFetchResult(result:PHFetchResult<AnyObject>,parentVC:CDAlbumPickViewController,completion: @escaping ([CDPHAsset]) -> Void){
-//
-//        result.enumerateObjects { (obj, idx, stop) in
-//            let asset:PHAsset = obj as! PHAsset
-//            let cdAsset = CDPHAsset()
-//            cdAsset.asset = asset
-//            cdAsset.isSelected = false
-//            if asset.mediaType == .video{
-//
-//            }
-//        }
-//    }
-    func getPhotoOriImage(phAsset:CDPHAsset,completion: @escaping (UIImage) -> Void){
-        let imageRequestOption:PHImageRequestOptions! = PHImageRequestOptions()
-        imageRequestOption.isSynchronous = true// PHImageRequestOptions是否有效
-        
-        if #available(iOS 13, *) {
-            PHImageManager.default().requestImageDataAndOrientation(for: phAsset.asset, options: imageRequestOption) { (data, imageType, oritation, ofo) in
-                let image = UIImage(data: data!)!
-                completion(image)
-            }
-        } else {
-            PHImageManager.default().requestImageData(for: phAsset.asset, options: imageRequestOption) { (data, string, oritation, info) in
-                let image = UIImage(data: data!)!
-                completion(image)
-            }
-        }
-    }
-
     func getAssetsInfo(withAsset asset: PHAsset, Handle:@escaping(_ dict:NSMutableDictionary?) ->Void) {
 
         if asset.mediaType == .video {
@@ -188,7 +125,7 @@ class CDAssetTon: NSObject {
             }
 
         }else{
-            var fileName = asset.value(forKey: "fileName") as! String
+            var fileName = asset.value(forKey: "filename") as! String
             if fileName.count == 0{
                 fileName = "未命名"
             }
@@ -327,9 +264,10 @@ class CDAssetTon: NSObject {
                 photo = result!
             }
             let dict = NSMutableDictionary(dictionary: info!)
+
             let isCancleKey = dict[PHImageCancelledKey] as? Bool
-            let errorey = dict[PHImageErrorKey]
-            let downloadFinined: Bool = !(isCancleKey ?? false) && !(errorey != nil)
+            let errorey = dict[PHImageErrorKey] ?? nil
+            let downloadFinined: Bool = !(isCancleKey ?? false) && (errorey != nil)
 
             if downloadFinined && result != nil {
                 let tmpImage = result
@@ -358,7 +296,7 @@ class CDAssetTon: NSObject {
                     }
                 })
             }
-
+            
         }
     }
     /// 修正图片转向
@@ -423,20 +361,51 @@ class CDAssetTon: NSObject {
         }
     }
 
-    func getImageFromAsset(asset:PHAsset,targetSize:CGSize,Result:@escaping(UIImage,[AnyHashable:Any]) ->Void) {
+    func getImageFromAsset(asset:PHAsset,targetSize:CGSize,Result:@escaping(UIImage?,[AnyHashable:Any]?) ->Void) {
         let manager:PHCachingImageManager! = PHCachingImageManager()
-        manager.stopCachingImagesForAllAssets()
 
-        let imageRequestOption:PHImageRequestOptions! = PHImageRequestOptions()
-        imageRequestOption.isSynchronous = true// PHImageRequestOptions是否有效
+        let imageRequestOption = PHImageRequestOptions()
+        imageRequestOption.isSynchronous = false// 是否同步
         imageRequestOption.resizeMode = .none // 缩略图的压缩模式设置为无
-        imageRequestOption.deliveryMode = .opportunistic// 缩略图的质量为高质量，不管加载时间花多少
-
-
+        imageRequestOption.deliveryMode = .opportunistic// 缩略图的质量为高质量
+        imageRequestOption.isNetworkAccessAllowed = true
         manager.requestImage(for: asset, targetSize: targetSize, contentMode: .default, options: imageRequestOption) { (image, ofo) in
+            Result(image,ofo)
 
-            Result(image!,ofo!)
-
+        }
+    }
+    
+    func getLivePhotoFromAsset(asset:PHAsset,targetSize:CGSize,Result:@escaping(PHLivePhoto?,[AnyHashable:Any]?) ->Void){
+        let manager:PHCachingImageManager! = PHCachingImageManager()
+        let imageRequestOption = PHLivePhotoRequestOptions()
+        imageRequestOption.deliveryMode = .opportunistic
+        imageRequestOption.isNetworkAccessAllowed = true
+        manager.requestLivePhoto(for: asset, targetSize: targetSize, contentMode: .default, options: imageRequestOption) { (livePhoto, info) in
+            Result(livePhoto,info)
+        }
+    }
+    
+    func getVideoPlayerItem(asset:PHAsset,Result:@escaping(AVPlayerItem?,[AnyHashable:Any]??) ->Void){
+        let videoManager = PHImageManager.default()
+            let option = PHVideoRequestOptions()
+            option.version = .current
+            option.isNetworkAccessAllowed = true
+            option.deliveryMode = .automatic
+        
+            videoManager.requestPlayerItem(forVideo:asset, options: option) { (playerItem, info) in
+                Result(playerItem,info)
+            }
+    }
+    
+    func getOriginalPhotoFromAsset(asset:PHAsset,Result:@escaping(UIImage?) ->Void) {
+        
+        let option = PHImageRequestOptions()
+        option.isSynchronous = true
+        option.isNetworkAccessAllowed = true
+        option.resizeMode = .none
+        option.deliveryMode = .opportunistic
+        PHImageManager().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: option) { (image, info) in
+            Result(image)
         }
     }
 }

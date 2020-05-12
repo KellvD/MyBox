@@ -62,6 +62,13 @@ class CDAudioRecordViewController: CDBaseAllViewController {
         self.rightFirstLine.isHidden = false
         self.rightSecondLine.isHidden = false
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.leftFirstLine.isHidden = true
+        self.leftSecondLine.isHidden = true
+        self.rightFirstLine.isHidden = true
+        self.rightSecondLine.isHidden = true
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if CDSignalTon.shareInstance().isViewDisappearStopRecording {

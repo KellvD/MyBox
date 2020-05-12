@@ -46,18 +46,21 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
 
     @objc func saveBtnClick(sender:UIButton){
-
         let contentStr:String = removeSpaceAndNewline(str: textView.text)
         if JudgeStringIsEmpty(string: contentStr){
-            CDHUD.showText(text: "啥也没写呢还")
+            CDHUD.showText(text: "啥也没写呢")
+            return
         }
-        textView.resignFirstResponder()
         sender.isUserInteractionEnabled = false
-        let fileName = contentStr.prefix(6)
+        textView.resignFirstResponder()
+        var fileName = contentStr
+        if contentStr.count > 6 {
+            fileName = contentStr.AsNSString().substring(to: 6)
+        }
         let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
         fileInfo.userId = CDUserId()
         fileInfo.folderId = folderId
-        fileInfo.fileName = fileName as! String
+        fileInfo.fileName = fileName
         fileInfo.createTime = getCurrentTimestamp()
         fileInfo.fileType = NSFileType.PlainTextType
         CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)

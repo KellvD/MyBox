@@ -23,7 +23,7 @@ class CDSignalTon: NSObject {
     var isViewDisappearStopRecording = false
     var selectedVideos = NSMutableArray()
     var tmpDict = NSMutableDictionary()
-    var customPickerView:UIViewController!
+    var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
     
     static let instance:CDSignalTon = CDSignalTon()
@@ -53,9 +53,80 @@ class CDSignalTon: NSObject {
         return instance
     }
 
-
+    func saveSafeFileInfo(filePath:String,folderId:Int,subFolderType:NSFolderType){
+        
+        var fileName = filePath.getFileNameFromPath()
+        let fileUrl = URL(fileURLWithPath: filePath)
+        
+        fileName = fileName.removingPercentEncoding()
+        let suffix = filePath.pathExtension()
+        let contentData = NSData(contentsOfFile: filePath)
+        let fileType = checkFileTypeWithExternString(externStr: suffix)
+        let currentTime = getCurrentTimestamp()
+        let fileInfo = CDSafeFileInfo()
+        fileInfo.folderId = folderId
+        fileInfo.userId = CDUserId()
+        fileInfo.fileName = fileName
+        fileInfo.createTime = currentTime
+        fileInfo.fileType = fileType
+        let filePath:String!
+        if subFolderType == .ImageFolder{
+            filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
+            contentData?.write(toFile: filePath, atomically: true)
+            let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
+            let image = UIImage(data: contentData! as Data)!
+            let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
+            let tmpData:NSData = thumbImage.jpegData(compressionQuality: 1.0)! as NSData
+            tmpData.write(toFile: thumbPath, atomically: true)
+            
+            fileInfo.fileWidth = Double(image.size.width)
+            fileInfo.fileHeight = Double(image.size.height)
+            fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
+            
+        }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
+            let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
+            let urlAsset: AVURLAsset = AVURLAsset(url: fileUrl, options: opts)
+            let voiceTime = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
+            fileInfo.timeLength = voiceTime
+            if subFolderType == .VideoFolder{
+                filePath = String.VideoPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
+                contentData?.write(toFile: filePath, atomically: true)
+                
+                let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
+                let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: filePath)
+                let data = image.jpegData(compressionQuality: 1.0)
+                do {
+                    try data?.write(to: URL(fileURLWithPath: thumbPath))
+                } catch  {
+                    
+                }
+                fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
+            }else{
+                filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
+                contentData?.write(toFile: filePath, atomically: true)
+                
+            }
+            
+        }else{
+            filePath = String.OtherPath().appendingPathComponent(str: "\(fileName).\(suffix)")
+            contentData?.write(toFile: filePath, atomically: true)
+        }
+        let fileSize = getFileSizeAtPath(filePath: filePath)
+        fileInfo.fileSize = fileSize
+        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: filePath)
+        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+        
+        //本地是否存在，本地存在可能是拍照后直接把照片先保存在本地，统一在此处入库，完成后，删除之前临时保存的
+        if FileManager.default.fileExists(atPath: filePath) {
+            try! FileManager.default.removeItem(atPath: filePath)
+        }
+    }
+    
+    
     func handleSaveVideoWith(assets:[CDPHAsset], folderId: Int) {
-
+        DispatchQueue.main.async {
+            CDHUDManager.shareInstance().showAnimated(animated: true)
+        }
         selectedVideos = NSMutableArray(array: assets)
         handleSingleVideo(folderId: folderId)
     }
@@ -64,8 +135,7 @@ class CDSignalTon: NSObject {
         if selectedVideos.count > 0 {
             let phAsset:CDPHAsset = selectedVideos.firstObject as! CDPHAsset
             let asset = phAsset.asset
-            let filePath:NSString = phAsset.filePath as NSString
-            let fileName = filePath.lastPathComponent
+            let fileName = phAsset.fileName
 
             CDAssetTon.instance.getAssetsInfo(withAsset:asset) { (info) in
                 if info == nil{
@@ -99,7 +169,11 @@ class CDSignalTon: NSObject {
             }
 
         }else{
-            NotificationCenter.default.post(name: DismissImagePicker, object: nil)
+            DispatchQueue.main.async {
+                CDHUDManager.shareInstance().hideAnimated(animated: true)
+                NotificationCenter.default.post(name: DismissImagePicker, object: nil)
+            }
+            
         }
     }
     @objc func saveToPathFinish(info:NSMutableDictionary){
@@ -210,12 +284,11 @@ class CDSignalTon: NSObject {
         return imageArr
     }
     func returnImgName(type: Int) -> String? {
-        var arr: [String] = [
-            "file_dir_big",
+        let arr: [String] = [
+            "file_txt_big",
             "file_audio_big",
             "file_image_big",
             "file_video_big",
-            "url",
             "file_pdf_big",
             "file_ppt_big",
             "file_doc_big",

@@ -8,47 +8,55 @@
 
 import UIKit
 import CoreServices
+import AVFoundation
 
 protocol CDComposeGifViewControllerDelegate {
     func onComposeGifSuccess()
 }
+
+enum CDComposeType {
+    case Gif
+    case Video
+}
 class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource{
 
 
-    var fileArr:[CDSafeFileInfo] = []
-    var imageArr:[UIImage] = []
-    var thumpArr:[UIImage] = []
-    var collectionView:UICollectionView!
-    var cancleBtn:UIButton!
-    var sureBtn:UIButton!
-    var preview:UIImageView!
-    var gifPath:String!
-    var nowTime:Int!
-    var folderId:Int!
-    var isCompose:Bool!
-    var delegate:CDComposeGifViewControllerDelegate!
+    public var fileArr:[CDSafeFileInfo] = []
+    public var delegate:CDComposeGifViewControllerDelegate!
+    public var folderId:Int!
+    public var composeType:CDComposeType!
+    
+    private var imageArr:[UIImage] = []
+    private var thumpArr:[UIImage] = []
+    private var collectionView:UICollectionView!
+    private var cancleBtn:UIButton!
+    private var sureBtn:UIButton!
+    private var composeBtn:UIButton!
+    private var preview:UIImageView!
+    private var gifPath:String!
+    private var videoPath:String!
+    private var nowTime:Int!
+    private var isCompose:Bool = false
+    private var gifDelaySlider:CDGifDelayView!
 
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("合成GIF", comment: "")
+        if composeType == .Gif{
+            self.title = NSLocalizedString("合成GIF", comment: "")
+        }else{
+            self.title = NSLocalizedString("合成视频", comment: "")
+        }
+        
         fileLoadImage()
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 48))
-        label.backgroundColor = BaseBackGroundColor
-        label.font = TextMidSmallFont
-        label.text = "   拖动图片可更换位置"
-
-        label.textColor = TextLightBlackColor
-        self.view.addSubview(label)
-
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-20)/4 , height: (CDSCREEN_WIDTH-20)/4)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .vertical
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 50, width: CDSCREEN_WIDTH, height: CDSCREEN_WIDTH), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_WIDTH), collectionViewLayout: layout)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "gifImageCellIdrr")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -58,10 +66,14 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         let tap = UILongPressGestureRecognizer(target: self, action: #selector(dragCellResponse(dragTap:)))
         collectionView.addGestureRecognizer(tap)
 
-        preview = UIImageView(frame: CGRect(x: 0, y: 50, width: CDSCREEN_WIDTH, height: CDSCREEN_WIDTH))
+        preview = UIImageView(frame: CGRect(x: 0, y: (CDSCREEN_HEIGTH - CDSCREEN_WIDTH)/2 - 48, width: CDSCREEN_WIDTH, height: CDSCREEN_WIDTH))
         self.view.addSubview(preview)
         preview.isHidden = true
 
+        gifDelaySlider = CDGifDelayView(frame: CGRect(x: 0, y: CDViewHeight - 48 * 2, width: CDSCREEN_WIDTH, height: 48))
+        self.view.addSubview(gifDelaySlider)
+        
+        
         let bgView = UIImageView(frame: CGRect(x: 0, y: CDViewHeight - 48, width: CDSCREEN_WIDTH, height: 48))
         bgView.isUserInteractionEnabled = true
         bgView.image = UIImage(named: "下导航-bg")
@@ -75,7 +87,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         bgView.addSubview(cancleBtn)
         cancleBtn.isEnabled = false
 
-        let composeBtn = UIButton(type: .custom)
+        composeBtn = UIButton(type: .custom)
         composeBtn.frame = CGRect(x: (CDSCREEN_WIDTH - 45)/2, y: 0, width: 45, height: 45)
         composeBtn.setImage(LoadImageByName(imageName: "hecheng", type: "png"), for: .normal)
         composeBtn.addTarget(self, action: #selector(composeBtnClick), for: .touchUpInside)
@@ -95,14 +107,14 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         for i in 0..<fileArr.count {
             let fileInfo:CDSafeFileInfo = fileArr[i]
 
-            let lPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
+            let lPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
             var lImgage:UIImage! = UIImage(contentsOfFile: lPath)
             if lImgage == nil {
                 lImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
             }
             thumpArr.append(lImgage)
 
-            let tmpPath = String.thumpImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
+            let tmpPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
             var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
             if mImgage == nil {
                 mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
@@ -130,8 +142,8 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         imageArr.swapAt(sourceIndexPath.item, destinationIndexPath.item)
         collectionView.reloadData()
     }
+    
     @objc func dragCellResponse(dragTap:UILongPressGestureRecognizer){
-        cancleBtn.isEnabled = true
         switch dragTap.state {
         case .began:
             let indexPath = collectionView.indexPathForItem(at: dragTap.location(in: collectionView))
@@ -150,8 +162,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     @objc override func backButtonClick() {
         if isCompose{
             let sheet = UIAlertController(title: nil, message: "是否确定放弃合成GIF操作？", preferredStyle: .alert)
-            sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
-            }))
+            sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
 
             sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
                 self.navigationController?.popViewController(animated: true)
@@ -161,6 +172,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
             self.navigationController?.popViewController(animated: true)
         }
     }
+    
     @objc func sureBtnClick(){
 
         let sheet = UIAlertController(title: nil, message: "是否确认保存该gif吗？", preferredStyle: .alert)
@@ -168,32 +180,13 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         }))
 
         sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
-            let gifData = NSData(contentsOfFile: self.gifPath)! as Data
-            let thumbPath = String.thumpImagePath().appendingPathComponent(str:String(format: "%lld.jpg", self.nowTime))
-            let gifImage = UIImage(data: gifData)!
-
-            let thumbImage = scaleImageAndCropToMaxSize(image: gifImage, newSize: CGSize(width: 200, height: 200))
-            let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
-
-            do {
-                try tmpData.write(to: URL(fileURLWithPath: thumbPath))
-            } catch  {
-
+            if self.composeType == .Gif{
+                CDSignalTon.shareInstance().saveSafeFileInfo(filePath: self.gifPath, folderId: self.folderId, subFolderType: .ImageFolder)
+                self.delegate.onComposeGifSuccess()
+            }else{
+                
             }
-            let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-            fileInfo.folderId = self.folderId
-            fileInfo.fileName = "未命名"
-            fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: self.gifPath)
-            fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
-            fileInfo.fileSize = getFileSizeAtPath(filePath: self.gifPath)
-            fileInfo.fileWidth = Double(gifImage.size.width)
-            fileInfo.fileHeight = Double(gifImage.size.height)
-            fileInfo.createTime = self.nowTime
-            fileInfo.fileType = .GifType
-            fileInfo.userId = CDUserId()
-            CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
             
-            self.delegate.onComposeGifSuccess()
             self.navigationController?.popViewController(animated: true)
         }))
         self.present(sheet, animated: true, completion: nil)
@@ -201,43 +194,48 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     }
 
     @objc func cancleBtnClick(){
-        if isCompose{
-            cancleBtn.isEnabled = false
-            sureBtn.isEnabled = false
-            collectionView.isHidden = false
-            preview.isHidden = true
-            collectionView.reloadData()
-            isCompose = false
-        }else{
-            collectionView.cancelInteractiveMovement()
-        }
+        cancleBtn.isEnabled = false
+        sureBtn.isEnabled = false
+        collectionView.isHidden = false
+        preview.isHidden = true
+        gifDelaySlider.isHidden = false
+        composeBtn.isEnabled = true
+        collectionView.reloadData()
+        isCompose = false
 
     }
     @objc func composeBtnClick(){
-
+        if composeType == .Gif {
+            onComposeGif()
+        }else{
+            onComposeVideo()
+        }
+    }
+    
+    private func onComposeGif(){
         nowTime = getCurrentTimestamp()
-
+        let delay = gifDelaySlider.value
+        print(delay)
         gifPath = String.ImagePath().appendingPathComponent(str: String(format: "%lld.gif", nowTime))
         let url:CFURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath! as CFString, CFURLPathStyle.cfurlposixPathStyle, false)
         let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, imageArr.count, nil)
 
-        //相关属性
-        let frameDic = [kCGImagePropertyGIFDelayTime as String : [
-            kCGImagePropertyGIFDelayTime as String : NSNumber(value: 0.3)
-            ]] //延时
+        //每帧之间播放的时间间隔
+        let frameDic = ["kCGImagePropertyGIFDelayTime" : 0.1 * Double(imageArr.count - 1)]
 
         let gifdic:NSMutableDictionary = NSMutableDictionary()
-        gifdic.setValue(NSNumber(value: true), forKey: kCGImagePropertyGIFHasGlobalColorMap as String)
-        gifdic.setValue(kCGImagePropertyColorModelRGB as String, forKey: kCGImagePropertyColorModel as String)
-        gifdic.setValue(NSNumber(value: 16), forKey: kCGImagePropertyDepth as String) //颜色深度
-        gifdic.setValue(NSNumber(value: 0), forKey: kCGImagePropertyGIFLoopCount as String) //是否重复 0无限
+        gifdic.setValue(NSNumber(value: true), forKey: "kCGImagePropertyGIFHasGlobalColorMap")
+        gifdic.setValue(kCGImagePropertyColorModelRGB, forKey: "kCGImagePropertyColorModel")
+        //颜色深度
+        gifdic.setValue(16, forKey: "kCGImagePropertyDepth")
+        //是否重复 0无限
+        gifdic.setValue(1, forKey: "kCGImagePropertyGIFLoopCount")
 
-        let gifproperty = [kCGImagePropertyGIFDictionary as String : gifdic]
+        let gifproperty = ["kCGImagePropertyGIFDictionary" : gifdic]
 
-        for i in 0..<imageArr.count {
-            let dimage:UIImage = imageArr[i]
+        for image in imageArr {
 
-            CGImageDestinationAddImage(destination!, dimage.cgImage!, frameDic as CFDictionary)
+            CGImageDestinationAddImage(destination!, image.cgImage!, frameDic as CFDictionary)
         }
         CGImageDestinationSetProperties(destination!, gifproperty as CFDictionary)
         CGImageDestinationFinalize(destination!)
@@ -245,17 +243,69 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
             let gifData = NSData(contentsOfFile: gifPath)!
             if gifData.length > 0{
                 collectionView.isHidden = true
+                gifDelaySlider.isHidden = true
                 preview.isHidden = false
+                
                 sureBtn.isEnabled = true
-                isCompose = true
+                composeBtn.isEnabled = false
                 cancleBtn.isEnabled = true
+                isCompose = true
                 preview.image = UIImage.gif(data: gifData as Data)
                 
             }
 
         }
-
     }
+    private func onComposeVideo(){
+//        nowTime = getCurrentTimestamp()
+//        videoPath = String.VideoPath().appendingPathComponent(str: String(format: "%lld.MOV", nowTime))
+//        //视频大小320，480倍数
+//        let size = CGSize(width: 320, height: 480)
+////        unlink([videoPath.utf8])
+//        do {
+//            let write = try AVAssetWriter(url: URL(fileURLWithPath: videoPath), fileType: .mov)
+//            let input = AVAssetWriterInput(mediaType: .video, outputSettings: ["AVVideoWidthKey":size.width,"AVVideoHeightKey":size.height,"AVVideoCodecType" :AVVideoCodecType.h264])
+//            var frmae = 0
+//            if write.canAdd(input) {
+//                write.add(input)
+//                write.startWriting()
+//                write.startSession(atSourceTime: .zero)
+//
+//                let queue = DispatchQueue(label: "medeiaQueue")
+//                input.requestMediaDataWhenReady(on: queue) {
+//                    while input.isReadyForMoreMediaData {
+//                        frmae += 1
+//                        if frmae >= self.imageArr.count * 10 {
+//                            input.markAsFinished()
+//                            write.finishWriting {
+//                                DispatchQueue.main.async {
+//                                    print("合成成功")
+//                                }
+//                            }
+//                            break
+//                        }
+//                    }
+//                }
+//
+//            }else{
+//                print("无法合成")
+//            }
+//
+//            let buffer = (CVPixelBuffer)
+//
+//        } catch  {
+//            print(error.localizedDescription)
+//        }
+//
+//
+//        func pixelBufferFromCGImage(image:CGImage,size:CGSize){
+//            let options = ["kCVPixelBufferCGImageCompatibilityKey":true,"kCVPixelBufferCGBitmapContextCompatibilityKey":true]
+//            let pxbuffer:CVPixelBuffer
+//            let status:CVReturn = CVPixelBufferCreate(kCFAllocatorDefault, Int(size.width), Int(size.height), kCVPixelFormatType_32ARGB, options as CFDictionary, &pxbuffer)
+//        }
+//
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -267,3 +317,44 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     */
 
 }
+
+
+//TODO:Gif 间隔设置
+class CDGifDelayView: UIView {
+    
+    var sliderLabel:UILabel!
+    var value:Float = 0.5
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let gifDelaySlider = UISlider(frame: CGRect(x: 30, y: 12, width: CDSCREEN_WIDTH - 60 - 40, height: 20))
+        gifDelaySlider.setThumbImage(UIImage(named: "sliderThumb"), for: .normal)
+        gifDelaySlider.minimumValue = 0.1
+        gifDelaySlider.maximumValue = 5.0
+        gifDelaySlider.value = 0.5
+        gifDelaySlider.addTarget(self, action: #selector(onSliderChangeGifDelay(slider:)), for: .valueChanged)
+        self.addSubview(gifDelaySlider)
+        
+        
+        sliderLabel = UILabel(frame: CGRect(x: gifDelaySlider.frame.maxX + 15, y: 10, width: 40, height: 28))
+        sliderLabel.textColor = TextGrayColor
+        sliderLabel.backgroundColor = UIColor.clear
+        sliderLabel.font = TextSmallFont
+        sliderLabel.text = "\(gifDelaySlider.value)"
+        sliderLabel.textAlignment = .center
+        self.addSubview(sliderLabel)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func onSliderChangeGifDelay(slider:UISlider){
+        sliderLabel.text = String.init(format: "%0.f", slider.value)
+        value = slider.value
+    }
+}
+
+
+
+

@@ -18,7 +18,6 @@ extension String{
     }
 
     static func ensurePathAt(path:String){
-
     let manager = FileManager.default
         if !manager.fileExists(atPath: path) {
             do{
@@ -26,15 +25,13 @@ extension String{
             }catch{
                 print("创建路径失败" + error.localizedDescription)
             }
-
         }
-
     }
+
     static func libraryUserdataPath() -> String{
         let docpath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let userPath = (docpath as NSString).appendingPathComponent("SafeRule")
         ensurePathAt(path: userPath)
-
         return userPath
     }
 
@@ -45,7 +42,6 @@ extension String{
             do{
                 try FileManager.default.removeItem(atPath: userPath)
             }catch{
-
             }
         }
     }
@@ -55,7 +51,6 @@ extension String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Images")
         ensurePathAt(path: path)
         return path
-
     }
     //图片压缩路径
     static func thumpImagePath()->String{
@@ -86,7 +81,6 @@ extension String{
         return path
     }
 
-
     //TODO:Other
     static func OtherPath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Other")
@@ -114,7 +108,6 @@ extension String{
     func appendingFormat(_ format: NSString, _ args: CVarArg...) -> NSString{
         let appen = self.AsNSString().appendingFormat(format
             , args)
-
         return appen
     }
     func appendingPathComponent(str:String) -> String {
@@ -148,7 +141,6 @@ extension String{
         let fileLastPath = self.lastPathComponent()
         let fileName = fileLastPath.stringByDeletingPathExtension()
         return fileName
-
     }
     
 }
