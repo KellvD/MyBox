@@ -181,7 +181,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
         sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             if self.composeType == .Gif{
-                CDSignalTon.shareInstance().saveSafeFileInfo(filePath: self.gifPath, folderId: self.folderId, subFolderType: .ImageFolder)
+                CDSignalTon.shareInstance().saveSafeFileInfo(tmpFilePath: self.gifPath, folderId: self.folderId, subFolderType: .ImageFolder)
                 self.delegate.onComposeGifSuccess()
             }else{
                 

@@ -22,11 +22,9 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
     private var indexLabel:UILabel!
 
     var collectionView:UICollectionView!
-    var isPushNext = false  //
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isPushNext = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -52,7 +50,6 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         collectionView.isPagingEnabled = true
         view.addSubview(collectionView!)
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
-
 
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImageByName(imageName: "fileDetail", type: "png"), style: .plain, target: self, action: #selector(detailBtnClicked))
@@ -100,8 +97,6 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         self.deleteItem.setImage(UIImage(named: "menu_delete"), for: .normal)
         self.deleteItem.addTarget(self, action: #selector(deleteItemItemClick), for: .touchUpInside)
         self.toolBar.addSubview(self.deleteItem)
-
-
         registerNotification()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

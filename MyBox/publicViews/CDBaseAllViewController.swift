@@ -8,12 +8,17 @@
 
 import UIKit
 import AVFoundation
-class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
+//extension CDBaseAllViewController {
+//    public typealias CDProcessHandler = (_ index:Int, _ total:Int) -> Void
+//}
+class CDBaseAllViewController:
+UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
 
     var popBtn = UIButton()
     var subFolderId:Int = 0
     var subFolderType:NSFolderType!
-
+//    open var processHandle:CDBaseAllViewController.CDProcessHandler?
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
@@ -36,7 +41,6 @@ class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDo
         self.popBtn.isHidden = true
     }
 
-
     func presentDocumentPicker(documentTypes:[String]) {
         if #available(iOS 8, *) {
             let documentPicker = UIDocumentPickerViewController(documentTypes: documentTypes, in: .open)
@@ -50,38 +54,48 @@ class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDo
         }
     }
     
+    
     //TODO:UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         CDSignalTon.shareInstance().customPickerView = nil
-//        DispatchQueue.main.async {
-            
-//        }
-        CDHUDManager.shareInstance().showProgress(text: "文件存储中...")
-        for index in 0..<urls.count {
-            let subUrl = urls[index]
-            let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
-            if fileUrlAuthozied {
-//                let fileCoordinator = NSFileCoordinator()
-//                fileCoordinator.coordinate(readingItemAt: url, options: [], error: nil) { (newUrl) in
-                    let urlPath = subUrl.absoluteString
-                CDSignalTon.shareInstance().saveSafeFileInfo(filePath: urlPath, folderId: subFolderId, subFolderType: subFolderType)
-//                CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: fileName)
-//                }
-                
-            }else{
-                CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: "fileName")
+//        processHandle!(0,urls.count)
+        var index = 0
+        func handleAllDocumentPickerFiles(urlArr:[URL]){
+            DispatchQueue.global().async {
+                var tmpUrlArr = urlArr
+                if urlArr.count > 0 {
+                    index += 1
+                    //                processHandle!(index,urls.count)
+                    let subUrl = urlArr.first!
+                    let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
+                    if fileUrlAuthozied {
+                        let fileCoordinator = NSFileCoordinator()
+                        fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
+                            let urlPath = newUrl.absoluteString
+                            CDSignalTon.shareInstance().saveSafeFileInfo(tmpFilePath: urlPath, folderId: self.subFolderId, subFolderType: self.subFolderType)
+                            tmpUrlArr.removeFirst()
+                            handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
+                            
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: "\(index)/\(urls.count)")
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        CDHUDManager.shareInstance().hideProgress()
+                        CDHUDManager.shareInstance().showComplete(text: "导入完成")
+                    }
+//                    processHandle!(index,urls.count)
+                }
             }
             
             
         }
-//        DispatchQueue.main.async {
-//            NotificationCenter.default.post(name: DocumentInputFile, object: nil)
-//            CDHUDManager.shareInstance().hideProgress()
-//        CDHUDManager.shareInstance().showComplete(text: "导入完成！")
-//        }
-        
+        handleAllDocumentPickerFiles(urlArr: urls)
     }
 
+    
     //分享
     func presentShareActivityWith2(dataArr:[NSObject]) {
         let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
@@ -90,6 +104,9 @@ class CDBaseAllViewController: UIViewController,UIGestureRecognizerDelegate,UIDo
                 CDHUDManager.shareInstance().showComplete(text: "分享成功！")
             }
         }
+        
+        activityVC.navigationController?.title = "MyBox"
+        activityVC.view.backgroundColor = .red
         self.present(activityVC, animated: true, completion: nil)
     }
     

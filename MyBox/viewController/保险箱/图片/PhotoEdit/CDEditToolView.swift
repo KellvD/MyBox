@@ -8,11 +8,11 @@
 
 import UIKit
 
-class CDEditToolView: UIView {
 
-
+class CDEditToolView: UIView,CDEditorsViewDelegate {
     var itemsView:CDEditorsView!
-
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
@@ -20,40 +20,40 @@ class CDEditToolView: UIView {
         itemsView = CDEditorsView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         self.addSubview(itemsView)
 
-        let cropBar = CDCropView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        cropBar.tag = CDEditorsType.Crop.rawValue
-        self.addSubview(cropBar)
-        cropBar.isHidden = true
-
-        let filterBar = CDFilterView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        filterBar.tag = CDEditorsType.Filter.rawValue
-        self.addSubview(filterBar)
-        filterBar.isHidden = true
-
-        let brightView = CDBrightView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        brightView.tag = CDEditorsType.Bright.rawValue
-        self.addSubview(brightView)
-        brightView.isHidden = true
-
-        let rotateBar = CDRotateView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        rotateBar.tag = CDEditorsType.Rotate.rawValue
-        self.addSubview(rotateBar)
-        rotateBar.isHidden = true
-
-        let mosaicBar = CDMosaicView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        mosaicBar.tag = CDEditorsType.Mosaic.rawValue
-        self.addSubview(mosaicBar)
-        mosaicBar.isHidden = true
-
-        let waterBar = CDWatermarkView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        waterBar.tag = CDEditorsType.Watermark.rawValue
-        self.addSubview(waterBar)
-        waterBar.isHidden = true
-
-        let textBar = CDTextView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        textBar.tag = CDEditorsType.Text.rawValue
-        self.addSubview(textBar)
-        textBar.isHidden = true
+//        let cropBar = CDCropView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        cropBar.tag = CDEditorsType.Crop.rawValue
+//        self.addSubview(cropBar)
+//        cropBar.isHidden = true
+//
+//        let filterBar = CDFilterView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        filterBar.tag = CDEditorsType.Filter.rawValue
+//        self.addSubview(filterBar)
+//        filterBar.isHidden = true
+//
+//        let brightView = CDBrightView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        brightView.tag = CDEditorsType.Bright.rawValue
+//        self.addSubview(brightView)
+//        brightView.isHidden = true
+//
+//        let rotateBar = CDRotateView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        rotateBar.tag = CDEditorsType.Rotate.rawValue
+//        self.addSubview(rotateBar)
+//        rotateBar.isHidden = true
+//
+//        let mosaicBar = CDMosaicView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        mosaicBar.tag = CDEditorsType.Mosaic.rawValue
+//        self.addSubview(mosaicBar)
+//        mosaicBar.isHidden = true
+//
+//        let waterBar = CDWatermarkView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        waterBar.tag = CDEditorsType.Watermark.rawValue
+//        self.addSubview(waterBar)
+//        waterBar.isHidden = true
+//
+//        let textBar = CDTextView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//        textBar.tag = CDEditorsType.Text.rawValue
+//        self.addSubview(textBar)
+//        textBar.isHidden = true
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

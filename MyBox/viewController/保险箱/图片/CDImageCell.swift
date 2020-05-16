@@ -10,17 +10,17 @@ import UIKit
 
 class CDImageCell: UICollectionViewCell {
 
-    var selectedView:UIImageView!
-    var scroller:CDImageScrollView!
-    var videoSizeL:UILabel!
-    var gifL:UILabel!
-
+    var selectedView:UIImageView!   //选择标志
+    var scroller:CDImageScrollView! //滚动展示是可缩放
+    private var videoSizeL:UILabel!
+    private var gifL:UILabel!
+    var isSelect:Bool = false
+    var showSelectIcon = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        selectedView = UIImageView(image: LoadImageByName(imageName: "照片选中", type: "png"))
-        selectedView.frame = self.bounds
-        selectedView.isHidden = true
+        selectedView = UIImageView(frame: CGRect(x: frame.width - 30, y: frame.height - 30, width: 30, height: 30))
         self.contentView.addSubview(selectedView)
 
         scroller = CDImageScrollView(frame:  CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH))
@@ -91,19 +91,22 @@ class CDImageCell: UICollectionViewCell {
     }
     func setImageData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
         if isMutilEdit {
+            selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
-                self.selectedView.isHidden = false
+                selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+                isSelect = true
             }else{
-                self.selectedView.isHidden = true
+                selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+                isSelect = false
             }
 
         }else{
-            self.selectedView.isHidden = true
+            selectedView.isHidden = true
         }
         if fileInfo.fileType == .GifType{
-            self.gifL.isHidden = false
+            gifL.isHidden = false
         }else{
-            self.gifL.isHidden = true
+            gifL.isHidden = true
         }
 
         let tmpPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
@@ -134,5 +137,13 @@ class CDImageCell: UICollectionViewCell {
         self.videoSizeL.isHidden = false
         self.videoSizeL.text = getMMSSFromSS(second: fileInfo.timeLength)
         self.backgroundView = UIImageView(image: mImgage)
+    }
+    
+    func reloadSelectImageView() {
+        if isSelected {
+            selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+        }else{
+            selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+        }
     }
 }

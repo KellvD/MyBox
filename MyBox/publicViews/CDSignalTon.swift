@@ -53,14 +53,24 @@ class CDSignalTon: NSObject {
         return instance
     }
 
-    func saveSafeFileInfo(filePath:String,folderId:Int,subFolderType:NSFolderType){
+    func saveSafeFileInfo(tmpFilePath:String,folderId:Int,subFolderType:NSFolderType){
         
-        var fileName = filePath.getFileNameFromPath()
-        let fileUrl = URL(fileURLWithPath: filePath)
+        let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
+        let tmpFileUrl = URL(string: tmpFilePath)!
+        let suffix = tmpFilePath.pathExtension()
+        var contentData = Data()
+        //保存数据到临时data
+        do {
+            try contentData = Data(contentsOf: tmpFileUrl)
+        } catch  {
+            print(error.localizedDescription)
+            return
+        }
+        //本地是否存在，本地存在可能是拍照后直接把照片先保存在本地，统一在此处入库，完成后，删除之前临时保存的
+        if FileManager.default.fileExists(atPath: tmpFilePath) {
+            try! FileManager.default.removeItem(atPath: tmpFilePath)
+        }
         
-        fileName = fileName.removingPercentEncoding()
-        let suffix = filePath.pathExtension()
-        let contentData = NSData(contentsOfFile: filePath)
         let fileType = checkFileTypeWithExternString(externStr: suffix)
         let currentTime = getCurrentTimestamp()
         let fileInfo = CDSafeFileInfo()
@@ -69,15 +79,25 @@ class CDSignalTon: NSObject {
         fileInfo.fileName = fileName
         fileInfo.createTime = currentTime
         fileInfo.fileType = fileType
-        let filePath:String!
+        var filePath:String!
+
         if subFolderType == .ImageFolder{
             filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-            contentData?.write(toFile: filePath, atomically: true)
+            do {
+                try contentData.write(to: URL(fileURLWithPath: filePath))
+            } catch  {
+                print("图片存储失败：%s",error.localizedDescription)
+                return
+            }
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-            let image = UIImage(data: contentData! as Data)!
+            let image = UIImage(data: contentData)!
             let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
-            let tmpData:NSData = thumbImage.jpegData(compressionQuality: 1.0)! as NSData
-            tmpData.write(toFile: thumbPath, atomically: true)
+            let data = thumbImage.jpegData(compressionQuality: 1.0)
+            do {
+                try data?.write(to: URL(fileURLWithPath: thumbPath))
+            } catch  {
+                
+            }
             
             fileInfo.fileWidth = Double(image.size.width)
             fileInfo.fileHeight = Double(image.size.height)
@@ -85,13 +105,17 @@ class CDSignalTon: NSObject {
             
         }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
             let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-            let urlAsset: AVURLAsset = AVURLAsset(url: fileUrl, options: opts)
+            let urlAsset: AVURLAsset = AVURLAsset(url: tmpFileUrl, options: opts)
             let voiceTime = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
             fileInfo.timeLength = voiceTime
             if subFolderType == .VideoFolder{
                 filePath = String.VideoPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                contentData?.write(toFile: filePath, atomically: true)
-                
+                do {
+                    try contentData.write(to: URL(fileURLWithPath: filePath))
+                } catch  {
+                    print(error.localizedDescription)
+                    return
+                }
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
                 let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: filePath)
                 let data = image.jpegData(compressionQuality: 1.0)
@@ -103,23 +127,29 @@ class CDSignalTon: NSObject {
                 fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
             }else{
                 filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                contentData?.write(toFile: filePath, atomically: true)
-                
+                do {
+                    try contentData.write(to: URL(fileURLWithPath: filePath))
+                } catch  {
+                    print(error.localizedDescription)
+                    return
+                }
             }
             
         }else{
             filePath = String.OtherPath().appendingPathComponent(str: "\(fileName).\(suffix)")
-            contentData?.write(toFile: filePath, atomically: true)
+            do {
+                try contentData.write(to: URL(fileURLWithPath: filePath))
+            } catch  {
+                print("contentdata写入文件失败：%s" ,error.localizedDescription)
+                return
+            }
         }
         let fileSize = getFileSizeAtPath(filePath: filePath)
         fileInfo.fileSize = fileSize
         fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: filePath)
         CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
         
-        //本地是否存在，本地存在可能是拍照后直接把照片先保存在本地，统一在此处入库，完成后，删除之前临时保存的
-        if FileManager.default.fileExists(atPath: filePath) {
-            try! FileManager.default.removeItem(atPath: filePath)
-        }
+        
     }
     
     

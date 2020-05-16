@@ -13,7 +13,7 @@ import UIKit
 }
 
 class CDEditorsView: UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
-    var tools:[CDEditorsModel] = []
+    private var tools:[CDEditorsModel] = []
     weak var mDelegate:CDEditorsViewDelegate?
 
     init(frame:CGRect) {
@@ -48,12 +48,9 @@ class CDEditorsView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoEditCellIdentify", for: indexPath) as! CDPhotoEditCell
-
         let item = tools[indexPath.item]
         cell.loadData(itemStr: item.title)
-
         return cell
-
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        CDEditManager.shareInstance().editStep = .WillEdit
@@ -63,20 +60,19 @@ class CDEditorsView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
         let item = tools[indexPath.item]
         mDelegate?.onSelectEditorWith?(model: item)
 
-
     }
 
 }
 
 class CDPhotoEditCell: UICollectionViewCell {
 
-    var itemLabel:UILabel!
-    var imageView:UIImageView!
+    private var itemLabel:UILabel!
+    private var imageView:UIImageView!
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView = UIImageView(frame: CGRect(x: frame.width/2 - 9, y: 9, width: 18, height: 14))
+        imageView.isUserInteractionEnabled = true
         self.addSubview(imageView)
-
 
         itemLabel = UILabel(frame: CGRect(x: 2, y: 28, width: frame.width - 4, height: 16))
         itemLabel.font = UIFont.systemFont(ofSize: 12)

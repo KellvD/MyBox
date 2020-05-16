@@ -9,9 +9,15 @@
 import UIKit
 import AVFoundation
 
-class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CDMediaPickerDelegate,CDCameraViewControllerDelegate,CDComposeGifViewControllerDelegate {
-    
-    
+class CDImageViewController:
+    CDBaseAllViewController,
+    UICollectionViewDelegate,
+    UICollectionViewDataSource,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    CDMediaPickerDelegate,
+    CDCameraViewControllerDelegate,
+CDComposeGifViewControllerDelegate {
     
     public var folderInfo:CDSafeFolder!
     
@@ -20,11 +26,11 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     private var backBtn:UIButton!
     private var collectionView:UICollectionView!
     private var imageArr:[CDSafeFileInfo] = []
-    private var selectCount:Int = 0
     private var selectedImageArr:[CDSafeFileInfo] = []
     private var outputImageArr:[CDSafeFileInfo] = []
     private var isNeedReloadData:Bool = false
-
+    private var selectCount:Int = 0
+    
     deinit {
         removeNotification()
     }
@@ -84,7 +90,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 file.isSelected = .CDFalse
             }
 
-        }else{
+        } else {
             //1.返回变全选
             self.backBtn.setTitle("返回", for: .normal)
             self.selectBtn.setImage(UIImage(named: "edit"), for: .normal)
@@ -111,7 +117,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 }
                 selectCount = imageArr.count
                 toolbar.enableReloadBar(isSelected: true)
-            }else{
+            } else {
                 self.backBtn.setTitle("全选", for: .normal)
                 imageArr.forEach { (file) in
                     file.isSelected = .CDFalse
@@ -120,7 +126,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 toolbar.enableReloadBar(isSelected: false)
             }
             collectionView.reloadData()
-        }else{
+        } else {
             self.navigationController?.popViewController(animated: true)
         }
 
@@ -152,7 +158,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             if file.fileType == .GifType {
                 let url = URL(fileURLWithPath: imagePath)
                 shareArr.append(url as NSObject)
-            }else{
+            } else {
                 let image = UIImage(contentsOfFile: imagePath)!
                 shareArr.append(image)
             }
@@ -204,7 +210,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 UIImageWriteToSavedPhotosAlbum(imageD, self, #selector(outputPhotoComlplete), nil)
             }
 
-        }else{
+        } else {
             DispatchQueue.main.async {
                 CDHUDManager.shareInstance().hideWait()
                 CDHUDManager.shareInstance().showComplete(text: "导出成功!")
@@ -226,7 +232,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         var btnTitle = String()
         if selectedImageArr.count > 1{
             btnTitle = "删除\(selectedImageArr.count)张图片"
-        }else{
+        } else {
             btnTitle = "删除照片"
         }
 
@@ -293,9 +299,6 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         super.subFolderType = folderInfo.folderType
         presentDocumentPicker(documentTypes: documentTypes)
     }
-    @objc func onDocumentInputFileSuccess(){
-        refreshData()
-    }
     //TODO:拍照
     @objc func takePhotoClick() -> Void {
 
@@ -307,7 +310,7 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 let alert = UIAlertController(title: "相机访问被拒绝", message: "请在”设置-隐私-相机“中，允许相机访问本应用", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-            }else{
+            } else {
                 let camera = CDCameraViewController()
                 camera.delegate = self
                 camera.isVideo = false
@@ -339,54 +342,48 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         return imageArr.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCellIdrr", for: indexPath) as! CDImageCell
         let tmpFile:CDSafeFileInfo = imageArr[indexPath.item]
         cell.setImageData(fileInfo: tmpFile,isMutilEdit: selectBtn.isSelected)
-
         return cell
     }
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         let cell:CDImageCell = collectionView.cellForItem(at: indexPath) as! CDImageCell
-
         if selectBtn.isSelected{
             let tmFile = imageArr[indexPath.item]
-            
-            var hidden = cell.selectedView.isHidden
             if tmFile.isSelected == .CDFalse { //本地点击之前未选中
-                hidden = false
+                cell.isSelected = true
                 selectCount += 1
                 tmFile.isSelected = .CDTrue
-            }else{
-                hidden = true
+            } else {
+                cell.isSelected = false
                 selectCount -= 1
                 tmFile.isSelected = .CDFalse
             }
-            cell.selectedView.isHidden = hidden
+            cell.reloadSelectImageView()
             if selectCount > 0 {
                 toolbar.enableReloadBar(isSelected: true)
                 //拼图：2-16张，GIF不能拼
-                if selectCount > 16
-                    || selectCount < 2
-                    || tmFile.fileType == .GifType{
+                if selectCount > 16 ||
+                    selectCount < 2 ||
+                    tmFile.fileType == .GifType{
                     toolbar.appendItem.isEnabled = false
-                }else{
+                } else {
                     toolbar.appendItem.isEnabled = true
                 }
-            }else{
+            } else {
                 toolbar.enableReloadBar(isSelected: false)
             }
             if selectCount == imageArr.count {
                 backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
                 backBtn.contentHorizontalAlignment = .left
                 backBtn.setTitle("全不选", for: .normal)
-            }else{
+            } else {
                 backBtn.setTitle("全选", for: .normal)
             }
-        }else{
+        } else {
             let scrollerVC = CDImageScrollerViewController()
             scrollerVC.currentIndex = indexPath.item
             scrollerVC.inputArr = imageArr
@@ -448,14 +445,12 @@ class CDImageViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
         NotificationCenter.default.removeObserver(self, name: DismissImagePicker, object: nil)
-        NotificationCenter.default.removeObserver(self, name: DocumentInputFile, object: nil)
         
 
     }
     func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(onNeedReloadData), name: NeedReloadData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissImagePicker), name: DismissImagePicker, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onDocumentInputFileSuccess), name: DocumentInputFile, object: nil)
 
     }
     override func didReceiveMemoryWarning() {

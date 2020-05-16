@@ -8,19 +8,21 @@
 
 import UIKit
 
-class CDImageEditViewController: UIViewController,CDNavigationBarDelegate,CDEditorsViewDelegate {
+class CDImageEditViewController:
+    UIViewController,
+    CDNavigationBarDelegate,
+    CDEditorsViewDelegate {
 
-    var imageInfo:CDSafeFileInfo!
-    var scroller:CDImageScrollView!
-    var toolBar:CDEditToolView!
-    var headerBar:CDNavigationBar!
-    var editImage:UIImage!
+    public var imageInfo:CDSafeFileInfo!
+    public var scroller:CDImageScrollView!
+    private var toolBar:CDEditToolView!
+    private var headerBar:CDNavigationBar!
+    private var editImage:UIImage!
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "图片编辑"
         self.view.backgroundColor = UIColor.white
         CDEditManager.shareInstance().editStep = NSEditStep.NOTEdit
         headerBar = CDNavigationBar(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 44 + StatusHeight))
@@ -73,6 +75,7 @@ class CDImageEditViewController: UIViewController,CDNavigationBarDelegate,CDEdit
         }
 
         toolBar = CDEditToolView(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - 48, width: CDSCREEN_WIDTH, height: 48))
+        toolBar.itemsView.mDelegate = self
         self.view.addSubview(toolBar)
 
         
@@ -124,5 +127,7 @@ class CDImageEditViewController: UIViewController,CDNavigationBarDelegate,CDEdit
         }
     }
 
-
+    func onSelectEditorWith(model: CDEditorsModel) {
+        print(model.title)
+    }
 }

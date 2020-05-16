@@ -77,6 +77,7 @@ class CDNavigationBar: UIImageView {
         self.backItem.isHidden = false
         self.saveItem.isHidden = false
     }
+    
     @objc func setNavigationsStatus(){
         if CDEditManager.shareInstance().editStep == NSEditStep.NOTEdit  {
             UIView.animate(withDuration: 0.5, animations: {

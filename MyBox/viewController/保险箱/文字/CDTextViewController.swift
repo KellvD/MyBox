@@ -225,10 +225,12 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             DispatchQueue.main.async {
                 CDHUDManager.shareInstance().showWait(text: "删除中...")
             }
+            
             DispatchQueue.global().async {
                 for index in 0..<self.selectedFileArr.count{
                     let fileInfo = self.selectedFileArr[index]
                     let filePath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                    
                     try! FileManager.default.removeItem(atPath: filePath)
                     CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
                     
@@ -274,6 +276,8 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.archive"]
         super.subFolderId = folderInfo.folderId
         super.subFolderType = folderInfo.folderType
+        self.isNeedReloadData = true
+//        super.processHandle
         presentDocumentPicker(documentTypes: documentTypes)
     }
     @objc func addItemClick(){
