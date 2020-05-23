@@ -290,16 +290,17 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                //                let camera = CDCameraViewController()
-                //                camera.delegate = self
-                //                camera.isVideo = true
-                //                self.present(camera, animated: true, completion: nil)
-                let pickVC = UIImagePickerController();
-                pickVC.sourceType = .camera;
-                pickVC.mediaTypes = ["public.movie"]
-                pickVC.allowsEditing = true
-                pickVC.delegate = self
-                present(pickVC, animated: true, completion: nil)
+                                let camera = CDCameraViewController()
+                                camera.delegate = self
+                                camera.isVideo = true
+                camera.modalPresentationStyle = .fullScreen
+                                self.present(camera, animated: true, completion: nil)
+//                let pickVC = UIImagePickerController();
+//                pickVC.sourceType = .camera;
+//                pickVC.mediaTypes = ["public.movie"]
+//                pickVC.allowsEditing = true
+//                pickVC.delegate = self
+//                present(pickVC, animated: true, completion: nil)
                 
                 
             }

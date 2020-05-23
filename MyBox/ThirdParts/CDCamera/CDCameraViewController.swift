@@ -148,6 +148,15 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
         }else{
             stillConnection.isVideoMirrored = false;
         }
+
+//        let audioSession = AVAudioSession()
+//        do {
+//            try audioSession.setCategory(.record)
+//            try audioSession.setActive(true, options: AVAudioSession.SetActiveOptions.)
+//        } catch {
+//
+//        }
+
     }
     func addVideoCapturePut(){
         captureOutput = AVCaptureMovieFileOutput()
