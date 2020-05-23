@@ -189,10 +189,10 @@ class CDCameraViewController: UIViewController,AVCaptureFileOutputRecordingDeleg
     }
 
     func onCameraPreviewToSave() {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(savePhotoToLocal), nil)
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(outputPhotoComplete(image:didFinishSavingWithError:contextInfo:)), nil)
         
     }
-    @objc func savePhotoToLocal(){
+    @objc private func outputPhotoComplete(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         delegate.onCameraTakePhotoDidFinshed!(cameraVC: self, image: image)
         photoPreview.isHidden = true
         photoPreview.imageView.image = nil

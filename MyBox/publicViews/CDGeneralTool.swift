@@ -2,7 +2,7 @@
 //  CDGeneralTool.swift
 //  
 //
-//  Created by changdong cwx889303 on 2020/4/22.
+//  Created by changdong on 2020/4/22.
 //
 
 import UIKit

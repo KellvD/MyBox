@@ -2,7 +2,7 @@
 //  CDDeviceTools.swift
 //  MyRule
 //
-//  Created by changdong cwx889303 on 2020/4/22.
+//  Created by changdong on 2020/4/22.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
