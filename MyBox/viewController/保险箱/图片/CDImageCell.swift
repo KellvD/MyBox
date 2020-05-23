@@ -120,13 +120,17 @@ class CDImageCell: UICollectionViewCell {
     
     func setVideoData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
         if isMutilEdit {
+            selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
-                self.selectedView.isHidden = false
+                selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+                isSelect = true
             }else{
-                self.selectedView.isHidden = true
+                selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+                isSelect = false
             }
+
         }else{
-            self.selectedView.isHidden = true
+            selectedView.isHidden = true
         }
 
         let tmpPath = String.thumpVideoPath().appendingFormat("/%@",fileInfo.thumbImagePath.lastPathComponent())

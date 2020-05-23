@@ -17,15 +17,15 @@ class CDUserInfo: NSObject {
 
 class CDSafeFolder : NSObject {
 
-    var folderName = String()
-    var folderId = Int()
-    var folderType:NSFolderType!
-    var isLock = Int()
-    var identify = Int()
-    var createTime = Int()
-    var userId = Int()
-    var superId = Int()
-    var folderPath = String()
+    var folderName = String()  //文件夹名称
+    var folderId = Int()       //文件夹id
+    var folderType:NSFolderType! //文件夹类型
+    var isLock = Int()           //文件夹是否新建还是默认
+    var fakeType = CDFakeType.visible         //文件夹访客可见不可见
+    var createTime = Int()       //文件夹创建时间
+    var userId = Int()           //预留，多账户使用
+    var superId = Int()          //多层级文件夹时顶级文件夹的ID
+    var folderPath = String()    //文件夹路径
     var isSelected:CDSelectedStatus! //不入库，作为判断文件操作时是否选中，出库时设置为”false“,选中时设置为”True“，最后判断本字段
 }
 

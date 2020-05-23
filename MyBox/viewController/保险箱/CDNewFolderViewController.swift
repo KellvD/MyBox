@@ -137,7 +137,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         folderInfo.folderName = folderName
         folderInfo.folderType = selectType
         folderInfo.isLock = LockOn
-        folderInfo.identify  = 2
+        folderInfo.fakeType = .invisible
         folderInfo.userId = CDUserId()
         folderInfo.createTime = Int(time)
         folderInfo.superId = ROOTSUPERID

@@ -141,7 +141,7 @@ class CDSettingViewController: CDBaseAllViewController,UITableViewDelegate,UITab
                 }
 
             }else{
-                CDHUD.showText(text: "iOS8以上的系统才支持指纹解锁")
+                CDHUDManager.shareInstance().showText(text: "iOS8以上的系统才支持指纹解锁")
                 let indexPath = IndexPath(row: 1, section: 0)
                 let indexArr:[IndexPath] = [indexPath]
                 tableview.reloadRows(at: indexArr, with: .none)

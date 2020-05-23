@@ -88,23 +88,13 @@
 		735513DF2457C19E009B7599 /* menu_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A22457C19C009B7599 /* menu_move@2x.png */; };
 		735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A32457C19C009B7599 /* chexiao-grey@2x.png */; };
 		735513E12457C19E009B7599 /* 其他@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A42457C19C009B7599 /* 其他@2x.png */; };
-		735513E22457C19E009B7599 /* CDCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512A62457C19C009B7599 /* CDCircleView.swift */; };
 		735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A82457C19C009B7599 /* record_unrecord@2x.png */; };
-		735513E42457C19E009B7599 /* ic_safe_cancel_clickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */; };
 		735513E52457C19E009B7599 /* record_line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AA2457C19C009B7599 /* record_line2@2x.png */; };
 		735513E62457C19E009B7599 /* audiostop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AB2457C19C009B7599 /* audiostop@2x.png */; };
-		735513E72457C19E009B7599 /* record_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AC2457C19C009B7599 /* record_move@2x.png */; };
-		735513E82457C19E009B7599 /* ic_safe_save_recording_clickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */; };
-		735513E92457C19E009B7599 /* record_forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AE2457C19C009B7599 /* record_forward@2x.png */; };
 		735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512AF2457C19C009B7599 /* record_recording@2x.png */; };
-		735513EB2457C19E009B7599 /* record_timeProgressBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */; };
-		735513EC2457C19E009B7599 /* record_detailInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B12457C19C009B7599 /* record_detailInfo@2x.png */; };
-		735513ED2457C19E009B7599 /* ic_safe_cancel_unclickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */; };
 		735513EE2457C19E009B7599 /* record_line1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B32457C19C009B7599 /* record_line1@2x.png */; };
 		735513EF2457C19E009B7599 /* audioplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B42457C19C009B7599 /* audioplay@2x.png */; };
 		735513F02457C19E009B7599 /* type_audio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B52457C19C009B7599 /* type_audio@2x.png */; };
-		735513F12457C19E009B7599 /* ic_safe_save_recording_unclickable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */; };
-		735513F22457C19E009B7599 /* record_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512B72457C19C009B7599 /* record_delete@2x.png */; };
 		735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512B82457C19C009B7599 /* CDAudioViewController.swift */; };
 		735513F42457C19E009B7599 /* CDAudioRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */; };
 		735513F52457C19E009B7599 /* CDFolderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512BA2457C19C009B7599 /* CDFolderDetailViewController.swift */; };
@@ -260,6 +250,12 @@
 		73FC55D724654DBA0052E117 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FC55D624654DBA0052E117 /* MBProgressHUD.framework */; };
 		73FC55D824654E500052E117 /* MBProgressHUD.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 73FC55D624654DBA0052E117 /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73FC55DA2465503C0052E117 /* CDHUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FC55D92465503C0052E117 /* CDHUDManager.swift */; };
+		EF14157F2479635A00AAE11C /* record_cancle_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF14157B2479635A00AAE11C /* record_cancle_grey@2x.png */; };
+		EF1415802479635A00AAE11C /* record_sure_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF14157C2479635A00AAE11C /* record_sure_grey@2x.png */; };
+		EF1415812479635A00AAE11C /* record_cancle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF14157D2479635A00AAE11C /* record_cancle@2x.png */; };
+		EF1415822479635A00AAE11C /* record_sure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF14157E2479635A00AAE11C /* record_sure@2x.png */; };
+		EF1415862479637600AAE11C /* CDCircleProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1415842479637600AAE11C /* CDCircleProcess.swift */; };
+		EF1415872479637600AAE11C /* record_timeProgressBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF1415852479637600AAE11C /* record_timeProgressBG@2x.png */; };
 		EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */; };
 		EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -373,23 +369,13 @@
 		735512A22457C19C009B7599 /* menu_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_move@2x.png"; sourceTree = "<group>"; };
 		735512A32457C19C009B7599 /* chexiao-grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chexiao-grey@2x.png"; sourceTree = "<group>"; };
 		735512A42457C19C009B7599 /* 其他@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "其他@2x.png"; sourceTree = "<group>"; };
-		735512A62457C19C009B7599 /* CDCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCircleView.swift; sourceTree = "<group>"; };
 		735512A82457C19C009B7599 /* record_unrecord@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_unrecord@2x.png"; sourceTree = "<group>"; };
-		735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_cancel_clickable@2x.png"; sourceTree = "<group>"; };
 		735512AA2457C19C009B7599 /* record_line2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_line2@2x.png"; sourceTree = "<group>"; };
 		735512AB2457C19C009B7599 /* audiostop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audiostop@2x.png"; sourceTree = "<group>"; };
-		735512AC2457C19C009B7599 /* record_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_move@2x.png"; sourceTree = "<group>"; };
-		735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_save_recording_clickable@2x.png"; sourceTree = "<group>"; };
-		735512AE2457C19C009B7599 /* record_forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_forward@2x.png"; sourceTree = "<group>"; };
 		735512AF2457C19C009B7599 /* record_recording@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_recording@2x.png"; sourceTree = "<group>"; };
-		735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_timeProgressBG@2x.png"; sourceTree = "<group>"; };
-		735512B12457C19C009B7599 /* record_detailInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_detailInfo@2x.png"; sourceTree = "<group>"; };
-		735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_cancel_unclickable@2x.png"; sourceTree = "<group>"; };
 		735512B32457C19C009B7599 /* record_line1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_line1@2x.png"; sourceTree = "<group>"; };
 		735512B42457C19C009B7599 /* audioplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioplay@2x.png"; sourceTree = "<group>"; };
 		735512B52457C19C009B7599 /* type_audio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "type_audio@2x.png"; sourceTree = "<group>"; };
-		735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_safe_save_recording_unclickable@2x.png"; sourceTree = "<group>"; };
-		735512B72457C19C009B7599 /* record_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_delete@2x.png"; sourceTree = "<group>"; };
 		735512B82457C19C009B7599 /* CDAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioViewController.swift; sourceTree = "<group>"; };
 		735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioRecordViewController.swift; sourceTree = "<group>"; };
 		735512BA2457C19C009B7599 /* CDFolderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFolderDetailViewController.swift; sourceTree = "<group>"; };
@@ -548,6 +534,12 @@
 		73FC55D52463E2E60052E117 /* CDDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDDefines.h; sourceTree = "<group>"; };
 		73FC55D624654DBA0052E117 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MBProgressHUD.framework; sourceTree = "<group>"; };
 		73FC55D92465503C0052E117 /* CDHUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDHUDManager.swift; sourceTree = "<group>"; };
+		EF14157B2479635A00AAE11C /* record_cancle_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_cancle_grey@2x.png"; sourceTree = "<group>"; };
+		EF14157C2479635A00AAE11C /* record_sure_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_sure_grey@2x.png"; sourceTree = "<group>"; };
+		EF14157D2479635A00AAE11C /* record_cancle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_cancle@2x.png"; sourceTree = "<group>"; };
+		EF14157E2479635A00AAE11C /* record_sure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_sure@2x.png"; sourceTree = "<group>"; };
+		EF1415842479637600AAE11C /* CDCircleProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCircleProcess.swift; sourceTree = "<group>"; };
+		EF1415852479637600AAE11C /* record_timeProgressBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_timeProgressBG@2x.png"; sourceTree = "<group>"; };
 		EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSqlModel.swift; sourceTree = "<group>"; };
 		EFC242F6245BF7DE00DDC829 /* file_dir_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_dir_big@2x.png"; sourceTree = "<group>"; };
 		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
@@ -787,7 +779,6 @@
 			children = (
 				735512B92457C19C009B7599 /* CDAudioRecordViewController.swift */,
 				735512B82457C19C009B7599 /* CDAudioViewController.swift */,
-				735512A62457C19C009B7599 /* CDCircleView.swift */,
 				735512A72457C19C009B7599 /* images */,
 			);
 			path = "语音";
@@ -796,22 +787,17 @@
 		735512A72457C19C009B7599 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				EF14157B2479635A00AAE11C /* record_cancle_grey@2x.png */,
+				EF14157D2479635A00AAE11C /* record_cancle@2x.png */,
+				EF14157C2479635A00AAE11C /* record_sure_grey@2x.png */,
+				EF14157E2479635A00AAE11C /* record_sure@2x.png */,
 				735512A82457C19C009B7599 /* record_unrecord@2x.png */,
-				735512A92457C19C009B7599 /* ic_safe_cancel_clickable@2x.png */,
 				735512AA2457C19C009B7599 /* record_line2@2x.png */,
 				735512AB2457C19C009B7599 /* audiostop@2x.png */,
-				735512AC2457C19C009B7599 /* record_move@2x.png */,
-				735512AD2457C19C009B7599 /* ic_safe_save_recording_clickable@2x.png */,
-				735512AE2457C19C009B7599 /* record_forward@2x.png */,
 				735512AF2457C19C009B7599 /* record_recording@2x.png */,
-				735512B02457C19C009B7599 /* record_timeProgressBG@2x.png */,
-				735512B12457C19C009B7599 /* record_detailInfo@2x.png */,
-				735512B22457C19C009B7599 /* ic_safe_cancel_unclickable@2x.png */,
 				735512B32457C19C009B7599 /* record_line1@2x.png */,
 				735512B42457C19C009B7599 /* audioplay@2x.png */,
 				735512B52457C19C009B7599 /* type_audio@2x.png */,
-				735512B62457C19C009B7599 /* ic_safe_save_recording_unclickable@2x.png */,
-				735512B72457C19C009B7599 /* record_delete@2x.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -1035,6 +1021,7 @@
 		735513282457C19D009B7599 /* ThirdParts */ = {
 			isa = PBXGroup;
 			children = (
+				EF1415832479637600AAE11C /* CDCircleProgress */,
 				73D1A0E6246571E5001EC3EF /* CDHUD */,
 				735513292457C19D009B7599 /* MuitPickImage */,
 				735513382457C19D009B7599 /* SwiftGif */,
@@ -1225,6 +1212,15 @@
 			path = image;
 			sourceTree = "<group>";
 		};
+		EF1415832479637600AAE11C /* CDCircleProgress */ = {
+			isa = PBXGroup;
+			children = (
+				EF1415842479637600AAE11C /* CDCircleProcess.swift */,
+				EF1415852479637600AAE11C /* record_timeProgressBG@2x.png */,
+			);
+			path = CDCircleProgress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1289,7 +1285,6 @@
 				735513C32457C19E009B7599 /* input@2x.png in Resources */,
 				7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */,
 				735514432457C19E009B7599 /* 美图@2x.png in Resources */,
-				735513EC2457C19E009B7599 /* record_detailInfo@2x.png in Resources */,
 				735513BB2457C19E009B7599 /* selected@2x.png in Resources */,
 				735514292457C19E009B7599 /* 色相@2x.png in Resources */,
 				735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */,
@@ -1301,24 +1296,20 @@
 				735514302457C19E009B7599 /* forward_disable@2x.png in Resources */,
 				735514202457C19E009B7599 /* 滤镜@2x.png in Resources */,
 				7355149E2457C19E009B7599 /* rightUp@2x.png in Resources */,
-				735513F12457C19E009B7599 /* ic_safe_save_recording_unclickable@2x.png in Resources */,
 				735513CF2457C19E009B7599 /* folder_rename@2x.png in Resources */,
 				7355149C2457C19E009B7599 /* leftUp@2x.png in Resources */,
-				735513F22457C19E009B7599 /* record_delete@2x.png in Resources */,
 				735513C12457C19E009B7599 /* sure@2x.png in Resources */,
 				7355141F2457C19E009B7599 /* 曝光度@2x.png in Resources */,
 				7355145B2457C19E009B7599 /* videoFlag@2x.png in Resources */,
 				735513DB2457C19E009B7599 /* file_pdf_big@2x.png in Resources */,
-				735513E72457C19E009B7599 /* record_move@2x.png in Resources */,
-				735513E82457C19E009B7599 /* ic_safe_save_recording_clickable@2x.png in Resources */,
 				735513A52457C19D009B7599 /* 编辑歌单@2x.png in Resources */,
 				735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */,
 				735513E12457C19E009B7599 /* 其他@2x.png in Resources */,
+				EF1415822479635A00AAE11C /* record_sure@2x.png in Resources */,
 				EFC242F7245BF7DE00DDC829 /* file_dir_big@2x.png in Resources */,
 				735513A12457C19D009B7599 /* editMusic@2x.png in Resources */,
 				7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */,
 				7355149A2457C19E009B7599 /* icon.jpg in Resources */,
-				735513E42457C19E009B7599 /* ic_safe_cancel_clickable@2x.png in Resources */,
 				735513BE2457C19E009B7599 /* addFile@2x.png in Resources */,
 				735514982457C19E009B7599 /* 密盒_selected@2x.png in Resources */,
 				735514422457C19E009B7599 /* camera@2x.png in Resources */,
@@ -1360,6 +1351,7 @@
 				7355139F2457C19D009B7599 /* bar_play@2x.png in Resources */,
 				735513A02457C19D009B7599 /* 删除@2x.png in Resources */,
 				735513C02457C19E009B7599 /* record@2x.png in Resources */,
+				EF1415812479635A00AAE11C /* record_cancle@2x.png in Resources */,
 				735513CD2457C19E009B7599 /* 图片@2x.png in Resources */,
 				735513CB2457C19E009B7599 /* menu_move_grey@2x.png in Resources */,
 				735513D52457C19E009B7599 /* file_excel_big@2x.png in Resources */,
@@ -1389,17 +1381,19 @@
 				735513C22457C19E009B7599 /* no_selected@2x.png in Resources */,
 				735514632457C19E009B7599 /* cameraSwitch.png in Resources */,
 				7355149F2457C19E009B7599 /* 下导航-bg@2x.png in Resources */,
-				735513ED2457C19E009B7599 /* ic_safe_cancel_unclickable@2x.png in Resources */,
 				735513DE2457C19E009B7599 /* no_edit@2x.png in Resources */,
 				735513DC2457C19E009B7599 /* file_txt_big@2x.png in Resources */,
 				735513A72457C19D009B7599 /* 分享@2x.png in Resources */,
 				735513CE2457C19E009B7599 /* menu_forward_grey@2x.png in Resources */,
 				735513A22457C19D009B7599 /* 下一首播放@2x.png in Resources */,
+				EF1415802479635A00AAE11C /* record_sure_grey@2x.png in Resources */,
 				7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */,
 				735514652457C19E009B7599 /* retake@2x.png in Resources */,
 				7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */,
 				7355139C2457C19D009B7599 /* 更改排序@2x.png in Resources */,
+				EF1415872479637600AAE11C /* record_timeProgressBG@2x.png in Resources */,
 				735514312457C19E009B7599 /* 饱和度@2x.png in Resources */,
+				EF14157F2479635A00AAE11C /* record_cancle_grey@2x.png in Resources */,
 				735513EE2457C19E009B7599 /* record_line1@2x.png in Resources */,
 				735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */,
 				735513F02457C19E009B7599 /* type_audio@2x.png in Resources */,
@@ -1411,7 +1405,6 @@
 				7355140E2457C19E009B7599 /* sliderPoint@2x.png in Resources */,
 				735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */,
 				735513D62457C19E009B7599 /* file_rtf_big@2x.png in Resources */,
-				735513EB2457C19E009B7599 /* record_timeProgressBG@2x.png in Resources */,
 				735513B92457C19E009B7599 /* addDir@2x.png in Resources */,
 				735513D22457C19E009B7599 /* sure-grey@2x.png in Resources */,
 				735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */,
@@ -1420,7 +1413,6 @@
 				73D1A45724697756001EC3EF /* sliderThumb@2x.png in Resources */,
 				7355139A2457C19D009B7599 /* 菜单左@2x.png in Resources */,
 				735513C42457C19E009B7599 /* 视频@2x.png in Resources */,
-				735513E92457C19E009B7599 /* record_forward@2x.png in Resources */,
 				7355140D2457C19E009B7599 /* video@2x.png in Resources */,
 				735514452457C19E009B7599 /* fileDetail@2x.png in Resources */,
 				735513B82457C19E009B7599 /* output@2x.png in Resources */,
@@ -1481,6 +1473,7 @@
 				7355143E2457C19E009B7599 /* CDFilterView.swift in Sources */,
 				735513F82457C19E009B7599 /* CDFolderListViewController.swift in Sources */,
 				735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */,
+				EF1415862479637600AAE11C /* CDCircleProcess.swift in Sources */,
 				7355148C2457C19E009B7599 /* CDPopMenuView.swift in Sources */,
 				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
 				735514132457C19E009B7599 /* CDMosaicView.swift in Sources */,
@@ -1509,7 +1502,6 @@
 				735514122457C19E009B7599 /* CDImageCell.swift in Sources */,
 				7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */,
 				735513A92457C19D009B7599 /* CDMusicManager.swift in Sources */,
-				735513E22457C19E009B7599 /* CDCircleView.swift in Sources */,
 				735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */,
 				735514082457C19E009B7599 /* CDVideoViewController.swift in Sources */,
 				735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */,

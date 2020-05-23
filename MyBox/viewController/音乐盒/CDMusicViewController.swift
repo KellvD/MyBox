@@ -127,7 +127,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //            }
 //            DispatchQueue.main.async {
 //                CDHUD.hide()
-//                CDHUD.showText(text: "加载完成")
+//                CDHUDManager.shareInstance().showText(text: "加载完成")
 //            }
 //        }
 //        let musicArr = CDSqlManager.instance().queryAllMusic()

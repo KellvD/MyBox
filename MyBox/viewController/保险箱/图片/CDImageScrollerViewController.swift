@@ -147,14 +147,13 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let fileInfo = inputArr[currentIndex]
         let imagePath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
         let url = URL(fileURLWithPath: imagePath)
-//        presentShareActivityWith(dataArr: [url])
+        presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
     
     //TODO:收藏
     @objc func loveItemClick()
     {
         let fileInfo = inputArr[currentIndex]
-
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
             loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
@@ -182,7 +181,6 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             DispatchQueue.main.async {
                 CDHUDManager.shareInstance().showComplete(text: "删除完成！")
                 self.collectionView.reloadData()
-                NotificationCenter.default.post(name: NeedReloadData, object: nil)
             }
 
         }))
@@ -191,10 +189,11 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
 
     }
     @objc func editItemClick(){
-        let editVC = CDImageEditViewController()
-        editVC.imageInfo = inputArr[currentIndex]
-        editVC.modalPresentationStyle = .fullScreen
-        self.present(editVC, animated: true, completion: nil)
+        CDHUDManager.shareInstance().showText(text: "尚未开发！")
+//        let editVC = CDImageEditViewController()
+//        editVC.imageInfo = inputArr[currentIndex]
+//        editVC.modalPresentationStyle = .fullScreen
+//        self.present(editVC, animated: true, completion: nil)
     }
     
 

@@ -48,7 +48,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     @objc func saveBtnClick(sender:UIButton){
         let contentStr:String = removeSpaceAndNewline(str: textView.text)
         if JudgeStringIsEmpty(string: contentStr){
-            CDHUD.showText(text: "啥也没写呢")
+            CDHUDManager.shareInstance().showText(text: "啥也没写呢")
             return
         }
         sender.isUserInteractionEnabled = false
@@ -65,7 +65,6 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         fileInfo.fileType = NSFileType.PlainTextType
         CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
         self.navigationController?.popViewController(animated: true);
-        NotificationCenter.default.post(name: NeedReloadData, object: nil);
     }
 
 

@@ -62,10 +62,10 @@ class CDLockViewController:CDBaseAllViewController {
         let pwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
 
         if JudgeStringIsEmpty(string:pwd) {
-           CDHUD.showText(text: "请输入密码")
+           CDHUDManager.shareInstance().showText(text: "请输入密码")
             return
         }else if inputPwd != pwd{
-            CDHUD.showText(text: "密码输入有误")
+            CDHUDManager.shareInstance().showText(text: "密码输入有误")
             return
         }
         let settingVC = CDSafeViewController()

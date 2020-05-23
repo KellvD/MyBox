@@ -15,6 +15,8 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     
     
     
+    
+    
     public var folderInfo:CDSafeFolder!
     
     private var toolbar:CDToolBar!
@@ -89,6 +91,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     }
     //多选
     @objc func multisEditBtnClick() -> Void {
+        selectCount = 0
         self.editBtn.isSelected = !(self.editBtn.isSelected)
         if (self.editBtn.isSelected) { //点了选择操作
             //1.返回变全选
@@ -107,9 +110,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: false)
             selectedVideoArr.removeAll()
-            videoArr.forEach { (file) in
-                file.isSelected = .CDTrue
-            }
+            
         }
         collectionView.reloadData()
     }
@@ -119,46 +120,56 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         if editBtn.isSelected { //
             selectedVideoArr.removeAll()
             if (self.backBtn.titleLabel?.text == "全选") { //全选
-                backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
-                backBtn.contentHorizontalAlignment = .left
-                self.backBtn.setTitle("全不选", for: .normal)
                 videoArr.forEach { (file) in
                     file.isSelected = .CDTrue
                 }
                 selectCount = videoArr.count
-                toolbar.enableReloadBar(isSelected: true)
             }else{
-                self.backBtn.setTitle("全选", for: .normal)
                 videoArr.forEach { (file) in
                     file.isSelected = .CDFalse
                 }
                 selectCount = 0
-                toolbar.enableReloadBar(isSelected: false)
             }
-            collectionView.reloadData()
+            refreshUI()
         }else{
             self.navigationController?.popViewController(animated: true)
         }
         
     }
     
+    func refreshUI(){
+        if selectCount > 0 {
+            toolbar.enableReloadBar(isSelected: true)
+            if selectCount < 2 || selectCount > 5 { //视频拼接只能2-5个
+                toolbar.appendItem.isEnabled = false
+            }else{
+                toolbar.appendItem.isEnabled = true
+            }
+        }else{
+            toolbar.enableReloadBar(isSelected: false)
+        }
+        if selectCount == videoArr.count {
+            backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
+            backBtn.contentHorizontalAlignment = .left
+            backBtn.setTitle("全不选", for: .normal)
+        }else{
+            backBtn.setTitle("全选", for: .normal)
+        }
+        collectionView.reloadData()
+    }
     //TODO:分享事件
     @objc func shareBarItemClick(){
         handelSelectedArr()
-        var shareArr:[URL] = []
+        var shareArr:[NSObject] = []
         for index in 0..<self.selectedVideoArr.count{
             let file:CDSafeFileInfo = self.selectedVideoArr[index]
             let videoPath = String.VideoPath().appendingPathComponent(str: file.filePath.lastPathComponent())
             let url = URL(fileURLWithPath: videoPath)
-            shareArr.append(url)
-            
+            shareArr.append(url as NSObject)
         }
-        presentShareActivityWith(dataArr: shareArr) { (complete, error) in
-            if complete {
-                CDHUDManager.shareInstance().showComplete(text: "分享完成!")
-                self.refreshData()
-                self.multisEditBtnClick()
-            }
+    
+        presentShareActivityWith(dataArr: shareArr) { (error) in
+            self.multisEditBtnClick()
         }
         
     }
@@ -187,6 +198,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 
             }
         }))
+        present(alert, animated: true, completion: nil)
     }
     //导出操作是串行，outputVideoArr临时存放操作文件，从导出完成一个，从数组删除该文件，继续导出操作
     func outputVideoToLocal() -> Void {
@@ -197,7 +209,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 let videoPath = String.VideoPath().appendingPathComponent(str: fileName)
                 let compatible = UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(videoPath)
                 if compatible{
-                    UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, #selector(outputVideoComplete), nil)
+                    UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, #selector(outputVideoComplete(videoPath:didFinishSavingWithError:contextInfo:)), nil)
                 }else{
                     let filsC:CDSafeFileInfo = outputVideoArr[0];
                     let fileName = filsC.filePath.lastPathComponent()
@@ -216,11 +228,11 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         }
         
     }
-    @objc func outputVideoComplete() {
+
+    @objc private func outputVideoComplete(videoPath: String, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         //导出成功后删除数组第一个,继续导出操作
         outputVideoArr.remove(at: 0)
         outputVideoToLocal()
-        
     }
     
     //TODO:删除
@@ -313,7 +325,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
         let sheet = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "拼接视频", style: .destructive, handler: { (action) in
-            CDHUD.showLoading(text: "正在处理...")
+            CDHUDManager.shareInstance().showWait(text: "正在处理...")
             DispatchQueue.global().async {
                 self.deleteBarItemClick()
             }
@@ -327,13 +339,13 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         let documentTypes = ["public.movie"]
         super.subFolderId = folderInfo.folderId
         super.subFolderType = folderInfo.folderType
+        super.processHandle = {(_ success:Bool) -> Void in
+            if success {
+                self.refreshData()
+            }
+        }
         presentDocumentPicker(documentTypes: documentTypes)
     }
-    
-    @objc func onDocumentInputFileSuccess(){
-        refreshData()
-    }
-    
     
     //collectionviewDelegate
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -356,35 +368,18 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
         if editBtn.isSelected{
             let tmFile = videoArr[indexPath.item]
-            
-            var hidden = cell.selectedView.isHidden
-            if tmFile.isSelected == .CDFalse {
-                hidden = false
+                if tmFile.isSelected == .CDFalse {
+                cell.isSelected = true
                 selectCount += 1
                 tmFile.isSelected = .CDTrue
             }else{
-                hidden = true
+                cell.isSelected = false
                 selectCount -= 1
                 tmFile.isSelected = .CDFalse
             }
-            cell.selectedView.isHidden = hidden
-            if selectCount > 0 {
-                toolbar.enableReloadBar(isSelected: true)
-                if selectCount < 2 || selectCount > 5 { //视频拼接只能2-5个
-                    toolbar.appendItem.isEnabled = false
-                }else{
-                    toolbar.appendItem.isEnabled = true
-                }
-            }else{
-                toolbar.enableReloadBar(isSelected: false)
-            }
-            if selectCount == videoArr.count {
-                backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
-                backBtn.contentHorizontalAlignment = .left
-                backBtn.setTitle("全不选", for: .normal)
-            }else{
-                backBtn.setTitle("全选", for: .normal)
-            }
+            cell.reloadSelectImageView()
+            refreshUI()
+            
         }else{
             let scrollerVC = CDVideoScrollerViewController()
             scrollerVC.currentIndex = indexPath.item
@@ -397,9 +392,10 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     
     
     //TODO:CDMeidaPickerDelegate
-    func mediaPickerDidFinished(picker: CDMediaPickerViewController, data: NSObject, isLast: Bool) {
-         
-     }
+    func mediaPickerDidFinished(picker: CDMediaPickerViewController, data: NSObject, index: Int, totalCount: Int) {
+        CDSignalTon.shareInstance().customPickerView = nil
+        picker.dismiss(animated: true, completion: nil)
+    }
      
     
      
@@ -450,13 +446,6 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     @objc func needReloadData() {
         isNeedReloadData = true
     }
-    @objc func onDismissImagePicker(notic:Notification) {
-        isNeedReloadData = true
-        refreshData()
-        CDSignalTon.shareInstance().customPickerView.dismiss(animated: true, completion: nil)
-        
-        
-    }
     
     //TODO:pick-delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
@@ -503,16 +492,9 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     
     func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
-        NotificationCenter.default.removeObserver(self, name: DismissImagePicker, object: nil)
-        NotificationCenter.default.removeObserver(self, name: DocumentInputFile, object: nil)
-        
     }
     func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(needReloadData), name: NeedReloadData, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissImagePicker), name: DismissImagePicker, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onDocumentInputFileSuccess), name: DocumentInputFile, object: nil)
-        
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

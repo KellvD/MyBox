@@ -124,6 +124,7 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             titleL.text = "备注"
             detaileL.text = fileInfo.markInfo
         }
+        
         return cell
 
     }

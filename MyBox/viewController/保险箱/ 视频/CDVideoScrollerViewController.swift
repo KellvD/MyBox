@@ -140,8 +140,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         let fileInfo = fileArr[currentIndex]
         let videoPath = String.VideoPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
         let url = URL(fileURLWithPath: videoPath)
-//        presentShareActivityWith(dataArr: [url])
-
+        presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
     //TODO:收藏
     @objc func loveItemClick()
@@ -183,7 +182,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
 
             DispatchQueue.main.async {
                 CDHUD.hide()
-                CDHUD.showText(text: "删除成功")
+                CDHUDManager.shareInstance().showText(text: "删除成功")
 
             }
 

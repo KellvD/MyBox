@@ -15,7 +15,6 @@ import AVFoundation
 }
 class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
 
-    var hasPlayTimeLab:UILabel!
     var remainTimeLab:UILabel!
     var sliderView:UISlider!
 
@@ -34,31 +33,31 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
         pause.addTarget(self, action: #selector(onAudioBtnPressed), for: .touchUpInside)
         self.addSubview(pause)
 
-        hasPlayTimeLab = UILabel(frame: CGRect(x: pause.frame.maxX+5, y: 14, width: 35, height: 20))
-        hasPlayTimeLab.textColor = TextGrayColor
-        hasPlayTimeLab.backgroundColor = UIColor.clear
-        hasPlayTimeLab.font = TextSmallFont
-        hasPlayTimeLab.adjustsFontSizeToFitWidth = true
-        self.addSubview(hasPlayTimeLab)
-
-        sliderView = UISlider(frame: CGRect(x: hasPlayTimeLab.frame.maxX+5, y: 14, width: CDSCREEN_WIDTH-130, height: 20))
+        sliderView = UISlider(frame: CGRect(x: pause.frame.maxX+5, y: 14, width: CDSCREEN_WIDTH-130, height: 20))
         sliderView.minimumValue = 0
+        sliderView.setThumbImage(LoadImageByName(imageName: "sliderThumb", type: "png"), for: .normal)
         sliderView.addTarget(self, action: #selector(changePlayTime), for: .valueChanged)
         self.addSubview(sliderView)
 
-        remainTimeLab = UILabel(frame: CGRect(x: sliderView.frame.maxX, y: 14, width: 35, height: 20))
+        remainTimeLab = UILabel(frame: CGRect(x: sliderView.frame.maxX + 5, y: 14, width: 35, height: 20))
         remainTimeLab.textColor = TextGrayColor
         remainTimeLab.backgroundColor = UIColor.clear
         remainTimeLab.font = TextSmallFont
         remainTimeLab.adjustsFontSizeToFitWidth = true
         self.addSubview(remainTimeLab)
+        
+        let stopBtn = UIButton(type: .custom)
+        stopBtn.frame = CGRect(x: CDSCREEN_WIDTH - 40, y: 9, width: 30, height: 30)
+        stopBtn.setImage(LoadImageByName(imageName: "record_cancle", type: "png"), for: .normal)
+        stopBtn.addTarget(self, action: #selector(stopPlayer), for: .touchUpInside)
+        self.addSubview(stopBtn)
 
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func createPlayer(audioPath:String){
 
         pause.setBackgroundImage(LoadImageByName(imageName: "audiostop", type: "png"), for: .normal)
@@ -128,13 +127,8 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
     func updatePlayerTimeViewWithCurrentTime(current:Float) {
 
         let currentT = Double(current + 0.5)
-        let remainT = Double(Float(timeLength) - current + 0.5)
-//        DispatchQueue.main.async {
-            self.sliderView.value = current
-            self.hasPlayTimeLab.text = getMMSSFromSS(second: currentT)
-            self.remainTimeLab.text = getMMSSFromSS(second: remainT)
-            print(current)
-//        }
+        self.sliderView.value = current
+        self.remainTimeLab.text = getMMSSFromSS(second: currentT)
 
     }
     func startTimer() {
@@ -158,7 +152,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
         timer.fireDate = Date.distantFuture
     }
 
-    func stopPlayer() {
+    @objc func stopPlayer() {
 
         stopTimer()
         Adelegate?.audioFinishPlay()
@@ -174,6 +168,5 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
         }
 
     }
-
 
 }

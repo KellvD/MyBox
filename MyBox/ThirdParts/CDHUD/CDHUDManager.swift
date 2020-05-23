@@ -111,6 +111,9 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         porgressView = UIProgressView()
         porgressView.progress = 0
         porgressView.frame = CGRect(x: UIScreen.main.bounds.width/2 - 120, y: UIScreen.main.bounds.height/2, width: 240 , height: 15)
+        porgressView.progressViewStyle = .default
+        porgressView.progressTintColor = .red
+        porgressView.backgroundColor = .white
         bgView.addSubview(porgressView)
         
         porgressLabel = UILabel(frame: CGRect(x: porgressView.frame.origin.x, y: porgressView.frame.origin.y - 30, width: 240, height: 21))
@@ -123,8 +126,10 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
     }
     
     func updateProgress(num:Float,text:String) {
-        porgressLabel.text = text
-        porgressView.progress = num
+        if bgView != nil {
+            porgressLabel.text = text
+            porgressView.setProgress(num, animated: true)
+        }
     }
     func hideProgress() {
         bgView.removeFromSuperview()

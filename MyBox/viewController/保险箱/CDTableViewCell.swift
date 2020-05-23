@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum CDSelectIconState:Int  {
+    case hide = 1 //隐藏
+    case show = 2 //显示
+    case selected = 3 //选中
+}
 class CDTableViewCell: UITableViewCell {
 
     var fileNameL:UILabel!
@@ -16,7 +21,7 @@ class CDTableViewCell: UITableViewCell {
     var headImage:UIImageView!
     var selectImage:UIImageView!
     var isSelect:Bool = false
-    var showSelectIcon = false
+    var showSelectIcon:CDSelectIconState!
 
 
 
@@ -44,10 +49,11 @@ class CDTableViewCell: UITableViewCell {
         fileCreateTimeL.font = TextSmallFont
         self.contentView.addSubview(fileCreateTimeL)
 
-        audioLengthL = UILabel(frame:CGRect(x: CDSCREEN_WIDTH-100, y: fileNameL.frame.maxY, width: 80, height: 30))
+        audioLengthL = UILabel(frame:CGRect(x: CDSCREEN_WIDTH-95, y: fileNameL.frame.maxY, width: 80, height: 30))
         audioLengthL.textAlignment = .center
         audioLengthL.textColor = TextGrayColor
         audioLengthL.font = TextSmallFont
+        audioLengthL.textAlignment = .right
         self.contentView.addSubview(audioLengthL)
         audioLengthL.isHidden = true
 
@@ -72,43 +78,35 @@ class CDTableViewCell: UITableViewCell {
         fileCreateTimeL.text = timestampTurnString(timestamp: fileInfo.createTime)
 
         let imageName = CDSignalTon.shareInstance().returnImgName(type: fileInfo.fileType!.rawValue)
+//        var rect = audioLengthL.frame
         headImage.image = UIImage(named: imageName!)
-        var frame = audioLengthL.frame
-        if showSelectIcon {
-            selectImage.isHidden = false
-            frame.origin.x = CDSCREEN_WIDTH-30-80
-            if !isSelect {
-                selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
-            }else{
-                selectImage.image = LoadImageByName(imageName: "selected", type: "png")
-            }
-        }else{
-            selectImage.isHidden = true
-            frame.origin.x = CDSCREEN_WIDTH-80
+        selectImage.isHidden = showSelectIcon == .hide
+        if showSelectIcon == .show {
+            selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
+//            rect.origin.x -= 30
+        } else if showSelectIcon == .selected {
+            selectImage.image = LoadImageByName(imageName: "selected", type: "png")
+//            rect.origin.x -= 30
         }
-        audioLengthL.frame = frame
+        
+        
         if fileInfo.fileType == .AudioType {
+//            audioLengthL.frame = frame
             audioLengthL.isHidden = false
             audioLengthL.text = getMMSSFromSS(second: fileInfo.timeLength)
-        }else{
-            audioLengthL.isHidden = true
         }
     }
+    
     func setConfigFolderData(folder:CDSafeFolder) {
         fileNameL.text = folder.folderName
         fileCreateTimeL.text = timestampTurnString(timestamp: folder.createTime)
         headImage.image = UIImage(named: "file_dir_big")
         
-        if showSelectIcon {
-            selectImage.isHidden = false
-            if !isSelect {
-                selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
-            }else{
-                selectImage.image = LoadImageByName(imageName: "selected", type: "png")
-
-            }
-        }else{
-            selectImage.isHidden = true
+        selectImage.isHidden = showSelectIcon == .hide
+        if showSelectIcon == .show {
+            selectImage.image = LoadImageByName(imageName: "no_selected", type: "png")
+        } else if showSelectIcon == .selected {
+            selectImage.image = LoadImageByName(imageName: "selected", type: "png")
         }
     }
     

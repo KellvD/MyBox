@@ -10,16 +10,16 @@ import UIKit
 
 class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
 
+    public var folderInfo:CDSafeFolder!
 
-    var tableView:UITableView!
-    var folderInfo:CDSafeFolder!
-    var fakeSwitch:UISwitch!
-
-    var totalSize:Int = 0
+    private var tableView:UITableView!
+    private var fakeSwitch:UISwitch!
+    private var totalSize:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        totalSize = CDSqlManager.instance().queryOneFolderSizeByFolder(folderId: folderInfo.folderId)
+        self.title = "文件夹简介"
+        let folderPath = String.libraryUserdataPath().appendingPathComponent(str: folderInfo.folderPath)
+        totalSize = getFolderSizeAtPath(folderPath: folderPath)
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         tableView.delegate = self;
         tableView.dataSource = self
@@ -31,7 +31,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             footView.backgroundColor = UIColor.clear
 
             let button = UIButton(type: .custom)
-            button.backgroundColor = CustomBlueColor
+            button.backgroundColor = .red
             button.setTitle("删除", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.frame = CGRect(x: 30, y: 30, width: CDSCREEN_WIDTH-60, height: 48)
@@ -111,14 +111,14 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         }else if indexPath.section == 1 {
             if indexPath.row == 0{
                 titleL.text = "创建时间"
-                detaileL?.text = timestampTurnString(timestamp: folderInfo.createTime/1000)
+                detaileL?.text = timestampTurnString(timestamp: folderInfo.createTime)
             }else{
                 titleL.text = "大小"
                 detaileL?.text = returnSize(fileSize: totalSize)
             }
         }else if indexPath.section == 2 {
             titleL.text = "访客不可见"
-            let isOn = folderInfo.identify == 2 ? true : false
+            let isOn = folderInfo.fakeType == .invisible ? true : false
             fakeSwitch.isOn = isOn
 
             if CDSignalTon.shareInstance().currentType == CDLoginFake {
@@ -136,11 +136,11 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     @objc func chnageFakeModel(swi:UISwitch){
 
         if swi.isOn{
-            CDHUD.showText(text: "已成功修改为访客可见")
-            CDSqlManager.instance().updateOneSafeFileIndentity(indentity: 2, folderId: folderInfo.folderId)
+            CDHUDManager.shareInstance().showText(text: "已成功修改为访客可见")
+            CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .visible, folderId: folderInfo.folderId)
         }else{
-             CDHUD.showText(text: "已成功修改为访客不可见")
-            CDSqlManager.instance().updateOneSafeFileIndentity(indentity: 1, folderId: folderInfo.folderId)
+             CDHUDManager.shareInstance().showText(text: "已成功修改为访客不可见")
+            CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
         }
 
     }

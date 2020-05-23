@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol CDMediaPickerDelegate {
-    func mediaPickerDidFinished(picker:CDMediaPickerViewController,data:NSObject,isLast:Bool)
+    @objc optional func mediaPickerDidFinished(picker:CDMediaPickerViewController,data:NSObject,index:Int,totalCount:Int)
     func mediaPickerDidCancle(picker:CDMediaPickerViewController)
 }
 
@@ -46,16 +46,13 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
             CDSignalTon.instance.handleSaveVideoWith(assets: assets, folderId: folderId)
             return
         }else{
-            DispatchQueue.main.async {
-                CDHUDManager.shareInstance().showWait(text: "导入中，请稍后...")
-            }
+            
             for i in 0..<assets.count {
                 autoreleasepool {
                     let cdAsset:CDPHAsset = assets[i]
                     CDAssetTon.shareInstance().getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
                         if image != nil {
-                            let isLast = i == assets.count - 1 ? true : false
-                            self.pickerDelegate.mediaPickerDidFinished(picker: self, data: image!, isLast: isLast)
+                            self.pickerDelegate.mediaPickerDidFinished!(picker: self, data: image!, index: i + 1, totalCount: assets.count)
                             
                         }
                     }
@@ -91,7 +88,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
 //                    else if(image == nil){
 //                        DispatchQueue.main.async {
 //                            CDHUD.hide()
-//                            CDHUD.showText(text: "数据异常")
+//                            CDHUDManager.shareInstance().showText(text: "数据异常")
 //                        }
 //                    }
 //                    else{

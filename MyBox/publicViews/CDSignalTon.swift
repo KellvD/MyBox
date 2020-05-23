@@ -53,20 +53,19 @@ class CDSignalTon: NSObject {
         return instance
     }
 
-    func saveSafeFileInfo(tmpFilePath:String,folderId:Int,subFolderType:NSFolderType){
-        
+    func saveSafeFileInfo(tmpFileUrl:URL,folderId:Int,subFolderType:NSFolderType){
+        let tmpFilePath = tmpFileUrl.absoluteString
         let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
-        let tmpFileUrl = URL(string: tmpFilePath)!
         let suffix = tmpFilePath.pathExtension()
         var contentData = Data()
         //保存数据到临时data
         do {
             try contentData = Data(contentsOf: tmpFileUrl)
         } catch  {
-            print(error.localizedDescription)
+            print("saveSafeFileInfo Fail:" + error.localizedDescription)
             return
         }
-        //本地是否存在，本地存在可能是拍照后直接把照片先保存在本地，统一在此处入库，完成后，删除之前临时保存的
+        //拍照，合成Gif等操作将文件预先保存在本地，在此处将文件读到data临时存放，删除本地文件，统一在此处入库
         if FileManager.default.fileExists(atPath: tmpFilePath) {
             try! FileManager.default.removeItem(atPath: tmpFilePath)
         }
@@ -170,7 +169,7 @@ class CDSignalTon: NSObject {
             CDAssetTon.instance.getAssetsInfo(withAsset:asset) { (info) in
                 if info == nil{
                     DispatchQueue.main.async {
-                        CDHUD.showText(text: "异常数据")
+                        CDHUDManager.shareInstance().showText(text: "异常数据")
                     }
                     NotificationCenter.default.post(name: RefreshProgress, object: nil)
                     self.selectedVideos.removeObject(at: 0)
@@ -201,7 +200,7 @@ class CDSignalTon: NSObject {
         }else{
             DispatchQueue.main.async {
                 CDHUDManager.shareInstance().hideAnimated(animated: true)
-                NotificationCenter.default.post(name: DismissImagePicker, object: nil)
+                NotificationCenter.default.post(name: NeedReloadData, object: nil)
             }
             
         }
@@ -415,6 +414,45 @@ class CDSignalTon: NSObject {
         return musicInfo
     }
 
+    func appendAudio(folderId:Int,appendFile:[CDSafeFileInfo],Complete:@escaping(_ success:Bool)->Void){
+        let nowTime = getCurrentTimestamp()
+        //导出路径
+        let composePath = String.AudioPath().appendingPathComponent(str: "\(nowTime).m4a")
+        let composition = AVMutableComposition()
+        var lastAsset:AVURLAsset!
+        for index in 0..<appendFile.count {
+            let tmpFile = appendFile[index]
+            let tmpPath = String.AudioPath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
+            let audioAsset = AVURLAsset(url: URL(fileURLWithPath: tmpPath))
+            let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: 0)!
+            let audioAssetTrack = audioAsset.tracks(withMediaType: .audio).first
+        
+            do{
+                if index == 0{// 第0个拼接自己本身
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: audioAsset.duration), of: audioAssetTrack!, at: CMTime.zero)
+                }else{
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: audioAsset.duration), of: audioAssetTrack!, at: lastAsset.duration)
+
+                }
+                lastAsset = audioAsset
+            }catch{
+
+            }
+            
+        }
+        let session = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A)
+        session?.outputURL = URL(fileURLWithPath: composePath)
+        session?.outputFileType = .m4a
+        session?.shouldOptimizeForNetworkUse = true //优化网络
+        session?.exportAsynchronously(completionHandler: {
+            if session?.status == AVAssetExportSession.Status.completed{
+                self.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: composePath), folderId: folderId, subFolderType: .AudioFolder)
+                Complete(true)
+            }else{
+                Complete(false)
+            }
+        })
+    }
 }
 
 @inline(__always) func StringWithUUID()->String{
@@ -485,7 +523,7 @@ class CDSignalTon: NSObject {
         folderInfo.folderName = nameArr[i]
         folderInfo.folderType = NSFolderType(rawValue: i)
         folderInfo.isLock = LockOff
-        folderInfo.identify  = 1
+        folderInfo.fakeType = .visible
         folderInfo.createTime = Int(createtime)
         folderInfo.userId = CDUserId()
         folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
@@ -754,7 +792,9 @@ class CDSignalTon: NSObject {
         (externStr.uppercased() == "VOC") ||
         (externStr.uppercased() == "AMR") ||
         (externStr.uppercased() == "M4A") ||/*add_cd 系统录音 */
-        (externStr.uppercased() == "M4R") {
+        (externStr.uppercased() == "M4R") ||
+        (externStr.uppercased() == "M4V") ||
+        (externStr.uppercased() == "AAC"){
     return .AudioType
     }else if (externStr.uppercased() == "MOV") ||
         (externStr.uppercased() == "MP4") ||

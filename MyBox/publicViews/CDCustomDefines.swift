@@ -112,7 +112,10 @@ let CDLoginFake = 1
 let LockOn = 1   //可删除
 let LockOff = 2   //不可删除
 
-
+enum CDFakeType:Int{
+    case visible = 1
+    case invisible = 2
+}
 
 enum _LoginType:Int {
     case ReadLogin

@@ -107,7 +107,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else if (folderInfo.folderType == .AudioFolder){
             let audioVC = CDAudioViewController()
 
-            audioVC.folderInfo = folderInfo
+            audioVC.gFolderInfo = folderInfo
             self.navigationController?.pushViewController(audioVC, animated: true)
         }else if (folderInfo.folderType == .VideoFolder){
             let videoVC = CDVideoViewController()
@@ -115,7 +115,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             self.navigationController?.pushViewController(videoVC, animated: true)
         }else if (folderInfo.folderType == .TextFolder){
             let textVC = CDTextViewController()
-            textVC.folderInfo = folderInfo
+            textVC.gFolderInfo = folderInfo
             self.navigationController?.pushViewController(textVC, animated: true)
         }
 
@@ -157,6 +157,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 
     }
     @objc func addfFolderClick()->Void{
+        
         let newVC = CDNewFolderViewController()
         newVC.Cdelete = self
         self.navigationController?.pushViewController(newVC, animated: true)

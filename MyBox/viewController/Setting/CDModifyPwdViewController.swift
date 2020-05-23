@@ -64,33 +64,33 @@ class CDModifyPwdViewController: CDBaseAllViewController {
         let inputNewPwd:String = self.newPwdTextFiled.text!
         let inputConfirmPwd:String = self.confirmPwdTextFiled.text!
         if JudgeStringIsEmpty(string: inputOldPwd) {
-            CDHUD.showText(text: "请输入旧密码")
+            CDHUDManager.shareInstance().showText(text: "请输入旧密码")
             return
         }else if JudgeStringIsEmpty(string: inputNewPwd){
-            CDHUD.showText(text: "请输入新密码")
+            CDHUDManager.shareInstance().showText(text: "请输入新密码")
             return
         }else if (inputNewPwd.count < 6 || inputNewPwd.count > 12){
-            CDHUD.showText(text: "密码长度不符，6-12位!")
+            CDHUDManager.shareInstance().showText(text: "密码长度不符，6-12位!")
             return
         }
 
         if CDSignalTon.shareInstance().CDLoginType == CDLoginReal {
             let oldPwdStr = CDSignalTon.shareInstance().basePwd
             if oldPwdStr != inputOldPwd {
-                CDHUD.showText(text: "旧密码输入有误")
+                CDHUDManager.shareInstance().showText(text: "旧密码输入有误")
                 return
             }
         }else{
             let oldPwdStr = CDSqlManager.instance().queryUserFakeKeyWithUserId(userId: CDUserId())
             if oldPwdStr != inputOldPwd {
-                CDHUD.showText(text: "旧密码输入有误")
+                CDHUDManager.shareInstance().showText(text: "旧密码输入有误")
                 return
             }
 
         }
 
         if inputOldPwd != inputConfirmPwd{
-            CDHUD.showText(text: "两次密码输入不一致，请重新输入")
+            CDHUDManager.shareInstance().showText(text: "两次密码输入不一致，请重新输入")
             return
         }
 
@@ -103,7 +103,7 @@ class CDModifyPwdViewController: CDBaseAllViewController {
         }else{
             CDSqlManager.instance().updateUserFakePwdWith(pwd: pwdMd5)
         }
-        CDHUD.showText(text: "密码修改成功！")
+        CDHUDManager.shareInstance().showText(text: "密码修改成功！")
         self.navigationController?.popViewController(animated: true)
     }
     override func didReceiveMemoryWarning() {

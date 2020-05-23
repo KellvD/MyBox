@@ -80,7 +80,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
 
         }))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
-            CDHUD.showLoading(text: "正在处理")
+            CDHUDManager.shareInstance().showWait(text: "正在处理")
             DispatchQueue.global().async {
                 if folder.folderId > 0 && self.selectedArr.count > 0 {
                     for index in 0..<self.selectedArr.count{
@@ -91,14 +91,13 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
 
                     }
                     DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: NeedReloadData, object: nil)
-                        CDHUD.hide()
-                        CDHUD.showText(text: "移入成功")
+                        CDHUDManager.shareInstance().hideWait()
+                        CDHUDManager.shareInstance().showText(text: "移入成功")
                         self.navigationController?.popViewController(animated: true)
 
                     }
                 }else{
-                    CDHUD.hide()
+                    CDHUDManager.shareInstance().hideWait()
                     self.navigationController?.popViewController(animated: true)
                 }
             }

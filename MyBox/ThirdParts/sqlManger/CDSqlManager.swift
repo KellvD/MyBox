@@ -16,7 +16,7 @@ private var db_folderName = Expression<String>("folderName")
 private var db_folderId = Expression<Int>("folderId")
 private var db_folderType = Expression<Int>("folderType")
 private var db_isLock = Expression<Int>("isLock")
-private var db_identify = Expression<Int>("identify")
+private var db_fakeType = Expression<Int>("fakeType")
 private var db_createTime = Expression<Int>("createTime")
 private var db_folderPath = Expression<String>("folderPath")
 private var db_fileId = Expression<Int>("fileId")
@@ -117,7 +117,7 @@ class CDSqlManager: NSObject {
                 build.column(db_folderId)
                 build.column(db_folderType)
                 build.column(db_isLock)
-                build.column(db_identify)
+                build.column(db_fakeType)
                 build.column(db_createTime)
                 build.column(db_userId)
                 build.column(db_folderPath)
@@ -289,7 +289,7 @@ class CDSqlManager: NSObject {
                 db_folderId <- folderId,
                 db_folderType <- folder.folderType!.rawValue,
                 db_isLock <- folder.isLock,
-                db_identify <- folder.identify,
+                db_fakeType <- folder.fakeType.rawValue,
                 db_createTime <- folder.createTime,
                 db_userId <- folder.userId,
                 db_folderPath <- folder.folderPath,
@@ -311,10 +311,10 @@ class CDSqlManager: NSObject {
         var totalArr:[Array<CDSafeFolder>] = []
         do {
 
-            var sql = SafeFolder.where(db_identify == 1 && db_superId == ROOTSUPERID)
+            var sql = SafeFolder.where(db_fakeType == 1 && db_superId == ROOTSUPERID)
 
             if CDSignalTon.shareInstance().currentType != CDLoginReal{
-                sql = SafeFolder.where(db_identify == 2 && db_superId == ROOTSUPERID)
+                sql = SafeFolder.where(db_fakeType == 2 && db_superId == ROOTSUPERID)
             }
             for item in (try db.prepare(sql)) {
                 let folderInfo = CDSafeFolder()
@@ -322,7 +322,7 @@ class CDSqlManager: NSObject {
                 folderInfo.folderId = item[db_folderId]
                 folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
                 folderInfo.isLock = item[db_isLock]
-                folderInfo.identify = item[db_identify]
+                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
                 folderInfo.createTime = item[db_createTime]
                 folderInfo.userId = item[db_userId]
                 if folderInfo.isLock == LockOn {
@@ -348,7 +348,7 @@ class CDSqlManager: NSObject {
                 folderInfo.folderId = item[db_folderId]
                 folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
                 folderInfo.isLock = item[db_isLock]
-                folderInfo.identify = item[db_identify]
+                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
                 folderInfo.createTime = item[db_createTime]
                 folderInfo.userId = item[db_userId]
                 folderInfo.superId = item[db_superId]
@@ -383,7 +383,7 @@ class CDSqlManager: NSObject {
             folderInfo.folderId = item[db_folderId]
             folderInfo.folderType =  NSFolderType(rawValue: item[db_folderType])
             folderInfo.isLock = item[db_isLock]
-            folderInfo.identify = item[db_identify]
+            folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
             folderInfo.createTime = item[db_createTime]
             folderInfo.userId = item[db_userId]
             folderInfo.superId = item[db_superId]
@@ -480,7 +480,7 @@ class CDSqlManager: NSObject {
                 sql = SafeFolder.where(
                     (db_folderId != folderId) &&
                     (db_folderType == folderType.rawValue) &&
-                    (db_identify == 2))
+                    (db_fakeType == 2))
             }
             for item in (try db.prepare(sql)) {
                 let folderInfo = CDSafeFolder()
@@ -488,7 +488,7 @@ class CDSqlManager: NSObject {
                 folderInfo.folderId = item[db_folderId]
                 folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
                 folderInfo.isLock = item[db_isLock]
-                folderInfo.identify = item[db_identify]
+                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
                 folderInfo.createTime = item[db_createTime]
                 folderInfo.userId = item[db_userId]
                 folderInfo.isSelected = .CDFalse
@@ -564,7 +564,7 @@ class CDSqlManager: NSObject {
     public func queryAllFileFromFolder(folderId:Int)-> Array<CDSafeFileInfo>{
         var fileArr:[CDSafeFileInfo] = []
         do {
-            let sql = SafeFileInfo.filter(db_folderId == folderId)
+            let sql = SafeFileInfo.filter(db_folderId == folderId ).order(db_createTime.desc)
             for item in try db.prepare(sql) {
                 let file = CDSafeFileInfo()
                 file.fileId = item[db_fileId]
@@ -665,11 +665,11 @@ class CDSqlManager: NSObject {
             CDPrint(item:"updateOneSafeFileMarkInfo-->error:\(error)")
         }
     }
-    public func updateOneSafeFileIndentity(indentity:Int,folderId:Int){
+    public func updateOneSafeFileFakeType(fakeType:CDFakeType,folderId:Int){
 
         do{
             let sql = SafeFileInfo.filter(db_folderId == folderId)
-            try db.run(sql.update(db_identify <- indentity))
+            try db.run(sql.update(db_fakeType <- fakeType.rawValue))
             CDPrint(item:"updateOneSafeFileIndentity-->success")
         }catch{
             CDPrint(item:"updateOneSafeFileIndentity-->error:\(error)")

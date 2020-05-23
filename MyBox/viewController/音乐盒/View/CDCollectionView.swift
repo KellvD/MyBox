@@ -210,14 +210,14 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
         let className = textField.text!
 
         if JudgeStringIsEmpty(string: className) {
-            CDHUD.showText(text: "请输入歌单名")
+            CDHUDManager.shareInstance().showText(text: "请输入歌单名")
             return
         }
         let classInfo = CDMusicClassInfo()
         classInfo.className = className
         classInfo.classCreateTime = getCurrentTimestamp()
         CDSqlManager.instance().addOneMusicClassInfoWith(classInfo: classInfo)
-        CDHUD.showText(text: "创建成功")
+        CDHUDManager.shareInstance().showText(text: "创建成功")
 
         classArr = CDSqlManager.instance().queryAllMusicClass()
         tableView.reloadData()

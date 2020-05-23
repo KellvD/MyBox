@@ -61,13 +61,13 @@ class CDSetPwdViewController: CDBaseAllViewController {
         let confirmPwdStr = self.confirmPwdTextFiled.text
 
         if JudgeStringIsEmpty(string: pwdStr){
-            CDHUD.showText(text: "密码不能为空")
+            CDHUDManager.shareInstance().showText(text: "密码不能为空")
             return
         }else if pwdStr.count<6 || pwdStr.count>16{
-            CDHUD.showText(text: "密码长度，6-16位")
+            CDHUDManager.shareInstance().showText(text: "密码长度，6-16位")
             return
         }else if pwdStr != confirmPwdStr{
-            CDHUD.showText(text: "两次密码不一致,请重新输入")
+            CDHUDManager.shareInstance().showText(text: "两次密码不一致,请重新输入")
             return
         }
         let md5Pwd = pwdStr.twoMd5()
@@ -79,7 +79,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         }else{
             CDSqlManager.instance().updateUserFakePwdWith(pwd: md5Pwd)
         }
-        CDHUD.showText(text: "密码设置成功")
+        CDHUDManager.shareInstance().showText(text: "密码设置成功")
         self.navigationController?.popViewController(animated: true)
     }
     override func didReceiveMemoryWarning() {

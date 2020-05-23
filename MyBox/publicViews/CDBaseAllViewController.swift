@@ -8,16 +8,17 @@
 
 import UIKit
 import AVFoundation
-//extension CDBaseAllViewController {
-//    public typealias CDProcessHandler = (_ index:Int, _ total:Int) -> Void
-//}
+
+extension CDBaseAllViewController {
+    public typealias CDDocumentPickerCompleteHandler = (_ success:Bool) -> Void
+}
 class CDBaseAllViewController:
 UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
 
     var popBtn = UIButton()
     var subFolderId:Int = 0
     var subFolderType:NSFolderType!
-//    open var processHandle:CDBaseAllViewController.CDProcessHandler?
+    open var processHandle:CDBaseAllViewController.CDDocumentPickerCompleteHandler?
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -54,69 +55,57 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         }
     }
     
-    
     //TODO:UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         CDSignalTon.shareInstance().customPickerView = nil
-//        processHandle!(0,urls.count)
         var index = 0
         func handleAllDocumentPickerFiles(urlArr:[URL]){
             DispatchQueue.global().async {
                 var tmpUrlArr = urlArr
                 if urlArr.count > 0 {
                     index += 1
-                    //                processHandle!(index,urls.count)
                     let subUrl = urlArr.first!
                     let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
                         fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
-                            let urlPath = newUrl.absoluteString
-                            CDSignalTon.shareInstance().saveSafeFileInfo(tmpFilePath: urlPath, folderId: self.subFolderId, subFolderType: self.subFolderType)
+                            CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
                             tmpUrlArr.removeFirst()
                             handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
-                            
                         }
                     }
                     DispatchQueue.main.async {
-                        CDHUDManager.shareInstance().updateProgress(num: Float(index/urls.count), text: "\(index)/\(urls.count)")
+                        CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(urls.count), text: "\(index)/\(urls.count)")
                     }
                 }else{
                     DispatchQueue.main.async {
                         CDHUDManager.shareInstance().hideProgress()
                         CDHUDManager.shareInstance().showComplete(text: "导入完成")
+                        self.processHandle?(true)
                     }
-//                    processHandle!(index,urls.count)
                 }
             }
             
             
         }
         handleAllDocumentPickerFiles(urlArr: urls)
+        CDHUDManager.shareInstance().showProgress(text: "开始导入！")
     }
 
     
     //分享
-    func presentShareActivityWith2(dataArr:[NSObject]) {
+    func presentShareActivityWith(dataArr:[NSObject],Complete:@escaping(_ error:Error?) -> Void) {
+        
         let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
         activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
             if complete {
-                CDHUDManager.shareInstance().showComplete(text: "分享成功！")
+                Complete(error)
             }
         }
         
-        activityVC.navigationController?.title = "MyBox"
-        activityVC.view.backgroundColor = .red
         self.present(activityVC, animated: true, completion: nil)
     }
     
-    func presentShareActivityWith(dataArr:[URL],completion: @escaping((_ complete:Bool,_ error:Error?) -> Void)) {
-        let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
-        activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
-            completion(complete,error)
-        }
-        self.present(activityVC, animated: true, completion: nil)
-    }
     func alertSpaceWarn(alertType:AlertType) {
         var message:String!
 
