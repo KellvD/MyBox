@@ -8,11 +8,12 @@
 
 import UIKit
 
+typealias CDTapRQHandle = (_ message:String) -> Void
 class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
 
-    var imageView:UIImageView!
-    var imageViewFrame:CGRect!
-
+    private var imageView:UIImageView!
+    private var imageViewFrame:CGRect!
+    var tapQRHandle:CDTapRQHandle!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,6 +22,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         imageView = UIImageView(frame: self.bounds)
+        imageView.isUserInteractionEnabled = true
         self.addSubview(imageView)
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapAction))
         singleTap.numberOfTapsRequired = 1
@@ -30,13 +32,28 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         doubleTap.numberOfTapsRequired = 2
         addGestureRecognizer(doubleTap)
         singleTap.require(toFail: doubleTap)
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(longTapAction(tap:)))
+        imageView.addGestureRecognizer(longTap)
+        longTap.minimumPressDuration = 1
     }
 
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    @objc func longTapAction(tap:UILongPressGestureRecognizer){
+        if tap.state == .began {
+            let image = imageView.image
+            let msg = CDGeneralTool.IdentifedQRFromPhoto(image: image!)
+            print(msg)
+            if msg.count > 0 {
+                tapQRHandle(msg)
+                
+            }
+        }
+        
+    }
     @objc func singleTapAction() {
         NotificationCenter.default.post(name: BarsHiddenOrNot, object: nil)
     }

@@ -107,6 +107,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageScrollerr", for: indexPath) as! CDImageCell
         let tmpFile:CDSafeFileInfo = inputArr[indexPath.item]
         cell.setScrollerImageData(fileInfo: tmpFile)
+        cell.tapQRHandle = {(massage) -> Void in
+            self.tapQR(message: massage)
+            
+        }
         return cell
     }
 
@@ -118,7 +122,6 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         DispatchQueue.main.async {
             if fileinfo.grade == .lovely {
                 self.loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
-
             }else{
                 self.loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
             }
@@ -133,7 +136,18 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         currentIndex = page
         indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
     }
-    
+    func tapQR(message:String){
+        let sheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        
+        sheet.addAction(UIAlertAction(title: "前往图中所包含的公众号", style: .default, handler: { (action) in
+            let webVC = CDWebViewController()
+            webVC.url = URL(string: message)!
+            self.navigationController?.pushViewController(webVC, animated: true)
+        }))
+        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        present(sheet, animated: true, completion: nil)
+        
+    }
     
     @objc func detailBtnClicked(){
         let fileInfo = inputArr[currentIndex]

@@ -42,16 +42,15 @@ class CDCameraBottomBar: UIView {
 
 
         let width = (frame.height-30)/2
-        figBtn = UIButton(type: .custom)
-        figBtn.frame = CGRect(x: frame.width - 48 - 15, y: 10, width: width, height: width)
-        figBtn.layer.cornerRadius = width/2
-        figBtn.setImage(UIImage(named: "meiyan"), for: .normal)
-        figBtn.addTarget(self, action: #selector(onCameraFigClick), for: .touchUpInside)
-        self.addSubview(figBtn)
+//        figBtn = UIButton(type: .custom)
+//        figBtn.frame = CGRect(x: frame.width - 48 - 15, y: 10, width: width, height: width)
+//        figBtn.layer.cornerRadius = width/2
+//        figBtn.setImage(UIImage(named: "meiyan"), for: .normal)
+//        figBtn.addTarget(self, action: #selector(onCameraFigClick), for: .touchUpInside)
+//        self.addSubview(figBtn)
 
         cameraSwitch = UIButton(type: .custom)
-        cameraSwitch.frame = CGRect(x: frame.width - 48 - 15, y: figBtn.frame.maxY + 10, width: width, height: width)
-        cameraSwitch.layer.cornerRadius = width/2
+        cameraSwitch.frame = CGRect(x: frame.width - 48 - 15, y: frame.height - 48 - 15, width: 48, height: 48)
         cameraSwitch.setImage(UIImage(named: "cameraSwitch"), for: .normal)
         cameraSwitch.addTarget(self, action: #selector(onCameraSwitchClick), for: .touchUpInside)
         self.addSubview(cameraSwitch)

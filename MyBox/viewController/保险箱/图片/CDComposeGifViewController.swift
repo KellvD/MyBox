@@ -10,8 +10,8 @@ import UIKit
 import CoreServices
 import AVFoundation
 
-protocol CDComposeGifViewControllerDelegate {
-    func onComposeGifSuccess()
+extension CDComposeGifViewController {
+    public typealias CDComposeHandle = (_ success:Bool) -> Void
 }
 
 enum CDComposeType {
@@ -22,7 +22,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
 
     public var fileArr:[CDSafeFileInfo] = []
-    public var delegate:CDComposeGifViewControllerDelegate!
+    public var composeHandle:CDComposeGifViewController.CDComposeHandle?
     public var folderId:Int!
     public var composeType:CDComposeType!
     
@@ -182,7 +182,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             if self.composeType == .Gif{
                 CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder)
-                self.delegate.onComposeGifSuccess()
+                self.composeHandle!(true)
             }else{
                 
             }
@@ -221,8 +221,8 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, imageArr.count, nil)
 
         //每帧之间播放的时间间隔
-        let frameDic = ["kCGImagePropertyGIFDelayTime" : 0.1 * Double(imageArr.count - 1)]
-
+        let frameDic = ["kCGImagePropertyGIFDelayTime" : ["kCGImagePropertyGIFDelayTime":1]]
+        
         let gifdic:NSMutableDictionary = NSMutableDictionary()
         gifdic.setValue(NSNumber(value: true), forKey: "kCGImagePropertyGIFHasGlobalColorMap")
         gifdic.setValue(kCGImagePropertyColorModelRGB, forKey: "kCGImagePropertyColorModel")

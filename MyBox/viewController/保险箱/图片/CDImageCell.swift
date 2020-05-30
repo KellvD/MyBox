@@ -12,11 +12,10 @@ class CDImageCell: UICollectionViewCell {
 
     var selectedView:UIImageView!   //选择标志
     var scroller:CDImageScrollView! //滚动展示是可缩放
+    var tapQRHandle:CDTapRQHandle!
+    
     private var videoSizeL:UILabel!
     private var gifL:UILabel!
-    var isSelect:Bool = false
-    var showSelectIcon = false
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -84,20 +83,19 @@ class CDImageCell: UICollectionViewCell {
             UIGraphicsEndImageContext()
             DispatchQueue.main.async(execute: {
                 self.scroller.loadImageView(image: new, gifData: tmpData!)
+                self.scroller.tapQRHandle = self.tapQRHandle
             })
 
         }
 
     }
-    func setImageData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
-        if isMutilEdit {
+    func setImageData(fileInfo:CDSafeFileInfo,isBatchEdit:Bool){
+        if isBatchEdit {
             selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
                 selectedView.image = LoadImageByName(imageName: "selected", type: "png")
-                isSelect = true
             }else{
                 selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
-                isSelect = false
             }
 
         }else{
@@ -123,10 +121,8 @@ class CDImageCell: UICollectionViewCell {
             selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
                 selectedView.image = LoadImageByName(imageName: "selected", type: "png")
-                isSelect = true
             }else{
                 selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
-                isSelect = false
             }
 
         }else{

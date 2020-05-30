@@ -266,6 +266,18 @@
 		EFC24321245C309F00DDC829 /* RxCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431B245C307300DDC829 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC24322245C309F00DDC829 /* RxRelay.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431C245C307300DDC829 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC24323245C309F00DDC829 /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFC2431D245C307300DDC829 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFDD41E12481F4AE000AFDB8 /* CDCameraManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD41DF2481F4AD000AFDB8 /* CDCameraManger.swift */; };
+		EFDD41E22481F4AE000AFDB8 /* CDPreviewTakerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD41E02481F4AD000AFDB8 /* CDPreviewTakerViewController.swift */; };
+		EFDD41ED2481F4D2000AFDB8 /* delay_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E32481F4D0000AFDB8 /* delay_on@2x.png */; };
+		EFDD41EE2481F4D2000AFDB8 /* flash_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E42481F4D0000AFDB8 /* flash_off@2x.png */; };
+		EFDD41EF2481F4D2000AFDB8 /* hdr_auto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E52481F4D0000AFDB8 /* hdr_auto@2x.png */; };
+		EFDD41F02481F4D2000AFDB8 /* back_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E62481F4D1000AFDB8 /* back_blue@2x.png */; };
+		EFDD41F12481F4D2000AFDB8 /* flash_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E72481F4D1000AFDB8 /* flash_on@2x.png */; };
+		EFDD41F22481F4D2000AFDB8 /* hdr_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E82481F4D1000AFDB8 /* hdr_on@2x.png */; };
+		EFDD41F32481F4D2000AFDB8 /* delay_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41E92481F4D1000AFDB8 /* delay_off@2x.png */; };
+		EFDD41F42481F4D2000AFDB8 /* delay_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41EA2481F4D1000AFDB8 /* delay_10@2x.png */; };
+		EFDD41F52481F4D2000AFDB8 /* hdr_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41EB2481F4D2000AFDB8 /* hdr_off@2x.png */; };
+		EFDD41F62481F4D2000AFDB8 /* flash_auto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFDD41EC2481F4D2000AFDB8 /* flash_auto@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -545,6 +557,18 @@
 		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
 		EFC2431C245C307300DDC829 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxRelay.framework; sourceTree = "<group>"; };
 		EFC2431D245C307300DDC829 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxSwift.framework; sourceTree = "<group>"; };
+		EFDD41DF2481F4AD000AFDB8 /* CDCameraManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraManger.swift; sourceTree = "<group>"; };
+		EFDD41E02481F4AD000AFDB8 /* CDPreviewTakerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewTakerViewController.swift; sourceTree = "<group>"; };
+		EFDD41E32481F4D0000AFDB8 /* delay_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delay_on@2x.png"; sourceTree = "<group>"; };
+		EFDD41E42481F4D0000AFDB8 /* flash_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_off@2x.png"; sourceTree = "<group>"; };
+		EFDD41E52481F4D0000AFDB8 /* hdr_auto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdr_auto@2x.png"; sourceTree = "<group>"; };
+		EFDD41E62481F4D1000AFDB8 /* back_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_blue@2x.png"; sourceTree = "<group>"; };
+		EFDD41E72481F4D1000AFDB8 /* flash_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_on@2x.png"; sourceTree = "<group>"; };
+		EFDD41E82481F4D1000AFDB8 /* hdr_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdr_on@2x.png"; sourceTree = "<group>"; };
+		EFDD41E92481F4D1000AFDB8 /* delay_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delay_off@2x.png"; sourceTree = "<group>"; };
+		EFDD41EA2481F4D1000AFDB8 /* delay_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delay_10@2x.png"; sourceTree = "<group>"; };
+		EFDD41EB2481F4D2000AFDB8 /* hdr_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdr_off@2x.png"; sourceTree = "<group>"; };
+		EFDD41EC2481F4D2000AFDB8 /* flash_auto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_auto@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1066,6 +1090,8 @@
 		7355133B2457C19D009B7599 /* CDCamera */ = {
 			isa = PBXGroup;
 			children = (
+				EFDD41DF2481F4AD000AFDB8 /* CDCameraManger.swift */,
+				EFDD41E02481F4AD000AFDB8 /* CDPreviewTakerViewController.swift */,
 				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
 				735513452457C19D009B7599 /* CDCameraPreview.swift */,
 				7355133C2457C19D009B7599 /* CDCameraTopBar.swift */,
@@ -1078,6 +1104,16 @@
 		7355133E2457C19D009B7599 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				EFDD41E62481F4D1000AFDB8 /* back_blue@2x.png */,
+				EFDD41EA2481F4D1000AFDB8 /* delay_10@2x.png */,
+				EFDD41E92481F4D1000AFDB8 /* delay_off@2x.png */,
+				EFDD41E32481F4D0000AFDB8 /* delay_on@2x.png */,
+				EFDD41EC2481F4D2000AFDB8 /* flash_auto@2x.png */,
+				EFDD41E42481F4D0000AFDB8 /* flash_off@2x.png */,
+				EFDD41E72481F4D1000AFDB8 /* flash_on@2x.png */,
+				EFDD41E52481F4D0000AFDB8 /* hdr_auto@2x.png */,
+				EFDD41EB2481F4D2000AFDB8 /* hdr_off@2x.png */,
+				EFDD41E82481F4D1000AFDB8 /* hdr_on@2x.png */,
 				7355133F2457C19D009B7599 /* takePhoto.png */,
 				735513402457C19D009B7599 /* cameraSwitch.png */,
 				735513412457C19D009B7599 /* meiyan.png */,
@@ -1281,6 +1317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFDD41EF2481F4D2000AFDB8 /* hdr_auto@2x.png in Resources */,
 				735514642457C19E009B7599 /* meiyan.png in Resources */,
 				735513C32457C19E009B7599 /* input@2x.png in Resources */,
 				7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */,
@@ -1290,6 +1327,7 @@
 				735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */,
 				735513CA2457C19E009B7599 /* chexiao@2x.png in Resources */,
 				735514442457C19E009B7599 /* 小图解密失败@2x.png in Resources */,
+				EFDD41F52481F4D2000AFDB8 /* hdr_off@2x.png in Resources */,
 				735513D42457C19E009B7599 /* file_zip_big@2x.png in Resources */,
 				73FC55D42462C1D10052E117 /* play@2x.png in Resources */,
 				735513C82457C19E009B7599 /* menu_delete@2x.png in Resources */,
@@ -1322,14 +1360,17 @@
 				735514322457C19E009B7599 /* 亮度@2x.png in Resources */,
 				735513BA2457C19E009B7599 /* edit@2x.png in Resources */,
 				735513D12457C19E009B7599 /* append_grey@2x.png in Resources */,
+				EFDD41EE2481F4D2000AFDB8 /* flash_off@2x.png in Resources */,
 				735513A42457C19D009B7599 /* music_list@2x.png in Resources */,
 				735514502457C19E009B7599 /* Assets.xcassets in Resources */,
 				73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */,
+				EFDD41F12481F4D2000AFDB8 /* flash_on@2x.png in Resources */,
 				735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */,
 				735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */,
 				735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */,
 				735513D82457C19E009B7599 /* file_other_big@2x.png in Resources */,
 				7355142C2457C19E009B7599 /* 色温@2x.png in Resources */,
+				EFDD41F22481F4D2000AFDB8 /* hdr_on@2x.png in Resources */,
 				735514212457C19E009B7599 /* 水印@2x.png in Resources */,
 				7355142D2457C19E009B7599 /* 垂直镜像@2x.png in Resources */,
 				735513992457C19D009B7599 /* music_love@2x.png in Resources */,
@@ -1388,8 +1429,10 @@
 				735513A22457C19D009B7599 /* 下一首播放@2x.png in Resources */,
 				EF1415802479635A00AAE11C /* record_sure_grey@2x.png in Resources */,
 				7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */,
+				EFDD41F42481F4D2000AFDB8 /* delay_10@2x.png in Resources */,
 				735514652457C19E009B7599 /* retake@2x.png in Resources */,
 				7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */,
+				EFDD41F32481F4D2000AFDB8 /* delay_off@2x.png in Resources */,
 				7355139C2457C19D009B7599 /* 更改排序@2x.png in Resources */,
 				EF1415872479637600AAE11C /* record_timeProgressBG@2x.png in Resources */,
 				735514312457C19E009B7599 /* 饱和度@2x.png in Resources */,
@@ -1398,6 +1441,8 @@
 				735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */,
 				735513F02457C19E009B7599 /* type_audio@2x.png in Resources */,
 				735513A32457C19D009B7599 /* editClass@2x.png in Resources */,
+				EFDD41F62481F4D2000AFDB8 /* flash_auto@2x.png in Resources */,
+				EFDD41F02481F4D2000AFDB8 /* back_blue@2x.png in Resources */,
 				73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */,
 				735514622457C19E009B7599 /* takePhoto.png in Resources */,
 				735513972457C19D009B7599 /* music_recent@2x.png in Resources */,
@@ -1405,6 +1450,7 @@
 				7355140E2457C19E009B7599 /* sliderPoint@2x.png in Resources */,
 				735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */,
 				735513D62457C19E009B7599 /* file_rtf_big@2x.png in Resources */,
+				EFDD41ED2481F4D2000AFDB8 /* delay_on@2x.png in Resources */,
 				735513B92457C19E009B7599 /* addDir@2x.png in Resources */,
 				735513D22457C19E009B7599 /* sure-grey@2x.png in Resources */,
 				735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */,
@@ -1453,6 +1499,7 @@
 				7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */,
 				735513F62457C19E009B7599 /* CDTableViewCell.swift in Sources */,
 				735514352457C19E009B7599 /* CDEditToolView.swift in Sources */,
+				EFDD41E22481F4AE000AFDB8 /* CDPreviewTakerViewController.swift in Sources */,
 				7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */,
 				735514922457C19E009B7599 /* CDHUD.swift in Sources */,
 				7355141B2457C19E009B7599 /* CDCropView.swift in Sources */,
@@ -1475,6 +1522,7 @@
 				735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */,
 				EF1415862479637600AAE11C /* CDCircleProcess.swift in Sources */,
 				7355148C2457C19E009B7599 /* CDPopMenuView.swift in Sources */,
+				EFDD41E12481F4AE000AFDB8 /* CDCameraManger.swift in Sources */,
 				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
 				735514132457C19E009B7599 /* CDMosaicView.swift in Sources */,
 				735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */,

@@ -8,14 +8,9 @@
 
 import UIKit
 import AVFoundation
-
 let videoCut = "视频裁剪"
 let videoAppend = "视频拼接"
-class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CDMediaPickerDelegate,CDCameraViewControllerDelegate {
-    
-    
-    
-    
+class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource,CDMediaPickerDelegate,CDCameraViewControllerDelegate {
     
     public var folderInfo:CDSafeFolder!
     
@@ -65,7 +60,6 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.white
         view.addSubview(collectionView!)
-        
         self.editBtn = UIButton(type: .custom)
         self.editBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
         self.editBtn.setImage(UIImage(named: "edit"), for: .normal);
@@ -82,6 +76,9 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         self.view.addSubview(self.toolbar)
         
         registerNotification()
+    }
+    @objc func onRefreshMoreData(){
+        
     }
     func refreshData() {
         selectedVideoArr.removeAll()
@@ -178,10 +175,12 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         isNeedReloadData = false
         handelSelectedArr()
         let folderList = CDFolderListViewController()
-        folderList.title = "文件夹列表"
         folderList.selectedArr = selectedVideoArr
-        folderList.folderType = .ImageFolder
+        folderList.folderType = .VideoFolder
         folderList.folderId = folderInfo.folderId
+        folderList.moveHandle = {(success) -> Void in
+            
+        }
         self.navigationController?.pushViewController(folderList, animated: true)
         
     }
@@ -276,7 +275,18 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             self.multisEditBtnClick()
         }
     }
-    
+    //TODO:视频剪辑
+    @objc func appendItemClick(){
+        handelSelectedArr()
+        
+        let sheet = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "拼接视频", style: .destructive, handler: { (action) in
+            
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        self.present(sheet, animated: true, completion: nil)
+    }
     
     //TODO:拍照
     @objc func takePhotoClick() -> Void {
@@ -290,19 +300,11 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                                let camera = CDCameraViewController()
-                                camera.delegate = self
-                                camera.isVideo = true
+                let camera = CDCameraViewController()
+                camera.delegate = self
+                camera.isVideo = true
                 camera.modalPresentationStyle = .fullScreen
-                                self.present(camera, animated: true, completion: nil)
-//                let pickVC = UIImagePickerController();
-//                pickVC.sourceType = .camera;
-//                pickVC.mediaTypes = ["public.movie"]
-//                pickVC.allowsEditing = true
-//                pickVC.delegate = self
-//                present(pickVC, animated: true, completion: nil)
-                
-                
+                self.present(camera, animated: true, completion: nil)
             }
             
         }
@@ -320,21 +322,6 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         self.present(elcPicker, animated: true, completion: nil)
     }
     
-    //TODO:视频剪辑
-    @objc func appendItemClick(){
-        handelSelectedArr()
-        
-        let sheet = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "拼接视频", style: .destructive, handler: { (action) in
-            CDHUDManager.shareInstance().showWait(text: "正在处理...")
-            DispatchQueue.global().async {
-                self.deleteBarItemClick()
-            }
-            
-        }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-        self.present(sheet, animated: true, completion: nil)
-    }
     //TODO:沙盒导入
     @objc func documentItemClick(){
         let documentTypes = ["public.movie"]
@@ -393,51 +380,52 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     
     
     //TODO:CDMeidaPickerDelegate
-    func mediaPickerDidFinished(picker: CDMediaPickerViewController, data: NSObject, index: Int, totalCount: Int) {
-        CDSignalTon.shareInstance().customPickerView = nil
-        picker.dismiss(animated: true, completion: nil)
+    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
+        let tmpUrl = data["fileURL"] as! URL
+        
+        CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl: tmpUrl, folderId: folderInfo
+            .folderId, subFolderType: .VideoFolder)
+        func pickOver(){
+            CDSignalTon.shareInstance().customPickerView = nil
+            picker.dismiss(animated: true, completion: nil)
+            refreshData()
+        }
+        DispatchQueue.main.async {
+            //只有一个，不加载进度条
+            if 1 == totalCount  {
+                pickOver()
+                CDHUDManager.shareInstance().showComplete(text: "导入完成！")
+            } else {
+                if index == 1 { //第一个出现进度条
+                    CDHUDManager.shareInstance().showProgress(text: "开始导入！")
+                    CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+                } else if index == totalCount {
+                    
+                    CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+                    CDHUDManager.shareInstance().hideProgress()
+                    CDHUDManager.shareInstance().showComplete(text: "导入完成！")
+                    pickOver()
+                }else{
+                    CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+                }
+                
+            }
+        }
     }
      
     
      
-     func mediaPickerDidCancle(picker: CDMediaPickerViewController) {
+     func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
          CDSignalTon.shareInstance().customPickerView = nil
          picker.dismiss(animated: true, completion: nil)
      }
-    
-    
-    func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, videoUrl: URL) {
-        //        let time = getCurrentTimestamp()
-        //        let savePath = String.ImagePath().appendingPathComponent(str: "\(time).jpg")
-        //        let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).jpg")
-        //        let smallImage = imageCompressForSize(image: image, maxWidth: 1280)
-        //        do{
-        //            let imageData = UIImageJPEGRepresentation(smallImage, 0.5)
-        //            try imageData?.write(to: URL(fileURLWithPath: savePath))
-        //        }catch{
-        //
-        //        }
-        //
-        //        let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
-        //        let tmpData:Data = UIImageJPEGRepresentation(thumbImage, 1.0)! as Data
-        //
-        //        do {
-        //            try tmpData.write(to: URL(fileURLWithPath: thumbPath))
-        //        } catch  {
-        //
-        //        }
-        //        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-        //        fileInfo.folderId = folderId
-        //        fileInfo.fileName = "未命名"
-        //        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: savePath)
-        //        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
-        //        fileInfo.fileSize = getFileSizeAtPath(filePath: savePath)
-        //        fileInfo.fileWidth = Double(image.size.width)
-        //        fileInfo.fileHeight = Double(image.size.height)
-        //        fileInfo.createTime = Int(time)
-        //        fileInfo.fileType = .ImageType
-        //        fileInfo.userId = CDUserId()
-        //        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+
+    func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, obj: Dictionary<String, Any>) {
+        isNeedReloadData = true
+        let videoUrl = obj["fileURL"] as! URL
+        CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl: videoUrl, folderId: folderInfo.folderId, subFolderType: .VideoFolder)
+        CDSignalTon.shareInstance().customPickerView = nil
+        cameraVC.dismiss(animated: true, completion: nil)
     }
     func onCameraTakePhotoDidCancle(cameraVC: CDCameraViewController) {
         CDSignalTon.shareInstance().customPickerView = nil
@@ -447,49 +435,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     @objc func needReloadData() {
         isNeedReloadData = true
     }
-    
-    //TODO:pick-delegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
-        print(info)
-        picker.dismiss(animated: true, completion: nil)
-        let videoUrl = info[.mediaURL] as! URL
-        let videoAsset = AVURLAsset(url: videoUrl);
-        let timeLength = Double(videoAsset.duration.value) / Double(videoAsset.duration.timescale)
-        let time = getCurrentTimestamp()
-        let videoPath = String.VideoPath().appendingPathComponent(str: "/\(time).mp4")
-        let fileName = "\(time).mp4"
-        
-        if !FileManager.default.fileExists(atPath: videoPath) {
-            let data:NSData = NSData(contentsOf: videoUrl)!
-            FileManager.default.createFile(atPath: videoPath, contents: data as Data, attributes: nil)
-        }
-        let thump = String.thumpVideoPath().appendingPathComponent(str: "\(time).jpg")
-        //第一帧
-        let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: videoPath)
-        let data = image.jpegData(compressionQuality: 1.0)
-        do {
-            try data?.write(to: URL(fileURLWithPath: thump))
-        } catch  {
-            
-        }
-        let fileInfo = CDSafeFileInfo()
-        fileInfo.folderId = folderInfo.folderId
-        fileInfo.userId = CDUserId()
-        fileInfo.fileName = fileName
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: videoPath)
-        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thump)
-        let fileSize = getFileSizeAtPath(filePath: videoPath)
-        fileInfo.fileSize = fileSize
-        fileInfo.timeLength = timeLength
-        fileInfo.createTime = time
-        fileInfo.fileType = .VideoType
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-        refreshData()
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
+
     
     func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
@@ -501,16 +447,6 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+
     
 }

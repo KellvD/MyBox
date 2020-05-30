@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MJRefresh
 class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,UIDocumentInteractionControllerDelegate,CDDirNavBarDelegate {
     private
     var tableblew:UITableView!
@@ -53,7 +54,6 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         tableblew.separatorStyle = .none
         self.view.addSubview(tableblew)
         tableblew.register(CDTableViewCell.self, forCellReuseIdentifier: "textCellId")
-        
         batchBtn = UIButton(type: .custom)
         batchBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
         batchBtn.setImage(UIImage(named: "edit"), for: .normal);

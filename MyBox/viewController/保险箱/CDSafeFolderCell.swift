@@ -17,27 +17,22 @@ class CDSafeFolderCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
+        
         let view = UIView()
         self.selectedBackgroundView = view
         self.selectedBackgroundView?.backgroundColor = LightBlueColor
 
-        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 65))
-        bgView.backgroundColor = UIColor.white
-        self.contentView.addSubview(bgView)
-
-
         self.headImageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
         self.headImageView.backgroundColor = UIColor.clear
-        bgView.addSubview(self.headImageView)
+        contentView.addSubview(self.headImageView)
 
         self.titleLabel = UILabel(frame: CGRect(x: 70, y: 20, width: CDSCREEN_WIDTH-100, height: 25))
         self.titleLabel.textColor = TextBlackColor
-        bgView.addSubview(self.titleLabel)
+        contentView.addSubview(self.titleLabel)
 
         let separatorLine = UIView(frame: CGRect(x: 15, y: 64, width: CDSCREEN_WIDTH-15, height: 1))
         separatorLine.backgroundColor = SeparatorGrayColor
-        bgView.addSubview(separatorLine)
+        contentView.addSubview(separatorLine)
 
     }
 

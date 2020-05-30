@@ -27,7 +27,7 @@ class CDLockViewController:CDBaseAllViewController {
         self.view.addSubview(headImageView);
 
         let leftLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 48))
-        leftLabel.text = "密码"
+        leftLabel.text = "密码  "
         leftLabel.textAlignment = .left
 
         //输入框
@@ -58,16 +58,16 @@ class CDLockViewController:CDBaseAllViewController {
     
     @objc func loginBtnClick() -> Void {
         pwdTextFiled.resignFirstResponder()
-        let inputPwd = self.pwdTextFiled.text?.twoMd5()
-        let pwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
-
-        if JudgeStringIsEmpty(string:pwd) {
-           CDHUDManager.shareInstance().showText(text: "请输入密码")
-            return
-        }else if inputPwd != pwd{
-            CDHUDManager.shareInstance().showText(text: "密码输入有误")
-            return
-        }
+//        let inputPwd = self.pwdTextFiled.text?.twoMd5()
+//        let pwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
+//
+//        if JudgeStringIsEmpty(string:pwd) {
+//           CDHUDManager.shareInstance().showText(text: "请输入密码")
+//            return
+//        }else if inputPwd != pwd{
+//            CDHUDManager.shareInstance().showText(text: "密码输入有误")
+//            return
+//        }
         let settingVC = CDSafeViewController()
 //        let settingVC = CDMusicViewController()
 
