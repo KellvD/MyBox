@@ -311,10 +311,10 @@ class CDSqlManager: NSObject {
         var totalArr:[Array<CDSafeFolder>] = []
         do {
 
-            var sql = SafeFolder.where(db_fakeType == 1 && db_superId == ROOTSUPERID)
+            var sql = SafeFolder.where(db_fakeType == CDFakeType.visible.rawValue && db_superId == ROOTSUPERID)
 
             if CDSignalTon.shareInstance().currentType != CDLoginReal{
-                sql = SafeFolder.where(db_fakeType == 2 && db_superId == ROOTSUPERID)
+                sql = SafeFolder.where(db_fakeType == CDFakeType.invisible.rawValue && db_superId == ROOTSUPERID)
             }
             for item in (try db.prepare(sql)) {
                 let folderInfo = CDSafeFolder()

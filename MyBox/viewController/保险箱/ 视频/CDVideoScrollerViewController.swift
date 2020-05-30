@@ -173,6 +173,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
 
         let sheet = UIAlertController(title: nil, message: "删除照片", preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "确定", style: .destructive, handler: { (action) in
+           
             let thumbPath = String.thumpVideoPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
             fileManagerDeleteFileWithFilePath(filePath: thumbPath)
             //删除加密大图
@@ -181,7 +182,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
             CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
 
             DispatchQueue.main.async {
-                CDHUD.hide()
+                CDHUDManager.shareInstance().hideWait()
                 CDHUDManager.shareInstance().showText(text: "删除成功")
 
             }

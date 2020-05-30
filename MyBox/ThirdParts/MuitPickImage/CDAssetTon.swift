@@ -91,11 +91,9 @@ class CDAssetTon: NSObject {
         }
         return title
     }
-    func getAssetsInfo(withAsset asset: PHAsset, Handle:@escaping(_ dict:NSMutableDictionary?) ->Void) {
+    func getVideoFromAsset(withAsset asset: PHAsset, Handle:@escaping(String?) ->Void) {
 
         if asset.mediaType == .video {
-            var finished = false
-
             let videoManager = PHImageManager.default()
             let option = PHVideoRequestOptions()
             option.isNetworkAccessAllowed = true
@@ -106,72 +104,43 @@ class CDAssetTon: NSObject {
                     return
                 }
                 
-                self.startExportVideo(videoAsset: urlAsset, Handled: { (dict:NSMutableDictionary) in
-                    if dict.count == 0{
-                        dict.setObject("YES", forKey: "actionStop" as NSCopying)
-                        finished = true
-                        Handle(dict)
-                    }else{
-                        dict.setObject("NO", forKey: "actionStop" as NSCopying)
-                        finished = true
-                        Handle(dict)
-                    }
-
-                })
+                self.startExportVideo(videoAsset: urlAsset) { (tmpVideoPath) in
+                    Handle(tmpVideoPath)
+                }
             }
-            while !finished{
-                
-                RunLoop.current.run(mode: .default, before: Date.distantPast)
-            }
-
-        }else{
-            var fileName = asset.value(forKey: "filename") as! String
-            if fileName.count == 0{
-                fileName = "未命名"
-            }
-            let localIdentifier = asset.value(forKey: "localIdentifier") as! String
-            let dict = NSMutableDictionary(dictionaryLiteral: (fileName,"fileName"),(localIdentifier,UIImagePickerController.InfoKey.mediaURL))
-            Handle(dict)
 
         }
     }
 
 
-
-    func startExportVideo(videoAsset:AVURLAsset, Handled:@escaping(NSMutableDictionary) ->Void){
+    //视频压缩
+    func startExportVideo(videoAsset:AVURLAsset, Handled:@escaping(String?) ->Void){
 
         let preaets = AVAssetExportSession.exportPresets(compatibleWith: videoAsset)
-        if preaets.contains(AVAssetExportPreset640x480) {
+        if preaets.contains(AVAssetExportPresetHighestQuality) {
             let session:AVAssetExportSession = AVAssetExportSession.init(asset: videoAsset, presetName: AVAssetExportPreset640x480)!
             let time = getCurrentTimestamp()
             let tmpVideoPath = String.VideoPath().appendingPathComponent(str: "/\(time).mp4")
+            //输出路径
             session.outputURL = URL.init(fileURLWithPath: tmpVideoPath)
+            //优化网络
             session.shouldOptimizeForNetworkUse = true
             let supportedTypeArr = session.supportedFileTypes
             if supportedTypeArr.contains(AVFileType.mp4){
                 session.outputFileType = AVFileType.mp4
             }else if supportedTypeArr.count == 0{
                 print("视频类型暂不支持导出")
-
                 return
             }else{
                 session.outputFileType = supportedTypeArr.first
             }
-
-//            let videoComposition:AVMutableVideoComposition = fixedComposition(videoAsset: videoAsset)!
-//            session.videoComposition = videoComposition
-
+            //异步导出
             session.exportAsynchronously {
                 switch session.status{
                 case .unknown, .waiting, .exporting, .failed:
                    break
                 case .completed:
-                    let info = NSMutableDictionary()
-                    let second = Double(videoAsset.duration.value) / Double(videoAsset.duration.timescale)
-                    info.setObject(tmpVideoPath, forKey: "outputPath" as NSCopying)
-                    info.setObject(second, forKey: "timeLength" as NSCopying)
-                    info.setObject(time, forKey: "createTime" as NSCopying)
-                    Handled(info)
+                    Handled(tmpVideoPath)
                 case .cancelled:
                     break
                 @unknown default:
@@ -369,7 +338,8 @@ class CDAssetTon: NSObject {
         imageRequestOption.resizeMode = .none // 缩略图的压缩模式设置为无
         imageRequestOption.deliveryMode = .opportunistic// 缩略图的质量为高质量
         imageRequestOption.isNetworkAccessAllowed = true
-        manager.requestImage(for: asset, targetSize: targetSize, contentMode: .default, options: imageRequestOption) { (image, ofo) in
+        let tSize = targetSize == CGSize.zero ? PHImageManagerMaximumSize : targetSize
+        manager.requestImage(for: asset, targetSize: tSize, contentMode: .default, options: imageRequestOption) { (image, ofo) in
             Result(image,ofo)
 
         }
@@ -380,7 +350,8 @@ class CDAssetTon: NSObject {
         let imageRequestOption = PHLivePhotoRequestOptions()
         imageRequestOption.deliveryMode = .opportunistic
         imageRequestOption.isNetworkAccessAllowed = true
-        manager.requestLivePhoto(for: asset, targetSize: targetSize, contentMode: .default, options: imageRequestOption) { (livePhoto, info) in
+        let tSize = targetSize == CGSize.zero ? PHImageManagerMaximumSize : targetSize
+        manager.requestLivePhoto(for: asset, targetSize: tSize, contentMode: .default, options: imageRequestOption) { (livePhoto, info) in
             Result(livePhoto,info)
         }
     }

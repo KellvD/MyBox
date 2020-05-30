@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 protocol CDCameraPreviewDelegate {
     func onCameraPreviewToRetake()
     func onCameraPreviewToEdit()
@@ -16,7 +17,12 @@ class CDCameraPreview: UIView {
 
     var imageView:UIImageView!
     var delegate:CDCameraPreviewDelegate!
-
+    var isPlaying:Bool = false
+    
+    var playerLayer:AVPlayerLayer!
+    var player:AVPlayer!
+    var videoUrl:URL?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -72,4 +78,43 @@ class CDCameraPreview: UIView {
     @objc func onUserPhotoClick(){
         delegate.onCameraPreviewToSave()
     }
+    
+    
+    func initPlayer() {
+        isPlaying = true
+        
+        let urlAsset = AVURLAsset(url: videoUrl!, options: nil)
+        let playerItem = AVPlayerItem(asset: urlAsset)
+        let session = AVAudioSession.sharedInstance()
+        
+        try! session.setCategory(.playAndRecord, options: .defaultToSpeaker)
+
+        player = AVPlayer(playerItem: playerItem)
+
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = imageView.frame
+        playerLayer.videoGravity = .resizeAspectFill
+        self.layer.addSublayer(playerLayer)
+        player.play()
+    }
+    func stopPlayer() {
+        if isPlaying {
+            isPlaying = false
+            player.pause()
+            player.currentItem?.cancelPendingSeeks()
+            player.currentItem?.asset.cancelLoading()
+            player.replaceCurrentItem(with: nil)
+            playerLayer.removeFromSuperlayer()
+            player = nil;
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+
+        }
+
+    }
+
+    @objc func playerItemDidFinish(){
+        stopPlayer()
+    }
+
+    
 }

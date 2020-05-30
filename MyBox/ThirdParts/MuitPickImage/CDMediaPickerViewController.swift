@@ -7,18 +7,17 @@
 //
 
 import UIKit
-
 @objc protocol CDMediaPickerDelegate {
-    @objc optional func mediaPickerDidFinished(picker:CDMediaPickerViewController,data:NSObject,index:Int,totalCount:Int)
-    func mediaPickerDidCancle(picker:CDMediaPickerViewController)
+    @objc optional func onMediaPickerDidFinished(picker:CDMediaPickerViewController,data:Dictionary<String, Any>,index:Int,totalCount:Int)
+    @objc optional func onMediaPickerDidCancle(picker:CDMediaPickerViewController)
 }
 
 class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelagete{
     weak var pickerDelegate:CDMediaPickerDelegate!
-    var folderId:Int = 0
-    var isForVideo = false
-    
-
+    public var folderId:Int = 0
+    public var isForVideo = false
+    private var tmpAssetArr:[CDPHAsset] = []
+    private var totalCount = 0
     init(isVideo:Bool) {
         let albumVC = CDAlbumPickViewController()
         super.init(rootViewController: albumVC)
@@ -36,28 +35,60 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
     }
 
     @objc public func cancleMediaPicker() {
-        self.pickerDelegate.mediaPickerDidCancle(picker: self)
+        self.pickerDelegate.onMediaPickerDidCancle!(picker: self)
     }
 
     func selectedAssetsComplete(assets: [CDPHAsset]) {
-
-
+        
+        
         if isForVideo{
-            CDSignalTon.instance.handleSaveVideoWith(assets: assets, folderId: folderId)
-            return
+            totalCount = assets.count
+            tmpAssetArr = assets
+            handleVideo(assetArr: assets)
         }else{
-            
             for i in 0..<assets.count {
                 autoreleasepool {
                     let cdAsset:CDPHAsset = assets[i]
-                    CDAssetTon.shareInstance().getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
-                        if image != nil {
-                            self.pickerDelegate.mediaPickerDidFinished!(picker: self, data: image!, index: i + 1, totalCount: assets.count)
-                            
+                    if cdAsset.format == .Live {
+                        CDAssetTon.shareInstance().getLivePhotoFromAsset(asset: cdAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
+                            if livePhoto != nil{
+                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":livePhoto!]
+                                self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
+                            }
+                        }
+                    }else{
+                        CDAssetTon.shareInstance().getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
+                            if image != nil{
+                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":image!]
+                                self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
+                                
+                            }
                         }
                     }
+                    
+                    
                 }
             }
+        }
+    }
+
+    
+    func handleVideo(assetArr: [CDPHAsset]){
+        
+        let cdAsset = assetArr.first
+        CDAssetTon.shareInstance().getVideoFromAsset(withAsset: cdAsset!.asset) { (tmpPath) in
+            if tmpPath != nil {
+                self.performSelector(onMainThread: #selector(self.videoAssetWorkDone(tmpPath:)), with: tmpPath!, waitUntilDone: true)
+            }
+        }
+    }
+    @objc func videoAssetWorkDone(tmpPath:String){
+        let index = totalCount - tmpAssetArr.count
+        let dic:[String:Any] = ["fileURL":URL(fileURLWithPath: tmpPath)]
+        self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: index + 1, totalCount: self.totalCount)
+        tmpAssetArr.removeFirst()
+        if tmpAssetArr.count > 0 {
+            handleVideo(assetArr: tmpAssetArr)
         }
     }
 }

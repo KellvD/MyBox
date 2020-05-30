@@ -279,6 +279,7 @@
 		EFDD42142481FC25000AFDB8 /* CDCustomDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */; };
 		EFDD42152481FC25000AFDB8 /* CDActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42072481FC25000AFDB8 /* CDActivityViewController.swift */; };
 		EFDD42172481FCA0000AFDB8 /* CDGeneralTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */; };
+		EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFDD41F72481F9C3000AFDB8 /* MJRefresh.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -288,6 +289,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */,
 				73FC55D824654E500052E117 /* MBProgressHUD.framework in CopyFiles */,
 				EFC24321245C309F00DDC829 /* RxCocoa.framework in CopyFiles */,
 				EFC24322245C309F00DDC829 /* RxRelay.framework in CopyFiles */,
