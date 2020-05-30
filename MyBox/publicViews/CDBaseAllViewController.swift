@@ -96,7 +96,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     //分享
     func presentShareActivityWith(dataArr:[NSObject],Complete:@escaping(_ error:Error?) -> Void) {
         
-        let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
+        let activityVC = CDActivityViewController(activityItems: dataArr, applicationActivities: nil)
         activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
             if complete {
                 Complete(error)

@@ -2,8 +2,8 @@
 //  CDActivityViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/5/20.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/5/20.
+//  Copyright © 2019 baize. All rights reserved.
 //
 
 import UIKit

@@ -80,4 +80,21 @@ class CDGeneralTool: NSObject {
                 NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
         return frame.size.height
     }
+    
+    
+    class func IdentifedQRFromPhoto(image:UIImage) -> String {
+        //创建图片扫描仪
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
+        //获取到二维码
+        let deatureArr = detector?.features(in: CIImage(cgImage: image.cgImage!))
+        if deatureArr!.count == 0 {
+            return ""
+        }
+        let feature = deatureArr?.first as! CIQRCodeFeature //二维码图像特征
+        let message = feature.messageString
+        return message!
+    }
+    
+    
+    
 }

@@ -91,7 +91,8 @@ enum NSFileType:Int {
     case RtfType = 9
     case GifType = 10
     case ZipType = 11
-    case OtherType = 12
+    case LiveType = 12
+    case OtherType = 13
 }
 enum CDBrightType:Int {
     case Bright = 1

@@ -21,7 +21,7 @@ class CDSignalTon: NSObject {
     var touchIDSwitch:Bool = false
     var fakeSwitch:Bool = false
     var isViewDisappearStopRecording = false
-    var selectedVideos = NSMutableArray()
+    var videoAssetArr:[CDPHAsset] = []
     var tmpDict = NSMutableDictionary()
     var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
@@ -52,6 +52,8 @@ class CDSignalTon: NSObject {
         objc_sync_exit(self)
         return instance
     }
+
+
 
     func saveSafeFileInfo(tmpFileUrl:URL,folderId:Int,subFolderType:NSFolderType){
         let tmpFilePath = tmpFileUrl.absoluteString
@@ -117,7 +119,7 @@ class CDSignalTon: NSObject {
                 }
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
                 let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: filePath)
-                let data = image.jpegData(compressionQuality: 1.0)
+                let data = image!.jpegData(compressionQuality: 1.0)
                 do {
                     try data?.write(to: URL(fileURLWithPath: thumbPath))
                 } catch  {
@@ -151,102 +153,30 @@ class CDSignalTon: NSObject {
         
     }
     
-    
-    func handleSaveVideoWith(assets:[CDPHAsset], folderId: Int) {
-        DispatchQueue.main.async {
-            CDHUDManager.shareInstance().showAnimated(animated: true)
+    func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
+        let fileName = obj["fileName"] as! String
+        let suffix = fileName.pathExtension()
+        let fileType = checkFileTypeWithExternString(externStr: suffix)
+        var photo:PHLivePhoto!
+        var image:UIImage!
+        if fileType == .LiveType {
+            photo = obj["file"] as? PHLivePhoto
+            return
         }
-        selectedVideos = NSMutableArray(array: assets)
-        handleSingleVideo(folderId: folderId)
-    }
-
-    func handleSingleVideo(folderId: Int) {
-        if selectedVideos.count > 0 {
-            let phAsset:CDPHAsset = selectedVideos.firstObject as! CDPHAsset
-            let asset = phAsset.asset
-            let fileName = phAsset.fileName
-
-            CDAssetTon.instance.getAssetsInfo(withAsset:asset) { (info) in
-                if info == nil{
-                    DispatchQueue.main.async {
-                        CDHUDManager.shareInstance().showText(text: "异常数据")
-                    }
-                    NotificationCenter.default.post(name: RefreshProgress, object: nil)
-                    self.selectedVideos.removeObject(at: 0)
-                    self.handleSingleVideo(folderId: folderId)
-                }
-                else if (info?["actionStop"] as! String == "YES"){
-                    NotificationCenter.default.post(name: RefreshProgress, object: nil)
-                    self.selectedVideos.removeObject(at: 0)
-                    self.handleSingleVideo(folderId: folderId)
-                }
-                else{
-
-                    let timeLength = info?["timeLength"] as! Double
-                    let outputPath = info?["outputPath"] as! String
-                    let time = info?["createTime"] as! Int
-                    self.tmpDict.removeAllObjects()
-                    self.tmpDict.setObject(timeLength, forKey: "timeLength" as NSCopying)
-                    self.tmpDict.setObject(outputPath, forKey: "videoPath" as NSCopying)
-                    self.tmpDict.setObject(time, forKey: "createTime" as NSCopying)
-                    self.tmpDict.setObject(folderId, forKey: "folderId" as NSCopying)
-                    self.tmpDict.setObject(fileName, forKey: "fileName" as NSCopying)
-
-                    self.performSelector(onMainThread: #selector(self.saveToPathFinish(info:)), with: self.tmpDict, waitUntilDone: true)
-                }
-
-            }
-
-        }else{
-            DispatchQueue.main.async {
-                CDHUDManager.shareInstance().hideAnimated(animated: true)
-                NotificationCenter.default.post(name: NeedReloadData, object: nil)
-            }
+        else{
+            image = obj["file"] as? UIImage
             
         }
-    }
-    @objc func saveToPathFinish(info:NSMutableDictionary){
-        let timeLength = info["timeLength"]! as! Double
-        let videoPath = info["videoPath"] as! String
-        let fileName = info["fileName"] as! String
-        let folderId = info["folderId"] as! Int
-        let time = info["createTime"] as! Int
-        let thump = String.thumpVideoPath().appendingPathComponent(str: "\(time).jpg")
-
-        //第一帧
-        let image = firstFrmaeWithTheVideo(videoPath: videoPath)
-        let data = image.jpegData(compressionQuality: 1.0)
-        do {
-            try data?.write(to: URL(fileURLWithPath: thump))
-        } catch  {
-
-        }
-        let fileInfo = CDSafeFileInfo()
-        fileInfo.folderId = folderId
-        fileInfo.userId = CDUserId()
-        fileInfo.fileName = fileName
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: videoPath)
-        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thump)
-        let fileSize = getFileSizeAtPath(filePath: videoPath)
-        fileInfo.fileSize = fileSize
-        fileInfo.timeLength = timeLength
-        fileInfo.createTime = time
-        fileInfo.fileType = .VideoType
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-        NotificationCenter.default.post(name: RefreshProgress, object: nil)
-        selectedVideos.removeObject(at: 0)
-        handleSingleVideo(folderId: folderId)
-    }
-    func handleToSaveImage(image:UIImage,folderId:Int) {
+        
         let time = getCurrentTimestamp()
-        let savePath = String.ImagePath().appendingPathComponent(str: "\(time).jpg")
-        let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).jpg")
+        let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
+        let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).\(suffix)")
         let smallImage = imageCompressForSize(image: image, maxWidth: 1280)
         do{
             let imageData = smallImage.jpegData(compressionQuality: 0.5)
             try imageData?.write(to: URL(fileURLWithPath: savePath))
         }catch{
-
+            return
         }
 
         let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
@@ -255,23 +185,23 @@ class CDSignalTon: NSObject {
         do {
             try tmpData.write(to: URL(fileURLWithPath: thumbPath))
         } catch  {
-
+            return
         }
         let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
-        fileInfo.fileName = "未命名"
+        fileInfo.fileName = fileName
         fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: savePath)
         fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
         fileInfo.fileSize = getFileSizeAtPath(filePath: savePath)
         fileInfo.fileWidth = Double(image.size.width)
         fileInfo.fileHeight = Double(image.size.height)
         fileInfo.createTime = Int(time)
-        fileInfo.fileType = .ImageType
+        fileInfo.fileType = fileType
         fileInfo.userId = CDUserId()
         CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
     }
 
-    func firstFrmaeWithTheVideo(videoPath:String) -> UIImage{
+    func firstFrmaeWithTheVideo(videoPath:String) -> UIImage?{
         let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
         let urlAsset:AVURLAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: opts)
         let generator = AVAssetImageGenerator(asset: urlAsset)
@@ -283,6 +213,7 @@ class CDSignalTon: NSObject {
             imgRef = try generator.copyCGImage(at: CMTimeMake(value: 10, timescale: 10), actualTime: nil)
         } catch {
             print(" 0000 " + error.localizedDescription)
+            return nil
         }
         var image: UIImage!
         if error == nil {
@@ -731,6 +662,7 @@ class CDSignalTon: NSObject {
     let dateStr = formter.string(from: date)
     return dateStr
 }
+
 @inline(__always)func getVideoPreviewImage(videoUrl:URL) -> UIImage {
     let avAsset = AVAsset(url: videoUrl)
     let generator = AVAssetImageGenerator(asset: avAsset)
@@ -774,9 +706,10 @@ class CDSignalTon: NSObject {
         (externStr.uppercased() == "MAC") ||
         (externStr.uppercased() == "PCX") ||
         (externStr.uppercased() == "DXF") ||
-        (externStr.uppercased() == "CDR") ||
-        (externStr.uppercased() == "HEIC"){
+        (externStr.uppercased() == "CDR") {
         return .ImageType
+    }else if (externStr.uppercased() == "HEIC") {
+        return .LiveType
     }else if (externStr.uppercased() == "MP3") ||
         (externStr.uppercased() == "WAV") ||
         (externStr.uppercased() == "CAF") ||
