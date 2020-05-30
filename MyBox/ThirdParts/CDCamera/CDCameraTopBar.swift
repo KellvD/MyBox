@@ -90,15 +90,12 @@ class CDCameraTopBar: UIView {
             self.addSubview(thirdBtn)
             optionBtnArr.append(thirdBtn)
             
-            
-            
         }else{
-            timeLabel = UILabel(frame: CGRect(x: frame.width/2 - 60, y: 4, width: 60 , height: 40))
+            timeLabel = UILabel(frame: CGRect(x: frame.width/2 - 100, y: 4, width: 200 , height: 40))
             timeLabel?.textColor = UIColor.white
             timeLabel?.font = TextMidFont
             timeLabel?.text = "00:00:00"
             timeLabel?.textAlignment = .center
-            timeLabel?.isHidden = !isVideo
             self.addSubview(timeLabel!)
         }
     }

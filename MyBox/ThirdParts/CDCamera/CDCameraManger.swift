@@ -183,6 +183,10 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg])
         imageOutput.capturePhoto(with: setting, delegate: self)
     }
+
+    func reloadLayer(){
+        self.captureSession.startRunning()
+    }
     //录制视频
     func startTakeVideo(){
         let time = getCurrentTimestamp()

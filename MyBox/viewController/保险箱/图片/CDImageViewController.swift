@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-
+import MJRefresh
 enum CDHandleType {
     case discover
     case delete
@@ -29,6 +29,8 @@ class CDImageViewController:
     private var batchBtn:UIButton!
     private var backBtn:UIButton!
     private var collectionView:UICollectionView!
+    private var mjHeader:MJRefreshNormalHeader!
+    private var mjFooter:MJRefreshAutoNormalFooter!
     private var imageArr:[CDSafeFileInfo] = []
     private var selectedImageArr:[CDSafeFileInfo] = []
     private var outputImageArr:[CDSafeFileInfo] = []
@@ -60,7 +62,11 @@ class CDImageViewController:
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.white
         self.view.addSubview(collectionView!)
-
+//        mjHeader = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(headerRefresh))
+//        collectionView.mj_header = mjHeader
+//
+//        mjFooter = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(footerRefresh))
+//        collectionView.mj_footer = mjFooter
         batchBtn = UIButton(type: .custom)
         batchBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
         batchBtn.setImage(UIImage(named: "edit"), for: .normal);
@@ -76,6 +82,12 @@ class CDImageViewController:
         self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .ImageFolder, superVC: self)
         self.view.addSubview(self.toolbar)
         registerNotification()
+
+    }
+    @objc func footerRefresh(){
+
+    }
+    @objc func headerRefresh(){
 
     }
     //批量按钮

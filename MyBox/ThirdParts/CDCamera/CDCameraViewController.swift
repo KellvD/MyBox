@@ -74,8 +74,12 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
                 let previewVC = CDPreviewTakerViewController()
                 previewVC.isVideo = false
                 previewVC.previewHandle = {(success) in
-                    let dic:[String:Any] = ["fileName":"\(getCurrentTimestamp()).png","file":image!]
-                    self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
+                    if success {
+                        let dic:[String:Any] = ["fileName":"\(getCurrentTimestamp()).png","file":image!]
+                        self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
+                    } else {
+                        self.cameraManger.reloadLayer()
+                    }
                 }
                 previewVC.origialImage = image
                 previewVC.modalPresentationStyle = .fullScreen

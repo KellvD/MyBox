@@ -97,6 +97,8 @@ class CDPreviewTakerViewController: UIViewController {
             distoryPlayer()
             previewHandle(true)
         }else{
+            self.dismiss(animated: false, completion: nil)
+
             previewHandle(true)
             
         }
