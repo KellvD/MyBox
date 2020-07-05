@@ -62,39 +62,15 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
         tableView.listDataArr = musicArr
         tableView.reloadData()
     }
-    //TODO: popView Response
+    //MARK: popView Response
     @objc func presentedPopView(){
 
-        var rect = popView.tableBgView.frame
-        if rect.height  == 0 {
-            self.view.bringSubviewToFront(popView)
-            UIView.animate(withDuration: 0.15, animations: {
-                self.popView.backGroundView.alpha = 0.3
-                self.popView.isHidden = false
-                rect.size.width = CGFloat(self.popView.tableBgViewWidth)
-                rect.size.height = CGFloat(self.popView.tableBgViewHeight)
-                rect.origin.x = CDSCREEN_WIDTH - rect.size.width - 10
-                self.popView.tableBgView.frame = rect
-            }) { (finished) in
-            }
-        }else{
-            closePopMenuView()
-        }
+//        popView
 
     }
 
     func closePopMenuView() {
-        var rect = popView.tableBgView.frame
-        UIView.animate(withDuration: 0.15, animations: {
-            self.popView.backGroundView.alpha = 0.0
-            self.popView.isHidden = false
-            rect.size.width = 0
-            rect.size.height = 0
-            rect.origin.x = CDSCREEN_WIDTH - 25
-            self.popView.tableBgView.frame = rect
-        }) { (finished) in
-            self.popView.isHidden = true
-        }
+        
     }
     func onSelectedPopMenu(title: String) {
         closePopMenuView()
@@ -104,7 +80,7 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
 
         }
     }
-    //TODO:ListViewDelegate
+    //MARK:ListViewDelegate
     func onHandleOneMusicToDelete(musicInfo: CDMusicInfo) {
         let alertVC = UIAlertController(title: "提示", message: "确认要操作删除？", preferredStyle: .alert)
         let sureAc = UIAlertAction(title: "确定", style: .default) { (handle) in

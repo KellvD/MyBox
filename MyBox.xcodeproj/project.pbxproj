@@ -7,9 +7,70 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		730ED78224A98EC00044D8AE /* CDTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730ED78124A98EC00044D8AE /* CDTabBarViewController.swift */; };
 		731DF4F5245800080043E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF4F4245800080043E97F /* Foundation.framework */; };
 		731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; };
 		731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; };
+		7321175E24ADBA9C009B3DE7 /* reader_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175824ADBA9B009B3DE7 /* reader_select@2x.png */; };
+		7321175F24ADBA9C009B3DE7 /* music_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175924ADBA9B009B3DE7 /* music_normal@2x.png */; };
+		7321176024ADBA9C009B3DE7 /* reader_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175A24ADBA9B009B3DE7 /* reader_normal@2x.png */; };
+		7321176124ADBA9C009B3DE7 /* music_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175B24ADBA9B009B3DE7 /* music_select@2x.png */; };
+		7321176224ADBA9C009B3DE7 /* safe_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175C24ADBA9C009B3DE7 /* safe_select@2x.png */; };
+		7321176324ADBA9C009B3DE7 /* safe_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7321175D24ADBA9C009B3DE7 /* safe_normal@2x.png */; };
+		7323679C249088E70092F05E /* CDSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7323679B249088E70092F05E /* CDSideBar.swift */; };
+		7323679E2490AFF30092F05E /* CDReaderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7323679D2490AFF30092F05E /* CDReaderListViewController.swift */; };
+		732367A02490B67A0092F05E /* CDSideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7323679F2490B67A0092F05E /* CDSideViewController.swift */; };
+		732368402490BCDD0092F05E /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7323683F2490BCDD0092F05E /* GPUImage.framework */; };
+		732368412490BCED0092F05E /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7323683F2490BCDD0092F05E /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		732368442490BD540092F05E /* GPCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732368432490BD540092F05E /* GPCameraManager.swift */; };
+		732368462490BEC00092F05E /* GPUCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732368452490BEC00092F05E /* GPUCameraViewController.swift */; };
+		7324B8CC24A9C25B0057C755 /* CDReaderPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7324B8CB24A9C25B0057C755 /* CDReaderPageViewController.swift */; };
+		73262CCE24ADC2CB001AF8F9 /* CDColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CCD24ADC2CB001AF8F9 /* CDColorPicker.swift */; };
+		73262CFE24ADCFDC001AF8F9 /* CDFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CCF24ADCFDB001AF8F9 /* CDFilterView.swift */; };
+		73262CFF24ADCFDC001AF8F9 /* CDMosaicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD124ADCFDB001AF8F9 /* CDMosaicViewController.swift */; };
+		73262D0024ADCFDC001AF8F9 /* CDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD224ADCFDB001AF8F9 /* CDTextView.swift */; };
+		73262D0124ADCFDC001AF8F9 /* CDEditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD324ADCFDB001AF8F9 /* CDEditManager.swift */; };
+		73262D0224ADCFDC001AF8F9 /* CDWatermarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD424ADCFDC001AF8F9 /* CDWatermarkView.swift */; };
+		73262D0324ADCFDC001AF8F9 /* PECropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD724ADCFDC001AF8F9 /* PECropView.swift */; };
+		73262D0424ADCFDC001AF8F9 /* PECropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD824ADCFDC001AF8F9 /* PECropRectView.swift */; };
+		73262D0524ADCFDC001AF8F9 /* CDPhotoChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CD924ADCFDC001AF8F9 /* CDPhotoChooseView.swift */; };
+		73262D0624ADCFDC001AF8F9 /* CDCorpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CDA24ADCFDC001AF8F9 /* CDCorpViewController.swift */; };
+		73262D0724ADCFDC001AF8F9 /* CDCropToolsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CDB24ADCFDC001AF8F9 /* CDCropToolsBar.swift */; };
+		73262D0824ADCFDC001AF8F9 /* CDCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CDC24ADCFDC001AF8F9 /* CDCropView.swift */; };
+		73262D0924ADCFDC001AF8F9 /* CDEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CDE24ADCFDC001AF8F9 /* CDEdit.swift */; };
+		73262D0A24ADCFDC001AF8F9 /* CDWaterMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CE024ADCFDC001AF8F9 /* CDWaterMarkViewController.swift */; };
+		73262D0B24ADCFDC001AF8F9 /* CDWaterMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CE124ADCFDC001AF8F9 /* CDWaterMarkView.swift */; };
+		73262D0C24ADCFDC001AF8F9 /* CDRotateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CE224ADCFDC001AF8F9 /* CDRotateView.swift */; };
+		73262D0D24ADCFDC001AF8F9 /* CDImageEditModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CE324ADCFDC001AF8F9 /* CDImageEditModels.swift */; };
+		73262D0E24ADCFDC001AF8F9 /* CDMosaicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CE424ADCFDC001AF8F9 /* CDMosaicView.swift */; };
+		73262D0F24ADCFDC001AF8F9 /* 裁剪@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CE624ADCFDC001AF8F9 /* 裁剪@2x.png */; };
+		73262D1024ADCFDC001AF8F9 /* 顺时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CE724ADCFDC001AF8F9 /* 顺时针旋转@2x.png */; };
+		73262D1124ADCFDC001AF8F9 /* 曝光度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CE824ADCFDC001AF8F9 /* 曝光度@2x.png */; };
+		73262D1224ADCFDC001AF8F9 /* 滤镜@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CE924ADCFDC001AF8F9 /* 滤镜@2x.png */; };
+		73262D1324ADCFDC001AF8F9 /* 水印@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CEA24ADCFDC001AF8F9 /* 水印@2x.png */; };
+		73262D1424ADCFDC001AF8F9 /* backward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CEB24ADCFDC001AF8F9 /* backward_disable@2x.png */; };
+		73262D1524ADCFDC001AF8F9 /* 水平镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CEC24ADCFDC001AF8F9 /* 水平镜像@2x.png */; };
+		73262D1624ADCFDC001AF8F9 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CED24ADCFDC001AF8F9 /* forward@2x.png */; };
+		73262D1724ADCFDC001AF8F9 /* backward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CEE24ADCFDC001AF8F9 /* backward@2x.png */; };
+		73262D1824ADCFDC001AF8F9 /* 马赛克@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CEF24ADCFDC001AF8F9 /* 马赛克@2x.png */; };
+		73262D1924ADCFDC001AF8F9 /* 逆时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF024ADCFDC001AF8F9 /* 逆时针旋转@2x.png */; };
+		73262D1A24ADCFDC001AF8F9 /* 白色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF124ADCFDC001AF8F9 /* 白色暗角@2x.png */; };
+		73262D1B24ADCFDC001AF8F9 /* 色相@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF224ADCFDC001AF8F9 /* 色相@2x.png */; };
+		73262D1C24ADCFDC001AF8F9 /* 锐度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF324ADCFDC001AF8F9 /* 锐度@2x.png */; };
+		73262D1D24ADCFDC001AF8F9 /* 对比度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF424ADCFDC001AF8F9 /* 对比度@2x.png */; };
+		73262D1E24ADCFDC001AF8F9 /* 色温@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF524ADCFDC001AF8F9 /* 色温@2x.png */; };
+		73262D1F24ADCFDC001AF8F9 /* 垂直镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF624ADCFDC001AF8F9 /* 垂直镜像@2x.png */; };
+		73262D2024ADCFDC001AF8F9 /* 黑色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF724ADCFDC001AF8F9 /* 黑色暗角@2x.png */; };
+		73262D2124ADCFDC001AF8F9 /* 文字@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF824ADCFDC001AF8F9 /* 文字@2x.png */; };
+		73262D2224ADCFDC001AF8F9 /* forward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CF924ADCFDC001AF8F9 /* forward_disable@2x.png */; };
+		73262D2324ADCFDC001AF8F9 /* 饱和度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CFA24ADCFDC001AF8F9 /* 饱和度@2x.png */; };
+		73262D2424ADCFDC001AF8F9 /* 亮度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CFB24ADCFDC001AF8F9 /* 亮度@2x.png */; };
+		73262D2524ADCFDC001AF8F9 /* 旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73262CFC24ADCFDC001AF8F9 /* 旋转@2x.png */; };
+		73262D2624ADCFDC001AF8F9 /* CDBrightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262CFD24ADCFDC001AF8F9 /* CDBrightView.swift */; };
+		73262D2824ADD114001AF8F9 /* CDPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262D2724ADD114001AF8F9 /* CDPhotoView.swift */; };
+		73262D5924AED51D001AF8F9 /* UnrarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73262D5824AED51D001AF8F9 /* UnrarKit.framework */; };
+		73262D5A24AED696001AF8F9 /* UnrarKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 73262D5824AED51D001AF8F9 /* UnrarKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73262D5C24AEE3F6001AF8F9 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */; };
 		735513942457C19D009B7599 /* CDPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512512457C19C009B7599 /* CDPlayViewController.swift */; };
 		735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512522457C19C009B7599 /* CDMusicClassViewController.swift */; };
 		735513962457C19D009B7599 /* bar_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512542457C19C009B7599 /* bar_stop@2x.png */; };
@@ -42,7 +103,6 @@
 		735513B12457C19D009B7599 /* CDMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512702457C19C009B7599 /* CDMusicViewController.swift */; };
 		735513B22457C19D009B7599 /* CDSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512722457C19C009B7599 /* CDSettingViewController.swift */; };
 		735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512732457C19C009B7599 /* CDSetPwdViewController.swift */; };
-		735513B42457C19D009B7599 /* CDModifyPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512742457C19C009B7599 /* CDModifyPwdViewController.swift */; };
 		735513B52457C19D009B7599 /* CDSafeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512762457C19C009B7599 /* CDSafeViewController.swift */; };
 		735513B62457C19E009B7599 /* CDMarkFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512772457C19C009B7599 /* CDMarkFileViewController.swift */; };
 		735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512792457C19C009B7599 /* vault_setting@2x.png */; };
@@ -125,50 +185,9 @@
 		735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DA2457C19C009B7599 /* CDImageScrollView.swift */; };
 		735514112457C19E009B7599 /* CDImageScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DB2457C19C009B7599 /* CDImageScrollerViewController.swift */; };
 		735514122457C19E009B7599 /* CDImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DC2457C19C009B7599 /* CDImageCell.swift */; };
-		735514132457C19E009B7599 /* CDMosaicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512DE2457C19C009B7599 /* CDMosaicView.swift */; };
-		735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E02457C19C009B7599 /* CDMosaicViewController.swift */; };
-		735514152457C19E009B7599 /* PECropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E32457C19D009B7599 /* PECropView.swift */; };
-		735514162457C19E009B7599 /* PECropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E42457C19D009B7599 /* PECropRectView.swift */; };
-		735514172457C19E009B7599 /* CDPhotoChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E52457C19D009B7599 /* CDPhotoChooseView.swift */; };
-		735514182457C19E009B7599 /* CDCorpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E62457C19D009B7599 /* CDCorpViewController.swift */; };
-		735514192457C19E009B7599 /* CDCropToolsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E72457C19D009B7599 /* CDCropToolsBar.swift */; };
-		7355141A2457C19E009B7599 /* CDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E82457C19D009B7599 /* CDTextView.swift */; };
-		7355141B2457C19E009B7599 /* CDCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512E92457C19D009B7599 /* CDCropView.swift */; };
-		7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735512EA2457C19D009B7599 /* CDBrightView.swift */; };
-		7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EC2457C19D009B7599 /* 裁剪@2x.png */; };
-		7355141E2457C19E009B7599 /* 顺时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */; };
-		7355141F2457C19E009B7599 /* 曝光度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EE2457C19D009B7599 /* 曝光度@2x.png */; };
-		735514202457C19E009B7599 /* 滤镜@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512EF2457C19D009B7599 /* 滤镜@2x.png */; };
-		735514212457C19E009B7599 /* 水印@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F02457C19D009B7599 /* 水印@2x.png */; };
-		735514222457C19E009B7599 /* backward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F12457C19D009B7599 /* backward_disable@2x.png */; };
-		735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F22457C19D009B7599 /* 水平镜像@2x.png */; };
-		735514242457C19E009B7599 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F32457C19D009B7599 /* forward@2x.png */; };
-		735514252457C19E009B7599 /* backward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F42457C19D009B7599 /* backward@2x.png */; };
-		735514262457C19E009B7599 /* 马赛克@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F52457C19D009B7599 /* 马赛克@2x.png */; };
-		735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F62457C19D009B7599 /* 逆时针旋转@2x.png */; };
-		735514282457C19E009B7599 /* 白色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F72457C19D009B7599 /* 白色暗角@2x.png */; };
-		735514292457C19E009B7599 /* 色相@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F82457C19D009B7599 /* 色相@2x.png */; };
-		7355142A2457C19E009B7599 /* 锐度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512F92457C19D009B7599 /* 锐度@2x.png */; };
-		7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FA2457C19D009B7599 /* 对比度@2x.png */; };
-		7355142C2457C19E009B7599 /* 色温@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FB2457C19D009B7599 /* 色温@2x.png */; };
-		7355142D2457C19E009B7599 /* 垂直镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FC2457C19D009B7599 /* 垂直镜像@2x.png */; };
-		7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FD2457C19D009B7599 /* 黑色暗角@2x.png */; };
-		7355142F2457C19E009B7599 /* 文字@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FE2457C19D009B7599 /* 文字@2x.png */; };
-		735514302457C19E009B7599 /* forward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735512FF2457C19D009B7599 /* forward_disable@2x.png */; };
-		735514312457C19E009B7599 /* 饱和度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513002457C19D009B7599 /* 饱和度@2x.png */; };
-		735514322457C19E009B7599 /* 亮度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513012457C19D009B7599 /* 亮度@2x.png */; };
-		735514332457C19E009B7599 /* 旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513022457C19D009B7599 /* 旋转@2x.png */; };
-		735514342457C19E009B7599 /* CDRotateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513032457C19D009B7599 /* CDRotateView.swift */; };
 		735514352457C19E009B7599 /* CDEditToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513042457C19D009B7599 /* CDEditToolView.swift */; };
 		735514362457C19E009B7599 /* CDNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513052457C19D009B7599 /* CDNavigationBar.swift */; };
 		735514372457C19E009B7599 /* CDImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513062457C19D009B7599 /* CDImageEditViewController.swift */; };
-		735514382457C19E009B7599 /* CDWaterMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513082457C19D009B7599 /* CDWaterMarkViewController.swift */; };
-		735514392457C19E009B7599 /* CDWaterMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513092457C19D009B7599 /* CDWaterMarkView.swift */; };
-		7355143A2457C19E009B7599 /* CDEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130B2457C19D009B7599 /* CDEdit.swift */; };
-		7355143B2457C19E009B7599 /* CDEditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130C2457C19D009B7599 /* CDEditManager.swift */; };
-		7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130D2457C19D009B7599 /* CDWatermarkView.swift */; };
-		7355143D2457C19E009B7599 /* CDImageEditModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355130E2457C19D009B7599 /* CDImageEditModels.swift */; };
-		7355143E2457C19E009B7599 /* CDFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513112457C19D009B7599 /* CDFilterView.swift */; };
 		7355143F2457C19E009B7599 /* CDEditorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735513122457C19D009B7599 /* CDEditorsView.swift */; };
 		735514402457C19E009B7599 /* 照片选中@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513142457C19D009B7599 /* 照片选中@2x.png */; };
 		735514412457C19E009B7599 /* love_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735513152457C19D009B7599 /* love_normal@2x.png */; };
@@ -226,6 +245,11 @@
 		735514AF2457C20D009B7599 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514AE2457C20D009B7599 /* Photos.framework */; };
 		735514B12457C216009B7599 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B02457C216009B7599 /* Security.framework */; };
 		735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514B22457C220009B7599 /* VideoToolbox.framework */; };
+		7366B27424920436001C7884 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B27324920436001C7884 /* OpenGLES.framework */; };
+		7366B27624920460001C7884 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B27524920460001C7884 /* CoreMedia.framework */; };
+		7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B2772492046C001C7884 /* CoreVideo.framework */; };
+		7366B27A2492047A001C7884 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B2792492047A001C7884 /* QuartzCore.framework */; };
+		737020C22491D87000F98F42 /* CDContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737020C12491D87000F98F42 /* CDContainerViewController.swift */; };
 		7399ADC4246257820010434B /* CDLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399ADC3246257820010434B /* CDLogViewController.swift */; };
 		73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E824657210001EC3EF /* 37x-Checkmark.png */; };
 		73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E924657210001EC3EF /* 37x-Error@2x.png */; };
@@ -274,10 +298,8 @@
 		EFDD420F2481FC25000AFDB8 /* CDDeviceTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42012481FC24000AFDB8 /* CDDeviceTools.swift */; };
 		EFDD42102481FC25000AFDB8 /* CDEmojiHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42022481FC24000AFDB8 /* CDEmojiHandle.swift */; };
 		EFDD42112481FC25000AFDB8 /* CDConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */; };
-		EFDD42122481FC25000AFDB8 /* String+encrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42042481FC24000AFDB8 /* String+encrypt.swift */; };
 		EFDD42132481FC25000AFDB8 /* CDSignalTon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42052481FC24000AFDB8 /* CDSignalTon.swift */; };
 		EFDD42142481FC25000AFDB8 /* CDCustomDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */; };
-		EFDD42152481FC25000AFDB8 /* CDActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42072481FC25000AFDB8 /* CDActivityViewController.swift */; };
 		EFDD42172481FCA0000AFDB8 /* CDGeneralTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */; };
 		EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFDD41F72481F9C3000AFDB8 /* MJRefresh.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -289,6 +311,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				73262D5A24AED696001AF8F9 /* UnrarKit.framework in CopyFiles */,
+				732368412490BCED0092F05E /* GPUImage.framework in CopyFiles */,
 				EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */,
 				73FC55D824654E500052E117 /* MBProgressHUD.framework in CopyFiles */,
 				EFC24321245C309F00DDC829 /* RxCocoa.framework in CopyFiles */,
@@ -302,9 +326,69 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		730ED78124A98EC00044D8AE /* CDTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDTabBarViewController.swift; sourceTree = "<group>"; };
 		731DF4F4245800080043E97F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		731DF53824580F3B0043E97F /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQLite.framework; sourceTree = "<group>"; };
 		731DF53A24580FDD0043E97F /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		7321175824ADBA9B009B3DE7 /* reader_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reader_select@2x.png"; sourceTree = "<group>"; };
+		7321175924ADBA9B009B3DE7 /* music_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music_normal@2x.png"; sourceTree = "<group>"; };
+		7321175A24ADBA9B009B3DE7 /* reader_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reader_normal@2x.png"; sourceTree = "<group>"; };
+		7321175B24ADBA9B009B3DE7 /* music_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music_select@2x.png"; sourceTree = "<group>"; };
+		7321175C24ADBA9C009B3DE7 /* safe_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safe_select@2x.png"; sourceTree = "<group>"; };
+		7321175D24ADBA9C009B3DE7 /* safe_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safe_normal@2x.png"; sourceTree = "<group>"; };
+		7323679B249088E70092F05E /* CDSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSideBar.swift; sourceTree = "<group>"; };
+		7323679D2490AFF30092F05E /* CDReaderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDReaderListViewController.swift; sourceTree = "<group>"; };
+		7323679F2490B67A0092F05E /* CDSideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSideViewController.swift; sourceTree = "<group>"; };
+		7323683F2490BCDD0092F05E /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GPUImage.framework; sourceTree = "<group>"; };
+		732368432490BD540092F05E /* GPCameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPCameraManager.swift; sourceTree = "<group>"; };
+		732368452490BEC00092F05E /* GPUCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUCameraViewController.swift; sourceTree = "<group>"; };
+		7324B8CB24A9C25B0057C755 /* CDReaderPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDReaderPageViewController.swift; sourceTree = "<group>"; };
+		73262CCD24ADC2CB001AF8F9 /* CDColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDColorPicker.swift; sourceTree = "<group>"; };
+		73262CCF24ADCFDB001AF8F9 /* CDFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFilterView.swift; sourceTree = "<group>"; };
+		73262CD124ADCFDB001AF8F9 /* CDMosaicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicViewController.swift; sourceTree = "<group>"; };
+		73262CD224ADCFDB001AF8F9 /* CDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextView.swift; sourceTree = "<group>"; };
+		73262CD324ADCFDB001AF8F9 /* CDEditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditManager.swift; sourceTree = "<group>"; };
+		73262CD424ADCFDC001AF8F9 /* CDWatermarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWatermarkView.swift; sourceTree = "<group>"; };
+		73262CD724ADCFDC001AF8F9 /* PECropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropView.swift; sourceTree = "<group>"; };
+		73262CD824ADCFDC001AF8F9 /* PECropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropRectView.swift; sourceTree = "<group>"; };
+		73262CD924ADCFDC001AF8F9 /* CDPhotoChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoChooseView.swift; sourceTree = "<group>"; };
+		73262CDA24ADCFDC001AF8F9 /* CDCorpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCorpViewController.swift; sourceTree = "<group>"; };
+		73262CDB24ADCFDC001AF8F9 /* CDCropToolsBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropToolsBar.swift; sourceTree = "<group>"; };
+		73262CDC24ADCFDC001AF8F9 /* CDCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropView.swift; sourceTree = "<group>"; };
+		73262CDE24ADCFDC001AF8F9 /* CDEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEdit.swift; sourceTree = "<group>"; };
+		73262CE024ADCFDC001AF8F9 /* CDWaterMarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkViewController.swift; sourceTree = "<group>"; };
+		73262CE124ADCFDC001AF8F9 /* CDWaterMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkView.swift; sourceTree = "<group>"; };
+		73262CE224ADCFDC001AF8F9 /* CDRotateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRotateView.swift; sourceTree = "<group>"; };
+		73262CE324ADCFDC001AF8F9 /* CDImageEditModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditModels.swift; sourceTree = "<group>"; };
+		73262CE424ADCFDC001AF8F9 /* CDMosaicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicView.swift; sourceTree = "<group>"; };
+		73262CE624ADCFDC001AF8F9 /* 裁剪@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "裁剪@2x.png"; sourceTree = "<group>"; };
+		73262CE724ADCFDC001AF8F9 /* 顺时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "顺时针旋转@2x.png"; sourceTree = "<group>"; };
+		73262CE824ADCFDC001AF8F9 /* 曝光度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "曝光度@2x.png"; sourceTree = "<group>"; };
+		73262CE924ADCFDC001AF8F9 /* 滤镜@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "滤镜@2x.png"; sourceTree = "<group>"; };
+		73262CEA24ADCFDC001AF8F9 /* 水印@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水印@2x.png"; sourceTree = "<group>"; };
+		73262CEB24ADCFDC001AF8F9 /* backward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward_disable@2x.png"; sourceTree = "<group>"; };
+		73262CEC24ADCFDC001AF8F9 /* 水平镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水平镜像@2x.png"; sourceTree = "<group>"; };
+		73262CED24ADCFDC001AF8F9 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		73262CEE24ADCFDC001AF8F9 /* backward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward@2x.png"; sourceTree = "<group>"; };
+		73262CEF24ADCFDC001AF8F9 /* 马赛克@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马赛克@2x.png"; sourceTree = "<group>"; };
+		73262CF024ADCFDC001AF8F9 /* 逆时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "逆时针旋转@2x.png"; sourceTree = "<group>"; };
+		73262CF124ADCFDC001AF8F9 /* 白色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "白色暗角@2x.png"; sourceTree = "<group>"; };
+		73262CF224ADCFDC001AF8F9 /* 色相@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色相@2x.png"; sourceTree = "<group>"; };
+		73262CF324ADCFDC001AF8F9 /* 锐度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "锐度@2x.png"; sourceTree = "<group>"; };
+		73262CF424ADCFDC001AF8F9 /* 对比度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "对比度@2x.png"; sourceTree = "<group>"; };
+		73262CF524ADCFDC001AF8F9 /* 色温@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色温@2x.png"; sourceTree = "<group>"; };
+		73262CF624ADCFDC001AF8F9 /* 垂直镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "垂直镜像@2x.png"; sourceTree = "<group>"; };
+		73262CF724ADCFDC001AF8F9 /* 黑色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "黑色暗角@2x.png"; sourceTree = "<group>"; };
+		73262CF824ADCFDC001AF8F9 /* 文字@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "文字@2x.png"; sourceTree = "<group>"; };
+		73262CF924ADCFDC001AF8F9 /* forward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward_disable@2x.png"; sourceTree = "<group>"; };
+		73262CFA24ADCFDC001AF8F9 /* 饱和度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "饱和度@2x.png"; sourceTree = "<group>"; };
+		73262CFB24ADCFDC001AF8F9 /* 亮度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "亮度@2x.png"; sourceTree = "<group>"; };
+		73262CFC24ADCFDC001AF8F9 /* 旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "旋转@2x.png"; sourceTree = "<group>"; };
+		73262CFD24ADCFDC001AF8F9 /* CDBrightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrightView.swift; sourceTree = "<group>"; };
+		73262D2724ADD114001AF8F9 /* CDPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPhotoView.swift; sourceTree = "<group>"; };
+		73262D2924ADE092001AF8F9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		73262D5824AED51D001AF8F9 /* UnrarKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnrarKit.framework; sourceTree = "<group>"; };
+		73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
 		73550FE52457C0AB009B7599 /* MyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		735512512457C19C009B7599 /* CDPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPlayViewController.swift; sourceTree = "<group>"; };
 		735512522457C19C009B7599 /* CDMusicClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicClassViewController.swift; sourceTree = "<group>"; };
@@ -338,7 +422,6 @@
 		735512702457C19C009B7599 /* CDMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMusicViewController.swift; sourceTree = "<group>"; };
 		735512722457C19C009B7599 /* CDSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettingViewController.swift; sourceTree = "<group>"; };
 		735512732457C19C009B7599 /* CDSetPwdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSetPwdViewController.swift; sourceTree = "<group>"; };
-		735512742457C19C009B7599 /* CDModifyPwdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModifyPwdViewController.swift; sourceTree = "<group>"; };
 		735512762457C19C009B7599 /* CDSafeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSafeViewController.swift; sourceTree = "<group>"; };
 		735512772457C19C009B7599 /* CDMarkFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarkFileViewController.swift; sourceTree = "<group>"; };
 		735512792457C19C009B7599 /* vault_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vault_setting@2x.png"; sourceTree = "<group>"; };
@@ -421,50 +504,9 @@
 		735512DA2457C19C009B7599 /* CDImageScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollView.swift; sourceTree = "<group>"; };
 		735512DB2457C19C009B7599 /* CDImageScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollerViewController.swift; sourceTree = "<group>"; };
 		735512DC2457C19C009B7599 /* CDImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageCell.swift; sourceTree = "<group>"; };
-		735512DE2457C19C009B7599 /* CDMosaicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicView.swift; sourceTree = "<group>"; };
-		735512E02457C19C009B7599 /* CDMosaicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicViewController.swift; sourceTree = "<group>"; };
-		735512E32457C19D009B7599 /* PECropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropView.swift; sourceTree = "<group>"; };
-		735512E42457C19D009B7599 /* PECropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropRectView.swift; sourceTree = "<group>"; };
-		735512E52457C19D009B7599 /* CDPhotoChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoChooseView.swift; sourceTree = "<group>"; };
-		735512E62457C19D009B7599 /* CDCorpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCorpViewController.swift; sourceTree = "<group>"; };
-		735512E72457C19D009B7599 /* CDCropToolsBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropToolsBar.swift; sourceTree = "<group>"; };
-		735512E82457C19D009B7599 /* CDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextView.swift; sourceTree = "<group>"; };
-		735512E92457C19D009B7599 /* CDCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropView.swift; sourceTree = "<group>"; };
-		735512EA2457C19D009B7599 /* CDBrightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrightView.swift; sourceTree = "<group>"; };
-		735512EC2457C19D009B7599 /* 裁剪@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "裁剪@2x.png"; sourceTree = "<group>"; };
-		735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "顺时针旋转@2x.png"; sourceTree = "<group>"; };
-		735512EE2457C19D009B7599 /* 曝光度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "曝光度@2x.png"; sourceTree = "<group>"; };
-		735512EF2457C19D009B7599 /* 滤镜@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "滤镜@2x.png"; sourceTree = "<group>"; };
-		735512F02457C19D009B7599 /* 水印@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水印@2x.png"; sourceTree = "<group>"; };
-		735512F12457C19D009B7599 /* backward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward_disable@2x.png"; sourceTree = "<group>"; };
-		735512F22457C19D009B7599 /* 水平镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水平镜像@2x.png"; sourceTree = "<group>"; };
-		735512F32457C19D009B7599 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
-		735512F42457C19D009B7599 /* backward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward@2x.png"; sourceTree = "<group>"; };
-		735512F52457C19D009B7599 /* 马赛克@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马赛克@2x.png"; sourceTree = "<group>"; };
-		735512F62457C19D009B7599 /* 逆时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "逆时针旋转@2x.png"; sourceTree = "<group>"; };
-		735512F72457C19D009B7599 /* 白色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "白色暗角@2x.png"; sourceTree = "<group>"; };
-		735512F82457C19D009B7599 /* 色相@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色相@2x.png"; sourceTree = "<group>"; };
-		735512F92457C19D009B7599 /* 锐度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "锐度@2x.png"; sourceTree = "<group>"; };
-		735512FA2457C19D009B7599 /* 对比度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "对比度@2x.png"; sourceTree = "<group>"; };
-		735512FB2457C19D009B7599 /* 色温@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色温@2x.png"; sourceTree = "<group>"; };
-		735512FC2457C19D009B7599 /* 垂直镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "垂直镜像@2x.png"; sourceTree = "<group>"; };
-		735512FD2457C19D009B7599 /* 黑色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "黑色暗角@2x.png"; sourceTree = "<group>"; };
-		735512FE2457C19D009B7599 /* 文字@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "文字@2x.png"; sourceTree = "<group>"; };
-		735512FF2457C19D009B7599 /* forward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward_disable@2x.png"; sourceTree = "<group>"; };
-		735513002457C19D009B7599 /* 饱和度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "饱和度@2x.png"; sourceTree = "<group>"; };
-		735513012457C19D009B7599 /* 亮度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "亮度@2x.png"; sourceTree = "<group>"; };
-		735513022457C19D009B7599 /* 旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "旋转@2x.png"; sourceTree = "<group>"; };
-		735513032457C19D009B7599 /* CDRotateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRotateView.swift; sourceTree = "<group>"; };
 		735513042457C19D009B7599 /* CDEditToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditToolView.swift; sourceTree = "<group>"; };
 		735513052457C19D009B7599 /* CDNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNavigationBar.swift; sourceTree = "<group>"; };
 		735513062457C19D009B7599 /* CDImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditViewController.swift; sourceTree = "<group>"; };
-		735513082457C19D009B7599 /* CDWaterMarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkViewController.swift; sourceTree = "<group>"; };
-		735513092457C19D009B7599 /* CDWaterMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkView.swift; sourceTree = "<group>"; };
-		7355130B2457C19D009B7599 /* CDEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEdit.swift; sourceTree = "<group>"; };
-		7355130C2457C19D009B7599 /* CDEditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditManager.swift; sourceTree = "<group>"; };
-		7355130D2457C19D009B7599 /* CDWatermarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWatermarkView.swift; sourceTree = "<group>"; };
-		7355130E2457C19D009B7599 /* CDImageEditModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditModels.swift; sourceTree = "<group>"; };
-		735513112457C19D009B7599 /* CDFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFilterView.swift; sourceTree = "<group>"; };
 		735513122457C19D009B7599 /* CDEditorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditorsView.swift; sourceTree = "<group>"; };
 		735513142457C19D009B7599 /* 照片选中@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "照片选中@2x.png"; sourceTree = "<group>"; };
 		735513152457C19D009B7599 /* love_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "love_normal@2x.png"; sourceTree = "<group>"; };
@@ -525,6 +567,11 @@
 		735514B02457C216009B7599 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		735514B22457C220009B7599 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		7355152B2457D925009B7599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7366B27324920436001C7884 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		7366B27524920460001C7884 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7366B2772492046C001C7884 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		7366B2792492047A001C7884 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		737020C12491D87000F98F42 /* CDContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CDContainerViewController.swift; path = MyBox/publicViews/CDContainerViewController.swift; sourceTree = SOURCE_ROOT; };
 		7399ADC3246257820010434B /* CDLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLogViewController.swift; sourceTree = "<group>"; };
 		73D1A0E824657210001EC3EF /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		73D1A0E924657210001EC3EF /* 37x-Error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Error@2x.png"; sourceTree = "<group>"; };
@@ -567,10 +614,8 @@
 		EFDD42012481FC24000AFDB8 /* CDDeviceTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDeviceTools.swift; sourceTree = "<group>"; };
 		EFDD42022481FC24000AFDB8 /* CDEmojiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEmojiHandle.swift; sourceTree = "<group>"; };
 		EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDConfigFile.swift; sourceTree = "<group>"; };
-		EFDD42042481FC24000AFDB8 /* String+encrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+encrypt.swift"; sourceTree = "<group>"; };
 		EFDD42052481FC24000AFDB8 /* CDSignalTon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSignalTon.swift; sourceTree = "<group>"; };
 		EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCustomDefines.swift; sourceTree = "<group>"; };
-		EFDD42072481FC25000AFDB8 /* CDActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDActivityViewController.swift; sourceTree = "<group>"; };
 		EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDGeneralTool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -581,8 +626,10 @@
 			files = (
 				EFC2431E245C307300DDC829 /* RxCocoa.framework in Frameworks */,
 				735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */,
+				7366B27A2492047A001C7884 /* QuartzCore.framework in Frameworks */,
 				EFC24320245C307300DDC829 /* RxSwift.framework in Frameworks */,
 				731DF53924580F3B0043E97F /* SQLite.framework in Frameworks */,
+				7366B27624920460001C7884 /* CoreMedia.framework in Frameworks */,
 				EFC2431F245C307300DDC829 /* RxRelay.framework in Frameworks */,
 				EFDD41F82481F9C3000AFDB8 /* MJRefresh.framework in Frameworks */,
 				735514A82457C1DD009B7599 /* CoreGraphics.framework in Frameworks */,
@@ -592,18 +639,32 @@
 				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
 				731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */,
 				735514B12457C216009B7599 /* Security.framework in Frameworks */,
+				732368402490BCDD0092F05E /* GPUImage.framework in Frameworks */,
+				73262D5924AED51D001AF8F9 /* UnrarKit.framework in Frameworks */,
 				735514AA2457C1E5009B7599 /* CoreServices.framework in Frameworks */,
 				735514AF2457C20D009B7599 /* Photos.framework in Frameworks */,
 				731DF4F5245800080043E97F /* Foundation.framework in Frameworks */,
+				7366B27424920436001C7884 /* OpenGLES.framework in Frameworks */,
+				7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		730ED78324A9905D0044D8AE /* 电子书 */ = {
+			isa = PBXGroup;
+			children = (
+				7321175724ADB29D009B3DE7 /* controller */,
+			);
+			path = "电子书";
+			sourceTree = "<group>";
+		};
 		731DF4FC2458099F0043E97F /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				73262D5824AED51D001AF8F9 /* UnrarKit.framework */,
+				7323683F2490BCDD0092F05E /* GPUImage.framework */,
 				EFDD41F72481F9C3000AFDB8 /* MJRefresh.framework */,
 				73FC55D624654DBA0052E117 /* MBProgressHUD.framework */,
 				EFC2431B245C307300DDC829 /* RxCocoa.framework */,
@@ -613,6 +674,122 @@
 				731DF53824580F3B0043E97F /* SQLite.framework */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		7321175724ADB29D009B3DE7 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				7323679D2490AFF30092F05E /* CDReaderListViewController.swift */,
+				7324B8CB24A9C25B0057C755 /* CDReaderPageViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		7321176424ADBB7A009B3DE7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				735513062457C19D009B7599 /* CDImageEditViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7321176524ADBB85009B3DE7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				73262D2724ADD114001AF8F9 /* CDPhotoView.swift */,
+				735513042457C19D009B7599 /* CDEditToolView.swift */,
+				735513052457C19D009B7599 /* CDNavigationBar.swift */,
+				735513122457C19D009B7599 /* CDEditorsView.swift */,
+				73262CCD24ADC2CB001AF8F9 /* CDColorPicker.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		732368422490BD3F0092F05E /* GPUCamera */ = {
+			isa = PBXGroup;
+			children = (
+				732368452490BEC00092F05E /* GPUCameraViewController.swift */,
+				732368432490BD540092F05E /* GPCameraManager.swift */,
+				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
+				735513452457C19D009B7599 /* CDCameraPreview.swift */,
+				7355133C2457C19D009B7599 /* CDCameraTopBar.swift */,
+			);
+			path = GPUCamera;
+			sourceTree = "<group>";
+		};
+		73262CD024ADCFDB001AF8F9 /* mosaic */ = {
+			isa = PBXGroup;
+			children = (
+				73262CD124ADCFDB001AF8F9 /* CDMosaicViewController.swift */,
+			);
+			path = mosaic;
+			sourceTree = "<group>";
+		};
+		73262CD524ADCFDC001AF8F9 /* Corp */ = {
+			isa = PBXGroup;
+			children = (
+				73262CD624ADCFDC001AF8F9 /* CropEditor */,
+				73262CD924ADCFDC001AF8F9 /* CDPhotoChooseView.swift */,
+				73262CDA24ADCFDC001AF8F9 /* CDCorpViewController.swift */,
+				73262CDB24ADCFDC001AF8F9 /* CDCropToolsBar.swift */,
+			);
+			path = Corp;
+			sourceTree = "<group>";
+		};
+		73262CD624ADCFDC001AF8F9 /* CropEditor */ = {
+			isa = PBXGroup;
+			children = (
+				73262CD724ADCFDC001AF8F9 /* PECropView.swift */,
+				73262CD824ADCFDC001AF8F9 /* PECropRectView.swift */,
+			);
+			path = CropEditor;
+			sourceTree = "<group>";
+		};
+		73262CDD24ADCFDC001AF8F9 /* public */ = {
+			isa = PBXGroup;
+			children = (
+				73262CDE24ADCFDC001AF8F9 /* CDEdit.swift */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		73262CDF24ADCFDC001AF8F9 /* Watermark */ = {
+			isa = PBXGroup;
+			children = (
+				73262CE024ADCFDC001AF8F9 /* CDWaterMarkViewController.swift */,
+				73262CE124ADCFDC001AF8F9 /* CDWaterMarkView.swift */,
+			);
+			path = Watermark;
+			sourceTree = "<group>";
+		};
+		73262CE524ADCFDC001AF8F9 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				73262CE624ADCFDC001AF8F9 /* 裁剪@2x.png */,
+				73262CE724ADCFDC001AF8F9 /* 顺时针旋转@2x.png */,
+				73262CE824ADCFDC001AF8F9 /* 曝光度@2x.png */,
+				73262CE924ADCFDC001AF8F9 /* 滤镜@2x.png */,
+				73262CEA24ADCFDC001AF8F9 /* 水印@2x.png */,
+				73262CEB24ADCFDC001AF8F9 /* backward_disable@2x.png */,
+				73262CEC24ADCFDC001AF8F9 /* 水平镜像@2x.png */,
+				73262CED24ADCFDC001AF8F9 /* forward@2x.png */,
+				73262CEE24ADCFDC001AF8F9 /* backward@2x.png */,
+				73262CEF24ADCFDC001AF8F9 /* 马赛克@2x.png */,
+				73262CF024ADCFDC001AF8F9 /* 逆时针旋转@2x.png */,
+				73262CF124ADCFDC001AF8F9 /* 白色暗角@2x.png */,
+				73262CF224ADCFDC001AF8F9 /* 色相@2x.png */,
+				73262CF324ADCFDC001AF8F9 /* 锐度@2x.png */,
+				73262CF424ADCFDC001AF8F9 /* 对比度@2x.png */,
+				73262CF524ADCFDC001AF8F9 /* 色温@2x.png */,
+				73262CF624ADCFDC001AF8F9 /* 垂直镜像@2x.png */,
+				73262CF724ADCFDC001AF8F9 /* 黑色暗角@2x.png */,
+				73262CF824ADCFDC001AF8F9 /* 文字@2x.png */,
+				73262CF924ADCFDC001AF8F9 /* forward_disable@2x.png */,
+				73262CFA24ADCFDC001AF8F9 /* 饱和度@2x.png */,
+				73262CFB24ADCFDC001AF8F9 /* 亮度@2x.png */,
+				73262CFC24ADCFDC001AF8F9 /* 旋转@2x.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		73550FDC2457C0AB009B7599 = {
@@ -635,11 +812,11 @@
 		73550FE72457C0AB009B7599 /* MyBox */ = {
 			isa = PBXGroup;
 			children = (
+				735513252457C19D009B7599 /* Supporting Files */,
 				735513842457C19D009B7599 /* appleLunch */,
 				731DF4FC2458099F0043E97F /* lib */,
 				735513732457C19D009B7599 /* publicViews */,
 				735513892457C19D009B7599 /* resource */,
-				735513252457C19D009B7599 /* Supporting Files */,
 				735513282457C19D009B7599 /* ThirdParts */,
 				7355124F2457C19C009B7599 /* viewController */,
 			);
@@ -649,6 +826,7 @@
 		7355124F2457C19C009B7599 /* viewController */ = {
 			isa = PBXGroup;
 			children = (
+				730ED78324A9905D0044D8AE /* 电子书 */,
 				735512502457C19C009B7599 /* 音乐盒 */,
 				735512712457C19C009B7599 /* Setting */,
 				735512752457C19C009B7599 /* 保险箱 */,
@@ -716,7 +894,6 @@
 				735512722457C19C009B7599 /* CDSettingViewController.swift */,
 				7399ADC3246257820010434B /* CDLogViewController.swift */,
 				735512732457C19C009B7599 /* CDSetPwdViewController.swift */,
-				735512742457C19C009B7599 /* CDModifyPwdViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -735,6 +912,8 @@
 				735512C12457C19C009B7599 /* CDNewFolderViewController.swift */,
 				735512BF2457C19C009B7599 /* CDSafeFolderCell.swift */,
 				735512762457C19C009B7599 /* CDSafeViewController.swift */,
+				7323679F2490B67A0092F05E /* CDSideViewController.swift */,
+				7323679B249088E70092F05E /* CDSideBar.swift */,
 				735512BB2457C19C009B7599 /* CDTableViewCell.swift */,
 				735512BC2457C19C009B7599 /* CDToolBar.swift */,
 				735512BE2457C19C009B7599 /* CDWebViewController.swift */,
@@ -897,117 +1076,24 @@
 		735512DD2457C19C009B7599 /* PhotoEdit */ = {
 			isa = PBXGroup;
 			children = (
-				735512DE2457C19C009B7599 /* CDMosaicView.swift */,
-				735512DF2457C19C009B7599 /* mosaic */,
-				735512E12457C19C009B7599 /* Corp */,
-				735512E82457C19D009B7599 /* CDTextView.swift */,
-				735512E92457C19D009B7599 /* CDCropView.swift */,
-				735512EA2457C19D009B7599 /* CDBrightView.swift */,
-				735512EB2457C19D009B7599 /* images */,
-				735513032457C19D009B7599 /* CDRotateView.swift */,
-				735513042457C19D009B7599 /* CDEditToolView.swift */,
-				735513052457C19D009B7599 /* CDNavigationBar.swift */,
-				735513062457C19D009B7599 /* CDImageEditViewController.swift */,
-				735513072457C19D009B7599 /* Watermark */,
-				7355130A2457C19D009B7599 /* public */,
-				7355130C2457C19D009B7599 /* CDEditManager.swift */,
-				7355130D2457C19D009B7599 /* CDWatermarkView.swift */,
-				7355130E2457C19D009B7599 /* CDImageEditModels.swift */,
-				7355130F2457C19D009B7599 /* Etitors */,
-				735513112457C19D009B7599 /* CDFilterView.swift */,
-				735513122457C19D009B7599 /* CDEditorsView.swift */,
+				73262CFD24ADCFDC001AF8F9 /* CDBrightView.swift */,
+				73262CDC24ADCFDC001AF8F9 /* CDCropView.swift */,
+				73262CD324ADCFDB001AF8F9 /* CDEditManager.swift */,
+				73262CCF24ADCFDB001AF8F9 /* CDFilterView.swift */,
+				73262CE324ADCFDC001AF8F9 /* CDImageEditModels.swift */,
+				73262CE424ADCFDC001AF8F9 /* CDMosaicView.swift */,
+				73262CE224ADCFDC001AF8F9 /* CDRotateView.swift */,
+				73262CD224ADCFDB001AF8F9 /* CDTextView.swift */,
+				73262CD424ADCFDC001AF8F9 /* CDWatermarkView.swift */,
+				73262CD524ADCFDC001AF8F9 /* Corp */,
+				73262CE524ADCFDC001AF8F9 /* images */,
+				73262CD024ADCFDB001AF8F9 /* mosaic */,
+				73262CDD24ADCFDC001AF8F9 /* public */,
+				73262CDF24ADCFDC001AF8F9 /* Watermark */,
+				7321176524ADBB85009B3DE7 /* View */,
+				7321176424ADBB7A009B3DE7 /* Controller */,
 			);
 			path = PhotoEdit;
-			sourceTree = "<group>";
-		};
-		735512DF2457C19C009B7599 /* mosaic */ = {
-			isa = PBXGroup;
-			children = (
-				735512E02457C19C009B7599 /* CDMosaicViewController.swift */,
-			);
-			path = mosaic;
-			sourceTree = "<group>";
-		};
-		735512E12457C19C009B7599 /* Corp */ = {
-			isa = PBXGroup;
-			children = (
-				735512E22457C19C009B7599 /* CropEditor */,
-				735512E52457C19D009B7599 /* CDPhotoChooseView.swift */,
-				735512E62457C19D009B7599 /* CDCorpViewController.swift */,
-				735512E72457C19D009B7599 /* CDCropToolsBar.swift */,
-			);
-			path = Corp;
-			sourceTree = "<group>";
-		};
-		735512E22457C19C009B7599 /* CropEditor */ = {
-			isa = PBXGroup;
-			children = (
-				735512E32457C19D009B7599 /* PECropView.swift */,
-				735512E42457C19D009B7599 /* PECropRectView.swift */,
-			);
-			path = CropEditor;
-			sourceTree = "<group>";
-		};
-		735512EB2457C19D009B7599 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				735512EC2457C19D009B7599 /* 裁剪@2x.png */,
-				735512ED2457C19D009B7599 /* 顺时针旋转@2x.png */,
-				735512EE2457C19D009B7599 /* 曝光度@2x.png */,
-				735512EF2457C19D009B7599 /* 滤镜@2x.png */,
-				735512F02457C19D009B7599 /* 水印@2x.png */,
-				735512F12457C19D009B7599 /* backward_disable@2x.png */,
-				735512F22457C19D009B7599 /* 水平镜像@2x.png */,
-				735512F32457C19D009B7599 /* forward@2x.png */,
-				735512F42457C19D009B7599 /* backward@2x.png */,
-				735512F52457C19D009B7599 /* 马赛克@2x.png */,
-				735512F62457C19D009B7599 /* 逆时针旋转@2x.png */,
-				735512F72457C19D009B7599 /* 白色暗角@2x.png */,
-				735512F82457C19D009B7599 /* 色相@2x.png */,
-				735512F92457C19D009B7599 /* 锐度@2x.png */,
-				735512FA2457C19D009B7599 /* 对比度@2x.png */,
-				735512FB2457C19D009B7599 /* 色温@2x.png */,
-				735512FC2457C19D009B7599 /* 垂直镜像@2x.png */,
-				735512FD2457C19D009B7599 /* 黑色暗角@2x.png */,
-				735512FE2457C19D009B7599 /* 文字@2x.png */,
-				735512FF2457C19D009B7599 /* forward_disable@2x.png */,
-				735513002457C19D009B7599 /* 饱和度@2x.png */,
-				735513012457C19D009B7599 /* 亮度@2x.png */,
-				735513022457C19D009B7599 /* 旋转@2x.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		735513072457C19D009B7599 /* Watermark */ = {
-			isa = PBXGroup;
-			children = (
-				735513082457C19D009B7599 /* CDWaterMarkViewController.swift */,
-				735513092457C19D009B7599 /* CDWaterMarkView.swift */,
-			);
-			path = Watermark;
-			sourceTree = "<group>";
-		};
-		7355130A2457C19D009B7599 /* public */ = {
-			isa = PBXGroup;
-			children = (
-				7355130B2457C19D009B7599 /* CDEdit.swift */,
-			);
-			path = public;
-			sourceTree = "<group>";
-		};
-		7355130F2457C19D009B7599 /* Etitors */ = {
-			isa = PBXGroup;
-			children = (
-				735513102457C19D009B7599 /* images */,
-			);
-			path = Etitors;
-			sourceTree = "<group>";
-		};
-		735513102457C19D009B7599 /* images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = images;
 			sourceTree = "<group>";
 		};
 		735513132457C19D009B7599 /* image */ = {
@@ -1050,6 +1136,7 @@
 		735513282457C19D009B7599 /* ThirdParts */ = {
 			isa = PBXGroup;
 			children = (
+				732368422490BD3F0092F05E /* GPUCamera */,
 				EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */,
 				EF1415832479637600AAE11C /* CDCircleProgress */,
 				73D1A0E6246571E5001EC3EF /* CDHUD */,
@@ -1098,9 +1185,6 @@
 			children = (
 				EFDD41DF2481F4AD000AFDB8 /* CDCameraManger.swift */,
 				EFDD41E02481F4AD000AFDB8 /* CDPreviewTakerViewController.swift */,
-				735513462457C19D009B7599 /* CDCameraBottomBar.swift */,
-				735513452457C19D009B7599 /* CDCameraPreview.swift */,
-				7355133C2457C19D009B7599 /* CDCameraTopBar.swift */,
 				7355133D2457C19D009B7599 /* CDCameraViewController.swift */,
 				7355133E2457C19D009B7599 /* image */,
 			);
@@ -1142,19 +1226,18 @@
 		735513732457C19D009B7599 /* publicViews */ = {
 			isa = PBXGroup;
 			children = (
-				EFDD42072481FC25000AFDB8 /* CDActivityViewController.swift */,
+				737020C12491D87000F98F42 /* CDContainerViewController.swift */,
 				EFDD41FA2481FC23000AFDB8 /* CDAudioPlayView.swift */,
 				EFDD41FD2481FC23000AFDB8 /* CDBaseAllViewController.swift */,
 				EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */,
 				EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */,
 				EFDD42012481FC24000AFDB8 /* CDDeviceTools.swift */,
 				EFDD42022481FC24000AFDB8 /* CDEmojiHandle.swift */,
-				EFDD41FC2481FC23000AFDB8 /* CDPopMenuView.swift */,
 				EFDD42052481FC24000AFDB8 /* CDSignalTon.swift */,
 				EFDD41FE2481FC24000AFDB8 /* Cell侧滑删除 */,
 				EFDD42002481FC24000AFDB8 /* Data+format.swift */,
-				EFDD42042481FC24000AFDB8 /* String+encrypt.swift */,
 				EFDD41FB2481FC23000AFDB8 /* String+Path.swift */,
+				73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */,
 			);
 			path = publicViews;
 			sourceTree = "<group>";
@@ -1171,6 +1254,7 @@
 			children = (
 				735513852457C19D009B7599 /* image */,
 				735513862457C19D009B7599 /* CDAppDelegate.swift */,
+				730ED78124A98EC00044D8AE /* CDTabBarViewController.swift */,
 				735513872457C19D009B7599 /* New Group */,
 			);
 			path = appleLunch;
@@ -1179,6 +1263,12 @@
 		735513852457C19D009B7599 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				7321175924ADBA9B009B3DE7 /* music_normal@2x.png */,
+				7321175B24ADBA9B009B3DE7 /* music_select@2x.png */,
+				7321175A24ADBA9B009B3DE7 /* reader_normal@2x.png */,
+				7321175824ADBA9B009B3DE7 /* reader_select@2x.png */,
+				7321175D24ADBA9C009B3DE7 /* safe_normal@2x.png */,
+				7321175C24ADBA9C009B3DE7 /* safe_select@2x.png */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -1210,6 +1300,11 @@
 		735514A22457C1C7009B7599 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73262D2924ADE092001AF8F9 /* SwiftUI.framework */,
+				7366B2792492047A001C7884 /* QuartzCore.framework */,
+				7366B2772492046C001C7884 /* CoreVideo.framework */,
+				7366B27524920460001C7884 /* CoreMedia.framework */,
+				7366B27324920436001C7884 /* OpenGLES.framework */,
 				731DF4F4245800080043E97F /* Foundation.framework */,
 				735514B22457C220009B7599 /* VideoToolbox.framework */,
 				735514B02457C216009B7599 /* Security.framework */,
@@ -1229,6 +1324,7 @@
 			children = (
 				73D1A0E7246571F5001EC3EF /* image */,
 				73FC55D92465503C0052E117 /* CDHUDManager.swift */,
+				EFDD41FC2481FC23000AFDB8 /* CDPopMenuView.swift */,
 			);
 			path = CDHUD;
 			sourceTree = "<group>";
@@ -1324,44 +1420,41 @@
 				EFDD41EF2481F4D2000AFDB8 /* hdr_auto@2x.png in Resources */,
 				735514642457C19E009B7599 /* meiyan.png in Resources */,
 				735513C32457C19E009B7599 /* input@2x.png in Resources */,
-				7355141D2457C19E009B7599 /* 裁剪@2x.png in Resources */,
+				7321175E24ADBA9C009B3DE7 /* reader_select@2x.png in Resources */,
 				735514432457C19E009B7599 /* 美图@2x.png in Resources */,
 				735513BB2457C19E009B7599 /* selected@2x.png in Resources */,
-				735514292457C19E009B7599 /* 色相@2x.png in Resources */,
-				735514272457C19E009B7599 /* 逆时针旋转@2x.png in Resources */,
 				735513CA2457C19E009B7599 /* chexiao@2x.png in Resources */,
 				735514442457C19E009B7599 /* 小图解密失败@2x.png in Resources */,
 				EFDD41F52481F4D2000AFDB8 /* hdr_off@2x.png in Resources */,
 				735513D42457C19E009B7599 /* file_zip_big@2x.png in Resources */,
 				73FC55D42462C1D10052E117 /* play@2x.png in Resources */,
 				735513C82457C19E009B7599 /* menu_delete@2x.png in Resources */,
-				735514302457C19E009B7599 /* forward_disable@2x.png in Resources */,
-				735514202457C19E009B7599 /* 滤镜@2x.png in Resources */,
 				7355149E2457C19E009B7599 /* rightUp@2x.png in Resources */,
 				735513CF2457C19E009B7599 /* folder_rename@2x.png in Resources */,
 				7355149C2457C19E009B7599 /* leftUp@2x.png in Resources */,
+				73262D1624ADCFDC001AF8F9 /* forward@2x.png in Resources */,
+				73262D2124ADCFDC001AF8F9 /* 文字@2x.png in Resources */,
 				735513C12457C19E009B7599 /* sure@2x.png in Resources */,
-				7355141F2457C19E009B7599 /* 曝光度@2x.png in Resources */,
 				7355145B2457C19E009B7599 /* videoFlag@2x.png in Resources */,
 				735513DB2457C19E009B7599 /* file_pdf_big@2x.png in Resources */,
 				735513A52457C19D009B7599 /* 编辑歌单@2x.png in Resources */,
 				735513B72457C19E009B7599 /* vault_setting@2x.png in Resources */,
 				735513E12457C19E009B7599 /* 其他@2x.png in Resources */,
 				EF1415822479635A00AAE11C /* record_sure@2x.png in Resources */,
+				73262D1024ADCFDC001AF8F9 /* 顺时针旋转@2x.png in Resources */,
 				EFC242F7245BF7DE00DDC829 /* file_dir_big@2x.png in Resources */,
 				735513A12457C19D009B7599 /* editMusic@2x.png in Resources */,
-				7355142B2457C19E009B7599 /* 对比度@2x.png in Resources */,
 				7355149A2457C19E009B7599 /* icon.jpg in Resources */,
 				735513BE2457C19E009B7599 /* addFile@2x.png in Resources */,
 				735514982457C19E009B7599 /* 密盒_selected@2x.png in Resources */,
 				735514422457C19E009B7599 /* camera@2x.png in Resources */,
 				735513FE2457C19E009B7599 /* linkIcon@2x.png in Resources */,
 				7355139D2457C19D009B7599 /* 添加至歌单@2x.png in Resources */,
+				73262D1B24ADCFDC001AF8F9 /* 色相@2x.png in Resources */,
 				735513D32457C19E009B7599 /* file_video_big@2x.png in Resources */,
+				73262D1524ADCFDC001AF8F9 /* 水平镜像@2x.png in Resources */,
 				735514472457C19E009B7599 /* love_press@2x.png in Resources */,
-				7355142F2457C19E009B7599 /* 文字@2x.png in Resources */,
 				735514662457C19E009B7599 /* save@2x.png in Resources */,
-				735514322457C19E009B7599 /* 亮度@2x.png in Resources */,
 				735513BA2457C19E009B7599 /* edit@2x.png in Resources */,
 				735513D12457C19E009B7599 /* append_grey@2x.png in Resources */,
 				EFDD41EE2481F4D2000AFDB8 /* flash_off@2x.png in Resources */,
@@ -1370,33 +1463,38 @@
 				73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */,
 				EFDD41F12481F4D2000AFDB8 /* flash_on@2x.png in Resources */,
 				735513E02457C19E009B7599 /* chexiao-grey@2x.png in Resources */,
+				73262D0F24ADCFDC001AF8F9 /* 裁剪@2x.png in Resources */,
 				735513EA2457C19E009B7599 /* record_recording@2x.png in Resources */,
 				735513E32457C19E009B7599 /* record_unrecord@2x.png in Resources */,
 				735513D82457C19E009B7599 /* file_other_big@2x.png in Resources */,
-				7355142C2457C19E009B7599 /* 色温@2x.png in Resources */,
 				EFDD41F22481F4D2000AFDB8 /* hdr_on@2x.png in Resources */,
-				735514212457C19E009B7599 /* 水印@2x.png in Resources */,
-				7355142D2457C19E009B7599 /* 垂直镜像@2x.png in Resources */,
 				735513992457C19D009B7599 /* music_love@2x.png in Resources */,
 				735514A12457C19E009B7599 /* back_pressed@2x.png in Resources */,
-				7355142A2457C19E009B7599 /* 锐度@2x.png in Resources */,
 				735513EF2457C19E009B7599 /* audioplay@2x.png in Resources */,
+				73262D1E24ADCFDC001AF8F9 /* 色温@2x.png in Resources */,
 				735514002457C19E009B7599 /* linkVideoIcon@2x.png in Resources */,
+				73262D1A24ADCFDC001AF8F9 /* 白色暗角@2x.png in Resources */,
 				7355140A2457C19E009B7599 /* 微调加@2x.png in Resources */,
 				7355139E2457C19D009B7599 /* 创建歌单.png in Resources */,
 				735514482457C19E009B7599 /* 图片加载失败@2x.png in Resources */,
 				735513962457C19D009B7599 /* bar_stop@2x.png in Resources */,
+				7321176324ADBA9C009B3DE7 /* safe_normal@2x.png in Resources */,
+				7321176024ADBA9C009B3DE7 /* reader_normal@2x.png in Resources */,
+				73262D2524ADCFDC001AF8F9 /* 旋转@2x.png in Resources */,
 				735513DA2457C19E009B7599 /* file_audio_big@2x.png in Resources */,
+				73262D1324ADCFDC001AF8F9 /* 水印@2x.png in Resources */,
 				735513DD2457C19E009B7599 /* file_image_big@2x.png in Resources */,
 				7355140B2457C19E009B7599 /* 微调减@2x.png in Resources */,
+				73262D1424ADCFDC001AF8F9 /* backward_disable@2x.png in Resources */,
 				735513D92457C19E009B7599 /* file_ppt_big@2x.png in Resources */,
 				735513C92457C19E009B7599 /* addText@2x.png in Resources */,
 				735513D02457C19E009B7599 /* hecheng@2x.png in Resources */,
-				7355141E2457C19E009B7599 /* 顺时针旋转@2x.png in Resources */,
+				73262D1124ADCFDC001AF8F9 /* 曝光度@2x.png in Resources */,
 				7355139F2457C19D009B7599 /* bar_play@2x.png in Resources */,
 				735513A02457C19D009B7599 /* 删除@2x.png in Resources */,
 				735513C02457C19E009B7599 /* record@2x.png in Resources */,
 				EF1415812479635A00AAE11C /* record_cancle@2x.png in Resources */,
+				73262D1D24ADCFDC001AF8F9 /* 对比度@2x.png in Resources */,
 				735513CD2457C19E009B7599 /* 图片@2x.png in Resources */,
 				735513CB2457C19E009B7599 /* menu_move_grey@2x.png in Resources */,
 				735513D52457C19E009B7599 /* file_excel_big@2x.png in Resources */,
@@ -1404,25 +1502,25 @@
 				735514402457C19E009B7599 /* 照片选中@2x.png in Resources */,
 				7355139B2457C19D009B7599 /* bar_list@2x.png in Resources */,
 				73D1A0EE24657211001EC3EF /* 37x-Error.png in Resources */,
-				735514242457C19E009B7599 /* forward@2x.png in Resources */,
 				735514672457C19E009B7599 /* frame.png in Resources */,
 				735513C62457C19E009B7599 /* move@2x.png in Resources */,
 				735514412457C19E009B7599 /* love_normal@2x.png in Resources */,
 				73D1A0EF24657211001EC3EF /* 37x-Checkmark@2x.png in Resources */,
-				735514282457C19E009B7599 /* 白色暗角@2x.png in Resources */,
 				735514992457C19E009B7599 /* 上导航栏-背景@2x.png in Resources */,
-				735514222457C19E009B7599 /* backward_disable@2x.png in Resources */,
+				7321175F24ADBA9C009B3DE7 /* music_normal@2x.png in Resources */,
+				73262D2324ADCFDC001AF8F9 /* 饱和度@2x.png in Resources */,
 				735513982457C19D009B7599 /* defaultMusicImage@2x.png in Resources */,
 				735513FF2457C19E009B7599 /* noteIcon@2x.png in Resources */,
+				73262D1724ADCFDC001AF8F9 /* backward@2x.png in Resources */,
 				735513BF2457C19E009B7599 /* menu_forward@2x.png in Resources */,
 				735513E52457C19E009B7599 /* record_line2@2x.png in Resources */,
 				735513C52457C19E009B7599 /* 音频@2x.png in Resources */,
 				735513D72457C19E009B7599 /* file_doc_big@2x.png in Resources */,
 				735514462457C19E009B7599 /* 正在解密@2x.png in Resources */,
+				73262D1F24ADCFDC001AF8F9 /* 垂直镜像@2x.png in Resources */,
 				735513C72457C19E009B7599 /* cloudDown@2x.png in Resources */,
 				735513E62457C19E009B7599 /* audiostop@2x.png in Resources */,
 				735513CC2457C19E009B7599 /* append@2x.png in Resources */,
-				735514252457C19E009B7599 /* backward@2x.png in Resources */,
 				735513C22457C19E009B7599 /* no_selected@2x.png in Resources */,
 				735514632457C19E009B7599 /* cameraSwitch.png in Resources */,
 				7355149F2457C19E009B7599 /* 下导航-bg@2x.png in Resources */,
@@ -1435,26 +1533,30 @@
 				7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */,
 				EFDD41F42481F4D2000AFDB8 /* delay_10@2x.png in Resources */,
 				735514652457C19E009B7599 /* retake@2x.png in Resources */,
-				7355142E2457C19E009B7599 /* 黑色暗角@2x.png in Resources */,
 				EFDD41F32481F4D2000AFDB8 /* delay_off@2x.png in Resources */,
 				7355139C2457C19D009B7599 /* 更改排序@2x.png in Resources */,
 				EF1415872479637600AAE11C /* record_timeProgressBG@2x.png in Resources */,
-				735514312457C19E009B7599 /* 饱和度@2x.png in Resources */,
+				73262D1C24ADCFDC001AF8F9 /* 锐度@2x.png in Resources */,
+				73262D1224ADCFDC001AF8F9 /* 滤镜@2x.png in Resources */,
+				73262D2424ADCFDC001AF8F9 /* 亮度@2x.png in Resources */,
 				EF14157F2479635A00AAE11C /* record_cancle_grey@2x.png in Resources */,
 				735513EE2457C19E009B7599 /* record_line1@2x.png in Resources */,
 				735513BC2457C19E009B7599 /* menu_delete_grey@2x.png in Resources */,
 				735513F02457C19E009B7599 /* type_audio@2x.png in Resources */,
 				735513A32457C19D009B7599 /* editClass@2x.png in Resources */,
 				EFDD41F62481F4D2000AFDB8 /* flash_auto@2x.png in Resources */,
+				7321176124ADBA9C009B3DE7 /* music_select@2x.png in Resources */,
 				EFDD41F02481F4D2000AFDB8 /* back_blue@2x.png in Resources */,
 				73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */,
 				735514622457C19E009B7599 /* takePhoto.png in Resources */,
+				73262D1824ADCFDC001AF8F9 /* 马赛克@2x.png in Resources */,
 				735513972457C19D009B7599 /* music_recent@2x.png in Resources */,
-				735514262457C19E009B7599 /* 马赛克@2x.png in Resources */,
 				7355140E2457C19E009B7599 /* sliderPoint@2x.png in Resources */,
-				735514232457C19E009B7599 /* 水平镜像@2x.png in Resources */,
 				735513D62457C19E009B7599 /* file_rtf_big@2x.png in Resources */,
+				73262D2224ADCFDC001AF8F9 /* forward_disable@2x.png in Resources */,
+				73262D1924ADCFDC001AF8F9 /* 逆时针旋转@2x.png in Resources */,
 				EFDD41ED2481F4D2000AFDB8 /* delay_on@2x.png in Resources */,
+				7321176224ADBA9C009B3DE7 /* safe_select@2x.png in Resources */,
 				735513B92457C19E009B7599 /* addDir@2x.png in Resources */,
 				735513D22457C19E009B7599 /* sure-grey@2x.png in Resources */,
 				735513A62457C19D009B7599 /* 菜单右@2x.png in Resources */,
@@ -1466,8 +1568,8 @@
 				7355140D2457C19E009B7599 /* video@2x.png in Resources */,
 				735514452457C19E009B7599 /* fileDetail@2x.png in Resources */,
 				735513B82457C19E009B7599 /* output@2x.png in Resources */,
-				735514332457C19E009B7599 /* 旋转@2x.png in Resources */,
 				735513BD2457C19E009B7599 /* folderName_edit@2x.png in Resources */,
+				73262D2024ADCFDC001AF8F9 /* 黑色暗角@2x.png in Resources */,
 				7355140C2457C19E009B7599 /* 视频播放@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1480,19 +1582,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				735514032457C19E009B7599 /* CDTextViewController.swift in Sources */,
-				735513B42457C19D009B7599 /* CDModifyPwdViewController.swift in Sources */,
+				732368462490BEC00092F05E /* GPUCameraViewController.swift in Sources */,
 				735513F72457C19E009B7599 /* CDToolBar.swift in Sources */,
+				73262D0A24ADCFDC001AF8F9 /* CDWaterMarkViewController.swift in Sources */,
 				735513AB2457C19D009B7599 /* CDMusicMenuView.swift in Sources */,
 				735514612457C19E009B7599 /* CDCameraViewController.swift in Sources */,
-				735514192457C19E009B7599 /* CDCropToolsBar.swift in Sources */,
+				737020C22491D87000F98F42 /* CDContainerViewController.swift in Sources */,
+				73262D2624ADCFDC001AF8F9 /* CDBrightView.swift in Sources */,
+				732367A02490B67A0092F05E /* CDSideViewController.swift in Sources */,
 				735513F92457C19E009B7599 /* CDWebViewController.swift in Sources */,
-				7355141A2457C19E009B7599 /* CDTextView.swift in Sources */,
+				73262D5C24AEE3F6001AF8F9 /* UIView+extension.swift in Sources */,
 				735514972457C19E009B7599 /* CDAppDelegate.swift in Sources */,
 				735513B12457C19D009B7599 /* CDMusicViewController.swift in Sources */,
 				7355145E2457C19E009B7599 /* CDPickModel.swift in Sources */,
-				735514382457C19E009B7599 /* CDWaterMarkViewController.swift in Sources */,
+				73262D0224ADCFDC001AF8F9 /* CDWatermarkView.swift in Sources */,
 				735514092457C19E009B7599 /* CDVideoScrollerCell.swift in Sources */,
 				735514372457C19E009B7599 /* CDImageEditViewController.swift in Sources */,
+				73262CFE24ADCFDC001AF8F9 /* CDFilterView.swift in Sources */,
+				73262D0324ADCFDC001AF8F9 /* PECropView.swift in Sources */,
 				7355144C2457C19E009B7599 /* CDImageViewController.swift in Sources */,
 				735514112457C19E009B7599 /* CDImageScrollerViewController.swift in Sources */,
 				735513952457C19D009B7599 /* CDMusicClassViewController.swift in Sources */,
@@ -1500,35 +1607,33 @@
 				735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */,
 				735514062457C19E009B7599 /* CDVideoScrollerViewController.swift in Sources */,
 				7355145C2457C19E009B7599 /* CDAssetPickViewController.swift in Sources */,
-				735514172457C19E009B7599 /* CDPhotoChooseView.swift in Sources */,
+				7323679C249088E70092F05E /* CDSideBar.swift in Sources */,
 				7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */,
+				73262D0824ADCFDC001AF8F9 /* CDCropView.swift in Sources */,
 				735513F62457C19E009B7599 /* CDTableViewCell.swift in Sources */,
 				735514352457C19E009B7599 /* CDEditToolView.swift in Sources */,
 				EFDD41E22481F4AE000AFDB8 /* CDPreviewTakerViewController.swift in Sources */,
-				7355141C2457C19E009B7599 /* CDBrightView.swift in Sources */,
-				7355141B2457C19E009B7599 /* CDCropView.swift in Sources */,
+				73262CCE24ADC2CB001AF8F9 /* CDColorPicker.swift in Sources */,
+				73262D0424ADCFDC001AF8F9 /* PECropRectView.swift in Sources */,
 				7355144F2457C19E009B7599 /* CDFaceLockViewController.swift in Sources */,
 				7355144B2457C19E009B7599 /* CDComposeVideoViewController.swift in Sources */,
-				735514152457C19E009B7599 /* PECropView.swift in Sources */,
+				73262CFF24ADCFDC001AF8F9 /* CDMosaicViewController.swift in Sources */,
 				EFDD42142481FC25000AFDB8 /* CDCustomDefines.swift in Sources */,
 				735513B02457C19D009B7599 /* CDModifyClassViewController.swift in Sources */,
-				735514182457C19E009B7599 /* CDCorpViewController.swift in Sources */,
-				735514342457C19E009B7599 /* CDRotateView.swift in Sources */,
+				732368442490BD540092F05E /* GPCameraManager.swift in Sources */,
 				EFDD42132481FC25000AFDB8 /* CDSignalTon.swift in Sources */,
 				735513F42457C19E009B7599 /* CDAudioRecordViewController.swift in Sources */,
 				735513AD2457C19D009B7599 /* CDMusicClassView.swift in Sources */,
 				7355144A2457C19E009B7599 /* CDComposeGifViewController.swift in Sources */,
 				735513AA2457C19D009B7599 /* CDPlayerBar.swift in Sources */,
 				735514492457C19E009B7599 /* CDPuzzleViewController.swift in Sources */,
-				7355143E2457C19E009B7599 /* CDFilterView.swift in Sources */,
 				735513F82457C19E009B7599 /* CDFolderListViewController.swift in Sources */,
-				735514142457C19E009B7599 /* CDMosaicViewController.swift in Sources */,
 				EF1415862479637600AAE11C /* CDCircleProcess.swift in Sources */,
 				EFDD41E12481F4AE000AFDB8 /* CDCameraManger.swift in Sources */,
+				73262D0524ADCFDC001AF8F9 /* CDPhotoChooseView.swift in Sources */,
 				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
-				735514132457C19E009B7599 /* CDMosaicView.swift in Sources */,
 				735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */,
-				7355143D2457C19E009B7599 /* CDImageEditModels.swift in Sources */,
+				73262D2824ADD114001AF8F9 /* CDPhotoView.swift in Sources */,
 				EFDD420D2481FC25000AFDB8 /* CDSliderDeleteCell.swift in Sources */,
 				735513FA2457C19E009B7599 /* CDSafeFolderCell.swift in Sources */,
 				735513B62457C19E009B7599 /* CDMarkFileViewController.swift in Sources */,
@@ -1536,45 +1641,50 @@
 				7355144E2457C19E009B7599 /* CDLockViewController.swift in Sources */,
 				EFDD42112481FC25000AFDB8 /* CDConfigFile.swift in Sources */,
 				735514542457C19E009B7599 /* CDAlbumPickViewController.swift in Sources */,
+				73262D0024ADCFDC001AF8F9 /* CDTextView.swift in Sources */,
 				EFDD420F2481FC25000AFDB8 /* CDDeviceTools.swift in Sources */,
 				735513AF2457C19D009B7599 /* CDMusicListView.swift in Sources */,
-				EFDD42152481FC25000AFDB8 /* CDActivityViewController.swift in Sources */,
 				735514682457C19E009B7599 /* CDCameraPreview.swift in Sources */,
+				73262D0E24ADCFDC001AF8F9 /* CDMosaicView.swift in Sources */,
 				7355140F2457C19E009B7599 /* CDAppendVideoViewController.swift in Sources */,
 				EFDD420B2481FC25000AFDB8 /* CDPopMenuView.swift in Sources */,
+				73262D0924ADCFDC001AF8F9 /* CDEdit.swift in Sources */,
 				7355145F2457C19E009B7599 /* UIImage+Gif.swift in Sources */,
-				7355143B2457C19E009B7599 /* CDEditManager.swift in Sources */,
 				735514522457C19E009B7599 /* CDPreviewViewController.swift in Sources */,
+				73262D0624ADCFDC001AF8F9 /* CDCorpViewController.swift in Sources */,
 				EFDD420A2481FC25000AFDB8 /* String+Path.swift in Sources */,
 				EFDD42172481FCA0000AFDB8 /* CDGeneralTool.swift in Sources */,
-				EFDD42122481FC25000AFDB8 /* String+encrypt.swift in Sources */,
 				735513942457C19D009B7599 /* CDPlayViewController.swift in Sources */,
 				7355143F2457C19E009B7599 /* CDEditorsView.swift in Sources */,
+				7323679E2490AFF30092F05E /* CDReaderListViewController.swift in Sources */,
+				73262D0B24ADCFDC001AF8F9 /* CDWaterMarkView.swift in Sources */,
+				7324B8CC24A9C25B0057C755 /* CDReaderPageViewController.swift in Sources */,
 				735514862457C19E009B7599 /* CDSqlManager.swift in Sources */,
 				735513B52457C19D009B7599 /* CDSafeViewController.swift in Sources */,
 				73FC55DA2465503C0052E117 /* CDHUDManager.swift in Sources */,
 				735514022457C19E009B7599 /* CDTextMessageViewController.swift in Sources */,
+				73262D0C24ADCFDC001AF8F9 /* CDRotateView.swift in Sources */,
 				735514122457C19E009B7599 /* CDImageCell.swift in Sources */,
-				7355143C2457C19E009B7599 /* CDWatermarkView.swift in Sources */,
 				735513A92457C19D009B7599 /* CDMusicManager.swift in Sources */,
 				735514102457C19E009B7599 /* CDImageScrollView.swift in Sources */,
 				735514082457C19E009B7599 /* CDVideoViewController.swift in Sources */,
 				735513B32457C19D009B7599 /* CDSetPwdViewController.swift in Sources */,
-				7355143A2457C19E009B7599 /* CDEdit.swift in Sources */,
 				EFDD42092481FC25000AFDB8 /* CDAudioPlayView.swift in Sources */,
 				7399ADC4246257820010434B /* CDLogViewController.swift in Sources */,
 				735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */,
 				735513F52457C19E009B7599 /* CDFolderDetailViewController.swift in Sources */,
+				73262D0124ADCFDC001AF8F9 /* CDEditManager.swift in Sources */,
+				730ED78224A98EC00044D8AE /* CDTabBarViewController.swift in Sources */,
 				EFDD420C2481FC25000AFDB8 /* CDBaseAllViewController.swift in Sources */,
 				735513B22457C19D009B7599 /* CDSettingViewController.swift in Sources */,
 				735514692457C19E009B7599 /* CDCameraBottomBar.swift in Sources */,
+				73262D0724ADCFDC001AF8F9 /* CDCropToolsBar.swift in Sources */,
 				735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */,
 				735514052457C19E009B7599 /* CDDirNavBar.swift in Sources */,
-				735514162457C19E009B7599 /* PECropRectView.swift in Sources */,
 				735514012457C19E009B7599 /* CDNewTextViewController.swift in Sources */,
 				7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */,
+				73262D0D24ADCFDC001AF8F9 /* CDImageEditModels.swift in Sources */,
 				735514072457C19E009B7599 /* CDSegmentVideoViewController.swift in Sources */,
-				735514392457C19E009B7599 /* CDWaterMarkView.swift in Sources */,
 				EFDD420E2481FC25000AFDB8 /* Data+format.swift in Sources */,
 				735514362457C19E009B7599 /* CDNavigationBar.swift in Sources */,
 				735513A82457C19D009B7599 /* CDMusicDefines.swift in Sources */,
@@ -1707,7 +1817,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LYKA8LHBR5;
+				DEVELOPMENT_TEAM = DYB9KKF89M;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyBox/lib",
@@ -1734,7 +1844,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LYKA8LHBR5;
+				DEVELOPMENT_TEAM = DYB9KKF89M;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyBox/lib",

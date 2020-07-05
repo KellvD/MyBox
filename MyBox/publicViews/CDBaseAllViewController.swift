@@ -38,7 +38,6 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     func hiddBackbutton()->Void{
-
         self.popBtn.isHidden = true
     }
 
@@ -50,14 +49,14 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
             if #available(iOS 11, *) {
                 documentPicker.allowsMultipleSelection = true
             }
-            CDSignalTon.shareInstance().customPickerView = documentPicker
+            CDSignalTon.shared.customPickerView = documentPicker
             self.present(documentPicker, animated: true, completion: nil)
         }
     }
     
-    //TODO:UIDocumentPickerDelegate
+    //MARK:UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        CDSignalTon.shareInstance().customPickerView = nil
+        CDSignalTon.shared.customPickerView = nil
         var index = 0
         func handleAllDocumentPickerFiles(urlArr:[URL]){
             DispatchQueue.global().async {
@@ -69,18 +68,18 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
                         fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
-                            CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
+                            CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
                             tmpUrlArr.removeFirst()
                             handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
                         }
                     }
                     DispatchQueue.main.async {
-                        CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(urls.count), text: "\(index)/\(urls.count)")
+                        CDHUDManager.shared.updateProgress(num: Float(index)/Float(urls.count), text: "\(index)/\(urls.count)")
                     }
                 }else{
                     DispatchQueue.main.async {
-                        CDHUDManager.shareInstance().hideProgress()
-                        CDHUDManager.shareInstance().showComplete(text: "导入完成")
+                        CDHUDManager.shared.hideProgress()
+                        CDHUDManager.shared.showComplete(text: "导入完成")
                         self.processHandle?(true)
                     }
                 }
@@ -89,14 +88,14 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
             
         }
         handleAllDocumentPickerFiles(urlArr: urls)
-        CDHUDManager.shareInstance().showProgress(text: "开始导入！")
+        CDHUDManager.shared.showProgress(text: "开始导入！")
     }
 
     
     //分享
     func presentShareActivityWith(dataArr:[NSObject],Complete:@escaping(_ error:Error?) -> Void) {
         
-        let activityVC = CDActivityViewController(activityItems: dataArr, applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: dataArr, applicationActivities: nil)
         activityVC.completionWithItemsHandler = {(activityType, complete, items, error) -> Void in
             if complete {
                 Complete(error)
@@ -152,48 +151,3 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
 
 }
 
-
-
-class CDActivity: UIActivity {
-    var title:String!
-    var imageName:String!
-    var url:URL?
-    var shareContext:[Any]?
-    
-    
-    
-    init(title:String,imageName:String,url:URL?,shareContext:[Any]?) {
-        super.init()
-        self.title = title
-        self.imageName = imageName
-        self.url = url
-        self.shareContext = shareContext
-    }
-    override class var activityCategory: UIActivity.Category {
-        return .share
-    }
-    
-    override var activityImage: UIImage? {
-        return UIImage(named: imageName)
-    }
-    
-    override var activityTitle: String? {
-        return title
-    }
-    
-    override var activityType: UIActivity.ActivityType? {
-        return UIActivity.ActivityType("CDActivity")
-    }
-    
-    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
-        if activityItems.count > 0 {
-            return true
-        }
-        return false
-    }
-    
-    override func perform() {
-        self.activityDidFinish(true)
-    }
-    
-}

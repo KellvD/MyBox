@@ -38,22 +38,22 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
     func reloadBarData() {
         
         self.collectionView.reloadData()
-        self.collectionView.scrollToItem(at: IndexPath(item: CDSignalTon.shareInstance().dirNavArr.count-1, section: 0), at: .centeredHorizontally, animated: true)
+        self.collectionView.scrollToItem(at: IndexPath(item: CDSignalTon.shared.dirNavArr.count-1, section: 0), at: .centeredHorizontally, animated: true)
     }
     func numberOfItemsInSection(collectionView:UICollectionView) -> Int {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return CDSignalTon.shareInstance().dirNavArr.count
+        return CDSignalTon.shared.dirNavArr.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identies = "CDDirListBarCell"
         let cell:CDDirListBarCell = collectionView.dequeueReusableCell(withReuseIdentifier: identies, for: indexPath) as! CDDirListBarCell
         var titleName = String()
-        let folder = CDSignalTon.shareInstance().dirNavArr[indexPath.item] as! CDSafeFolder
+        let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         titleName = folder.folderName
-        if indexPath.item ==  CDSignalTon.shareInstance().dirNavArr.count - 1{
+        if indexPath.item ==  CDSignalTon.shared.dirNavArr.count - 1{
             cell.titleLabel.text = titleName
             cell.bottomLine.isHidden = false
             cell.titleLabel.textColor = CustomBlueColor
@@ -72,7 +72,7 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let folder = CDSignalTon.shareInstance().dirNavArr[indexPath.item] as! CDSafeFolder
+        let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         let titleName = folder.folderName
         let width:CGFloat = CDGeneralTool.getStringWidth(string: titleName + " > ", height: 40, font: TextMidFont)
         return CGSize(width: width, height: 40)
@@ -88,8 +88,8 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         return 0.1
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let folder = CDSignalTon.shareInstance().dirNavArr[indexPath.item] as! CDSafeFolder
-        CDSignalTon.shareInstance().dirNavArr.removeObjects(in: NSRange(location: indexPath.item + 1,length: CDSignalTon.shareInstance().dirNavArr.count - 1 -  indexPath.item))
+        let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
+        CDSignalTon.shared.dirNavArr.removeObjects(in: NSRange(location: indexPath.item + 1,length: CDSignalTon.shared.dirNavArr.count - 1 -  indexPath.item))
         self.reloadBarData()
         self.dirDelegate.onSelectedDirWithFolderId(folderId: folder.folderId)
     }

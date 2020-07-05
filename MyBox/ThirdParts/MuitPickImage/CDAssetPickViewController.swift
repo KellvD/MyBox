@@ -8,7 +8,10 @@
 
 import UIKit
 import Photos
+import MJRefresh
 
+let itemWidth_Height = (CDSCREEN_WIDTH-20)/4
+let normalLoadCount = 36
 class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
    
     public var albumItem:CDAlbum!
@@ -23,9 +26,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     private var progressBgView:UIView!
     private var progressView:UIProgressView!
     private var inputTipLabel:UILabel!
-    private let itemWidth_Height = (CDSCREEN_WIDTH-20)/4
-
-
+    private var lastLoadIndex:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = self.albumItem.title
@@ -42,7 +43,8 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         self.photoTab.backgroundColor = UIColor.white
         self.view.addSubview(self.photoTab)
         self.photoTab.register(CDPhotoItemCell.self, forCellWithReuseIdentifier: "photoSelectIDentify")
-
+        
+    
         let bottomV = UIView(frame: CGRect(x: 0, y: self.photoTab.frame.maxY, width: CDSCREEN_WIDTH, height: 48))
         bottomV.backgroundColor = UIColor.black
         self.view.addSubview(bottomV)
@@ -64,16 +66,16 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         bottomV.addSubview(self.sendBtn)
         self.previewBtn.isEnabled = false
         self.sendBtn.isEnabled = false
-        refleshData()
+        refleshData(index: lastLoadIndex)
     }
-
-    func refleshData()  {
+    
+    func refleshData(index:Int)  {
         for i in 0..<self.albumItem.fetchResult.count {
             let asset = self.albumItem.fetchResult[i]
             let cdAsset = CDPHAsset()
             cdAsset.asset = asset
-            cdAsset.isSelected = "false"
-            
+            cdAsset.isSelected = .CDFalse
+
             let resource = PHAssetResource.assetResources(for: asset).first
             cdAsset.fileSize = resource?.value(forKey: "fileSize") as? Int
             cdAsset.fileName = (asset.value(forKey: "filename") as! String)
@@ -86,7 +88,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
                 cdAsset.format = .Normal
             }
             self.cdAssetArr.append(cdAsset)
-            
+
         }
         DispatchQueue.main.async {
             self.photoTab.reloadData()
@@ -116,11 +118,11 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         let asset:CDPHAsset = self.cdAssetArr[indexPath.item]
         if hidden {
             hidden = false
-            asset.isSelected = "true"
+            asset.isSelected = .CDTrue
             self.selectCount += 1
         }else{
             hidden  = true
-            asset.isSelected = "false"
+            asset.isSelected = .CDFalse
             self.selectCount -= 1
         }
 
@@ -139,9 +141,8 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     @objc func onPreviewClick(){
         let preViewVC = CDPreviewViewController()
         var selecctArr:[CDPHAsset] = []
-        for i in 0..<cdAssetArr.count{
-            let asset:CDPHAsset = cdAssetArr[i]
-            if asset.isSelected == "true" {
+        cdAssetArr.forEach { (asset) in
+            if asset.isSelected == .CDTrue {
                 selecctArr.append(asset)
             }
         }
@@ -153,8 +154,8 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
 
     @objc func onSendBtnClick(){
         var selectArr:[CDPHAsset] = []
-        for asset:CDPHAsset in self.cdAssetArr {
-            if asset.isSelected == "true" {
+       cdAssetArr.forEach { (asset) in
+            if asset.isSelected == .CDTrue {
                 selectArr.append(asset)
             }
         }
@@ -216,7 +217,7 @@ class CDPhotoItemCell: UICollectionViewCell {
         let asset:PHAsset = cdAsset.asset
         let scale = UIScreen.main.scale
         let cellSize = CGSize(width: itemWidth*scale, height: itemWidth*scale)
-        CDAssetTon.shareInstance().getImageFromAsset(asset: asset, targetSize: cellSize) { (image, info) in
+        CDAssetTon.shared.getImageFromAsset(asset: asset, targetSize: cellSize) { (image, info) in
             self.imageView.image = image
         }
 
@@ -234,7 +235,7 @@ class CDPhotoItemCell: UICollectionViewCell {
             infoL?.isHidden = true
         }
         
-        if cdAsset.isSelected == "true"{
+        if cdAsset.isSelected == .CDTrue{
             self.selectImageView.isHidden = false
         }else{
             self.selectImageView.isHidden = true
@@ -245,7 +246,7 @@ class CDPhotoItemCell: UICollectionViewCell {
 
         let scale = UIScreen.main.scale
         let cellSize = CGSize(width: itemWidth*scale, height: itemWidth*scale)
-        CDAssetTon.shareInstance().getImageFromAsset(asset: cdAsset.asset, targetSize: cellSize) { (image, info) in
+        CDAssetTon.shared.getImageFromAsset(asset: cdAsset.asset, targetSize: cellSize) { (image, info) in
             self.imageView.image = image
         }
         let videoTime = Int(cdAsset.asset.duration)

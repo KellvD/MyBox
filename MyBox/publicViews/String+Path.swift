@@ -46,7 +46,7 @@ extension String{
         }
     }
 
-    //TODO:图片路径
+    //MARK:图片路径
     static func ImagePath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Images")
         ensurePathAt(path: path)
@@ -60,7 +60,7 @@ extension String{
     }
 
 
-    //TODO:音频
+    //MARK:音频
     static func AudioPath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Audio")
         ensurePathAt(path: path)
@@ -68,7 +68,7 @@ extension String{
     }
 
 
-    //TODO:视频
+    //MARK:视频
     static func VideoPath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Video")
         ensurePathAt(path: path)
@@ -81,13 +81,13 @@ extension String{
         return path
     }
 
-    //TODO:Other
+    //MARK:Other
     static func OtherPath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Other")
         ensurePathAt(path: path)
         return path
     }
-    //TODO:Music
+    //MARK:Music
     static func MusicPath()->String{
         let path = (libraryUserdataPath() as NSString).appendingPathComponent("Music")
         ensurePathAt(path: path)
@@ -143,4 +143,21 @@ extension String{
         return fileName
     }
     
+}
+
+import CommonCrypto
+extension String{
+   var md5:String{
+        var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+        if let data = data(using: .utf8) {
+            data.withUnsafeBytes { (bytes:UnsafePointer<UInt8>) -> Void in
+                CC_MD5(bytes,CC_LONG(data.count),&digest)
+            }
+        }
+        var digestHex = ""
+        for index in 0..<Int(CC_MD5_DIGEST_LENGTH) {
+            digestHex += String(format: "%02x", digest[index])
+        }
+        return digestHex
+    }
 }

@@ -48,7 +48,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     @objc func saveBtnClick(sender:UIButton){
         let contentStr:String = removeSpaceAndNewline(str: textView.text)
         if JudgeStringIsEmpty(string: contentStr){
-            CDHUDManager.shareInstance().showText(text: "啥也没写呢")
+            CDHUDManager.shared.showText(text: "啥也没写呢")
             return
         }
         sender.isUserInteractionEnabled = false
@@ -68,7 +68,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     }
 
 
-    //TODO:UITextViewDelegate
+    //MARK:UITextViewDelegate
     func textViewDidBeginEditing(_ textView: UITextView) {
         if menuView == nil {
             menuView = UIToolbar(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 44))

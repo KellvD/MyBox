@@ -61,9 +61,9 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
 
         if len > maxTextCount {
             if markType  == .fileName{
-                CDHUDManager.shareInstance().showText(text: "文件名长度不能超过\(maxTextCount)个字符")
+                CDHUDManager.shared.showText(text: "文件名长度不能超过\(maxTextCount)个字符")
             }else{
-                CDHUDManager.shareInstance().showText(text: "备注长度不能超过\(maxTextCount)个字符")
+                CDHUDManager.shared.showText(text: "备注长度不能超过\(maxTextCount)个字符")
             }
             return
         }
@@ -72,7 +72,7 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         if markType  == .fileName{
             markInfo = removeSpaceAndNewline(str: noteTextView.text!)
             if markInfo.count == 0{
-                CDHUDManager.shareInstance().showText(text: "文件名不能为空")
+                CDHUDManager.shared.showText(text: "文件名不能为空")
                 return
             }
 

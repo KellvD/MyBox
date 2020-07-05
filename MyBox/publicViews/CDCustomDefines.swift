@@ -43,19 +43,19 @@ let BaseBackGroundColor   =    UIColor(red:242/255.0,green:243/255.0,blue:243/25
 let CustomPinkColor   =   UIColor(red:255/255.0,green:73/255.0,blue:0/255.0,alpha:1.0)
 let ProgressViewBgColor = UIColor(red:0, green:104/255.0,blue:183/255.0,alpha:0.3)
 
-let FIRSTUSERID = 100001
+let FIRSTUSERID = 100001 //数据库ID，扩展多账户模式
 let waterMarkTag = 98764
 let CDPrint = print
 let ROOTSUPERID = -1
 
-let CD_IsLogin = "isLogin"
-let CD_TouchId = "touchId"
-let CD_FakeType = "faketype"
+let CD_TouchIdSwi = "touchId"
+let CD_FakeSwi = "faketype"
+let CD_WaterSwi = "faketype"
 let CD_UserId = "userid"
 let CD_LoginType = "loginType"
 
-
-
+let CD_ReaderBgModel = "ReaderBgModel"
+let CD_ChapterIndex = "chapterIndex"
 
 let DismissImagePicker = NSNotification.Name(rawValue: "DismissImagePicker")
 let NeedReloadData = NSNotification.Name(rawValue: "NeedReloadData")
@@ -106,9 +106,12 @@ enum CDEditorsType:Int {
     case Watermark = 6 //水印
     case Text = 7//文字
 }
-//
-let CDLoginReal = 0
-let CDLoginFake = 1
+//登录模式
+enum CDLoginType:Int{
+    case real = 1   // 超级用户模式
+    case fake = 2   // 访客模式
+}
+
 
 let LockOn = 1   //可删除
 let LockOff = 2   //不可删除
@@ -118,10 +121,6 @@ enum CDFakeType:Int{
     case invisible = 2
 }
 
-enum _LoginType:Int {
-    case ReadLogin
-    case FakeLogin
-}
 enum NSFileGrade:Int {
     case lovely   //喜爱收藏
     case normal   //普通
@@ -159,3 +158,10 @@ enum CDSelectedStatus:String {
 }
 let IOSVersion = Float(UIDevice.current.systemVersion)
 
+enum CDDevicePermissionType:Int {
+    case Library = 1 //图库
+    case camera = 2
+    case micorphone = 3
+    case location = 4
+    
+}

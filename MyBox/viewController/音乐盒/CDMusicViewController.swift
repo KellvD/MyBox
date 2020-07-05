@@ -59,7 +59,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
         listView.reloadData()
 
     }
-    //TODO:CDMusicClassDelegate
+    //MARK:CDMusicClassDelegate
     func onSelectedOneMusicClassWithClassInfo(classInfo: CDMusicClassInfo) {
 
         let classVC = CDMusicClassViewController()
@@ -95,7 +95,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //                            }catch{
 //
 //                            }
-//                            let muiscInfo = CDSignalTon.shareInstance().getMusicInfoFromMusicFile(filePath: musicPath)
+//                            let muiscInfo = CDSignalTon.shared.getMusicInfoFromMusicFile(filePath: musicPath)
 //
 //                            let imagePath = String.MusicImagePath().appendingPathComponent(str: "\(fileName).png")
 //                            let imageData = muiscInfo.image.pngData()
@@ -127,7 +127,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //            }
 //            DispatchQueue.main.async {
 //                CDHUD.hide()
-//                CDHUDManager.shareInstance().showText(text: "加载完成")
+//                CDHUDManager.shared.showText(text: "加载完成")
 //            }
 //        }
 //        let musicArr = CDSqlManager.instance().queryAllMusic()

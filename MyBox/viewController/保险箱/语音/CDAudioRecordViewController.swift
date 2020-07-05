@@ -57,17 +57,17 @@ class CDAudioRecordViewController: CDBaseAllViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if CDSignalTon.shareInstance().isViewDisappearStopRecording {
+        if CDSignalTon.shared.isViewDisappearStopRecording {
             recordStop()
         }
-        CDSignalTon.shareInstance().isViewDisappearStopRecording = true
+        CDSignalTon.shared.isViewDisappearStopRecording = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "录音"
         configUI()
-        CDSignalTon.shareInstance().isViewDisappearStopRecording = true
+        CDSignalTon.shared.isViewDisappearStopRecording = true
 
     }
     func configUI() {
@@ -183,14 +183,14 @@ class CDAudioRecordViewController: CDBaseAllViewController {
                 let tmpStr = self.textField.text!
                 let len = getLengthOfStr(text: tmpStr, needTrimSpaceCheck: true)
                 if len > 30 {
-                    CDHUDManager.shareInstance().showText(text: "文件名不能超过28个字符")
+                    CDHUDManager.shared.showText(text: "文件名不能超过28个字符")
                 }
                 self.textField.resignFirstResponder()
                 let audioPath = String.AudioPath().appendingPathComponent(str:"\(tmpStr).aac")
 
                 do {
                     try FileManager.default.moveItem(atPath: self.newFilePath, toPath: audioPath)
-                    CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder)
+                    CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder)
                 } catch  {
                     
                 }
@@ -204,39 +204,46 @@ class CDAudioRecordViewController: CDBaseAllViewController {
         self.present(alert, animated: true, completion: nil)
     }
     @objc func startRecordClick(){
-        if recorder != nil && recorder.isRecording{
-            recordPause()
-        }else{
-            if recorder == nil { //recorder不存在，创建，存在接着录音
-                newFilePath = String.AudioPath().appendingPathComponent(str: "\(getCurrentTimestamp()).aac")
-                do{
-                    try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
-                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-                    try AVAudioSession.sharedInstance().setActive(true)
-                }catch{
+        if CDSignalTon.shared.checkPermission(type: .micorphone) {
+            if recorder != nil && recorder.isRecording{
+                recordPause()
+            }else{
+                if recorder == nil { //recorder不存在，创建，存在接着录音
+                    newFilePath = String.AudioPath().appendingPathComponent(str: "\(getCurrentTimestamp()).aac")
+                    do{
+                        try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
+                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+                        try AVAudioSession.sharedInstance().setActive(true)
+                    }catch{
 
+                    }
+                    let dict = [AVFormatIDKey:NSNumber(value: kAudioFormatMPEG4AAC),
+                                AVSampleRateKey:NSNumber(value: 8000),
+                                AVNumberOfChannelsKey:NSNumber(value: 1),
+                                AVLinearPCMBitDepthKey:NSNumber(value: 16),
+                                AVEncoderAudioQualityKey:NSNumber(value: AVAudioQuality.high.rawValue),
+                                AVLinearPCMIsFloatKey:NSNumber(value: true)]
+
+                    do{
+                        try recorder = AVAudioRecorder(url: URL.init(string: newFilePath)!, settings:dict)
+                    }catch{
+
+                    }
+                    recorder.isMeteringEnabled = true
+                    recorder.prepareToRecord()
+                    
+                    destoryTimer()
+                    lineTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(controllerMove), userInfo: nil, repeats: true)
+                    lineTimer.fireDate = .distantFuture
                 }
-                let dict = [AVFormatIDKey:NSNumber(value: kAudioFormatMPEG4AAC),
-                            AVSampleRateKey:NSNumber(value: 8000),
-                            AVNumberOfChannelsKey:NSNumber(value: 1),
-                            AVLinearPCMBitDepthKey:NSNumber(value: 16),
-                            AVEncoderAudioQualityKey:NSNumber(value: AVAudioQuality.high.rawValue),
-                            AVLinearPCMIsFloatKey:NSNumber(value: true)]
-
-                do{
-                    try recorder = AVAudioRecorder(url: URL.init(string: newFilePath)!, settings:dict)
-                }catch{
-
-                }
-                recorder.isMeteringEnabled = true
-                recorder.prepareToRecord()
-                
-                destoryTimer()
-                lineTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(controllerMove), userInfo: nil, repeats: true)
-                lineTimer.fireDate = .distantFuture
+                recordStart()
             }
-            recordStart()
+        }else{
+            let alert = UIAlertController(title: "麦克风访问被拒绝", message: "请在”设置-隐私-麦克风“中，允许MyBox后的开关", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
+        
     }
 
     

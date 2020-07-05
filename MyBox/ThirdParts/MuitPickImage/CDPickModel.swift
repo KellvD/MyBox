@@ -38,7 +38,7 @@ class CDAlbum {
 
 class CDPHAsset {
     var asset = PHAsset() //媒体资源
-    var isSelected:String!//是否选中 "YES","NO"
+    var isSelected:CDSelectedStatus!//是否选中 
     var format:PhotoFormat! //资源类型
     var fileName:String!
     var fileSize:Int!

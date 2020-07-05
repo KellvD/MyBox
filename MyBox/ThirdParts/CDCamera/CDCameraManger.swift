@@ -279,7 +279,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
             takePhotoComplete(image!)
         }
     }
-    //TODO: 视频协议方法
+    //MARK: 视频协议方法
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         openTimer()
     }
@@ -287,7 +287,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         closeTimer()
         takeVideoComplete(outputFileURL)
     }
-    //TODO:相机操作
+    //MARK:相机操作
     func cameraTurnAround(){
         let animation = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
@@ -437,7 +437,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         return true
     }
     
-    //TODO:Time
+    //MARK:Time
     func openTimer() {
         if _timer == nil {
             _timer = Timer.init(timeInterval: 1.0, target: self, selector: #selector(observedRecordTime), userInfo: nil, repeats: true)

@@ -116,7 +116,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let firstIndexPath = collectionView.indexPathsForVisibleItems.first
-
+        
         let page = firstIndexPath!.item
         let fileinfo = inputArr[page]
         DispatchQueue.main.async {
@@ -136,8 +136,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         currentIndex = page
         indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
     }
+    
+    
     func tapQR(message:String){
-        let sheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "", message: "二维码", preferredStyle: .actionSheet)
         
         sheet.addAction(UIAlertAction(title: "前往图中所包含的公众号", style: .default, handler: { (action) in
             let webVC = CDWebViewController()
@@ -155,7 +157,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         fileDetail.fileInfo = fileInfo
         self.navigationController?.pushViewController(fileDetail, animated: true)
     }
-    //TODO:分享
+    //MARK:分享
     @objc func shareItemClick()
     {
         let fileInfo = inputArr[currentIndex]
@@ -164,7 +166,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
     
-    //TODO:收藏
+    //MARK:收藏
     @objc func loveItemClick()
     {
         let fileInfo = inputArr[currentIndex]
@@ -179,7 +181,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         }
     }
     
-    //TODO:删除
+    //MARK:删除
     @objc func deleteItemItemClick()
     {
         let fileInfo = inputArr[currentIndex]
@@ -193,7 +195,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().showComplete(text: "删除完成！")
+                CDHUDManager.shared.showComplete(text: "删除完成！")
                 self.collectionView.reloadData()
             }
 
@@ -203,15 +205,15 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
 
     }
     @objc func editItemClick(){
-        CDHUDManager.shareInstance().showText(text: "尚未开发！")
-//        let editVC = CDImageEditViewController()
-//        editVC.imageInfo = inputArr[currentIndex]
-//        editVC.modalPresentationStyle = .fullScreen
-//        self.present(editVC, animated: true, completion: nil)
+//        CDHUDManager.shared.showText(text: "尚未开发！")
+        let editVC = CDImageEditViewController()
+        editVC.imageInfo = inputArr[currentIndex]
+        editVC.modalPresentationStyle = .fullScreen
+        self.present(editVC, animated: true, completion: nil)
     }
     
 
-    //TODO:NotificationCenter
+    //MARK:NotificationCenter
     @objc func onBarsHiddenOrNot(){
 
         if self.toolBar.isHidden {

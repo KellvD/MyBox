@@ -103,7 +103,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         sureBtn.isEnabled = false
     }
 
-    func fileLoadImage() {
+    private func fileLoadImage() {
         for i in 0..<fileArr.count {
             let fileInfo:CDSafeFileInfo = fileArr[i]
 
@@ -143,7 +143,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         collectionView.reloadData()
     }
     
-    @objc func dragCellResponse(dragTap:UILongPressGestureRecognizer){
+    @objc private func dragCellResponse(dragTap:UILongPressGestureRecognizer){
         switch dragTap.state {
         case .began:
             let indexPath = collectionView.indexPathForItem(at: dragTap.location(in: collectionView))
@@ -181,7 +181,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
         sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             if self.composeType == .Gif{
-                CDSignalTon.shareInstance().saveSafeFileInfo(tmpFileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder)
+                CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder)
                 self.composeHandle!(true)
             }else{
                 
@@ -319,7 +319,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 }
 
 
-//TODO:Gif 间隔设置
+//MARK:Gif 间隔设置
 class CDGifDelayView: UIView {
     
     var sliderLabel:UILabel!

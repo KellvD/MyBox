@@ -52,7 +52,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if CDSignalTon.shareInstance().currentType == CDLoginFake && indexPath.section == 2{
+        if CDSignalTon.shared.loginType == .fake && indexPath.section == 2{
             return 0.01
         }
         return 48
@@ -121,7 +121,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             let isOn = folderInfo.fakeType == .invisible ? true : false
             fakeSwitch.isOn = isOn
 
-            if CDSignalTon.shareInstance().currentType == CDLoginFake {
+            if CDSignalTon.shared.loginType == .fake {
                 cell.isHidden = true
             }else{
                 cell.isHidden = false
@@ -136,10 +136,10 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     @objc func chnageFakeModel(swi:UISwitch){
 
         if swi.isOn{
-            CDHUDManager.shareInstance().showText(text: "已成功修改为访客可见")
+            CDHUDManager.shared.showText(text: "已成功修改为访客可见")
             CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .visible, folderId: folderInfo.folderId)
         }else{
-             CDHUDManager.shareInstance().showText(text: "已成功修改为访客不可见")
+             CDHUDManager.shared.showText(text: "已成功修改为访客不可见")
             CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
         }
 

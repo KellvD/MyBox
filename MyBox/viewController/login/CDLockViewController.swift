@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreGraphics
+import LocalAuthentication
 
 class CDLockViewController:CDBaseAllViewController {
     var pwdTextFiled:UITextField!
@@ -54,18 +55,34 @@ class CDLockViewController:CDBaseAllViewController {
         
         
     }
-    
+//    func showTouchID(){
+//        let lol = LAContext()
+//        var error = NSError()
+//        //lol 是否存在
+//        if lol.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+//            //开始运作
+//            lol.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "解锁") { (success, err) in
+//                if success {
+//                    
+//                } else {
+//                    
+//                }
+//            }
+//        }else{
+//            
+//        }
+//    }
     
     @objc func loginBtnClick() -> Void {
         pwdTextFiled.resignFirstResponder()
-//        let inputPwd = self.pwdTextFiled.text?.twoMd5()
+//        let inputPwd = self.pwdTextFiled.text?.md5
 //        let pwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
 //
 //        if JudgeStringIsEmpty(string:pwd) {
-//           CDHUDManager.shareInstance().showText(text: "请输入密码")
+//           CDHUDManager.shared.showText(text: "请输入密码")
 //            return
 //        }else if inputPwd != pwd{
-//            CDHUDManager.shareInstance().showText(text: "密码输入有误")
+//            CDHUDManager.shared.showText(text: "密码输入有误")
 //            return
 //        }
         let settingVC = CDSafeViewController()

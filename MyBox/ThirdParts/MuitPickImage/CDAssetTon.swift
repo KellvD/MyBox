@@ -12,11 +12,7 @@ import AssetsLibrary
 class CDAssetTon: NSObject {
 
     var mediaType:CDMediaType!
-    static let instance = CDAssetTon()
-    class func shareInstance() -> CDAssetTon {
-        return instance
-    }
-
+    static let shared = CDAssetTon()
 
     func authorizationStatusAuthorized(Result:@escaping (Bool)->Void) {
         let status = PHPhotoLibrary.authorizationStatus()
@@ -34,7 +30,7 @@ class CDAssetTon: NSObject {
 
     }
 
-    //TODO:获取图片列表
+    //MARK:获取图片列表
     func getAllAlbums(WithFinished Finished: @escaping ([CDAlbum]) -> Void) {
 
         var allAlbumArr:[CDAlbum] = []
@@ -68,7 +64,7 @@ class CDAssetTon: NSObject {
         
     }
 
-    //TODO:相册名转为中文
+    //MARK:相册名转为中文
     private func titleOfAlbumForChinse(title:String?)->String?{
         if title == "Slo-mo" {
             return "慢动作"
@@ -342,6 +338,18 @@ class CDAssetTon: NSObject {
         manager.requestImage(for: asset, targetSize: tSize, contentMode: .default, options: imageRequestOption) { (image, ofo) in
             Result(image,ofo)
 
+        }
+    }
+    func getImageDataFromAsset(asset:PHAsset,Result:@escaping(Data?,[AnyHashable:Any]?) ->Void) {
+        let manager:PHCachingImageManager! = PHCachingImageManager()
+
+        let imageRequestOption = PHImageRequestOptions()
+        imageRequestOption.isSynchronous = false// 是否同步
+        imageRequestOption.resizeMode = .none // 缩略图的压缩模式设置为无
+        imageRequestOption.deliveryMode = .opportunistic// 缩略图的质量为高质量
+        imageRequestOption.isNetworkAccessAllowed = true
+        manager.requestImageDataAndOrientation(for: asset, options: imageRequestOption) { (data, des, orientation, info) in
+            Result(data,info)
         }
     }
     

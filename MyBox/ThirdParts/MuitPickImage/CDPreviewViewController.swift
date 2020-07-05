@@ -9,13 +9,14 @@
 import UIKit
 import Photos
 
+let bottom_H:CGFloat = 85+48+1
 class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPreviewDelegate {
 
     public var assetArr:[CDPHAsset] = []
     public var isVideo:Bool!
     public var assetDelegate:CDAssetSelectedDelagete!
 
-    private let bottom_H:CGFloat = 85+48+1
+    
     private var mainCollectionView:CDPreviewView!
     private var followCollectionView:CDPreviewView!
     private var imageManager:PHCachingImageManager!
@@ -35,8 +36,8 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         let mainLayout = UICollectionViewFlowLayout()
         mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDViewHeight - 64)
         mainLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        mainLayout.minimumLineSpacing = 2
-        mainLayout.minimumInteritemSpacing = 2
+        mainLayout.minimumLineSpacing = 0
+        mainLayout.minimumInteritemSpacing = 0
         mainLayout.scrollDirection = .horizontal
         self.mainCollectionView = CDPreviewView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), layout: mainLayout,isMain: true)
 
@@ -50,7 +51,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         self.view.addSubview(self.mainCollectionView)
 
 
-        bottomV = UIView(frame: CGRect(x: 0, y: CDViewHeight-bottom_H, width: CDSCREEN_WIDTH, height: bottom_H))
+        bottomV = UIView(frame: CGRect(x: 0, y: CDViewHeight - bottom_H, width: CDSCREEN_WIDTH, height: bottom_H))
         bottomV.backgroundColor = UIColor.black
         bottomV.bringSubviewToFront(self.view)
         self.view.addSubview(bottomV)
@@ -83,11 +84,11 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
 
     }
 
-    //TODO:预览发送
+    //MARK:预览发送
     @objc func previewSendBtnClick(){
         var selectArr:[CDPHAsset] = []
-        for asset:CDPHAsset in self.assetArr {
-            if asset.isSelected == "true" {
+        self.assetArr.forEach { (asset) in
+            if asset.isSelected == .CDTrue {
                 selectArr.append(asset)
             }
         }
@@ -98,43 +99,42 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
     }
 
     
-    func selectFollowWith(indexPath: IndexPath) {
-        stopMainPreviewPlay()
+    func selectFollowWith(indexPath: IndexPath) {        
         self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        self.mainCollectionView.reloadData()
     }
-    func scrollMainPreview(indexPath: IndexPath) {
+    
+    func scrollMainPreview(lastIndexPath: IndexPath, currentIndexPath: IndexPath) {
+
+        self.followCollectionView.selectitem = currentIndexPath.item
+        self.followCollectionView.reloadItems(at: [lastIndexPath,currentIndexPath])
+        self.followCollectionView.scrollToItem(at: currentIndexPath, at: .centeredHorizontally, animated: true)
         
-        self.followCollectionView.selectitem = indexPath.item
-        self.followCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        self.followCollectionView.reloadData()
-
-    }
-    func selectMainPreview() {
-        var rect = bottomV.frame
-        if rect.origin.y < CDViewHeight {
-            UIView.animate(withDuration: 0.25) {
-                rect.origin.y = CDViewHeight+64
-                self.bottomV.frame = rect
-            }
-        }else{
-
-            UIView.animate(withDuration: 0.25) {
-                rect.origin.y = CDViewHeight-self.bottom_H
-                self.bottomV.frame = rect
-            }
+        //如果缩略图隐藏，滑动主视图让他pop出来
+        if bottomV.frame.minY >= CDViewHeight {
+            self.hideOrPopBottomV()
         }
-
-
     }
-
+    
+    //点击主视图，隐藏/展示缩略图
+    func selectMainPreview() {
+        hideOrPopBottomV()
+    }
+    
+    func hideOrPopBottomV() {
+        var rect = bottomV.frame
+        UIView.animate(withDuration: 0.25) {
+            rect.origin.y = rect.origin.y < CDViewHeight ? CDViewHeight : CDViewHeight - bottom_H
+            self.bottomV.frame = rect
+        }
+    }
+    
     func stopMainPreviewPlay(){
-        //暂停上次播放的
-        let offet = self.mainCollectionView.contentOffset.x/self.mainCollectionView.frame.width
-        let index = Int(roundf(Float(offet)))
-        let cell:CDPreviewCell = self.mainCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! CDPreviewCell
-        cell.stopPlayer()
+        
+        //离开本VC,当前mainCell停止播放
+        let mainCell:CDPreviewCell = self.mainCollectionView.visibleCells.first as! CDPreviewCell
+        mainCell.playerItemDidFinish()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

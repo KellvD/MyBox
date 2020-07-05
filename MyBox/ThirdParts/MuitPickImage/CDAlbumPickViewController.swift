@@ -22,7 +22,7 @@ class CDAlbumPickViewController: UITableViewController {
         let cancle = UIBarButtonItem(barButtonSystemItem: .cancel, target: assetDelegate, action: #selector(cancleMediaPicker))
         self.navigationItem.rightBarButtonItem = cancle
 
-        CDAssetTon.instance.authorizationStatusAuthorized(Result: { (result) in
+        CDAssetTon.shared.authorizationStatusAuthorized(Result: { (result) in
             if !result{
                 let alert = UIAlertController(title: "相册被拒绝访问", message: "请在“设置-隐私-相机”选项中，允许本应用访问你的手机相机。", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
@@ -38,7 +38,7 @@ class CDAlbumPickViewController: UITableViewController {
 
     }
     func loadAllAlbum() {
-        CDAssetTon.instance.getAllAlbums { (albumArr) in
+        CDAssetTon.shared.getAllAlbums { (albumArr) in
             self.ablumList.removeAll()
             self.ablumList = albumArr
             //排序降序
@@ -96,7 +96,7 @@ class CDAlbumPickViewController: UITableViewController {
 
             let separatorLine = UILabel(frame: CGRect(x: 15, y: 84, width: CDSCREEN_WIDTH-15, height: 1))
             separatorLine.tag = 104
-            separatorLine.backgroundColor = SeparatorGrayColor
+            separatorLine.backgroundColor = .white
             cell.addSubview(separatorLine)
         }
 
@@ -110,12 +110,7 @@ class CDAlbumPickViewController: UITableViewController {
         titleLabel.text = alum.title;
         countLabel.text = "\(alum.fetchResult.count) 张"
         headImage.image = alum.firstImage
-
-        if indexPath.row == ablumList.count - 1 {
-            separatorLine.isHidden = true
-        }else{
-            separatorLine.isHidden = false
-        }
+        separatorLine.isHidden = indexPath.row == ablumList.count - 1
         return cell
 
 

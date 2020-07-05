@@ -7,19 +7,20 @@
 //
 
 import UIKit
-class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDCreateFolderDelegate {
 
-
+class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDCreateFolderDelegate,CDPopMenuViewDelegate {
 
     var tableView:UITableView!
     var folderArr:[Array<CDSafeFolder>] = Array()
 
-
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-//        if JudgeStringIsEmpty(string: CDSignalTon.shareInstance().basePwd){
+//        if JudgeStringIsEmpty(string: CDSignalTon.shared.basePwd){
 //
 //            let setPwdVC = CDSetPwdViewController()
+//            setPwdVC.isFake = false
+//            setPwdVC.isModify = !JudgeStringIsEmpty(string: CDSignalTon.shared.basePwd)
+//            setPwdVC.title = "设置密码"
 //            self.navigationController?.pushViewController(setPwdVC, animated: true)
 //        }
         folderArr = CDSqlManager.instance().queryDefaultAllFolder()
@@ -37,25 +38,36 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         self.tableView.backgroundColor = SeparatorGrayColor
         self.tableView.separatorStyle = .none
         self.view.addSubview(self.tableView)
-
         tableView.register(CDSafeFolderCell.self, forCellReuseIdentifier: "safeCellIdentifier")
-        let setBtn = UIButton(type: .custom)
-        setBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
-        setBtn.setImage(UIImage(named: "vault_setting"), for: .normal)
-        setBtn.addTarget(self, action: #selector(setBtnClick), for: .touchUpInside)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView:(setBtn))
-
+        
+        
+//        let setBtn = UIButton(type: .custom)
+//        setBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
+//        setBtn.setImage(UIImage(named: "vault_setting"), for: .normal)
+//        setBtn.addTarget(self, action: #selector(setBtnClick), for: .touchUpInside)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView:(setBtn))
+//        setBtn.isHidden = CDSignalTon.shared.loginType == .fake
         //
         let addFolderBtn = UIButton(type: .custom)
         addFolderBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         addFolderBtn.setTitle("新建", for: .normal)
         addFolderBtn.addTarget(self, action: #selector(addfFolderClick), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addFolderBtn);
-
-
+  
     }
 
-
+    lazy var popView: CDPopMenuView = {
+        let titleArr = ["新建文件夹","扫一扫","电子书"]
+        let popView = CDPopMenuView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), imageArr: titleArr, titleArr: titleArr, orientation: CDOrientation.rightUp)
+        popView.popDelegate = self
+        self.view.addSubview(popView)
+        return popView
+    }()
+    
+    lazy var sideVC: CDSideViewController = {
+        let sideVC = CDSideViewController()
+        return sideVC
+    }()
     func numberOfSections(in tableView: UITableView) -> Int {
         return folderArr.count
     }
@@ -102,36 +114,40 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if (folderInfo.folderType == .ImageFolder){
             let imageVC = CDImageViewController()
             imageVC.folderInfo = folderInfo
+            imageVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(imageVC, animated: true)
 
         }else if (folderInfo.folderType == .AudioFolder){
             let audioVC = CDAudioViewController()
 
             audioVC.gFolderInfo = folderInfo
+            audioVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(audioVC, animated: true)
         }else if (folderInfo.folderType == .VideoFolder){
             let videoVC = CDVideoViewController()
             videoVC.folderInfo = folderInfo
+            videoVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(videoVC, animated: true)
         }else if (folderInfo.folderType == .TextFolder){
             let textVC = CDTextViewController()
             textVC.gFolderInfo = folderInfo
+            textVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(textVC, animated: true)
         }
 
     }
+    @available(iOS, introduced: 8.0, deprecated: 13.0)
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let folderInfo:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
+        let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
+            
+            let folderDVC = CDFolderDetailViewController()
+            folderDVC.folderInfo = folderInfo
+            self.navigationController?.pushViewController(folderDVC, animated: true)
+        }
+        detail.backgroundColor = UIColor.blue
         if folderInfo.isLock == LockOn  {
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
-
-                let folderDVC = CDFolderDetailViewController()
-                folderDVC.folderInfo = folderInfo
-                self.navigationController?.pushViewController(folderDVC, animated: true)
-            }
-            detail.backgroundColor = UIColor.blue
             let delete = UITableViewRowAction(style: .normal, title: "删除") { (action, index) in
-
                 CDSqlManager.instance().deleteOneFolder(folderId: folderInfo.folderId)
                 self.folderArr = CDSqlManager.instance().queryDefaultAllFolder()
                 tableView.reloadData()
@@ -139,17 +155,32 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             delete.backgroundColor = UIColor.red
             return [detail,delete]
         }else{
-
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
-
-                let folderDVC = CDFolderDetailViewController()
-                folderDVC.folderInfo = folderInfo
-                self.navigationController?.pushViewController(folderDVC, animated: true)
-            }
-            detail.backgroundColor = UIColor.blue
             return [detail]
         }
-
+        
+    }
+    @available(iOS 11, *)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let folderInfo:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
+        let detail = UIContextualAction(style: .normal, title: "详情") { (action, view, handle) in
+            let folderDVC = CDFolderDetailViewController()
+            folderDVC.folderInfo = folderInfo
+            self.navigationController?.pushViewController(folderDVC, animated: true)
+        }
+        detail.image = UIImage(named: "fileDetail")
+        if folderInfo.isLock == LockOn  {
+            let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+                CDSqlManager.instance().deleteOneFolder(folderId: folderInfo.folderId)
+                self.folderArr = CDSqlManager.instance().queryDefaultAllFolder()
+                tableView.reloadData()
+            }
+            delete.backgroundColor = .red
+            let action = UISwipeActionsConfiguration(actions: [delete,detail])
+            return action
+        }else{
+            let action = UISwipeActionsConfiguration(actions: [detail])
+            return action
+        }
     }
     @objc func setBtnClick()->Void{
         let setVC = CDSettingViewController()
@@ -157,16 +188,32 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 
     }
     @objc func addfFolderClick()->Void{
-        
-        let newVC = CDNewFolderViewController()
-        newVC.Cdelete = self
-        self.navigationController?.pushViewController(newVC, animated: true)
-
+    
+        popView.showPopView()
     }
 
     func createNewFolderSuccess() {
         
     }
+    
+    //MARK:
+    func onSelectedPopMenu(title: String) {
+        if title == "新建文件夹" {
+            let newVC = CDNewFolderViewController()
+            newVC.Cdelete = self
+            self.navigationController?.pushViewController(newVC, animated: true)
+        } else if title == "扫一扫" {
+            let camera = CDCameraViewController()
+            camera.isVideo = false
+            camera.modalPresentationStyle = .fullScreen
+            CDSignalTon.shared.customPickerView = camera
+            self.present(camera, animated: true, completion: nil)
+        } else if title == "电子书" {
+           let setVC = CDSettingViewController()
+           self.navigationController?.pushViewController(setVC, animated: true)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

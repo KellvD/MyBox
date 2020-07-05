@@ -14,7 +14,7 @@ class CDConfigFile: NSObject {
 
         return GetDocumentPath().appendingPathComponent(str: "/CDConfig.dat")
     }
-    //TODO: Object
+    //MARK: Object
     class func setOjectToConfigWith(key:String,value:String){
 
         let finaPath = databasePath()
@@ -45,7 +45,7 @@ class CDConfigFile: NSObject {
         return ret
     }
 
-    //TODO: Int
+    //MARK: Int
     class func setIntValueToConfigWith(key:String,intValue:Int){
         let finaPath = databasePath()
         var writeDict = NSMutableDictionary(contentsOfFile: finaPath)
@@ -77,7 +77,7 @@ class CDConfigFile: NSObject {
         return ret
     }
 
-    //TODO: Int
+    //MARK: Int
     class func setBoolValueToConfigWith(key:String,boolValue:Bool){
 
         if boolValue {

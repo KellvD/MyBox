@@ -18,10 +18,7 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
     
     
     
-    static let instance:CDHUDManager = CDHUDManager()
-    class func shareInstance()->CDHUDManager {
-        return instance
-    }
+    static let shared:CDHUDManager = CDHUDManager()
     
     func getAppWindow() -> UIWindow {
         if #available(iOS 13.0, *) {

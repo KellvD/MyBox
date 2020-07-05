@@ -79,7 +79,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         let alert = UIAlertController(title: "提示", message: "您确定移入该文件夹吗？", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in}))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
-            CDHUDManager.shareInstance().showWait(text: "正在处理")
+            CDHUDManager.shared.showWait(text: "正在处理")
             DispatchQueue.global().async {
                 if folder.folderId > 0 && self.selectedArr.count > 0 {
                     for index in 0..<self.selectedArr.count{
@@ -88,14 +88,14 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
                         CDSqlManager.instance().updateOneSafeFileForMove(fileInfo: file)
                     }
                     DispatchQueue.main.async {
-                        CDHUDManager.shareInstance().hideWait()
-                        CDHUDManager.shareInstance().showText(text: "移入成功")
+                        CDHUDManager.shared.hideWait()
+                        CDHUDManager.shared.showText(text: "移入成功")
                         self.moveHandle!(true)
                         self.navigationController?.popViewController(animated: true)
 
                     }
                 }else{
-                    CDHUDManager.shareInstance().hideWait()
+                    CDHUDManager.shared.hideWait()
                     self.navigationController?.popViewController(animated: true)
                 }
             }

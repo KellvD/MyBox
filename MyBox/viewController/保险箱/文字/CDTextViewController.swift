@@ -10,21 +10,21 @@ import UIKit
 import AVFoundation
 import MJRefresh
 class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,UIDocumentInteractionControllerDelegate,CDDirNavBarDelegate {
-    private
-    var tableblew:UITableView!
-    var batchBtn:UIButton!
-    var backBtn:UIButton!
-    var toolbar:CDToolBar!
-    var dirNavBar:CDDirNavBar!
-    var textTD:(foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo])!
-    var selectFileCount:Int = 0
-    var selectFolderCount:Int = 0
-    var selectedFileArr:[CDSafeFileInfo] = []
-    var selectedFolderArr:[CDSafeFolder] = []
-    var isNeedReloadData:Bool = false
-    var currentFolderId:Int!
-    public
-    var gFolderInfo:CDSafeFolder!
+    
+    private var tablebview:UITableView!
+    private var batchBtn:UIButton!
+    private var backBtn:UIButton!
+    private var toolbar:CDToolBar!
+    private var dirNavBar:CDDirNavBar!
+    private var textTD:(foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo])!
+    private var selectFileCount:Int = 0
+    private var selectFolderCount:Int = 0
+    private var selectedFileArr:[CDSafeFileInfo] = []
+    private var selectedFolderArr:[CDSafeFolder] = []
+    private var isNeedReloadData:Bool = false
+    private var currentFolderId:Int!
+    
+    public var gFolderInfo:CDSafeFolder!
     
     deinit {
         removeNotification()
@@ -33,9 +33,9 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if isNeedReloadData {
             isNeedReloadData = false
             refreshData(superId: gFolderInfo.folderId)
-            CDSignalTon.shareInstance().dirNavArr.removeAllObjects()//进入文本文件
+            CDSignalTon.shared.dirNavArr.removeAllObjects()//进入文本文件
         }
-        tableblew.setEditing(false, animated: false)
+        tablebview.setEditing(false, animated: false)
     }
     
     override func viewDidLoad() {
@@ -48,12 +48,12 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         dirNavBar.dirDelegate = self
         view.addSubview(dirNavBar)
         
-        tableblew = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - 48 - dirNavBar.frame.height), style: .plain)
-        tableblew.delegate = self
-        tableblew.dataSource = self
-        tableblew.separatorStyle = .none
-        self.view.addSubview(tableblew)
-        tableblew.register(CDTableViewCell.self, forCellReuseIdentifier: "textCellId")
+        tablebview = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - 48 - dirNavBar.frame.height), style: .plain)
+        tablebview.delegate = self
+        tablebview.dataSource = self
+        tablebview.separatorStyle = .none
+        self.view.addSubview(tablebview)
+        tablebview.register(CDTableViewCell.self, forCellReuseIdentifier: "textCellId")
         batchBtn = UIButton(type: .custom)
         batchBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
         batchBtn.setImage(UIImage(named: "edit"), for: .normal);
@@ -75,7 +75,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     func refreshData(superId:Int) {
         toolbar.enableReloadBar(isSelected: false)
         textTD = CDSqlManager.instance().queryAllContentFromFolder(folderId: superId)
-        tableblew.reloadData()
+        tablebview.reloadData()
     }
     
     func handelSelectedArr(){
@@ -119,7 +119,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
         }
-        tableblew.reloadData()
+        tablebview.reloadData()
     }
     
     
@@ -172,11 +172,13 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else{
             backBtn.setTitle("全选", for: .normal)
         }
-        tableblew.reloadData()
+        tablebview.reloadData()
     }
     
     //选择文件夹目录
     func onSelectedDirWithFolderId(folderId: Int) {
+        tablebview.transition(subtype: .fromLeft, duration: 0.5)
+
         if folderId == gFolderInfo.folderId { //根目录
             hiddenDirNavBar()
         }
@@ -185,29 +187,29 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     
     func hiddenDirNavBar(){
         UIView.animate(withDuration: 0.5, animations: {
-            var frame = self.tableblew.frame
+            var frame = self.tablebview.frame
             if frame.origin.y > 0.0{
                 frame.origin.y = 0.0
                 frame.size.height += 48.0
-                self.tableblew.frame = frame
+                self.tablebview.frame = frame
             }
         }) { (flag) in
             self.dirNavBar.isHidden = true
-            CDSignalTon.shareInstance().dirNavArr.removeAllObjects()
+            CDSignalTon.shared.dirNavArr.removeAllObjects()
         }
     }
     func showDirNavBar(){
         UIView.animate(withDuration: 0.25) {
             self.dirNavBar.isHidden = false
-            var frame = self.tableblew.frame
+            var frame = self.tablebview.frame
             if frame.origin.y == CGFloat(0.0){
                 frame.origin.y = 48.0
                 frame.size.height -= 48.0
-                self.tableblew.frame = frame
+                self.tablebview.frame = frame
             }
         }
     }
-    //TODO:分享事件
+    //MARK:分享事件
     @objc func shareBarItemClick(){
         handelSelectedArr()
         var shareArr:[NSObject] = []
@@ -244,7 +246,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().showWait(text: "删除中...")
+                CDHUDManager.shared.showWait(text: "删除中...")
             }
             
             DispatchQueue.global().async {
@@ -256,8 +258,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                     CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
                     
                 }
-                for index in 0..<self.selectedFolderArr.count{
-                    let folderInfo = self.selectedFolderArr[index]
+                self.selectedFolderArr.forEach { (folderInfo) in
                     /*
                      文件夹中文件filePath：other/xxx/xxx/xxx，不能取最后部分拼接在other上
                      */
@@ -280,8 +281,8 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                 DispatchQueue.main.async {
                     self.refreshData(superId: self.currentFolderId)
                     self.batchHandleFiles(isSelected: false)
-                    CDHUDManager.shareInstance().hideWait()
-                    CDHUDManager.shareInstance().showText(text: "文件删除完成")
+                    CDHUDManager.shared.hideWait()
+                    CDHUDManager.shared.showText(text: "文件删除完成")
                 }
             }
         }))
@@ -291,10 +292,10 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     
     
     
-    //TODO:
+    //MARK:
     @objc func documentItemClick(){
         //查询地址：https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259
-        let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.archive"]
+        let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.content"]
         super.subFolderId = gFolderInfo.folderId
         super.subFolderType = gFolderInfo.folderType
         
@@ -312,7 +313,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         self.navigationController?.pushViewController(textVC, animated: true)
         
     }
-    //TODO:UITableViewDelegate
+    //MARK:UITableViewDelegate
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -408,11 +409,13 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
            refreshUI()
         }else{
             if indexPath.section == 0 {
-                if CDSignalTon.shareInstance().dirNavArr.count == 0 {
-                    CDSignalTon.shareInstance().dirNavArr.add(gFolderInfo!)
+                tableView.transition(subtype: .fromRight, duration: 0.5)
+                
+                if CDSignalTon.shared.dirNavArr.count == 0 {
+                    CDSignalTon.shared.dirNavArr.add(gFolderInfo!)
                 }
                 let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
-                CDSignalTon.shareInstance().dirNavArr.add(folder)
+                CDSignalTon.shared.dirNavArr.add(folder)
                 dirNavBar.reloadBarData()
                 showDirNavBar()
                 refreshData(superId: folder.folderId)
@@ -423,6 +426,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                     let messageWindow = CDTextMessageViewController()
                     messageWindow.fileInfo = fileInfo
                     self.navigationController?.pushViewController(messageWindow, animated: true)
+                    
                 } else if (fileInfo.fileType == .ZipType){
                     unArchiveZip(fileInfo: fileInfo)
                     
@@ -549,28 +553,28 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                         getAllContentsOfDirectory(dirPath: dirName, superId: folderId)
                     }
                 }else{
-                    CDHUDManager.shareInstance().hideWait()
-                    CDHUDManager.shareInstance().showText(text: "解压完成")
-                    self.refreshData(superId: self.gFolderInfo.folderId)
+                    CDHUDManager.shared.hideWait()
+                    CDHUDManager.shared.showText(text: "解压完成")
+                    self.refreshData(superId: self.currentFolderId)
                 }
             }
         }
         
-        //加压
+        //解压
         func unArchiveZipToDirectory(password:String?){
-            CDHUDManager.shareInstance().showWait(text: "解压中...")
+            CDHUDManager.shared.showWait(text: "解压中...")
             let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: password)
             if error == nil {
                 getAllContentsOfDirectory(dirPath: desDirPath, superId: self.currentFolderId)
             }else{
-                CDHUDManager.shareInstance().hideWait()
-                CDHUDManager.shareInstance().showText(text: "解压失败:" + error!.localizedDescription)
+                CDHUDManager.shared.hideWait()
+                CDHUDManager.shared.showText(text: "解压失败:" + error!.localizedDescription)
             }
         }
         
         //判断压缩包是否加密
         if  CDGeneralTool.checkPasswordIsProtectedZip(zipFile: zipPath){
-            let alert = UIAlertController(title: "本压缩包为加密加锁", message: "请输入解压密码", preferredStyle: .alert)
+            let alert = UIAlertController(title: "本压缩包为加密压缩包", message: "请输入解压密码", preferredStyle: .alert)
             var tmpTextFiled:UITextField!
             alert.addTextField { (textFiled) in tmpTextFiled = textFiled }
             alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
@@ -626,12 +630,12 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         
         
     }
-    //TODO:NSNotications
+    //MARK:NSNotications
     @objc func onNeedReloadData() {
         isNeedReloadData = true
         
     }
-    //TODO:UIDocumentInteractionControllerDelegate
+    //MARK:UIDocumentInteractionControllerDelegate
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
@@ -641,5 +645,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
         return self.view
     }
+    
+    
     
 }

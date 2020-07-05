@@ -7,6 +7,7 @@
 
 import UIKit
 import ZipArchive
+import UnrarKit
 class CDGeneralTool: NSObject {
     class func attributedTextWith(textArr:Array<String>,fontArr:Array<UIFont>,colorArr:Array<UIColor>) ->NSAttributedString?{
        
@@ -25,19 +26,51 @@ class CDGeneralTool: NSObject {
     }
 
     class func archiveFileToZip(originFiles:[String],password:String,desZipPath:String) -> Bool{
+        
         return SSZipArchive.createZipFile(atPath: desZipPath, withFilesAtPaths: originFiles, withPassword: password)
     }
+    
     class func unArchiveZipToDirectory(zip:String,desDirectory:String,paaword:String?) -> NSError?{
-        do {
-            try SSZipArchive.unzipFile(atPath: zip, toDestination: desDirectory, overwrite: false, password: paaword)
-            return nil
-        } catch let error as NSError {
-            return error
+        if zip.hasSuffix(".rar") {
+            
+            do {
+                let archive = try URKArchive(path: zip, password: (paaword ?? nil)!)
+//                let fileArr = try archive.listFileInfo()
+//                archive.extractData(fromFile: fileArr[0])
+                try archive.extractFiles(to: desDirectory, overwrite: false)
+            } catch let error as NSError {
+                return error
+            }
+        } else if zip.hasSuffix(".zip") {
+            do {
+                try SSZipArchive.unzipFile(atPath: zip, toDestination: desDirectory, overwrite: false, password: paaword)
+                return nil
+            } catch let error as NSError {
+                return error
+            }
+        } else if zip.hasSuffix(".7z") {
+            
         }
+        return nil
 
     }
+    
+    
     class func checkPasswordIsProtectedZip(zipFile:String) -> Bool {
-        return SSZipArchive.isFilePasswordProtected(atPath: zipFile)
+        if zipFile.hasSuffix(".rar") {
+            do {
+                let archiv = try URKArchive(path: zipFile)
+                return archiv.isPasswordProtected()
+            } catch {
+                return true
+            }
+            
+        } else if zipFile.hasSuffix(".zip") {
+            return SSZipArchive.isFilePasswordProtected(atPath: zipFile)
+        } else if zipFile.hasSuffix(".7z") {
+            
+        }
+        return false
     }
     //获取文件夹下所有目录
     class func getAllContentsOfDirectory(dirPath:String) ->(filesArr:[String],directoiesArr:[String]){

@@ -12,49 +12,56 @@ import CoreGraphics.CGImage
 import Photos
 import AVFoundation
 
+
 class CDSignalTon: NSObject {
 
-    var CDLoginType = 0
-    var basePwd = String()
+    var basePwd = String() //
     var userId:Int = 0
-    var currentType:Int = 0
-    var touchIDSwitch:Bool = false
-    var fakeSwitch:Bool = false
+    var loginType:CDLoginType!
+    var touchIDSwitch:Bool = false //touch ID开关
+    var fakeSwitch:Bool = false  //访客开关
+    var waterSwitch:Bool = false //水印开关
     var isViewDisappearStopRecording = false
     var videoAssetArr:[CDPHAsset] = []
     var tmpDict = NSMutableDictionary()
     var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
+    var waterMarkText:String! //水印文字
+    var waterMarkTextColor:UIColor! //水印文字颜色
     
-    static let instance:CDSignalTon = CDSignalTon()
-    class func shareInstance()->CDSignalTon {
-        objc_sync_enter(self)
-        if isLogin() {
-
-            instance.basePwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: instance.userId)
+    static let shared = CDSignalTon()
+    private override init() {
+        userId = CDConfigFile.getIntValueFromConfigWith(key: CD_UserId)
+        if userId == FIRSTUSERID {//已经登录了
+            basePwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: userId)
         }else{
-            let userInfo:CDUserInfo  = CDSqlManager.instance().queryOneUserInfoWithUserId(userId: FIRSTUSERID)
-            if userInfo.userId == 0{
-                userInfo.userId = FIRSTUSERID
-                CDSqlManager.instance().addOneUserInfoWith(usernInfo: userInfo)
-                CDConfigFile.setIntValueToConfigWith(key: CD_UserId, intValue: FIRSTUSERID)
-                instance.userId = FIRSTUSERID
-                instance.currentType = CDLoginReal
-                createLibraryForUser()
-                addDefaultSafeFolder()
-                addDefaultMusicClass()
-
-            }
-            instance.fakeSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_FakeType)
-            instance.touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_TouchId)
-
+            //保存密码信息
+            let userInfo = CDUserInfo()
+            userInfo.userId = FIRSTUSERID
+            CDSqlManager.instance().addOneUserInfoWith(usernInfo: userInfo)
+            //写入文件
+            userId = FIRSTUSERID
+            CDConfigFile.setIntValueToConfigWith(key: CD_UserId, intValue: userId)
+            //登录模式
+            loginType = .real
+            CDConfigFile.setIntValueToConfigWith(key: CD_LoginType, intValue: loginType!.rawValue)
+            //创建默认沙盒文件夹
+            createLibraryForUser()
+            //创建默认界面文件夹
+            addDefaultSafeFolder()
+            //创建音频
+            addDefaultMusicClass()
+            
         }
-        objc_sync_exit(self)
-        return instance
+        waterMarkText = "墨凌风器\n厚德载物"
+        waterMarkTextColor = .red
+        
+        loginType = .real
+        //初始化开关
+        fakeSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_FakeSwi)
+        touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_TouchIdSwi)
     }
-
-
-
+    
     func saveSafeFileInfo(tmpFileUrl:URL,folderId:Int,subFolderType:NSFolderType){
         let tmpFilePath = tmpFileUrl.absoluteString
         let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
@@ -118,7 +125,7 @@ class CDSignalTon: NSObject {
                     return
                 }
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                let image = CDSignalTon.shareInstance().firstFrmaeWithTheVideo(videoPath: filePath)
+                let image = firstFrmaeWithTheVideo(videoPath: filePath)
                 let data = image!.jpegData(compressionQuality: 1.0)
                 do {
                     try data?.write(to: URL(fileURLWithPath: thumbPath))
@@ -267,55 +274,91 @@ class CDSignalTon: NSObject {
 
 
     func addWartMarkToWindow(appWindow:UIWindow) {
-        let imageView = appWindow.viewWithTag(waterMarkTag) as? UIImageView
+        var imageView = appWindow.viewWithTag(waterMarkTag) as? UIImageView
         if imageView != nil {
             appWindow.bringSubviewToFront(imageView!)
         }else{
-//            waterMarkView =
-
+            imageView = setWaterToMark(view: appWindow, text: waterMarkText, textColor: waterMarkTextColor)
+            imageView?.tag = waterMarkTag
         }
-
-
     }
-    func setWaterToMark(view:NSObject, appWindow:UIWindow) -> UIImageView {
-        let view = view as! UIView
-
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight))
-        imageView.alpha = 0.3
-//        imageView.image =
-        imageView.isUserInteractionEnabled = false
-        view.addSubview(imageView)
-        return imageView
-
-
-
+    
+    func updateWaterMarkViewFromWindow(window:UIWindow){
+        removeWaterMarkFromWindow(window: window)
+        let imageView = setWaterToMark(view: window, text: waterMarkText, textColor: waterMarkTextColor)
+        imageView.tag = waterMarkTag
+        window.bringSubviewToFront(imageView)
     }
-//    func drawWaterMark(frame:CGRect) -> Void {
-//        let viewHeight = frame.height
-//        let viewWidth = frame.width
-//        //为防止图片失真
-//        UIGraphicsBeginImageContext(CGSize(width: viewWidth, height: viewHeight))
-//        let sqrtLength = sqrt(viewWidth * viewWidth + viewHeight * viewHeight)
-//
-//        let mark = "墨凌风起"
-//
-//        let attrStr = NSMutableAttributedString(string: mark, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor:UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)])
-//
-//        //绘制文字宽高
-//        let strWidth = attrStr.size().width
-//        let strHeight = attrStr.size().height
-//
-//        let finalImg = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        CGContextRestoreGState(context)
-//    }
-
+    
     func removeWaterMarkFromWindow(window:UIWindow) -> Void{
         let imageView = window.viewWithTag(waterMarkTag) as! UIImageView
         imageView.removeFromSuperview()
 
     }
+    func setWaterToMark(view:NSObject,text:String,textColor:UIColor) -> UIImageView {
+        let view = view as! UIView
 
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight))
+        imageView.alpha = 0.3
+        imageView.image = drawWaterMark(frame: imageView.frame, text: text, color: textColor)
+        imageView.isUserInteractionEnabled = false
+        view.addSubview(imageView)
+        return imageView
+    }
+    
+    let HORIZONTAL_SPACE:CGFloat = 30.0//水平间距
+    let VERTICAL_SPACE:CGFloat = 50.0//竖直间距
+    func drawWaterMark(frame:CGRect,text:String,color:UIColor) -> UIImage {
+        let viewHeight = frame.height
+        let viewWidth = frame.width
+        //为防止图片失真,绘制图片和原始图片宽高一致
+        UIGraphicsBeginImageContext(CGSize(width: viewWidth, height: viewHeight))
+        let sqrtLength = sqrt(viewWidth * viewWidth + viewHeight * viewHeight)
+
+        let attr = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),
+                    NSAttributedString.Key.foregroundColor:color]
+        
+        let attrStr = NSMutableAttributedString(string: text, attributes: attr)
+
+        //绘制文字宽高
+        let strWidth = attrStr.size().width
+        let strHeight = attrStr.size().height
+
+        //开始旋转上下文矩阵，绘制水印文字
+        let context = UIGraphicsGetCurrentContext()
+        //将绘制原点调整到image中心
+        context?.concatenate(CGAffineTransform(translationX: viewWidth/2, y: viewHeight/2))
+        //以绘制圆点为中心旋转
+        context?.concatenate(CGAffineTransform(rotationAngle: CGFloat(-(Double.pi/2 / 3))))
+        context?.concatenate(CGAffineTransform(translationX: -viewWidth/2, y: -viewHeight/2))
+        
+        let horCount = sqrtLength / (strWidth + HORIZONTAL_SPACE) + 1
+        let verCount = sqrtLength / (strHeight + VERTICAL_SPACE) + 1
+        
+        //
+        let orignX = -(sqrtLength - viewWidth)/2
+        let orignY = -(sqrtLength - viewHeight)/2
+        var tempOrignX = orignX
+        var tempOrignY = orignY
+        for i in 0..<Int(horCount * verCount) {
+            (text as NSString).draw(in: CGRect(x: tempOrignX, y: tempOrignY, width: strWidth, height: strHeight), withAttributes: attr)
+            if i % Int(horCount) == 0 && i != 0 {
+                tempOrignX = orignX
+                tempOrignY += (strHeight + VERTICAL_SPACE)
+            } else {
+                tempOrignX += (strWidth + HORIZONTAL_SPACE)
+            }
+        }
+        
+        let finalImg = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        context?.restoreGState()
+        return finalImg!
+        
+        
+    }
+
+    
 
     func getMusicInfoFromMusicFile(filePath:String)-> MusicInfo{
         let url = URL(fileURLWithPath: filePath)
@@ -384,6 +427,28 @@ class CDSignalTon: NSObject {
             }
         })
     }
+    
+    func checkPermission(type:CDDevicePermissionType) -> Bool {
+        if type == .Library {
+            let status = PHPhotoLibrary.authorizationStatus()
+            return status == .authorized ? true : false
+        } else if type == .camera {
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            return status == .authorized ? true : false
+        } else if type == .micorphone {
+            let status = AVCaptureDevice.authorizationStatus(for: .audio)
+            return status == .authorized ? true : false
+        } else if type == .location {
+            let status = CLLocationManager.authorizationStatus()
+            if status == .authorizedAlways ||
+            status == .authorizedWhenInUse{
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
 }
 
 @inline(__always) func StringWithUUID()->String{
@@ -428,14 +493,7 @@ class CDSignalTon: NSObject {
     _ = String.OtherPath()
     _ = String.MusicPath()
 }
-@inline(__always) func isLogin()->Bool{
-    let isLogin = CDConfigFile.getValueFromConfigWith(key: CD_IsLogin)
-    if isLogin == "NO" || isLogin == ""{
-        return false
-    }else{
-        return true
-    }
-}
+
 @inline(__always) func CDUserId() -> Int{
     let userId = CDConfigFile.getIntValueFromConfigWith(key: CD_UserId)
     return userId
@@ -487,11 +545,14 @@ class CDSignalTon: NSObject {
     }
 }
 
-@inline(__always) func LoadImageByName(imageName:String,type:String) -> UIImage {
+@inline(__always) func LoadImageByName(imageName:String,type:String) -> UIImage? {
     var path = Bundle.main.path(forResource:imageName, ofType:type)
     if path == nil{
         let name = imageName + "@2x"
         path = Bundle.main.path(forResource:name, ofType:type)
+    }
+    if path == nil{
+        return nil
     }
     let image = UIImage(contentsOfFile: path!)
     return image!
@@ -887,5 +948,7 @@ class CDSignalTon: NSObject {
     }
     return SDImageFormat.SDImageFormatUndefined;
 }
+
+
 
 

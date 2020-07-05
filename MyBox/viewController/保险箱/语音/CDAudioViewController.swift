@@ -170,7 +170,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         self.navigationController?.pushViewController(recordVC, animated: true)
     }
 
-    //TODO:分享事件
+    //MARK:分享事件
     @objc func shareBarItemClick(){
         handelSelectedArr()
         var shareArr:[NSObject] = []
@@ -198,7 +198,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
 
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUDManager.shareInstance().showWait(text: "删除中...")
+            CDHUDManager.shared.showWait(text: "删除中...")
             for index in 0..<self.selectedAudioArr.count{
                 let fileInfo = self.selectedAudioArr[index]
                     let defaultPath = String.AudioPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
@@ -206,8 +206,8 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
                     CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
                 }
                 DispatchQueue.main.async {
-                    CDHUDManager.shareInstance().hideWait()
-                    CDHUDManager.shareInstance().showComplete(text: "删除完成！")
+                    CDHUDManager.shared.hideWait()
+                    CDHUDManager.shared.showComplete(text: "删除完成！")
                     self.refreshData()
                     self.banchHandleFiles(isSelected: false)
                 }
@@ -223,17 +223,17 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "合成选中的\(selectedAudioArr.count)条音频", style: .default, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().showWait(text: "正在处理...")
+                CDHUDManager.shared.showWait(text: "正在处理...")
             }
             
-            CDSignalTon.shareInstance().appendAudio(folderId: self.gFolderInfo.folderId, appendFile: self.selectedAudioArr) { (success) in
+            CDSignalTon.shared.appendAudio(folderId: self.gFolderInfo.folderId, appendFile: self.selectedAudioArr) { (success) in
                 DispatchQueue.main.async {
-                    CDHUDManager.shareInstance().hideWait()
+                    CDHUDManager.shared.hideWait()
                     self.refreshData()
                     if success{
-                        CDHUDManager.shareInstance().showText(text: "合成成功")
+                        CDHUDManager.shared.showText(text: "合成成功")
                     }else{
-                        CDHUDManager.shareInstance().showText(text: "合成失败")
+                        CDHUDManager.shared.showText(text: "合成失败")
                     }
                 }
             }
@@ -346,7 +346,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     }
 
 
-    //TODO:播放
+    //MARK:播放
     func selectAudioToPlay(file:CDSafeFileInfo) {
         let decryPath = String.AudioPath().appendingPathComponent(str: file.filePath.lastPathComponent())
         initPlayer(fiePath: decryPath)
@@ -402,7 +402,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         NotificationCenter.default.addObserver(self, selector: #selector(onNeedReloadData), name: NeedReloadData, object: nil)
 
     }
-    //TODO:NSNotications
+    //MARK:NSNotications
     @objc func onNeedReloadData() {
         isNeedReloadData = true
 

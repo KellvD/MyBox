@@ -66,7 +66,7 @@ class CDMusicManager: NSObject,AVAudioPlayerDelegate {
         starTimer()
     }
 
-    //TODO:Player
+    //MARK:Player
     func starPlayer(){
         if player != nil{
             player.play()
@@ -97,7 +97,7 @@ class CDMusicManager: NSObject,AVAudioPlayerDelegate {
 
         
     }
-    //TODO:Timer
+    //MARK:Timer
     func starTimer(){
         if musicTimer == nil{
             musicTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updatePlayTime), userInfo: nil, repeats: true)

@@ -36,7 +36,7 @@ private var db_markInfo = Expression<String>("markInfo")
 private var db_basePwd = Expression<String>("basePwd")
 private var db_fakePwd = Expression<String>("fakePwd")
 
-//TODO:musicInfo
+//MARK:musicInfo
 private var db_musicId = Expression<Int>("musicId")
 private var db_musicName = Expression<String>("musicName")
 private var db_musicMark = Expression<String>("musicMark")
@@ -45,7 +45,7 @@ private var db_musicClassId = Expression<Int>("musicClassId")
 private var db_musicSinger = Expression<String>("musicSinger")
 private var db_musicPath = Expression<String>("musicPath")
 private var db_musicImage = Expression<String>("musicImage")
-//TODO:musicClass
+//MARK:musicClass
 private var db_classId = Expression<Int>("classId")
 private var db_className = Expression<String>("className")
 private var db_classAvatar = Expression<String>("classAvatar")
@@ -190,7 +190,7 @@ class CDSqlManager: NSObject {
         }
     }
 
-    //TODO: userInfo
+    //MARK: userInfo
     public func addOneUserInfoWith(usernInfo:CDUserInfo){
         do{
             try db.run(UserInfo.insert(
@@ -278,7 +278,7 @@ class CDSqlManager: NSObject {
         }
     }
 
-    //TODO:文件夹
+    //MARK:文件夹
     public func addSafeFoldeInfo(folder:CDSafeFolder) -> Int {
 
         let folderId = queryMaxSafeFolderId()+1
@@ -313,7 +313,7 @@ class CDSqlManager: NSObject {
 
             var sql = SafeFolder.where(db_fakeType == CDFakeType.visible.rawValue && db_superId == ROOTSUPERID)
 
-            if CDSignalTon.shareInstance().currentType != CDLoginReal{
+            if CDSignalTon.shared.loginType != .real{
                 sql = SafeFolder.where(db_fakeType == CDFakeType.invisible.rawValue && db_superId == ROOTSUPERID)
             }
             for item in (try db.prepare(sql)) {
@@ -476,7 +476,7 @@ class CDSqlManager: NSObject {
 
             var sql = SafeFolder.where((db_folderId != folderId) && (db_folderType == folderType.rawValue))
 
-            if CDSignalTon.shareInstance().currentType != CDLoginReal{
+            if CDSignalTon.shared.loginType != .real{
                 sql = SafeFolder.where(
                     (db_folderId != folderId) &&
                     (db_folderType == folderType.rawValue) &&
@@ -515,7 +515,7 @@ class CDSqlManager: NSObject {
             CDPrint(item:"updateOneSafeFileForMove-->error:\(error)")
         }
     }
-    //TODO:
+    //MARK:
     public func addSafeFileInfo(fileInfo:CDSafeFileInfo) -> Void {
 
         let fileId = queryMaxFileId() + 1
@@ -701,7 +701,7 @@ class CDSqlManager: NSObject {
         return grade!
     }
 
-    //TODO:extension
+    //MARK:extension
     //获取文件夹下所有子文件和子文件夹
     func queryAllContentFromFolder(folderId:Int) -> (foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo]) {
         var subFileArr = queryAllFileFromFolder(folderId: folderId)
@@ -717,7 +717,7 @@ class CDSqlManager: NSObject {
         return (subFolderArr,subFileArr)
     
     }
-    //TODO:musicInfo
+    //MARK:musicInfo
     func addOneMusicInfoWith(musicInfo:CDMusicInfo) -> Void {
         let musicId = queryMusicCount() + 1
 
@@ -844,7 +844,7 @@ class CDSqlManager: NSObject {
         return count
     }
 
-    //TODO:musicClassInfo
+    //MARK:musicClassInfo
     func addOneMusicClassInfoWith(classInfo:CDMusicClassInfo) -> Void {
         let count = queryMusicClassCount() + 1
 

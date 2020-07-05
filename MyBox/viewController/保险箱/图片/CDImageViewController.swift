@@ -64,7 +64,7 @@ class CDImageViewController:
         self.view.addSubview(collectionView!)
 //        mjHeader = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(headerRefresh))
 //        collectionView.mj_header = mjHeader
-//
+//private var mjHeader:MJRefreshNormalHeader!
 //        mjFooter = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(footerRefresh))
 //        collectionView.mj_footer = mjFooter
         batchBtn = UIButton(type: .custom)
@@ -90,7 +90,7 @@ class CDImageViewController:
     @objc func headerRefresh(){
 
     }
-    //批量按钮
+    // MARK:批量按钮
     @objc func batchBtnClick(){
         batchHandleFiles(isBatch: !batchBtn.isSelected,type: .nothing)
     }
@@ -118,7 +118,7 @@ class CDImageViewController:
         collectionView.reloadData()
     }
 
-    //返回
+    // MARK:返回
     @objc func backBtnClick() -> Void {
         if batchBtn.isSelected { //
             selectedImageArr.removeAll()
@@ -136,7 +136,6 @@ class CDImageViewController:
                     file.isSelected = .CDFalse
                 }
                 selectCount = 0
-                
             }
             refreshUI(hasGif: hasGif)
         } else {
@@ -184,7 +183,7 @@ class CDImageViewController:
             }
         }
     }
-    //TODO:分享事件
+    //MARK:分享事件
     @objc func shareBarItemClick(){
         handelSelectedArr()
         var shareArr:[NSObject] = []
@@ -201,7 +200,7 @@ class CDImageViewController:
             self.batchHandleFiles(isBatch: false, type: .discover)
         }
     }
-    //移动
+    // MARK:移动
     @objc func moveBarItemClick(){
 
         handelSelectedArr()
@@ -218,14 +217,14 @@ class CDImageViewController:
 
     }
     
-    //导出
+    // MARK:导出
     @objc func outputBarItemClick(){
         handelSelectedArr()
         let outAlert = UIAlertController(title: nil, message: "您确定要导入选中的图片到系统相册？", preferredStyle: .alert)
         outAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
         outAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().showWait(text: "正在处理...")
+                CDHUDManager.shared.showWait(text: "正在处理...")
                 self.outputImageArr = self.selectedImageArr
                 self.outputPhotoToLocal()
             }
@@ -243,8 +242,8 @@ class CDImageViewController:
 
         } else {
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().hideWait()
-                CDHUDManager.shareInstance().showComplete(text: "导出成功!")
+                CDHUDManager.shared.hideWait()
+                CDHUDManager.shared.showComplete(text: "导出成功!")
                 //导出完成后，取消批量操作,恢复选中数据源
                 self.batchHandleFiles(isBatch: false, type: .discover)
             }
@@ -256,7 +255,7 @@ class CDImageViewController:
         outputPhotoToLocal()
     }
 
-    //删除
+    // MARK:删除
     @objc func deleteBarItemClick(){
         handelSelectedArr()
         func deleteTheSelectImage() -> Void {
@@ -273,8 +272,8 @@ class CDImageViewController:
             DispatchQueue.main.async {
                  //删除操作后，删除本地数据源中被删除的元素，取消批量操作,选中数据源以删除，不用恢复
                 self.batchHandleFiles(isBatch: false, type: .delete)
-                CDHUDManager.shareInstance().hideWait()
-                CDHUDManager.shareInstance().showComplete(text: "删除完成！")
+                CDHUDManager.shared.hideWait()
+                CDHUDManager.shared.showComplete(text: "删除完成！")
                 
             }
         }
@@ -283,7 +282,7 @@ class CDImageViewController:
         let btnTitle = selectedImageArr.count > 1 ? "删除\(selectedImageArr.count)张图片":"删除照片"
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUDManager.shareInstance().showWait(text: "删除中...")
+            CDHUDManager.shared.showWait(text: "删除中...")
             DispatchQueue.global().async {
                 deleteTheSelectImage()
             }
@@ -293,7 +292,7 @@ class CDImageViewController:
 
     }
     
-    //TODO:拼接
+    // MARK:拼接
     @objc func appendItemClick(){
         handelSelectedArr()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -324,7 +323,7 @@ class CDImageViewController:
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
-    //TODO:沙盒
+    //MARK: document
     @objc func documentItemClick(){
         let documentTypes = ["public.image"]
         super.subFolderId = folderInfo.folderId
@@ -336,7 +335,7 @@ class CDImageViewController:
         }
         presentDocumentPicker(documentTypes: documentTypes)
     }
-    //TODO:拍照
+    //MARK:拍照
     @objc func takePhotoClick() -> Void {
 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -348,24 +347,29 @@ class CDImageViewController:
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             } else {
-                let camera = CDCameraViewController()
-                camera.delegate = self
-                camera.isVideo = false
+//                let camera = CDCameraViewController()
+//                camera.delegate = self
+//                camera.isVideo = false
+//                camera.modalPresentationStyle = .fullScreen
+//                CDSignalTon.shared.customPickerView = camera
+//                self.present(camera, animated: true, completion: nil)
+                
+                let camera = GPUCameraViewController()
                 camera.modalPresentationStyle = .fullScreen
-                CDSignalTon.shareInstance().customPickerView = camera
+                camera.isVideo = false
                 self.present(camera, animated: true, completion: nil)
             }
         }
         
     }
-    //TODO:导入
+    //MARK:导入
     @objc func inputItemClick() -> Void {
         //保持屏幕常亮
         UIApplication.shared.isIdleTimerDisabled = true
         let cdPicker = CDMediaPickerViewController(isVideo: false)
         cdPicker.pickerDelegate = self
-        CDAssetTon.instance.mediaType = .CDMediaImage
-        CDSignalTon.shareInstance().customPickerView = cdPicker
+        CDAssetTon.shared.mediaType = .CDMediaImage
+        CDSignalTon.shared.customPickerView = cdPicker
         cdPicker.modalPresentationStyle = .fullScreen
         self.present(cdPicker, animated: true, completion: nil)
     }
@@ -410,41 +414,35 @@ class CDImageViewController:
     }
 
     
-    //TODO:CDCameraViewControllerDelegate
+    //MARK:CDCameraViewControllerDelegate
     func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, obj: Dictionary<String, Any>) {
-        CDSignalTon.shareInstance().saveOrigialImage(obj: obj, folderId: folderInfo.folderId)
+        CDSignalTon.shared.saveOrigialImage(obj: obj, folderId: folderInfo.folderId)
         self.isNeedReloadData = true
-        CDSignalTon.shareInstance().customPickerView = nil
+        CDSignalTon.shared.customPickerView = nil
         cameraVC.dismiss(animated: true, completion: nil)
     }
-
-    func onCameraTakePhotoDidCancle(cameraVC: CDCameraViewController) {
-        CDSignalTon.shareInstance().customPickerView = nil
-        cameraVC.dismiss(animated: true, completion: nil)
-
-    }
-    //TODO:CDMeidaPickerDelegate
+    //MARK:CDMeidaPickerDelegate
     func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
         
-        CDSignalTon.shareInstance().saveOrigialImage(obj: data, folderId: folderInfo.folderId)
+        CDSignalTon.shared.saveOrigialImage(obj: data, folderId: folderInfo.folderId)
                if index == 1 { //第一个出现进度条
                    DispatchQueue.main.async {
-                       CDHUDManager.shareInstance().showProgress(text: "开始导入！")
-                       CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+                       CDHUDManager.shared.showProgress(text: "开始导入！")
+                       CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
                    }
                }
                if index == totalCount  {
                    DispatchQueue.main.async {
-                       CDSignalTon.shareInstance().customPickerView = nil
+                       CDSignalTon.shared.customPickerView = nil
                        picker.dismiss(animated: true, completion: nil)
                        self.refreshDBData()
-                       CDHUDManager.shareInstance().hideProgress()
-                       CDHUDManager.shareInstance().showComplete(text: "导入完成！")
+                       CDHUDManager.shared.hideProgress()
+                       CDHUDManager.shared.showComplete(text: "导入完成！")
                    }
                    
                }else{
                    DispatchQueue.main.async {
-                       CDHUDManager.shareInstance().updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+                       CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
                    }
                    
                }
@@ -452,12 +450,12 @@ class CDImageViewController:
 
 
     func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
-        CDSignalTon.shareInstance().customPickerView = nil
+        CDSignalTon.shared.customPickerView = nil
         picker.dismiss(animated: true, completion: nil)
     }
 
     
-    //TODO:NSNotications
+    //MARK:NSNotications
     @objc func onNeedReloadData() {
         isNeedReloadData = true
     }
@@ -518,14 +516,14 @@ class CDImageViewController:
     //        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
     //        if isLast{
     //            DispatchQueue.main.async {
-    //                CDSignalTon.shareInstance().customPickerView = nil;
+    //                CDSignalTon.shared.customPickerView = nil;
     //                self.refreshDBData()
     //                picker.dismiss(animated: true, completion: nil)
     //            }
     //        }
     //    }
     
-    //    //TODO:UIImagePickerControllerDelegate
+    //    //MARK:UIImagePickerControllerDelegate
     //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     //        isNeedReloadData = true
     //        picker.dismiss(animated: true, completion: nil)

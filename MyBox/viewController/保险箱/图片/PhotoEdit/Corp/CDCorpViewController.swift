@@ -45,7 +45,7 @@ class CDCorpViewController: UIViewController,CDCorpToolsViewDelegate {
     }
 
 
-    //TODO:CDCorpToosBarDelegate
+    //MARK:CDCorpToosBarDelegate
     func onSelectCorpToolBar(barItem: CorpBarItem) {
         if barItem == .cancle {
             self.dismiss(animated: true, completion: nil)

@@ -50,14 +50,14 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
                 autoreleasepool {
                     let cdAsset:CDPHAsset = assets[i]
                     if cdAsset.format == .Live {
-                        CDAssetTon.shareInstance().getLivePhotoFromAsset(asset: cdAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
+                        CDAssetTon.shared.getLivePhotoFromAsset(asset: cdAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
                             if livePhoto != nil{
                                 let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":livePhoto!]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
                             }
                         }
                     }else{
-                        CDAssetTon.shareInstance().getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
+                        CDAssetTon.shared.getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
                             if image != nil{
                                 let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":image!]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
@@ -76,7 +76,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
     func handleVideo(assetArr: [CDPHAsset]){
         
         let cdAsset = assetArr.first
-        CDAssetTon.shareInstance().getVideoFromAsset(withAsset: cdAsset!.asset) { (tmpPath) in
+        CDAssetTon.shared.getVideoFromAsset(withAsset: cdAsset!.asset) { (tmpPath) in
             if tmpPath != nil {
                 self.performSelector(onMainThread: #selector(self.videoAssetWorkDone(tmpPath:)), with: tmpPath!, waitUntilDone: true)
             }
@@ -101,7 +101,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
 //            let asset = phAsset.asset
 //            let fileName = asset.value(forKeyPath: "filename")
 //            tmpDict.removeAllObjects()
-//            CDAssetTon.shareInstance().getPhotoWithAsset(phAsset: asset, photoWidth: 1280, networkAccessAllowed: true
+//            CDAssetTon.shared.getPhotoWithAsset(phAsset: asset, photoWidth: 1280, networkAccessAllowed: true
 //                , completion: { (image, info) in
 //                    if info!["PHImageResultIsInCloudKey"] as? Int  == 1{
 //                        DispatchQueue.main.async {
@@ -119,7 +119,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
 //                    else if(image == nil){
 //                        DispatchQueue.main.async {
 //                            CDHUD.hide()
-//                            CDHUDManager.shareInstance().showText(text: "数据异常")
+//                            CDHUDManager.shared.showText(text: "数据异常")
 //                        }
 //                    }
 //                    else{

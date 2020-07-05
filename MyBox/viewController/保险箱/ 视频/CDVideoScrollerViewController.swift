@@ -134,7 +134,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         fileDetail.fileInfo = fileInfo
         self.navigationController?.pushViewController(fileDetail, animated: true)
     }
-    //TODO:分享
+    //MARK:分享
     @objc func shareItemClick()
     {
         let fileInfo = fileArr[currentIndex]
@@ -142,7 +142,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         let url = URL(fileURLWithPath: videoPath)
         presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
-    //TODO:收藏
+    //MARK:收藏
     @objc func loveItemClick()
     {
         let fileInfo = fileArr[currentIndex]
@@ -166,7 +166,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         self.navigationController?.pushViewController(segmentVC, animated: true)
 
     }
-    //TODO:删除
+    //MARK:删除
     @objc func deleteItemItemClick()
     {
         let fileInfo = fileArr[currentIndex]
@@ -182,8 +182,8 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
             CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
 
             DispatchQueue.main.async {
-                CDHUDManager.shareInstance().hideWait()
-                CDHUDManager.shareInstance().showText(text: "删除成功")
+                CDHUDManager.shared.hideWait()
+                CDHUDManager.shared.showText(text: "删除成功")
 
             }
 

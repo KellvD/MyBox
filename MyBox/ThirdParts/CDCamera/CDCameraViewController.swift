@@ -12,7 +12,11 @@ import AVFoundation
 @objc protocol CDCameraViewControllerDelegate {
 
     @objc optional func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:Dictionary<String,Any>)
-    @objc optional func onCameraTakePhotoDidCancle(cameraVC:CDCameraViewController)
+}
+
+@objc protocol CDScanQRDelegate {
+
+    @objc optional func onScanQRDidFinshed(cameraVC:CDCameraViewController,obj:String)
 }
 class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCameraTopBarDelete{
     
@@ -147,7 +151,8 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
 
     //CDCameraBottomBarDelegate
     func onCanclePhoto() {
-        delegate.onCameraTakePhotoDidCancle!(cameraVC: self)
+        CDSignalTon.shared.customPickerView = nil
+        self.dismiss(animated: true, completion: nil)
     }
 
     func onTakePhoto() {
