@@ -58,7 +58,7 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
 
     func refleshListData() {
 
-        let musicArr:[CDMusicInfo] = CDSqlManager.instance().queryAllMusicWithClassId(classId: classId)
+        let musicArr:[CDMusicInfo] = CDSqlManager.shared.queryAllMusicWithClassId(classId: classId)
         tableView.listDataArr = musicArr
         tableView.reloadData()
     }
@@ -84,7 +84,7 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
     func onHandleOneMusicToDelete(musicInfo: CDMusicInfo) {
         let alertVC = UIAlertController(title: "提示", message: "确认要操作删除？", preferredStyle: .alert)
         let sureAc = UIAlertAction(title: "确定", style: .default) { (handle) in
-            CDSqlManager.instance().deleteOneMusicInfoWith(musicId: musicInfo.musicId)
+            CDSqlManager.shared.deleteOneMusicInfoWith(musicId: musicInfo.musicId)
             self.refleshListData()
         }
         let cancleAc = UIAlertAction(title: "取消", style: .cancel) { (handle) in

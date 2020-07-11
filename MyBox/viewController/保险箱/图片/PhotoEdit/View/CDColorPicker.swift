@@ -2,7 +2,7 @@
 //  CDColorPicker.swift
 //  MyBox
 //
-//  Created by changdong on 2020/7/2.
+//  Created by changdong  on 2020/7/2.
 //  Copyright © 2020 changdong. 2012-2019. All rights reserved.
 //
 

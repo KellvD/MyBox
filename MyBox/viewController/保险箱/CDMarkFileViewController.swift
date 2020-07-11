@@ -11,6 +11,7 @@ import UIKit
 enum CDMarkType:Int {
     case fileName = 1
     case fileMark = 2
+    case waterInfo = 3
 }
 protocol CDMarkFileDelegate {
     func onMarkFileSuccess()
@@ -42,7 +43,7 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         seprtorViewLast.backgroundColor = SeparatorGrayColor
         view.addSubview(seprtorViewLast)
 
-        let infoLength = getLengthOfStr(text: markInfo, needTrimSpaceCheck: true)
+        let infoLength = markInfo.getLength(needTrimSpaceCheck: true)
         remainNumberLabel = UILabel(frame: CGRect(x: 0, y: noteTextView.frame.maxY, width: CDSCREEN_WIDTH, height: 20));
         remainNumberLabel.text = "\(infoLength)/\(maxTextCount)"
         remainNumberLabel.textAlignment = .right
@@ -56,21 +57,23 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
 
     @objc func onSureBtnClick(){
         let tmpStr = noteTextView.text
-        let len = getLengthOfStr(text: tmpStr ?? "", needTrimSpaceCheck: true)
+        let len = tmpStr?.getLength(needTrimSpaceCheck: true)
 
 
-        if len > maxTextCount {
+        if len! > maxTextCount {
             if markType  == .fileName{
                 CDHUDManager.shared.showText(text: "文件名长度不能超过\(maxTextCount)个字符")
-            }else{
+            }else if markType == .fileMark{
                 CDHUDManager.shared.showText(text: "备注长度不能超过\(maxTextCount)个字符")
+            }else if markType  == .waterInfo{
+                CDHUDManager.shared.showText(text: "水印长度不能超过\(maxTextCount)个字符")
             }
             return
         }
         remainNumberLabel.text = "\(len)/\(maxTextCount)"
 
         if markType  == .fileName{
-            markInfo = removeSpaceAndNewline(str: noteTextView.text!)
+            markInfo = noteTextView.text.removeSpaceAndNewline()
             if markInfo.count == 0{
                 CDHUDManager.shared.showText(text: "文件名不能为空")
                 return
@@ -87,7 +90,7 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
                 markInfo.range(of: "*") != nil ||
                 markInfo.range(of: ".") != nil ||
                 markInfo.range(of: "&") != nil ||
-                stringContainsEmoji(string: markInfo)){
+                markInfo.isContainsEmoji()){
                 let alert = UIAlertController(title: nil, message: "名称中不能包含表情及非法字符:\\ / < > : \" | ? * .&", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -95,14 +98,22 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
                 return
             }
 
-            CDSqlManager.instance().updateOneSafeFileName(fileName: markInfo, fileId: fileId)
-        }else{
+            CDSqlManager.shared.updateOneSafeFileName(fileName: markInfo, fileId: fileId)
+            delegate.onMarkFileSuccess()
+        }else if markType == .fileMark{
 
             markInfo = noteTextView.text
-            CDSqlManager.instance().updateOneSafeFileMarkInfo(markInfo: markInfo, fileId: fileId)
+            CDSqlManager.shared.updateOneSafeFileMarkInfo(markInfo: markInfo, fileId: fileId)
+            delegate.onMarkFileSuccess()
+        }else if markType == .waterInfo{
+
+            CDWaterBean.setWaterConfig(isOn: true, text: noteTextView.text)
+            CDSignalTon.shared.waterBean = CDWaterBean()
+            let myDelegate = UIApplication.shared.delegate as! CDAppDelegate
+            CDSignalTon.shared.addWartMarkToWindow(appWindow: myDelegate.window!)
         }
 
-        delegate.onMarkFileSuccess()
+        
         self.navigationController?.popViewController(animated: true)
 
 
@@ -113,7 +124,7 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
             if markedRange == nil ||
                 markedRange!.isEmpty{
                 let tmpStr = textView.text
-                let len = getLengthOfStr(text: tmpStr!, needTrimSpaceCheck: true)
+                let len = tmpStr!.getLength(needTrimSpaceCheck: true)
                 remainNumberLabel.text = "\(len)/\(maxTextCount)"
 
             }

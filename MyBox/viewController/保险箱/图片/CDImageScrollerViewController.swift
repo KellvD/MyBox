@@ -173,11 +173,11 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
             loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
-            CDSqlManager.instance().updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
         }else{
             fileInfo.grade = .normal
             loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
-            CDSqlManager.instance().updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
     }
     
@@ -192,7 +192,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             //删除加密大图
             let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
             fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {
                 CDHUDManager.shared.showComplete(text: "删除完成！")

@@ -83,7 +83,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func refreshData() {
         selectedVideoArr.removeAll()
         toolbar.enableReloadBar(isSelected: false)
-        videoArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: folderInfo.folderId)
+        videoArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         collectionView.reloadData()
     }
     //多选
@@ -266,7 +266,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             //删除加密大图
             let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
             fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
         }
         DispatchQueue.main.async {
             CDHUDManager.shared.hideWait()
@@ -291,35 +291,38 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     //MARK:拍照
     @objc func takePhotoClick() -> Void {
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-            if authStatus == .denied ||
-                authStatus == .restricted{
-                
-                let alert = UIAlertController(title: "相机访问被拒绝", message: "请在”设置-隐私-相机“中，允许相机访问本应用", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }else{
-                let camera = CDCameraViewController()
-                camera.delegate = self
-                camera.isVideo = true
-                camera.modalPresentationStyle = .fullScreen
-                self.present(camera, animated: true, completion: nil)
+        checkPermission(type: .camera) { (isAllow) in
+            if isAllow {
+                DispatchQueue.main.async {
+                    let camera = CDCameraViewController()
+                    camera.delegate = self
+                    camera.isVideo = true
+                    camera.modalPresentationStyle = .fullScreen
+                    self.present(camera, animated: true, completion: nil)
+                }
+            } else {
+                openPermission(type: .camera, viewController: self)
             }
-            
         }
         
     }
     //MARK:导入
     @objc func inputItemClick() -> Void {
-        //保持屏幕常亮
-        let elcPicker = CDMediaPickerViewController(isVideo: true)
-        elcPicker.pickerDelegate = self
-        CDAssetTon.shared.mediaType = .CDMediaVideo
-        elcPicker.folderId = folderInfo.folderId
-        CDSignalTon.shared.customPickerView = elcPicker
-        elcPicker.modalPresentationStyle = .fullScreen
-        self.present(elcPicker, animated: true, completion: nil)
+        checkPermission(type: .camera) { (isAllow) in
+            if isAllow {
+                //保持屏幕常亮
+                let elcPicker = CDMediaPickerViewController(isVideo: true)
+                elcPicker.pickerDelegate = self
+                CDAssetTon.shared.mediaType = .CDMediaVideo
+                elcPicker.folderId = self.folderInfo.folderId
+                CDSignalTon.shared.customPickerView = elcPicker
+                elcPicker.modalPresentationStyle = .fullScreen
+                self.present(elcPicker, animated: true, completion: nil)
+            } else {
+                openPermission(type: .Library, viewController: self)
+            }
+        }
+        
     }
     
     //MARK:沙盒导入

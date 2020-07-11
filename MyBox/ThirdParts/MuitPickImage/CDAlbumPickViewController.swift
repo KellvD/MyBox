@@ -21,16 +21,7 @@ class CDAlbumPickViewController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.white
         let cancle = UIBarButtonItem(barButtonSystemItem: .cancel, target: assetDelegate, action: #selector(cancleMediaPicker))
         self.navigationItem.rightBarButtonItem = cancle
-
-        CDAssetTon.shared.authorizationStatusAuthorized(Result: { (result) in
-            if !result{
-                let alert = UIAlertController(title: "相册被拒绝访问", message: "请在“设置-隐私-相机”选项中，允许本应用访问你的手机相机。", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }else{
-                self.loadAllAlbum()
-            }
-        })
+        self.loadAllAlbum()
 
     }
 

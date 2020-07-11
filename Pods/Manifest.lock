@@ -1,0 +1,40 @@
+PODS:
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.2.0)
+  - MJRefresh (3.4.3)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
+  - SSZipArchive (2.2.3)
+  - UnrarKit (2.9):
+    - UnrarKit/unrar-lib (= 2.9)
+  - UnrarKit/unrar-lib (2.9)
+
+DEPENDENCIES:
+  - Masonry
+  - MBProgressHUD
+  - MJRefresh
+  - SQLite.swift
+  - SSZipArchive
+  - UnrarKit
+
+SPEC REPOS:
+  trunk:
+    - Masonry
+    - MBProgressHUD
+    - MJRefresh
+    - SQLite.swift
+    - SSZipArchive
+    - UnrarKit
+
+SPEC CHECKSUMS:
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  MJRefresh: 53e3e3219f204425ee6d3e62e8733d3295944cd6
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  UnrarKit: 99e3f0222a98a212188e1a6975dcf5aa798d26dd
+
+PODFILE CHECKSUM: bb7064dc95befc2e2a728602b2b3c31da0dc6bb7
+
+COCOAPODS: 1.9.3

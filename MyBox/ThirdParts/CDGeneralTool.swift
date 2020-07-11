@@ -76,6 +76,7 @@ class CDGeneralTool: NSObject {
     class func getAllContentsOfDirectory(dirPath:String) ->(filesArr:[String],directoiesArr:[String]){
         var filePaths = [String]()
          var subDirPaths = [String]()
+
         do {
             let array = try FileManager.default.contentsOfDirectory(atPath: dirPath)
             for fileName in array {

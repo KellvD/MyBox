@@ -52,14 +52,14 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
                     if cdAsset.format == .Live {
                         CDAssetTon.shared.getLivePhotoFromAsset(asset: cdAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
                             if livePhoto != nil{
-                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":livePhoto!]
+                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":livePhoto!,"imageType":"live"]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
                             }
                         }
                     }else{
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: cdAsset.asset) { (image) in
                             if image != nil{
-                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":image!]
+                                let dic:[String:Any] = ["fileName":cdAsset.fileName!,"file":image!,"imageType":"normal"]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: assets.count)
                                 
                             }
@@ -129,7 +129,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
 //                        let gifImageUrl = info!["PHImageFileURLKey"] as? URL
 //
 //
-//                            if (gifImageUrl != nil) && checkFileTypeWithExternString(externStr: gifImageUrl!.pathExtension) == .GifType{
+//                            if (gifImageUrl != nil) && getFileSuffix(externStr: gifImageUrl!.pathExtension) == .GifType{
 //                                suffix = ".gif";
 //                                isGif = true;
 //                            }

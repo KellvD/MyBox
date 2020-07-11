@@ -53,10 +53,10 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         bottomBar.delegate = self
         self.view.addSubview(bottomBar)
 
-        delayLabel = UILabel(frame: CGRect(x: self.view.frame.midX - 50, y: self.view.frame.midY - 80, width: 100, height: 160))
+        delayLabel = UILabel(frame: CGRect(x: self.view.frame.midX - 80, y: self.view.frame.midY - 100, width: 160, height: 200))
         delayLabel.textColor = .white
         delayLabel.textAlignment = .center
-        delayLabel.font = UIFont.boldSystemFont(ofSize: 64)
+        delayLabel.font = UIFont.boldSystemFont(ofSize: 180)
         self.view.addSubview(delayLabel)
         delayLabel.isHidden = true
         
@@ -139,7 +139,6 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
                 popAnimation.timingFunctions = [CAMediaTimingFunction(name: .easeInEaseOut),
                                                 CAMediaTimingFunction(name: .easeInEaseOut),
                                                 CAMediaTimingFunction(name: .easeInEaseOut)]
-                self.delayLabel.frame = CGRect(x: self.view.frame.midX - 50, y: self.view.frame.midY - 80, width: 100, height: 160)
                 self.delayLabel.layer.add(popAnimation, forKey: nil)
             } else {
                 self.delayLabel.isHidden = true
@@ -151,6 +150,7 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
 
     //CDCameraBottomBarDelegate
     func onCanclePhoto() {
+        cameraManger.cancleCamera()
         CDSignalTon.shared.customPickerView = nil
         self.dismiss(animated: true, completion: nil)
     }

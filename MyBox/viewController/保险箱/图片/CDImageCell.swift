@@ -107,7 +107,7 @@ class CDImageCell: UICollectionViewCell {
             gifL.isHidden = true
         }
 
-        let tmpPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
+        let tmpPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
             mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")

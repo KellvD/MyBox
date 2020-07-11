@@ -179,9 +179,21 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         }
     }
     
+    //取消拍照
+    func cancleCamera(){
+        //倒计时时取消
+        closeTimer()
+    }
+    
     func takePhoto(){
-        let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg])
-        imageOutput.capturePhoto(with: setting, delegate: self)
+        if #available(iOS 11.0, *) {
+            let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg])
+            imageOutput.capturePhoto(with: setting, delegate: self)
+        } else {
+            let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG])
+            imageOutput.capturePhoto(with: setting, delegate: self)
+        }
+        
     }
 
     func reloadLayer(){
@@ -212,26 +224,11 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         if metadataObjects.count > 0 {
              let metaobject = metadataObjects.first
             if (metaobject is AVMetadataFaceObject) {
-//                let faceObject = metaobject as! AVMetadataFaceObject
                 
             }else if (metaobject is AVMetadataMachineReadableCodeObject) {
                 let codeObject = previewLayer.transformedMetadataObject(for: metaobject!) as! AVMetadataMachineReadableCodeObject
                 let string = codeObject.stringValue
-//                let path = UIBezierPath()
-//                let cornerArr = codeObject.corners
-//                let point = cornerArr[0]
-//
-//                path.move(to: point)
-//
-//                for i in 1..<cornerArr.count {
-//                    let point1 = cornerArr[i]
-//                    path.addLine(to: point1)
-//                }
-//                path.close()
-//                shapeLayer.path = path.cgPath
                 qrView.frame = codeObject.bounds
-                
-                
                 if string!.count > 0 {
 
                     //扫描到二维码后取消输出，避免扫描不停的回调
@@ -287,6 +284,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         closeTimer()
         takeVideoComplete(outputFileURL)
     }
+    
     //MARK:相机操作
     func cameraTurnAround(){
         let animation = CATransition()
@@ -321,6 +319,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         }
         captureSession.commitConfiguration()
     }
+    
     //预览缩放
     @objc func onZoomViewAction(pitch:UIPinchGestureRecognizer) {
         if pitch.state == .began ||

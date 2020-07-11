@@ -74,7 +74,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     
     func refreshData(superId:Int) {
         toolbar.enableReloadBar(isSelected: false)
-        textTD = CDSqlManager.instance().queryAllContentFromFolder(folderId: superId)
+        textTD = CDSqlManager.shared.queryAllContentFromFolder(folderId: superId)
         tablebview.reloadData()
     }
     
@@ -215,7 +215,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         var shareArr:[NSObject] = []
         for index in 0..<self.selectedFileArr.count{
             let file:CDSafeFileInfo = self.selectedFileArr[index]
-            let filePath = String.libraryUserdataPath().appendingPathComponent(str: file.filePath)
+            let filePath = String.RootPath().appendingPathComponent(str: file.filePath)
             let url = URL(fileURLWithPath: filePath)
             shareArr.append(url as NSObject)
         }
@@ -252,26 +252,26 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             DispatchQueue.global().async {
                 for index in 0..<self.selectedFileArr.count{
                     let fileInfo = self.selectedFileArr[index]
-                    let filePath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                    let filePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
                     
                     try! FileManager.default.removeItem(atPath: filePath)
-                    CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+                    CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
                     
                 }
                 self.selectedFolderArr.forEach { (folderInfo) in
                     /*
                      文件夹中文件filePath：other/xxx/xxx/xxx，不能取最后部分拼接在other上
                      */
-                    let folderPath = String.libraryUserdataPath().appendingPathComponent(str: folderInfo.folderPath)
+                    let folderPath = String.RootPath().appendingPathComponent(str: folderInfo.folderPath)
                     try! FileManager.default.removeItem(atPath: folderPath)
                     //删除数据库中数据，逐级删除文件
                     func deleteAllSubContent(subFolderId:Int){
                         //删除一级目录
-                        CDSqlManager.instance().deleteOneFolder(folderId: subFolderId)
+                        CDSqlManager.shared.deleteOneFolder(folderId: subFolderId)
                         //删除目录下子文件
-                        CDSqlManager.instance().deleteAllSubSafeFile(folderId: subFolderId)
+                        CDSqlManager.shared.deleteAllSubSafeFile(folderId: subFolderId)
                         
-                        let subAllFolders = CDSqlManager.instance().querySubAllFolderId(folderId: subFolderId)
+                        let subAllFolders = CDSqlManager.shared.querySubAllFolderId(folderId: subFolderId)
                         for folderId in subAllFolders {
                             deleteAllSubContent(subFolderId: folderId)
                         }
@@ -295,7 +295,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     //MARK:
     @objc func documentItemClick(){
         //查询地址：https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259
-        let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.content"]
+        let documentTypes = ["public.text","com.adobe.pdf","com.microsoft.word.doc","com.microsoft.excel.xls","com.microsoft.powerpoint.ppt","public.archive"]
         super.subFolderId = gFolderInfo.folderId
         super.subFolderType = gFolderInfo.folderType
         
@@ -431,7 +431,7 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
                     unArchiveZip(fileInfo: fileInfo)
                     
                 } else{
-                    let filePath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                    let filePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
                     let url = URL(fileURLWithPath: filePath)
                     let documentVC = UIDocumentInteractionController(url: url)
                     documentVC.name = fileInfo.fileName
@@ -531,9 +531,9 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     
     
     func unArchiveZip(fileInfo:CDSafeFileInfo){
-        let zipPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+        let zipPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
         //取压缩文件的目录
-        var desDirPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath.stringByDeletingPathExtension())
+        var desDirPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath.removeSuffix())
         var isDir:ObjCBool = true
         if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
             if isDir.boolValue {
@@ -598,27 +598,31 @@ class CDTextViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         folderInfo.isLock = LockOn
         folderInfo.fakeType = .visible
         folderInfo.createTime = Int(createtime)
+        folderInfo.modifyTime = Int(createtime)
+        folderInfo.accessTime = Int(createtime)
         folderInfo.userId = CDUserId()
         folderInfo.superId = superId;
-        folderInfo.folderPath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: path)
-        let folderId = CDSqlManager.instance().addSafeFoldeInfo(folder: folderInfo)
+        folderInfo.folderPath = path.relativePath()
+        let folderId = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
+        
         Return(folderId)
     }
     func saveSubFiles(path:String,superId:Int) {
         let fileInfo = CDSafeFileInfo()
         var fileName = path.getFileNameFromPath()
         fileName = fileName.removingPercentEncoding()
-        let suffix = path.pathExtension()
-        fileInfo.fileType = checkFileTypeWithExternString(externStr: suffix)
+        let suffix = path.getSuffix()
+        fileInfo.fileType = suffix.getFileTypeFromSuffix()
         fileInfo.fileSize = getFileSizeAtPath(filePath: path)
         
-        let currentTime = getCurrentTimestamp()
         fileInfo.folderId = superId
         fileInfo.userId = CDUserId()
         fileInfo.fileName = fileName
-        fileInfo.createTime = currentTime
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: path)
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+        fileInfo.createTime =  getCurrentTimestamp()
+        fileInfo.modifyTime = getCurrentTimestamp()
+        fileInfo.accessTime = getCurrentTimestamp()
+        fileInfo.filePath = path.relativePath()
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
     func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)

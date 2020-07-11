@@ -19,7 +19,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let _ = CDSqlManager.instance()
+        let _ = CDSqlManager.shared
         let _ = CDSignalTon.shared
         let _ = CDMusicManager.shareInstance()
         let _ = CDEditManager.shareInstance()
@@ -27,6 +27,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = UIColor.white
 
+        application.statusBarStyle = .lightContent
         let shadow = NSShadow()
         shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0)
         shadow.shadowOffset = CGSize(width: 0, height: 0)
@@ -39,14 +40,27 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         textAttributes[.attachment] = TextBigFont
         navBar.titleTextAttributes = textAttributes
 
-//        if !isLogin(){
-//            loginNav = UINavigationController(rootViewController: CDMusicViewController())
-            self.window?.rootViewController = CDTabBarViewController()
-//        }else{
-//            lockOrUnlock()
-//        }
         
-        CDSignalTon.shared.addWartMarkToWindow(appWindow: window!)
+        CDSignalTon.shared.tab = CDTabBarViewController()
+        
+        if !isFirstInstall(){
+            self.window?.rootViewController = CDSignalTon.shared.tab
+            let realpwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
+            let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
+            if !realpwd.isEmpty || !fakePwd.isEmpty {
+                let lockVC = CDLockViewController()
+                loginNav = UINavigationController(rootViewController: lockVC)
+            }
+
+        }else{
+            self.window?.rootViewController = CDSignalTon.shared.tab
+        }
+        
+        if CDSignalTon.shared.waterBean.isOn {
+            CDSignalTon.shared.addWartMarkToWindow(appWindow: window!)
+        } else {
+            CDSignalTon.shared.removeWaterMarkFromWindow(window: window!)
+        }
         return true
     }
 
@@ -54,29 +68,22 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         defaultImageView?.removeFromSuperview()
         defaultView?.removeFromSuperview()
         
-        CDSignalTon.shared.addWartMarkToWindow(appWindow: window!)
         if isEnterBackground{
             isEnterBackground = false
             if self.window?.rootViewController != loginNav {
                 self.loginNav?.popViewController(animated: false)
             }
         }
-//        let naviArr:NSMutableArray = NSMutableArray.init(array: (loginNav?.viewControllers)!)
-//
-//        if naviArr.count <= 0 {
-//            return
-//        }
-//        let firstVC = naviArr[0] as! CDBaseAllViewController
-//        if firstVC.isKind(of: CDLockViewController.self){
-//            let gestureVC = CDLockViewController()
-//            naviArr.removeObject(at: 0)
-//            naviArr.add(gestureVC)
-//            loginNav?.viewControllers = naviArr as! [UIViewController]
-//        }
-//        self.window?.rootViewController = loginNav
-//        NotificationCenter.default.post(name: NSNotification.Name.init("CDLockViewController"), object: nil)
-//
-//        isEnterBackground = false
+        if !isFirstInstall() {
+            let realpwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
+            let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
+            if !realpwd.isEmpty || !fakePwd.isEmpty {
+                let lockVC = CDLockViewController()
+                loginNav = UINavigationController(rootViewController: lockVC)
+
+            }
+        }
+        isEnterBackground = false
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -108,7 +115,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
         let label = UILabel.init(frame: CGRect(x: 0, y: iconY+170-30, width: Int(CDSCREEN_WIDTH), height: 40))
         label.textAlignment = .center
-        label.text = "墨凌风起"
+        label.text = getAppName()
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 24)
         defaultView.addSubview(label)

@@ -21,8 +21,10 @@ class CDSafeFolder : NSObject {
     var folderId = Int()       //文件夹id
     var folderType:NSFolderType! //文件夹类型
     var isLock = Int()           //文件夹是否新建还是默认
-    var fakeType = CDFakeType.visible         //文件夹访客可见不可见
+    var fakeType = CDFakeType.invisible         //文件夹访客可见不可见
     var createTime = Int()       //文件夹创建时间
+    var modifyTime = Int() //修改时间
+    var accessTime = Int() //访问时间
     var userId = Int()           //预留，多账户使用
     var superId = Int()          //多层级文件夹时顶级文件夹的ID
     var folderPath = String()    //文件夹路径
@@ -37,7 +39,9 @@ class CDSafeFileInfo: NSObject {
     var fileWidth = Double()
     var fileHeight = Double()
     var timeLength = Double()
-    var createTime = Int()
+    var createTime = Int() //创建时间
+    var modifyTime = Int() //修改时间
+    var accessTime = Int() //访问时间
     var fileType:NSFileType!
     var fileName = String()
     var fileText = String()

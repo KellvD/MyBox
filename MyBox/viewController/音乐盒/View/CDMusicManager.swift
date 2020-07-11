@@ -33,7 +33,7 @@ class CDMusicManager: NSObject,AVAudioPlayerDelegate {
     }
     func playWithMusic(musicInfo:CDMusicInfo) {
 
-        let musicPath = String.libraryUserdataPath().appendingPathComponent(str: musicInfo.musicPath)
+        let musicPath = String.RootPath().appendingPathComponent(str: musicInfo.musicPath)
 
         let session = AVAudioSession.sharedInstance()
         do {
@@ -83,17 +83,17 @@ class CDMusicManager: NSObject,AVAudioPlayerDelegate {
 
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 
-        let musicInfo = currentPlayList[currentPlayIndex]
-        playWithMusic(musicInfo: musicInfo)
-        if getCurrentCircleType() == .CDCircle_Queue { //顺序循环
-            currentPlayIndex += 1
-            if currentPlayIndex == currentPlayList.count {
-                currentPlayIndex = 0
-            }
-        }else if getCurrentCircleType() == .CDCircle_Random{
-            let count:UInt32 = UInt32(currentPlayList.count)
-            currentPlayIndex  = Int(arc4random() % count) + 1
-        }
+//        let musicInfo = currentPlayList[currentPlayIndex]
+//        playWithMusic(musicInfo: musicInfo)
+//        if getCurrentCircleType() == .CDCircle_Queue { //顺序循环
+//            currentPlayIndex += 1
+//            if currentPlayIndex == currentPlayList.count {
+//                currentPlayIndex = 0
+//            }
+//        }else if getCurrentCircleType() == .CDCircle_Random{
+//            let count:UInt32 = UInt32(currentPlayList.count)
+//            currentPlayIndex  = Int(arc4random() % count) + 1
+//        }
 
         
     }
@@ -129,17 +129,17 @@ class CDMusicManager: NSObject,AVAudioPlayerDelegate {
 
 
 }
-@inline(__always)func getCurrentMusicId() ->Int{
-    let musicId = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentMusicIdKey)
-    return musicId
-}
-@inline(__always)func getCurrentClassId() ->Int{
-    let classId = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentClassIdKey)
-    return classId
-}
-@inline(__always)func getCurrentCircleType() ->CDCircleType {
-    let curcleTypeInt = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentCircleKey)
-
-    let circleType:CDCircleType = CDCircleType(rawValue: curcleTypeInt) ?? .CDCircle_Queue
-    return circleType
-}
+//@inline(__always)func getCurrentMusicId() ->Int{
+//    let musicId = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentMusicIdKey)
+//    return musicId
+//}
+//@inline(__always)func getCurrentClassId() ->Int{
+//    let classId = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentClassIdKey)
+//    return classId
+//}
+//@inline(__always)func getCurrentCircleType() ->CDCircleType {
+//    let curcleTypeInt = CDConfigFile.getIntValueFromConfigWith(key: CD_CurrentCircleKey)
+//
+//    let circleType:CDCircleType = CDCircleType(rawValue: curcleTypeInt) ?? .CDCircle_Queue
+//    return circleType
+//}

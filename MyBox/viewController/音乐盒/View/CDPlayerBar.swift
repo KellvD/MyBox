@@ -81,7 +81,7 @@ class CDPlayerBar: UIView,CDMusicPlayDelegate {
         }
     }
     @objc func playBtnClick(sender:UIButton){
-        let status = CDConfigFile.getBoolValueFromConfigWith(key: CD_MusicPlayerStatus)
+//        let status = CDConfigFile.getBoolValueFromConfigWith(key: CD_MusicPlayerStatus)
 
         if player!.isPlaying {
             playBtn.setBackgroundImage(LoadImageByName(imageName: "bar_stop", type: "png"), for: .normal)

@@ -48,12 +48,6 @@ let waterMarkTag = 98764
 let CDPrint = print
 let ROOTSUPERID = -1
 
-let CD_TouchIdSwi = "touchId"
-let CD_FakeSwi = "faketype"
-let CD_WaterSwi = "faketype"
-let CD_UserId = "userid"
-let CD_LoginType = "loginType"
-
 let CD_ReaderBgModel = "ReaderBgModel"
 let CD_ChapterIndex = "chapterIndex"
 
@@ -65,17 +59,19 @@ let RefreshProgress = NSNotification.Name(rawValue: "RefreshProgress")
 let BarsHiddenOrNot = NSNotification.Name(rawValue: "BarsHiddenOrNot")
 let PlayThePlayer = NSNotification.Name(rawValue: "PlayThePlayer")
 
+let EmojiRegularExpression = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5 ]+\\]"
 
 let TextBigFont = UIFont.systemFont(ofSize: 20)
 let TextMidFont =  UIFont.systemFont(ofSize: 17)
 let TextSmallFont =  UIFont.systemFont(ofSize: 12)
 let TextMidSmallFont = UIFont.systemFont(ofSize: 15)
+
 enum NSFolderType:Int {
     case ImageFolder = 0
     case AudioFolder = 1
     case VideoFolder = 2
     case TextFolder = 3
-    case OtherFolder = 4
+//    case OtherFolder = 4
 }
 //
 enum NSFileType:Int {
@@ -95,7 +91,7 @@ enum NSFileType:Int {
     case OtherType = 13
 }
 enum CDBrightType:Int {
-    case Bright = 1
+    case Bright = 0
 }
 enum CDEditorsType:Int {
     case Crop = 1 //剪裁
@@ -165,3 +161,10 @@ enum CDDevicePermissionType:Int {
     case location = 4
     
 }
+//-----------------------------logCongig
+enum CDLogLevel:Int {
+    case Debug = 0
+    case Info = 1
+    case Error = 2
+}
+

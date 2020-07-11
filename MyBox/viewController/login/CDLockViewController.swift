@@ -76,7 +76,7 @@ class CDLockViewController:CDBaseAllViewController {
     @objc func loginBtnClick() -> Void {
         pwdTextFiled.resignFirstResponder()
 //        let inputPwd = self.pwdTextFiled.text?.md5
-//        let pwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
+//        let pwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
 //
 //        if JudgeStringIsEmpty(string:pwd) {
 //           CDHUDManager.shared.showText(text: "请输入密码")

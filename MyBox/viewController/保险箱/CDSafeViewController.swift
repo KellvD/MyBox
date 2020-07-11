@@ -23,7 +23,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 //            setPwdVC.title = "设置密码"
 //            self.navigationController?.pushViewController(setPwdVC, animated: true)
 //        }
-        folderArr = CDSqlManager.instance().queryDefaultAllFolder()
+        folderArr = CDSqlManager.shared.queryDefaultAllFolder()
         tableView.reloadData()
     }
 
@@ -143,13 +143,14 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             
             let folderDVC = CDFolderDetailViewController()
             folderDVC.folderInfo = folderInfo
+            folderDVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(folderDVC, animated: true)
         }
         detail.backgroundColor = UIColor.blue
         if folderInfo.isLock == LockOn  {
             let delete = UITableViewRowAction(style: .normal, title: "删除") { (action, index) in
-                CDSqlManager.instance().deleteOneFolder(folderId: folderInfo.folderId)
-                self.folderArr = CDSqlManager.instance().queryDefaultAllFolder()
+                CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
+                self.folderArr = CDSqlManager.shared.queryDefaultAllFolder()
                 tableView.reloadData()
             }
             delete.backgroundColor = UIColor.red
@@ -165,13 +166,14 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         let detail = UIContextualAction(style: .normal, title: "详情") { (action, view, handle) in
             let folderDVC = CDFolderDetailViewController()
             folderDVC.folderInfo = folderInfo
+            folderDVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(folderDVC, animated: true)
         }
         detail.image = UIImage(named: "fileDetail")
         if folderInfo.isLock == LockOn  {
             let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
-                CDSqlManager.instance().deleteOneFolder(folderId: folderInfo.folderId)
-                self.folderArr = CDSqlManager.instance().queryDefaultAllFolder()
+                CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
+                self.folderArr = CDSqlManager.shared.queryDefaultAllFolder()
                 tableView.reloadData()
             }
             delete.backgroundColor = .red
@@ -184,6 +186,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
     @objc func setBtnClick()->Void{
         let setVC = CDSettingViewController()
+        setVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(setVC, animated: true)
 
     }
@@ -201,6 +204,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if title == "新建文件夹" {
             let newVC = CDNewFolderViewController()
             newVC.Cdelete = self
+            newVC.hidesBottomBarWhenPushed  = true
             self.navigationController?.pushViewController(newVC, animated: true)
         } else if title == "扫一扫" {
             let camera = CDCameraViewController()
@@ -210,6 +214,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             self.present(camera, animated: true, completion: nil)
         } else if title == "电子书" {
            let setVC = CDSettingViewController()
+            setVC.hidesBottomBarWhenPushed  = true
            self.navigationController?.pushViewController(setVC, animated: true)
         }
     }

@@ -46,8 +46,8 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
 
     @objc func saveBtnClick(sender:UIButton){
-        let contentStr:String = removeSpaceAndNewline(str: textView.text)
-        if JudgeStringIsEmpty(string: contentStr){
+        let contentStr:String = textView.text.removeSpaceAndNewline()
+        if contentStr.isEmpty{
             CDHUDManager.shared.showText(text: "啥也没写呢")
             return
         }
@@ -62,8 +62,10 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         fileInfo.folderId = folderId
         fileInfo.fileName = fileName
         fileInfo.createTime = getCurrentTimestamp()
+        fileInfo.modifyTime = getCurrentTimestamp()
+        fileInfo.accessTime = getCurrentTimestamp()
         fileInfo.fileType = NSFileType.PlainTextType
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
         self.navigationController?.popViewController(animated: true);
     }
 

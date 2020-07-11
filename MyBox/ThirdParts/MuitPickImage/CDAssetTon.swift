@@ -348,8 +348,14 @@ class CDAssetTon: NSObject {
         imageRequestOption.resizeMode = .none // 缩略图的压缩模式设置为无
         imageRequestOption.deliveryMode = .opportunistic// 缩略图的质量为高质量
         imageRequestOption.isNetworkAccessAllowed = true
-        manager.requestImageDataAndOrientation(for: asset, options: imageRequestOption) { (data, des, orientation, info) in
-            Result(data,info)
+        if #available(iOS 13, *) {
+            manager.requestImageDataAndOrientation(for: asset, options: imageRequestOption) { (data, des, orientation, info) in
+                Result(data,info)
+            }
+        } else {
+            manager.requestImageData(for: asset, options: imageRequestOption) { (data, des, orientation, info) in
+                Result(data,info)
+            }
         }
     }
     

@@ -96,7 +96,7 @@ class CDMusicMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
             let singerL = cell.viewWithTag(103) as! UILabel
 
             if musicInfo != nil{
-                let imagePath = String.libraryUserdataPath().appendingPathComponent(str: musicInfo.musicImage)
+                let imagePath = String.RootPath().appendingPathComponent(str: musicInfo.musicImage)
                 var image = UIImage(contentsOfFile: imagePath)
                 if image == nil{
                     image = LoadImageByName(imageName: "defaultMusicImage", type: "png")

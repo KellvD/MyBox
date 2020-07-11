@@ -25,6 +25,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor.white
         self.popBtn = UIButton(type: .custom)
         self.popBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
@@ -68,6 +69,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
                         fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
+                            
                             CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
                             tmpUrlArr.removeFirst()
                             handleAllDocumentPickerFiles(urlArr: tmpUrlArr)

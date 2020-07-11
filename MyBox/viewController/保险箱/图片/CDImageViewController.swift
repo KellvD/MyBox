@@ -171,7 +171,7 @@ class CDImageViewController:
         //沙盒导入，拍照，图库，拼接刷新DB数据源
         selectedImageArr.removeAll()
         toolbar.enableReloadBar(isSelected: false)
-        imageArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: folderInfo.folderId)
+        imageArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         collectionView.reloadData()
     }
     
@@ -267,7 +267,7 @@ class CDImageViewController:
                 //删除加密大图
                 let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
                 fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-                CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+                CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             }
             DispatchQueue.main.async {
                  //删除操作后，删除本地数据源中被删除的元素，取消批量操作,选中数据源以删除，不用恢复
@@ -337,41 +337,50 @@ class CDImageViewController:
     }
     //MARK:拍照
     @objc func takePhotoClick() -> Void {
-
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-            if authStatus == .denied ||
-                authStatus == .restricted{
-
-                let alert = UIAlertController(title: "相机访问被拒绝", message: "请在”设置-隐私-相机“中，允许相机访问本应用", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+        
+        checkPermission(type: .camera) { (isAllow) in
+            if isAllow {
+                DispatchQueue.main.async {
+                    let camera = CDCameraViewController()
+                    camera.delegate = self
+                    camera.isVideo = false
+                    camera.modalPresentationStyle = .fullScreen
+                    CDSignalTon.shared.customPickerView = camera
+                    self.present(camera, animated: true, completion: nil)
+                    
+                    //                let camera = GPUCameraViewController()
+                    //                camera.modalPresentationStyle = .fullScreen
+                    //                camera.isVideo = false
+                    //                self.present(camera, animated: true, completion: nil)
+                }
             } else {
-//                let camera = CDCameraViewController()
-//                camera.delegate = self
-//                camera.isVideo = false
-//                camera.modalPresentationStyle = .fullScreen
-//                CDSignalTon.shared.customPickerView = camera
-//                self.present(camera, animated: true, completion: nil)
                 
-                let camera = GPUCameraViewController()
-                camera.modalPresentationStyle = .fullScreen
-                camera.isVideo = false
-                self.present(camera, animated: true, completion: nil)
+                
+                openPermission(type: .camera, viewController: self)
             }
         }
         
     }
     //MARK:导入
     @objc func inputItemClick() -> Void {
-        //保持屏幕常亮
-        UIApplication.shared.isIdleTimerDisabled = true
-        let cdPicker = CDMediaPickerViewController(isVideo: false)
-        cdPicker.pickerDelegate = self
-        CDAssetTon.shared.mediaType = .CDMediaImage
-        CDSignalTon.shared.customPickerView = cdPicker
-        cdPicker.modalPresentationStyle = .fullScreen
-        self.present(cdPicker, animated: true, completion: nil)
+        checkPermission(type: .Library) { (isAllow) in
+             if isAllow {
+                DispatchQueue.main.async {
+                    //保持屏幕常亮
+                    UIApplication.shared.isIdleTimerDisabled = true
+                    let cdPicker = CDMediaPickerViewController(isVideo: false)
+                    cdPicker.pickerDelegate = self
+                    CDAssetTon.shared.mediaType = .CDMediaImage
+                    CDSignalTon.shared.customPickerView = cdPicker
+                    cdPicker.modalPresentationStyle = .fullScreen
+                    self.present(cdPicker, animated: true, completion: nil)
+                }
+                
+             } else {
+                openPermission(type: .Library, viewController: self)
+            }
+        }
+        
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -472,111 +481,6 @@ class CDImageViewController:
         // Dispose of any resources that can be recreated.
     }
 
-    //    func onSelectedMediaPickerDidFinished(picker: CDMediaPickerViewController, info: NSMutableDictionary) {
-    //        let defualtImagePath = info["savePath"] as! String
-    //        let imageHeight = info["imageHeight"] as! Double
-    //        let imageWidth = info["imageWidth"] as! Double
-    //        let isLast = info["isLast"] as! Bool
-    //        let time = info["time"] as! Int
-    //        var fileName = info["fileName"] as! String
-    //        let isGif = info["isGif"] as! Bool
-    //
-    //        let fileNameArr = fileName.components(separatedBy: ".")
-    //        fileName = fileNameArr.first!
-    //
-    //        //缩略图路径
-    //        let thumpImagePath = String.thumpImagePath().appendingFormat("/\(time).jpg")
-    //        var bigData = Data()
-    //        do {
-    //            bigData = try Data(contentsOf: URL(fileURLWithPath: defualtImagePath))
-    //        } catch  {
-    //
-    //        }
-    //
-    //        let defualtImage = UIImage(data:bigData)!
-    //        let thumbImage = scaleImageAndCropToMaxSize(image: defualtImage, newSize: CGSize(width: 200, height: 200))
-    //        let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
-    //
-    //        do {
-    //            try tmpData.write(to: URL(fileURLWithPath: thumpImagePath))
-    //        } catch  {
-    //
-    //        }
-    //        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-    //        fileInfo.folderId = self.folderInfo.folderId
-    //        fileInfo.fileName = fileName
-    //        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: defualtImagePath)
-    //        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumpImagePath)
-    //        fileInfo.fileSize = getFileSizeAtPath(filePath: defualtImagePath)
-    //        fileInfo.fileWidth = imageWidth
-    //        fileInfo.fileHeight = imageHeight
-    //        fileInfo.createTime = Int(time)
-    //        fileInfo.fileType = isGif == true ? .GifType : .ImageType
-    //        fileInfo.userId = CDUserId()
-    //        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-    //        if isLast{
-    //            DispatchQueue.main.async {
-    //                CDSignalTon.shared.customPickerView = nil;
-    //                self.refreshDBData()
-    //                picker.dismiss(animated: true, completion: nil)
-    //            }
-    //        }
-    //    }
-    
-    //    //MARK:UIImagePickerControllerDelegate
-    //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    //        isNeedReloadData = true
-    //        picker.dismiss(animated: true, completion: nil)
-    //    }
-    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    //
-    //        //获取当前时间
-    //        let time = getCurrentTimestamp()
-    //        //大图路径
-    //        let defualtImagePath = String.ImagePath().appendingFormat("/%lld.jpg", time)
-    //        //缩略图路径
-    //        let thumpImagePath = String.thumpImagePath().appendingFormat("/%lld.jpg", time)
-    //
-    //        let defualtImage:UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-    //        let bigData:Data = UIImageJPEGRepresentation(defualtImage, 1.0)!
-    //
-    //        let thumbImage = scaleImageAndCropToMaxSize(image: defualtImage, newSize: CGSize(width: 200, height: 200))
-    //        let tmpData:Data = UIImageJPEGRepresentation(thumbImage, 1.0)! as Data
-    //
-    //        do {
-    //            try bigData.write(to: URL(fileURLWithPath: defualtImagePath))
-    //            try tmpData.write(to: URL(fileURLWithPath: thumpImagePath))
-    //        } catch  {
-    //
-    //        }
-    //
-    //        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-    //        fileInfo.folderId = self.folderInfo.folderId
-    //        fileInfo.fileName = "未命名"
-    //        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: defualtImagePath)
-    //        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumpImagePath)
-    //        fileInfo.fileSize = getFileSizeAtPath(filePath: defualtImagePath)
-    //        fileInfo.fileWidth = Double(defualtImage.size.width)
-    //        fileInfo.fileHeight = Double(defualtImage.size.height)
-    //        fileInfo.createTime = Int(time)
-    //        fileInfo.fileType = .ImageType
-    //        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
-    //        DispatchQueue.main.async {
-    //            self.isNeedReloadData = true
-    //            picker.dismiss(animated: true, completion: nil)
-    //        }
-    //
-    //
-    //    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+   
 
 }

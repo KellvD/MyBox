@@ -107,7 +107,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         for i in 0..<fileArr.count {
             let fileInfo:CDSafeFileInfo = fileArr[i]
 
-            let lPath = String.libraryUserdataPath().appendingFormat("%@",fileInfo.thumbImagePath)
+            let lPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
             var lImgage:UIImage! = UIImage(contentsOfFile: lPath)
             if lImgage == nil {
                 lImgage = LoadImageByName(imageName: "小图解密失败", type:"png")

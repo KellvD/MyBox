@@ -18,6 +18,8 @@ private var db_folderType = Expression<Int>("folderType")
 private var db_isLock = Expression<Int>("isLock")
 private var db_fakeType = Expression<Int>("fakeType")
 private var db_createTime = Expression<Int>("createTime")
+private var db_modifyTime = Expression<Int>("modifyTime")
+private var db_accessTime = Expression<Int>("accessTime")
 private var db_folderPath = Expression<String>("folderPath")
 private var db_fileId = Expression<Int>("fileId")
 private var db_fileSize = Expression<Int>("fileSize")
@@ -32,7 +34,6 @@ private var db_filePath = Expression<String>("filePath")
 private var db_grade = Expression<Int>("grade")
 private var db_userId = Expression<Int>("userId")
 private var db_markInfo = Expression<String>("markInfo")
-
 private var db_basePwd = Expression<String>("basePwd")
 private var db_fakePwd = Expression<String>("fakePwd")
 
@@ -56,7 +57,7 @@ private var db_superId = Expression<Int>("superId")
 
 class CDSqlManager: NSObject {
 
-    static var manager:CDSqlManager? = nil
+    static let shared = CDSqlManager()
     var db:Connection!
     let SafeFolder = Table("CDSafeFolder")
     let SafeFileInfo = Table("CDSafeFileInfo")
@@ -64,11 +65,6 @@ class CDSqlManager: NSObject {
     let MusicInfo = Table("CDMusicInfo")
     let MusicClassInfo = Table("CDMusicClassInfo")
     
-    static func instance()->CDSqlManager{
-
-        manager = CDSqlManager()
-        return manager!
-    }
     override init() {
         super.init()
         objc_sync_enter(self)
@@ -80,11 +76,11 @@ class CDSqlManager: NSObject {
         print(item)
     }
 
-    public func openDatabase(){
+    public func openDatabase() {
         let documentArr:[String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentPath = documentArr.first!
         let dbpath = "\(documentPath)/\(sqlFileName)"
-        if !FileManager.default.fileExists(atPath: dbpath){
+        if !FileManager.default.fileExists(atPath: dbpath) {
             FileManager.default.createFile(atPath: dbpath, contents: nil, attributes: nil)
             db = try! Connection(dbpath)
             createTable()
@@ -119,6 +115,8 @@ class CDSqlManager: NSObject {
                 build.column(db_isLock)
                 build.column(db_fakeType)
                 build.column(db_createTime)
+                build.column(db_modifyTime)
+                build.column(db_accessTime)
                 build.column(db_userId)
                 build.column(db_folderPath)
                 build.column(db_superId)
@@ -133,6 +131,7 @@ class CDSqlManager: NSObject {
 
         do{
             let create1 = SafeFileInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
+                build.column(db_id, primaryKey: true)
                 build.column(db_fileText)
                 build.column(db_thumbImagePath)
                 build.column(db_fileName)
@@ -143,6 +142,8 @@ class CDSqlManager: NSObject {
                 build.column(db_fileHeight)
                 build.column(db_timeLength)
                 build.column(db_createTime)
+                build.column(db_modifyTime)
+                build.column(db_accessTime)
                 build.column(db_fileType)
                 build.column(db_filePath)
                 build.column(db_grade)
@@ -157,6 +158,7 @@ class CDSqlManager: NSObject {
 
         do{
             let create1 = MusicInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
+                build.column(db_id, primaryKey: true)
                 build.column(db_musicId)
                 build.column(db_musicMark)
                 build.column(db_musicName)
@@ -175,6 +177,7 @@ class CDSqlManager: NSObject {
         }
         do{
             let create1 = MusicClassInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
+                build.column(db_id, primaryKey: true)
                 build.column(db_classId)
                 build.column(db_userId)
                 build.column(db_className)
@@ -189,9 +192,42 @@ class CDSqlManager: NSObject {
             CDPrint(item:"createMusicClassInfo -->error:\(error)")
         }
     }
-
-    //MARK: userInfo
-    public func addOneUserInfoWith(usernInfo:CDUserInfo){
+    
+    func firstUpdate() {
+        do{
+            try db.run(
+                SafeFolder.addColumn(db_accessTime, defaultValue: 0)
+            )
+            
+            CDPrint(item:"addUserInfo -->success")
+        }catch{
+            CDPrint(item:"addUserIn -->error:\(error)")
+        }
+        
+    }
+    
+    //MARK:extension
+    //获取文件夹下所有子文件和子文件夹
+    func queryAllContentFromFolder(folderId:Int) -> (foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo]) {
+        var subFileArr = queryAllFileFromFolder(folderId: folderId)
+        var subFolderArr = querySubAllFolder(folderId: folderId)
+        subFileArr.sort { (obj1, obj2) -> Bool in
+            return obj1.createTime > obj2.createTime
+        }
+        
+        subFolderArr.sort { (obj1, obj2) -> Bool in
+            return obj1.createTime > obj2.createTime
+        }
+        
+        return (subFolderArr,subFileArr)
+    
+    }
+    
+}
+//MARK: userInfo
+extension CDSqlManager{
+    
+    public func addOneUserInfoWith(usernInfo:CDUserInfo) {
         do{
             try db.run(UserInfo.insert(
                 db_userId <- usernInfo.userId,
@@ -204,10 +240,9 @@ class CDSqlManager: NSObject {
             CDPrint(item:"addUserIn -->error:\(error)")
         }
     }
+    
     public func queryOneUserInfoWithUserId(userId:Int) -> CDUserInfo{
-
         let userInfo:CDUserInfo = CDUserInfo()
-
         for item in try! db.prepare(UserInfo.filter(db_userId == userId)) {
             userInfo.userId = item[db_userId]
             userInfo.basePwd = item[db_basePwd]
@@ -218,8 +253,7 @@ class CDSqlManager: NSObject {
 
     public func queryUserRealKeyWithUserId(userId:Int) -> String{
 
-        var realKey = String()
-
+        var realKey:String!
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
             for item in try db.prepare(sql.select(db_basePwd)) {
@@ -233,8 +267,7 @@ class CDSqlManager: NSObject {
     }
     public func queryUserFakeKeyWithUserId(userId:Int) -> String{
 
-        var fakeKey = String()
-
+        var fakeKey:String!
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
             for item in try db.prepare(sql.select(db_fakePwd)) {
@@ -247,7 +280,7 @@ class CDSqlManager: NSObject {
         return fakeKey
     }
 
-    public func updateUserRealPwdWith(pwd:String){
+    public func updateUserRealPwdWith(pwd:String) {
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
 
@@ -258,7 +291,8 @@ class CDSqlManager: NSObject {
         }
         
     }
-    public func updateUserFakePwdWith(pwd:String){
+    
+    public func updateUserFakePwdWith(pwd:String) {
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
 
@@ -268,7 +302,8 @@ class CDSqlManager: NSObject {
             CDPrint(item:"updateUserRealPwdWith-->error")
         }
     }
-    public func deleteOneUser(useId:Int){
+    
+    public func deleteOneUser(useId:Int) {
         do{
             try db.run(UserInfo.filter(db_userId == useId).delete())
             //delete from UserInfo where db_userId = userId
@@ -277,245 +312,36 @@ class CDSqlManager: NSObject {
             CDPrint(item:"deleteOneUser-->error")
         }
     }
+}
 
-    //MARK:文件夹
-    public func addSafeFoldeInfo(folder:CDSafeFolder) -> Int {
 
-        let folderId = queryMaxSafeFolderId()+1
-
-        do{
-            try db.run(SafeFolder.insert(
-                db_folderName <- folder.folderName,
-                db_folderId <- folderId,
-                db_folderType <- folder.folderType!.rawValue,
-                db_isLock <- folder.isLock,
-                db_fakeType <- folder.fakeType.rawValue,
-                db_createTime <- folder.createTime,
-                db_userId <- folder.userId,
-                db_folderPath <- folder.folderPath,
-                db_superId <- folder.superId,
-                db_folderPath <- folder.folderPath)
-            )
-
-            CDPrint(item:"addSafeFoldeInfo-->success")
-            
-        }catch{
-            CDPrint(item:"addSafeFoldeInfo-->error:\(error)")
-        }
-        return folderId
+extension CDSqlManager{
+/** --------------------------------------------------- **/
+    //MARK: SafeFile
+    private func getSafeFileInfoFromItem(item:Row) -> CDSafeFileInfo {
+        let file = CDSafeFileInfo()
+        file.fileId = item[db_fileId]
+        file.folderId = item[db_folderId]
+        file.fileSize = item[db_fileSize]
+        file.fileWidth = item[db_fileWidth]
+        file.fileHeight = item[db_fileHeight]
+        file.timeLength = item[db_timeLength]
+        file.createTime = item[db_createTime]
+        file.modifyTime = item[db_modifyTime]
+        file.accessTime = item[db_accessTime]
+        file.filePath = item[db_filePath]
+        file.fileType = NSFileType(rawValue: item[db_fileType])
+        file.grade = NSFileGrade(rawValue: item[db_grade])
+        file.fileName = item[db_fileName]
+        file.fileText = item[db_fileText]
+        file.thumbImagePath = item[db_thumbImagePath]
+        file.userId = item[db_userId]
+        file.markInfo = item[db_markInfo]
+        file.isSelected = .CDFalse
+        
+        return file
     }
-
-    public func queryDefaultAllFolder() -> [Array<CDSafeFolder>]{
-        var unlockArr:[CDSafeFolder] = []
-        var lockArr:[CDSafeFolder] = []
-        var totalArr:[Array<CDSafeFolder>] = []
-        do {
-
-            var sql = SafeFolder.where(db_fakeType == CDFakeType.visible.rawValue && db_superId == ROOTSUPERID)
-
-            if CDSignalTon.shared.loginType != .real{
-                sql = SafeFolder.where(db_fakeType == CDFakeType.invisible.rawValue && db_superId == ROOTSUPERID)
-            }
-            for item in (try db.prepare(sql)) {
-                let folderInfo = CDSafeFolder()
-                folderInfo.folderName = item[db_folderName]
-                folderInfo.folderId = item[db_folderId]
-                folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
-                folderInfo.isLock = item[db_isLock]
-                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
-                folderInfo.createTime = item[db_createTime]
-                folderInfo.userId = item[db_userId]
-                if folderInfo.isLock == LockOn {
-                    unlockArr.append(folderInfo)
-                }else{
-                    lockArr.append(folderInfo)
-                }
-            }
-            totalArr.insert(lockArr, at: 0)
-            totalArr.insert(unlockArr, at: 1)
-        } catch  {
-            CDPrint(item:"queryDefaultAllFolder-->error:\(error)")
-        }
-        return totalArr
-
-    }
-    public func querySubAllFolder(folderId:Int) -> [CDSafeFolder]{
-        var totalArr:[CDSafeFolder] = []
-        do {
-            for item in (try db.prepare(SafeFolder.where(db_superId == folderId))) {
-                let folderInfo = CDSafeFolder()
-                folderInfo.folderName = item[db_folderName]
-                folderInfo.folderId = item[db_folderId]
-                folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
-                folderInfo.isLock = item[db_isLock]
-                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
-                folderInfo.createTime = item[db_createTime]
-                folderInfo.userId = item[db_userId]
-                folderInfo.superId = item[db_superId]
-                folderInfo.folderPath = item[db_folderPath]
-                folderInfo.isSelected = .CDFalse
-                totalArr.append(folderInfo)
-            }
-        } catch  {
-            CDPrint(item:"querySubAllFolder-->error:\(error)")
-        }
-        return totalArr
-
-    }
-    public func querySubAllFolderId(folderId:Int) -> [Int]{
-        var totalArr:[Int] = []
-        do {
-            for item in (try db.prepare(SafeFolder.where(db_superId == folderId))) {
-                let folderId = item[db_folderId]
-                totalArr.append(folderId)
-            }
-        } catch  {
-            CDPrint(item:"querySubAllFolder-->error:\(error)")
-        }
-        return totalArr
-
-    }
-    public func queryOneSafeFolderWith(folderId:Int) -> CDSafeFolder{
-        let folderInfo = CDSafeFolder()
-
-        for item in try! db.prepare(SafeFolder.filter(db_folderId == folderId)) {
-            folderInfo.folderName = item[db_folderName]
-            folderInfo.folderId = item[db_folderId]
-            folderInfo.folderType =  NSFolderType(rawValue: item[db_folderType])
-            folderInfo.isLock = item[db_isLock]
-            folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
-            folderInfo.createTime = item[db_createTime]
-            folderInfo.userId = item[db_userId]
-            folderInfo.superId = item[db_superId]
-            folderInfo.folderPath = item[db_folderPath]
-        }
-        return folderInfo
-    }
-
-    public func queryFolderSizeByFolderId(folderId:Int)->Int{
-
-        var totalSize = 0
-
-        do{
-            let sql = SafeFolder.filter(db_folderId == folderId)
-            for item in try db.prepare(sql.select(db_fileSize)) {
-                totalSize += item[db_fileSize]
-            }
-            CDPrint(item:"queryFolderSizeByFolderId-->success")
-        }catch{
-            CDPrint(item:"queryFolderSizeByFolderId-->error:\(error)")
-        }
-        return totalSize
-    }
-    public func updateOneSafeFolderName(folderName:String,folderId:Int){
-
-        do{
-            let sql = UserInfo.filter(db_folderId == folderId)
-
-            try db.run(sql.update(db_folderName <- folderName))
-            CDPrint(item:"updateOneSafeFolderName-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFolderName-->error:\(error)")
-        }
-    }
-
-    public func queryOneFolderSizeByFolder(folderId:Int) -> Int{
-
-        var totalSize = 0
-        do{
-            let sql = SafeFileInfo.filter(db_folderId == folderId)
-            for item in try db.prepare(sql.select(db_fileSize)) {
-                let size = item[db_fileSize]
-                totalSize += size
-            }
-            CDPrint(item:"queryOneFolderSizeByFolder-->success")
-        }catch{
-            CDPrint(item:"queryOneFolderSizeByFolder-->error:\(error)")
-        }
-        return totalSize
-    }
-    public func deleteOneFolder(folderId:Int){
-        do{
-            try db.run(SafeFolder.filter(db_folderId == folderId).delete())
-            CDPrint(item:"deleteOneFolder-->success")
-        }catch{
-            CDPrint(item:"deleteOneFolder-->error:\(error)")
-        }
-    }
-    public func deleteAllSubSafeFolder(superId:Int){
-        do{
-            try db.run(SafeFolder.filter(db_superId >= superId).delete())
-            CDPrint(item:"deleteAllSubSafeFolder-->success")
-        }catch{
-            CDPrint(item:"deleteAllSubSafeFolder-->error:\(error)")
-        }
-    }
-    public func queryMaxSafeFolderId()->Int{
-
-        var maxFolderId = 0
-        do{
-            let sql = SafeFolder.filter(db_userId == CDUserId())
-
-            for item in try db.prepare(sql.select(db_folderId)) {
-                 let folderId = item[db_folderId]
-                if  maxFolderId < folderId{
-                    maxFolderId = folderId
-                }
-            }
-            CDPrint(item:"querySafeFolderCount-->success")
-        }catch{
-            CDPrint(item:"querySafeFolderCount-->error:\(error)")
-        }
-        return maxFolderId
-    }
-    func queryAllOtherFolderWith(folderType:NSFolderType, folderId:Int) -> [Array<CDSafeFolder>] {
-        var unlockArr:[CDSafeFolder] = []
-        var lockArr:[CDSafeFolder] = []
-        var totalArr:[Array<CDSafeFolder>] = []
-        do {
-
-            var sql = SafeFolder.where((db_folderId != folderId) && (db_folderType == folderType.rawValue))
-
-            if CDSignalTon.shared.loginType != .real{
-                sql = SafeFolder.where(
-                    (db_folderId != folderId) &&
-                    (db_folderType == folderType.rawValue) &&
-                    (db_fakeType == 2))
-            }
-            for item in (try db.prepare(sql)) {
-                let folderInfo = CDSafeFolder()
-                folderInfo.folderName = item[db_folderName]
-                folderInfo.folderId = item[db_folderId]
-                folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
-                folderInfo.isLock = item[db_isLock]
-                folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
-                folderInfo.createTime = item[db_createTime]
-                folderInfo.userId = item[db_userId]
-                folderInfo.isSelected = .CDFalse
-                if folderInfo.isLock == LockOn {
-                    unlockArr.append(folderInfo)
-                }else{
-                    lockArr.append(folderInfo)
-                }
-            }
-            totalArr.insert(lockArr, at: 0)
-            totalArr.insert(unlockArr, at: 1)
-        } catch  {
-            CDPrint(item:"查询失败\(error)")
-        }
-        return totalArr
-    }
-    func updateOneSafeFileForMove(fileInfo:CDSafeFileInfo) {
-        do{
-            let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
-
-            try db.run(sql.update(db_folderId <- fileInfo.folderId))
-            CDPrint(item:"updateOneSafeFileForMove-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileForMove-->error:\(error)")
-        }
-    }
-    //MARK:
+    
     public func addSafeFileInfo(fileInfo:CDSafeFileInfo) -> Void {
 
         let fileId = queryMaxFileId() + 1
@@ -531,6 +357,8 @@ class CDSqlManager: NSObject {
                 db_fileHeight <- fileInfo.fileHeight,
                 db_timeLength <- fileInfo.timeLength,
                 db_createTime <- fileInfo.createTime,
+                db_modifyTime <- fileInfo.modifyTime,
+                db_accessTime <- fileInfo.accessTime,
                 db_fileType <- fileInfo.fileType!.rawValue,
                 db_grade <- 1,
                 db_filePath <- fileInfo.filePath,
@@ -566,23 +394,7 @@ class CDSqlManager: NSObject {
         do {
             let sql = SafeFileInfo.filter(db_folderId == folderId ).order(db_createTime.desc)
             for item in try db.prepare(sql) {
-                let file = CDSafeFileInfo()
-                file.fileId = item[db_fileId]
-                file.folderId = item[db_folderId]
-                file.fileSize = item[db_fileSize]
-                file.fileWidth = item[db_fileWidth]
-                file.fileHeight = item[db_fileHeight]
-                file.timeLength = item[db_timeLength]
-                file.createTime = item[db_createTime]
-                file.filePath = item[db_filePath]
-                file.fileType = NSFileType(rawValue: item[db_fileType])
-                file.grade = NSFileGrade(rawValue: item[db_grade])
-                file.fileName = item[db_fileName]
-                file.fileText = item[db_fileText]
-                file.thumbImagePath = item[db_thumbImagePath]
-                file.userId = item[db_userId]
-                file.markInfo = item[db_markInfo]
-                file.isSelected = .CDFalse
+                let file = getSafeFileInfoFromItem(item: item)
                 fileArr.append(file)
             }
         } catch  {
@@ -592,25 +404,11 @@ class CDSqlManager: NSObject {
     }
    
     public func queryOneSafeFileWithFileId(fileId:Int)-> CDSafeFileInfo{
-        let file = CDSafeFileInfo()
+        var file:CDSafeFileInfo!
         do {
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             for item in try db.prepare(sql) {
-                file.fileId = item[db_fileId]
-                file.folderId = item[db_folderId]
-                file.fileSize = item[db_fileSize]
-                file.fileWidth = item[db_fileWidth]
-                file.fileHeight = item[db_fileHeight]
-                file.timeLength = item[db_timeLength]
-                file.createTime = item[db_createTime]
-                file.filePath = item[db_filePath]
-                file.fileType = NSFileType(rawValue: item[db_fileType])
-                file.grade = NSFileGrade(rawValue: item[db_grade])
-                file.fileName = item[db_fileName]
-                file.fileText = item[db_fileText]
-                file.thumbImagePath = item[db_thumbImagePath]
-                file.userId = item[db_userId]
-                file.markInfo = item[db_markInfo]
+                file = getSafeFileInfoFromItem(item: item)
                 
             }
         } catch  {
@@ -618,73 +416,7 @@ class CDSqlManager: NSObject {
         }
         return file
     }
-    public func deleteOneSafeFile(fileId:Int){
-        do{
-            try db.run(SafeFileInfo.filter(db_fileId == fileId).delete())
-            //delete from SafeFile where db_fileId = fileId
-            CDPrint(item:"deleteOneSafeFile-->success")
-        }catch{
-            CDPrint(item:"deleteOneSafeFile-->error:\(error)")
-        }
-    }
-    public func deleteAllSubSafeFile(folderId:Int){
-        do{
-            try db.run(SafeFileInfo.filter(db_folderId == folderId).delete())
-            CDPrint(item:"deleteAllSubSafeFile-->success")
-        }catch{
-            CDPrint(item:"deleteAllSubSafeFile-->error:\(error)")
-        }
-    }
-    public func updateOneSafeFileIsLock(isLock:Int,folderId:Int){
-
-        do{
-            let sql = SafeFileInfo.filter(db_folderId == folderId)
-            try db.run(sql.update(db_isLock <- isLock))
-            CDPrint(item:"updateOneSafeFileIsLock-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileIsLock-->error:\(error)")
-        }
-    }
-    public func updateOneSafeFileName(fileName:String,fileId:Int){
-
-        do{
-            let sql = SafeFileInfo.filter(db_fileId == fileId)
-            try db.run(sql.update(db_fileName <- fileName))
-            CDPrint(item:"updateOneSafeFileName-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileName-->error:\(error)")
-        }
-    }
-    public func updateOneSafeFileMarkInfo(markInfo:String,fileId:Int){
-
-        do{
-            let sql = SafeFileInfo.filter(db_fileId == fileId)
-            try db.run(sql.update(db_markInfo <- markInfo))
-            CDPrint(item:"updateOneSafeFileMarkInfo-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileMarkInfo-->error:\(error)")
-        }
-    }
-    public func updateOneSafeFileFakeType(fakeType:CDFakeType,folderId:Int){
-
-        do{
-            let sql = SafeFileInfo.filter(db_folderId == folderId)
-            try db.run(sql.update(db_fakeType <- fakeType.rawValue))
-            CDPrint(item:"updateOneSafeFileIndentity-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileIndentity-->error:\(error)")
-        }
-    }
-
-    func updateOneSafeFileGrade(grade:NSFileGrade,fileId:Int) {
-        do{
-            let sql = SafeFileInfo.filter((db_fileId == fileId)&&(db_userId == CDUserId()))
-            try db.run(sql.update(db_grade <- grade.rawValue))
-            CDPrint(item:"updateOneSafeFileGrade-->success")
-        }catch{
-            CDPrint(item:"updateOneSafeFileGrade-->error:\(error)")
-        }
-    }
+    
     func queryOneSafeFileGrade(fileId:Int) ->NSFileGrade {
         var grade = NSFileGrade(rawValue: 1)
         do{
@@ -700,24 +432,386 @@ class CDSqlManager: NSObject {
         }
         return grade!
     }
-
-    //MARK:extension
-    //获取文件夹下所有子文件和子文件夹
-    func queryAllContentFromFolder(folderId:Int) -> (foldersArr:[CDSafeFolder],filesArr:[CDSafeFileInfo]) {
-        var subFileArr = queryAllFileFromFolder(folderId: folderId)
-        var subFolderArr = querySubAllFolder(folderId: folderId)
-        subFileArr.sort { (obj1, obj2) -> Bool in
-            return obj1.createTime > obj2.createTime
-        }
-        
-        subFolderArr.sort { (obj1, obj2) -> Bool in
-            return obj1.createTime > obj2.createTime
-        }
-        
-        return (subFolderArr,subFileArr)
     
+    public func queryAllTextSafeFile()-> [CDSafeFileInfo]{
+        var fileArr:[CDSafeFileInfo] = []
+        do {
+            let sql = SafeFileInfo.filter(db_fileType == NSFileType.TxtType.rawValue)
+            for item in try db.prepare(sql) {
+                let file = getSafeFileInfoFromItem(item: item)
+                fileArr.append(file)
+            }
+        } catch  {
+            CDPrint(item:"AllTextSafeFile -->error:\(error)")
+        }
+        return fileArr
     }
-    //MARK:musicInfo
+    
+    public func updateOneSafeFileName(fileName:String,fileId:Int) {
+
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileId)
+            try db.run(sql.update(db_fileName <- fileName))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFileName-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileName-->error:\(error)")
+        }
+    }
+    public func updateOneSafeFileMarkInfo(markInfo:String,fileId:Int) {
+
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileId)
+            try db.run(sql.update(db_markInfo <- markInfo))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFileMarkInfo-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileMarkInfo-->error:\(error)")
+        }
+    }
+
+    func updateOneSafeFileGrade(grade:NSFileGrade,fileId:Int) {
+        do{
+            let sql = SafeFileInfo.filter((db_fileId == fileId)&&(db_userId == CDUserId()))
+            try db.run(sql.update(db_grade <- grade.rawValue))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFileGrade-->success")
+            
+        }catch{
+            CDPrint(item:"updateOneSafeFileGrade-->error:\(error)")
+        }
+    }
+    
+    /*
+    文件移动文件夹，更新文件新的folderID
+    */
+    func updateOneSafeFileForMove(fileInfo:CDSafeFileInfo) {
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
+
+            try db.run(sql.update(db_folderId <- fileInfo.folderId))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFileForMove-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileForMove-->error:\(error)")
+        }
+    }
+    
+    public func updateOneSafeFileModifyTime(modifyTime:Int,fileId:Int) {
+
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileId)
+            try db.run(sql.update(db_modifyTime <- modifyTime))
+            CDPrint(item:"updateOneSafeFileModifyTime-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileModifyTime-->error:\(error)")
+        }
+    }
+    
+    public func updateOneSafeFileAccessTime(accessTime:Int,fileId:Int) {
+
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileId)
+            try db.run(sql.update(db_accessTime <- accessTime))
+            CDPrint(item:"updateOneSafeFileAccessTime-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileAccessTime-->error:\(error)")
+        }
+    }
+    
+    public func deleteOneSafeFile(fileId:Int) {
+        do{
+            try db.run(SafeFileInfo.filter(db_fileId == fileId).delete())
+            //delete from SafeFile where db_fileId = fileId
+            CDPrint(item:"deleteOneSafeFile-->success")
+        }catch{
+            CDPrint(item:"deleteOneSafeFile-->error:\(error)")
+        }
+    }
+    
+    public func deleteAllSubSafeFile(folderId:Int) {
+        do{
+            try db.run(SafeFileInfo.filter(db_folderId == folderId).delete())
+            CDPrint(item:"deleteAllSubSafeFile-->success")
+        }catch{
+            CDPrint(item:"deleteAllSubSafeFile-->error:\(error)")
+        }
+    }
+  
+}
+
+//MARK:文件夹
+extension CDSqlManager{
+    
+    private func getSafeFolderFromItem(item:Row) -> CDSafeFolder{
+        let folderInfo = CDSafeFolder()
+        folderInfo.folderName = item[db_folderName]
+        folderInfo.folderId = item[db_folderId]
+        folderInfo.folderType = NSFolderType(rawValue: item[db_folderType])
+        folderInfo.isLock = item[db_isLock]
+        folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
+        folderInfo.createTime = item[db_createTime]
+        folderInfo.modifyTime = item[db_modifyTime]
+        folderInfo.accessTime = item[db_accessTime]
+        folderInfo.userId = item[db_userId]
+        folderInfo.superId = item[db_superId]
+        folderInfo.folderPath = item[db_folderPath]
+        folderInfo.isSelected = .CDFalse
+        return folderInfo
+    }
+
+    public func addSafeFoldeInfo(folder:CDSafeFolder) -> Int {
+
+        let folderId = queryMaxSafeFolderId()+1
+
+        do{
+            try db.run(SafeFolder.insert(
+                db_folderName <- folder.folderName,
+                db_folderId <- folderId,
+                db_folderType <- folder.folderType!.rawValue,
+                db_isLock <- folder.isLock,
+                db_fakeType <- folder.fakeType.rawValue,
+                db_createTime <- folder.createTime,
+                db_modifyTime <- folder.modifyTime,
+                db_accessTime <- folder.accessTime,
+                db_userId <- folder.userId,
+                db_folderPath <- folder.folderPath,
+                db_superId <- folder.superId,
+                db_folderPath <- folder.folderPath)
+            )
+
+            CDPrint(item:"addSafeFoldeInfo-->success")
+            
+        }catch{
+            CDPrint(item:"addSafeFoldeInfo-->error:\(error)")
+        }
+        return folderId
+    }
+
+    public func queryDefaultAllFolder() -> [Array<CDSafeFolder>]{
+        var unlockArr:[CDSafeFolder] = []
+        var lockArr:[CDSafeFolder] = []
+        var totalArr:[Array<CDSafeFolder>] = []
+        do {
+
+            //超级模式，全部可见
+            var sql = SafeFolder.where(db_superId == ROOTSUPERID)
+
+            //访客模式下。进查看访客可见的部分
+            if CDSignalTon.shared.loginType == .fake{
+                sql = SafeFolder.where(db_fakeType == CDFakeType.visible.rawValue && db_superId == ROOTSUPERID)
+            }
+            for item in (try db.prepare(sql)) {
+                let folderInfo = getSafeFolderFromItem(item: item)
+                if folderInfo.isLock == LockOn {
+                    unlockArr.append(folderInfo)
+                }else{
+                    lockArr.append(folderInfo)
+                }
+            }
+            totalArr.insert(lockArr, at: 0)
+            totalArr.insert(unlockArr, at: 1)
+        } catch  {
+            CDPrint(item:"queryDefaultAllFolder-->error:\(error)")
+        }
+        return totalArr
+
+    }
+    public func querySubAllFolder(folderId:Int) -> [CDSafeFolder]{
+        var totalArr:[CDSafeFolder] = []
+        do {
+            for item in (try db.prepare(SafeFolder.where(db_superId == folderId))) {
+                let folderInfo = getSafeFolderFromItem(item: item)
+                totalArr.append(folderInfo)
+            }
+        } catch  {
+            CDPrint(item:"querySubAllFolder-->error:\(error)")
+        }
+        return totalArr
+
+    }
+    public func querySubAllFolderId(folderId:Int) -> [Int]{
+        var totalArr:[Int] = []
+        do {
+            for item in (try db.prepare(SafeFolder.where(db_superId == folderId))) {
+                let folderId = item[db_folderId]
+                totalArr.append(folderId)
+            }
+        } catch  {
+            CDPrint(item:"querySubAllFolder-->error:\(error)")
+        }
+        return totalArr
+
+    }
+    public func queryOneSafeFolderWith(folderId:Int) -> CDSafeFolder{
+        var folderInfo:CDSafeFolder!
+
+        for item in try! db.prepare(SafeFolder.filter(db_folderId == folderId)) {
+            folderInfo = getSafeFolderFromItem(item: item)
+        }
+        return folderInfo
+    }
+
+    public func queryFolderSizeByFolderId(folderId:Int)->Int{
+
+        var totalSize = 0
+
+        do{
+            let sql = SafeFolder.filter(db_folderId == folderId)
+            for item in try db.prepare(sql.select(db_fileSize)) {
+                totalSize += item[db_fileSize]
+            }
+            CDPrint(item:"queryFolderSizeByFolderId-->success")
+        }catch{
+            CDPrint(item:"queryFolderSizeByFolderId-->error:\(error)")
+        }
+        return totalSize
+    }
+
+    public func queryOneFolderSize(folderId:Int) -> Int{
+
+        var totalSize = 0
+        do{
+            let sql = SafeFileInfo.filter(db_folderId == folderId)
+            for item in try db.prepare(sql.select(db_fileSize)) {
+                let size = item[db_fileSize]
+                totalSize += size
+            }
+            CDPrint(item:"queryOneFolderSizeByFolder-->success")
+        }catch{
+            CDPrint(item:"queryOneFolderSizeByFolder-->error:\(error)")
+        }
+        return totalSize
+    }
+    
+    
+    
+    public func queryMaxSafeFolderId()->Int{
+
+        var maxFolderId = 0
+        do{
+            let sql = SafeFolder.filter(db_userId == CDUserId())
+
+            for item in try db.prepare(sql.select(db_folderId)) {
+                 let folderId = item[db_folderId]
+                if  maxFolderId < folderId{
+                    maxFolderId = folderId
+                }
+            }
+            CDPrint(item:"querySafeFolderCount-->success")
+        }catch{
+            CDPrint(item:"querySafeFolderCount-->error:\(error)")
+        }
+        return maxFolderId
+    }
+    
+    func queryAllOtherFolderWith(folderType:NSFolderType, folderId:Int) -> [Array<CDSafeFolder>] {
+        var unlockArr:[CDSafeFolder] = []
+        var lockArr:[CDSafeFolder] = []
+        var totalArr:[Array<CDSafeFolder>] = []
+        do {
+
+            var sql = SafeFolder.where((db_folderId != folderId) && (db_folderType == folderType.rawValue))
+
+            if CDSignalTon.shared.loginType != .real{
+                sql = SafeFolder.where(
+                    (db_folderId != folderId) &&
+                    (db_folderType == folderType.rawValue) &&
+                    (db_fakeType == 2))
+            }
+            for item in (try db.prepare(sql)) {
+                let folderInfo = getSafeFolderFromItem(item: item)
+                if folderInfo.isLock == LockOn {
+                    unlockArr.append(folderInfo)
+                }else{
+                    lockArr.append(folderInfo)
+                }
+            }
+            totalArr.insert(lockArr, at: 0)
+            totalArr.insert(unlockArr, at: 1)
+        } catch  {
+            CDPrint(item:"查询失败\(error)")
+        }
+        return totalArr
+    }
+    /*
+     更新文件夹名称（更新修改时间）
+     */
+    public func updateOneSafeFolderName(folderName:String,folderId:Int) {
+        do{
+            let sql = SafeFolder.filter(db_folderId == folderId)
+            
+            try db.run(sql.update(db_folderName <- folderName))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFolderName-->success")
+            
+            
+        }catch{
+            CDPrint(item:"updateOneSafeFolderName-->error:\(error)")
+        }
+    }
+    
+    public func updateOneSafeFolderFakeType(fakeType:CDFakeType,folderId:Int) {
+
+        do{
+            let sql = SafeFolder.filter(db_folderId == folderId)
+            try db.run(sql.update(db_fakeType <- fakeType.rawValue))
+            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            CDPrint(item:"updateOneSafeFileIndentity-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFileIndentity-->error:\(error)")
+        }
+    }
+    /*
+    更新文件夹修改时间
+    */
+    public func updateOneSafeFolderModifyTime(modifyTime:Int,folderId:Int) {
+
+        do{
+            let sql = SafeFolder.filter(db_folderId == folderId)
+            try db.run(sql.update(db_modifyTime <- modifyTime))
+            CDPrint(item:"updateOneSafeFolderModifyTime-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFolderModifyTime-->error:\(error)")
+        }
+    }
+    
+    /*
+    更新文件夹访问时间
+    */
+    public func updateOneSafeFolderAccessTime(accessTime:Int,folderId:Int) {
+
+        do{
+            let sql = SafeFolder.filter(db_folderId == folderId)
+            try db.run(sql.update(db_accessTime <- accessTime))
+            CDPrint(item:"updateOneSafeFolderAccessTime-->success")
+        }catch{
+            CDPrint(item:"updateOneSafeFolderAccessTime-->error:\(error)")
+        }
+    }
+    
+    public func deleteOneFolder(folderId:Int) {
+        do{
+            try db.run(SafeFolder.filter(db_folderId == folderId).delete())
+            CDPrint(item:"deleteOneFolder-->success")
+        }catch{
+            CDPrint(item:"deleteOneFolder-->error:\(error)")
+        }
+    }
+    
+    public func deleteAllSubSafeFolder(superId:Int) {
+        do{
+            try db.run(SafeFolder.filter(db_superId >= superId).delete())
+            CDPrint(item:"deleteAllSubSafeFolder-->success")
+        }catch{
+            CDPrint(item:"deleteAllSubSafeFolder-->error:\(error)")
+        }
+    }
+}
+
+//MARK:musicInfo
+extension CDSqlManager {
+    
     func addOneMusicInfoWith(musicInfo:CDMusicInfo) -> Void {
         let musicId = queryMusicCount() + 1
 
@@ -843,8 +937,10 @@ class CDSqlManager: NSObject {
         }
         return count
     }
-
-    //MARK:musicClassInfo
+}
+//MARK:musicClassInfo
+extension CDSqlManager {
+    
     func addOneMusicClassInfoWith(classInfo:CDMusicClassInfo) -> Void {
         let count = queryMusicClassCount() + 1
 

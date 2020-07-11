@@ -50,11 +50,11 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
         }
     }
     func reloadUIData() {
-        let classArr = CDSqlManager.instance().queryAllMusicClass()
+        let classArr = CDSqlManager.shared.queryAllMusicClass()
         classView.classArr = classArr
         classView .reloadData()
 
-        let musicArr = CDSqlManager.instance().queryAllMusicWithClassId(classId: 1)
+        let musicArr = CDSqlManager.shared.queryAllMusicWithClassId(classId: 1)
         listView.listDataArr = musicArr
         listView.reloadData()
 
@@ -86,7 +86,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //                        var fileName = urlStr.getFileNameFromPath()
 //                        fileName = fileName.removingPercentEncoding()
 //                        let suffix = urlStr.pathExtension()
-//
+
 //                        let musicPath = String.MusicPath().appendingPathComponent(str: "\(fileName).\(suffix)")
 //                        if !FileManager.default.fileExists(atPath: musicPath){
 //                            do{
@@ -108,11 +108,11 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //                            let info = CDMusicInfo()
 //                            info.musicName = fileName
 //                            info.musicSinger = muiscInfo.artist
-//                            info.musicPath =  String.changeFilePathAbsoluteToRelectivepPath(absolutePath: musicPath)
-//                            info.musicImage = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: imagePath)
+//                            info.musicPath = musicPath.relativePath()
+//                            info.musicImage = imagePath.relativePath()
 //                            info.musicClassId = 3
 //                            info.musicTimeLength = muiscInfo.length
-//                            CDSqlManager.instance().addOneMusicInfoWith(musicInfo: info)
+//                            CDSqlManager.shared.addOneMusicInfoWith(musicInfo: info)
 //
 //                        }
 //                    }
@@ -130,7 +130,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //                CDHUDManager.shared.showText(text: "加载完成")
 //            }
 //        }
-//        let musicArr = CDSqlManager.instance().queryAllMusic()
+//        let musicArr = CDSqlManager.shared.queryAllMusic()
 //        listView.listDataArr = musicArr
 //        listView.reloadData()
 //    }

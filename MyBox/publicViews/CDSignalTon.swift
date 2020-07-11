@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import CoreGraphics.CGImage
 import Photos
-import AVFoundation
+
 
 
 class CDSignalTon: NSObject {
@@ -20,31 +20,31 @@ class CDSignalTon: NSObject {
     var loginType:CDLoginType!
     var touchIDSwitch:Bool = false //touch ID开关
     var fakeSwitch:Bool = false  //访客开关
-    var waterSwitch:Bool = false //水印开关
     var isViewDisappearStopRecording = false
     var videoAssetArr:[CDPHAsset] = []
     var tmpDict = NSMutableDictionary()
     var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
-    var waterMarkText:String! //水印文字
-    var waterMarkTextColor:UIColor! //水印文字颜色
+    var logbBean:CDLogBean!
+    var waterBean:CDWaterBean!
+    var tab:CDTabBarViewController!
+    
     
     static let shared = CDSignalTon()
     private override init() {
-        userId = CDConfigFile.getIntValueFromConfigWith(key: CD_UserId)
-        if userId == FIRSTUSERID {//已经登录了
-            basePwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: userId)
+        super.init()
+        if isFirstInstall() {//已经登录了
+            basePwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: userId)
         }else{
             //保存密码信息
             let userInfo = CDUserInfo()
             userInfo.userId = FIRSTUSERID
-            CDSqlManager.instance().addOneUserInfoWith(usernInfo: userInfo)
+            CDSqlManager.shared.addOneUserInfoWith(usernInfo: userInfo)
             //写入文件
             userId = FIRSTUSERID
-            CDConfigFile.setIntValueToConfigWith(key: CD_UserId, intValue: userId)
+            CDConfigFile.setIntValueToConfigWith(key: .userId, intValue: userId)
             //登录模式
             loginType = .real
-            CDConfigFile.setIntValueToConfigWith(key: CD_LoginType, intValue: loginType!.rawValue)
             //创建默认沙盒文件夹
             createLibraryForUser()
             //创建默认界面文件夹
@@ -52,20 +52,87 @@ class CDSignalTon: NSObject {
             //创建音频
             addDefaultMusicClass()
             
+            //配置日志
+            CDLogBean.setLogConfig(isOn: false, logLevel: .Debug, logName: "log \(timestampTurnString(timestamp: getCurrentTimestamp()))", logPath: String.documentPath())
+
+            //配置水印
+            CDWaterBean.setWaterConfig(isOn: false, text: getAppName())
+            
+            CDConfigFile.setOjectToConfigWith(key: .firstInstall, value: "YES")
+            
         }
-        waterMarkText = "墨凌风器\n厚德载物"
-        waterMarkTextColor = .red
         
         loginType = .real
         //初始化开关
-        fakeSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_FakeSwi)
-        touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: CD_TouchIdSwi)
+        fakeSwitch = CDConfigFile.getBoolValueFromConfigWith(key: .fakeSwi)
+        touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: .touchIdSwi)
+        
+        waterBean = CDWaterBean()
+        logbBean = CDLogBean()
     }
     
+    /**
+    添加沙盒文件夹
+    */
+    func addDefaultSafeFolder() -> Void {
+        let nameArr:[String] = ["图片文件", "音频文件","视频文件","文本文件"]
+        let pathArr:[String] = [String.ImagePath(),String.AudioPath(),String.VideoPath(),String.OtherPath()]
+        for i in 0..<nameArr.count {
+            let nowTime = getCurrentTimestamp()
+            let createtime:Int = nowTime;
+            let folderInfo = CDSafeFolder()
+            folderInfo.folderName = nameArr[i]
+            folderInfo.folderType = NSFolderType(rawValue: i)
+            folderInfo.isLock = LockOff
+            folderInfo.fakeType = .visible
+            folderInfo.createTime = Int(createtime)
+            folderInfo.modifyTime = Int(createtime)
+            folderInfo.accessTime = Int(createtime)
+            folderInfo.folderPath = pathArr[i].relativePath()
+            folderInfo.userId = CDUserId()
+            folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
+            _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
+        }
+    }
+    
+    /**
+    添加沙盒文件夹
+    */
+    func createLibraryForUser(){
+        _ = String.ImagePath()
+        _ = String.AudioPath()
+        _ = String.VideoPath()
+        _ = String.OtherPath()
+        _ = String.MusicPath()
+    }
+    
+    /**
+    添加默认音乐类别
+    */
+    func addDefaultMusicClass() {
+        let titleArr:[String] = Array(arrayLiteral: "最喜欢", "最近播放","乐库")
+        let imageArr:[String] = Array(arrayLiteral: "music_love", "music_recent","music_list")
+        for i in 0..<titleArr.count {
+            let nowTime = getCurrentTimestamp()
+            let createtime:Int = nowTime;
+            let classInfo = CDMusicClassInfo()
+            classInfo.className = titleArr[i]
+            classInfo.classId = i + 1
+            classInfo.classAvatar = imageArr[i]
+            classInfo.classCreateTime = Int(createtime)
+            classInfo.userId = CDUserId()
+            CDSqlManager.shared.addOneMusicClassInfoWith(classInfo: classInfo)
+
+        }
+    }
+    
+    /**
+    保存文件
+    */
     func saveSafeFileInfo(tmpFileUrl:URL,folderId:Int,subFolderType:NSFolderType){
         let tmpFilePath = tmpFileUrl.absoluteString
         let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
-        let suffix = tmpFilePath.pathExtension()
+        let suffix = tmpFilePath.getSuffix()
         var contentData = Data()
         //保存数据到临时data
         do {
@@ -79,17 +146,20 @@ class CDSignalTon: NSObject {
             try! FileManager.default.removeItem(atPath: tmpFilePath)
         }
         
-        let fileType = checkFileTypeWithExternString(externStr: suffix)
+        let fileType = suffix.getFileTypeFromSuffix()
         let currentTime = getCurrentTimestamp()
         let fileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
         fileInfo.userId = CDUserId()
         fileInfo.fileName = fileName
         fileInfo.createTime = currentTime
+        fileInfo.modifyTime = currentTime
+        fileInfo.accessTime = currentTime
         fileInfo.fileType = fileType
         var filePath:String!
 
         if subFolderType == .ImageFolder{
+            
             filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
             do {
                 try contentData.write(to: URL(fileURLWithPath: filePath))
@@ -99,7 +169,7 @@ class CDSignalTon: NSObject {
             }
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
             let image = UIImage(data: contentData)!
-            let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
+            let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
             let data = thumbImage.jpegData(compressionQuality: 1.0)
             do {
                 try data?.write(to: URL(fileURLWithPath: thumbPath))
@@ -109,7 +179,7 @@ class CDSignalTon: NSObject {
             
             fileInfo.fileWidth = Double(image.size.width)
             fileInfo.fileHeight = Double(image.size.height)
-            fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
+            fileInfo.thumbImagePath = thumbPath.relativePath()
             
         }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
             let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
@@ -125,14 +195,14 @@ class CDSignalTon: NSObject {
                     return
                 }
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                let image = firstFrmaeWithTheVideo(videoPath: filePath)
-                let data = image!.jpegData(compressionQuality: 1.0)
+                let image = getVideoPreviewImage(videoUrl: URL(fileURLWithPath: filePath))
+                let data = image.jpegData(compressionQuality: 1.0)
                 do {
                     try data?.write(to: URL(fileURLWithPath: thumbPath))
                 } catch  {
                     
                 }
-                fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
+                fileInfo.thumbImagePath = thumbPath.relativePath()
             }else{
                 filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
                 do {
@@ -154,31 +224,35 @@ class CDSignalTon: NSObject {
         }
         let fileSize = getFileSizeAtPath(filePath: filePath)
         fileInfo.fileSize = fileSize
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: filePath)
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+        fileInfo.filePath = filePath.relativePath()
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
         
         
     }
     
+    /**
+     保存原始图片
+     */
     func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
         let fileName = obj["fileName"] as! String
-        let suffix = fileName.pathExtension()
-        let fileType = checkFileTypeWithExternString(externStr: suffix)
-        var photo:PHLivePhoto!
+//        let imageType = obj["imageType"] as! String
+        let suffix = fileName.getSuffix()
+        let fileType = suffix.getFileTypeFromSuffix()
+//        var photo:PHLivePhoto!
         var image:UIImage!
-        if fileType == .LiveType {
-            photo = obj["file"] as? PHLivePhoto
-            return
-        }
-        else{
+//        if imageType == "live" {
+//            photo = obj["file"] as? PHLivePhoto
+//            return
+//        }
+//        else{
             image = obj["file"] as? UIImage
             
-        }
+//        }
         
         let time = getCurrentTimestamp()
         let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
         let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).\(suffix)")
-        let smallImage = imageCompressForSize(image: image, maxWidth: 1280)
+        let smallImage = image.compress(maxWidth: 1280)
         do{
             let imageData = smallImage.jpegData(compressionQuality: 0.5)
             try imageData?.write(to: URL(fileURLWithPath: savePath))
@@ -186,7 +260,7 @@ class CDSignalTon: NSObject {
             return
         }
 
-        let thumbImage = scaleImageAndCropToMaxSize(image: image, newSize: CGSize(width: 200, height: 200))
+        let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
         let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
 
         do {
@@ -197,42 +271,23 @@ class CDSignalTon: NSObject {
         let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
         fileInfo.fileName = fileName
-        fileInfo.filePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: savePath)
-        fileInfo.thumbImagePath = String.changeFilePathAbsoluteToRelectivepPath(absolutePath: thumbPath)
+        fileInfo.filePath = savePath.relativePath()
+        fileInfo.thumbImagePath = thumbPath.relativePath()
         fileInfo.fileSize = getFileSizeAtPath(filePath: savePath)
         fileInfo.fileWidth = Double(image.size.width)
         fileInfo.fileHeight = Double(image.size.height)
         fileInfo.createTime = Int(time)
+        fileInfo.modifyTime = Int(time)
+        fileInfo.accessTime = Int(time)
         fileInfo.fileType = fileType
         fileInfo.userId = CDUserId()
-        CDSqlManager.instance().addSafeFileInfo(fileInfo: fileInfo)
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
 
-    func firstFrmaeWithTheVideo(videoPath:String) -> UIImage?{
-        let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-        let urlAsset:AVURLAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: opts)
-        let generator = AVAssetImageGenerator(asset: urlAsset)
-        generator.appliesPreferredTrackTransform = true
-        generator.maximumSize = CGSize(width: CDSCREEN_WIDTH, height: CDViewHeight)
-        let error: Error? = nil
-        var imgRef: CGImage!
-        do {
-            imgRef = try generator.copyCGImage(at: CMTimeMake(value: 10, timescale: 10), actualTime: nil)
-        } catch {
-            print(" 0000 " + error.localizedDescription)
-            return nil
-        }
-        var image: UIImage!
-        if error == nil {
-            if let imgRef = imgRef {
-                image = UIImage(cgImage: imgRef)
-            }
-        } else {
-            image = UIImage(named: returnImgName(type: 8)!)
-        }
-        return image
-    }
-    @objc func imagesWithTheVideo(videoPath:String) -> [UIImage]{
+    /**
+     获取视频的每一帧图像
+    */
+    @objc func getVideoAllFrame(videoPath:String) -> [UIImage]{
         var imageArr:[UIImage] = []
 
         let url = URL(fileURLWithPath: videoPath)
@@ -246,120 +301,114 @@ class CDSignalTon: NSObject {
                 let img = UIImage(cgImage: cgImage!)
                 imageArr.append(img)
             }
-            self.perform(#selector(self.imagesWithTheVideo(videoPath:)), on: .main, with: videoPath, waitUntilDone: true)
+            self.perform(#selector(self.getVideoAllFrame(videoPath:)), on: .main, with: videoPath, waitUntilDone: true)
         }
         return imageArr
     }
-    func returnImgName(type: Int) -> String? {
-        let arr: [String] = [
-            "file_txt_big",
-            "file_audio_big",
-            "file_image_big",
-            "file_video_big",
-            "file_pdf_big",
-            "file_ppt_big",
-            "file_doc_big",
-            "file_txt_big",
-            "file_excel_big",
-            "file_rtf_big",
-            "file_image_big",
-            "file_zip_big",
-            "file_other_big"
-        ]
-        if type == 30 || type >= (arr.count) {
-            return "file_other_big"
-        }
-        return arr[type]
-    }
+    
 
-
+    /**
+     添加水印
+    */
     func addWartMarkToWindow(appWindow:UIWindow) {
         var imageView = appWindow.viewWithTag(waterMarkTag) as? UIImageView
         if imageView != nil {
             appWindow.bringSubviewToFront(imageView!)
         }else{
-            imageView = setWaterToMark(view: appWindow, text: waterMarkText, textColor: waterMarkTextColor)
+            imageView = setWaterToMark(window: appWindow, text: waterBean.text, textColor: waterBean.color)
             imageView?.tag = waterMarkTag
+            appWindow.bringSubviewToFront(imageView!)
         }
     }
-    
+    /**
+     更新水印
+    */
     func updateWaterMarkViewFromWindow(window:UIWindow){
         removeWaterMarkFromWindow(window: window)
-        let imageView = setWaterToMark(view: window, text: waterMarkText, textColor: waterMarkTextColor)
+        let imageView = setWaterToMark(window: window, text: waterBean.text, textColor: waterBean.color)
         imageView.tag = waterMarkTag
         window.bringSubviewToFront(imageView)
     }
     
+    /**
+     移除水印
+    */
     func removeWaterMarkFromWindow(window:UIWindow) -> Void{
-        let imageView = window.viewWithTag(waterMarkTag) as! UIImageView
-        imageView.removeFromSuperview()
+        let imageView = window.viewWithTag(waterMarkTag) as? UIImageView
+        if imageView != nil {
+            imageView?.removeFromSuperview()
+        }
 
     }
-    func setWaterToMark(view:NSObject,text:String,textColor:UIColor) -> UIImageView {
-        let view = view as! UIView
+    
+    /**
+     设置水印
+    */
+    let HORIZONTAL_SPACE:CGFloat = 30.0//水平间距
+    let VERTICAL_SPACE:CGFloat = 50.0//竖直间距
+    func setWaterToMark(window:UIWindow,text:String,textColor:UIColor) -> UIImageView {
+        
+        func drawWaterMark(frame:CGRect,text:String,color:UIColor) -> UIImage {
+            let viewHeight = frame.height
+            let viewWidth = frame.width
+            //为防止图片失真,绘制图片和原始图片宽高一致
+            UIGraphicsBeginImageContext(CGSize(width: viewWidth, height: viewHeight))
+            let sqrtLength = sqrt(viewWidth * viewWidth + viewHeight * viewHeight)
 
+            let attr = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),
+                        NSAttributedString.Key.foregroundColor:color]
+            
+            let attrStr = NSMutableAttributedString(string: text, attributes: attr)
+
+            //绘制文字宽高
+            let strWidth = attrStr.size().width
+            let strHeight = attrStr.size().height
+
+            //开始旋转上下文矩阵，绘制水印文字
+            let context = UIGraphicsGetCurrentContext()
+            //将绘制原点调整到image中心
+            context?.concatenate(CGAffineTransform(translationX: viewWidth/2, y: viewHeight/2))
+            //以绘制圆点为中心旋转
+            context?.concatenate(CGAffineTransform(rotationAngle: CGFloat(-(Double.pi/2 / 3))))
+            context?.concatenate(CGAffineTransform(translationX: -viewWidth/2, y: -viewHeight/2))
+            
+            let horCount = sqrtLength / (strWidth + HORIZONTAL_SPACE) + 1
+            let verCount = sqrtLength / (strHeight + VERTICAL_SPACE) + 1
+            
+            //
+            let orignX = -(sqrtLength - viewWidth)/2
+            let orignY = -(sqrtLength - viewHeight)/2
+            var tempOrignX = orignX
+            var tempOrignY = orignY
+            for i in 0..<Int(horCount * verCount) {
+                (text as NSString).draw(in: CGRect(x: tempOrignX, y: tempOrignY, width: strWidth, height: strHeight), withAttributes: attr)
+                if i % Int(horCount) == 0 && i != 0 {
+                    tempOrignX = orignX
+                    tempOrignY += (strHeight + VERTICAL_SPACE)
+                } else {
+                    tempOrignX += (strWidth + HORIZONTAL_SPACE)
+                }
+            }
+            
+            let finalImg = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            context?.restoreGState()
+            return finalImg!
+            
+            
+        }
+        
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight))
         imageView.alpha = 0.3
         imageView.image = drawWaterMark(frame: imageView.frame, text: text, color: textColor)
         imageView.isUserInteractionEnabled = false
-        view.addSubview(imageView)
+        window.addSubview(imageView)
         return imageView
     }
     
-    let HORIZONTAL_SPACE:CGFloat = 30.0//水平间距
-    let VERTICAL_SPACE:CGFloat = 50.0//竖直间距
-    func drawWaterMark(frame:CGRect,text:String,color:UIColor) -> UIImage {
-        let viewHeight = frame.height
-        let viewWidth = frame.width
-        //为防止图片失真,绘制图片和原始图片宽高一致
-        UIGraphicsBeginImageContext(CGSize(width: viewWidth, height: viewHeight))
-        let sqrtLength = sqrt(viewWidth * viewWidth + viewHeight * viewHeight)
-
-        let attr = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),
-                    NSAttributedString.Key.foregroundColor:color]
-        
-        let attrStr = NSMutableAttributedString(string: text, attributes: attr)
-
-        //绘制文字宽高
-        let strWidth = attrStr.size().width
-        let strHeight = attrStr.size().height
-
-        //开始旋转上下文矩阵，绘制水印文字
-        let context = UIGraphicsGetCurrentContext()
-        //将绘制原点调整到image中心
-        context?.concatenate(CGAffineTransform(translationX: viewWidth/2, y: viewHeight/2))
-        //以绘制圆点为中心旋转
-        context?.concatenate(CGAffineTransform(rotationAngle: CGFloat(-(Double.pi/2 / 3))))
-        context?.concatenate(CGAffineTransform(translationX: -viewWidth/2, y: -viewHeight/2))
-        
-        let horCount = sqrtLength / (strWidth + HORIZONTAL_SPACE) + 1
-        let verCount = sqrtLength / (strHeight + VERTICAL_SPACE) + 1
-        
-        //
-        let orignX = -(sqrtLength - viewWidth)/2
-        let orignY = -(sqrtLength - viewHeight)/2
-        var tempOrignX = orignX
-        var tempOrignY = orignY
-        for i in 0..<Int(horCount * verCount) {
-            (text as NSString).draw(in: CGRect(x: tempOrignX, y: tempOrignY, width: strWidth, height: strHeight), withAttributes: attr)
-            if i % Int(horCount) == 0 && i != 0 {
-                tempOrignX = orignX
-                tempOrignY += (strHeight + VERTICAL_SPACE)
-            } else {
-                tempOrignX += (strWidth + HORIZONTAL_SPACE)
-            }
-        }
-        
-        let finalImg = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        context?.restoreGState()
-        return finalImg!
-        
-        
-    }
-
-    
-
+    /**
+     音频文件获取音频信息
+    */
     func getMusicInfoFromMusicFile(filePath:String)-> MusicInfo{
         let url = URL(fileURLWithPath: filePath)
         let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
@@ -388,6 +437,9 @@ class CDSignalTon: NSObject {
         return musicInfo
     }
 
+    /**
+     音频拼接
+    */
     func appendAudio(folderId:Int,appendFile:[CDSafeFileInfo],Complete:@escaping(_ success:Bool)->Void){
         let nowTime = getCurrentTimestamp()
         //导出路径
@@ -428,526 +480,9 @@ class CDSignalTon: NSObject {
         })
     }
     
-    func checkPermission(type:CDDevicePermissionType) -> Bool {
-        if type == .Library {
-            let status = PHPhotoLibrary.authorizationStatus()
-            return status == .authorized ? true : false
-        } else if type == .camera {
-            let status = AVCaptureDevice.authorizationStatus(for: .video)
-            return status == .authorized ? true : false
-        } else if type == .micorphone {
-            let status = AVCaptureDevice.authorizationStatus(for: .audio)
-            return status == .authorized ? true : false
-        } else if type == .location {
-            let status = CLLocationManager.authorizationStatus()
-            if status == .authorizedAlways ||
-            status == .authorizedWhenInUse{
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
-    }
-}
-
-@inline(__always) func StringWithUUID()->String{
-    let uuidObj = CFUUIDCreate(nil)
-    let uuidString = CFUUIDCreateString(nil, uuidObj) as String?
-    return uuidString!
-}
-@inline(__always) func getFileSizeAtPath(filePath:String) ->Int{
-    let manager = FileManager.default
-    var fileSize:Int = 0
-    if manager.fileExists(atPath: filePath) {
-        do{
-            let attr = try manager.attributesOfItem(atPath: filePath)
-            fileSize = attr[FileAttributeKey.size] as! Int
-        }catch{
-
-        }
-    }
-    return fileSize
-}
-
-@inline(__always) func getFolderSizeAtPath(folderPath:String!) ->Int{
-    var isDir:ObjCBool = false
-    let manager = FileManager.default
-    var fileSize:Int = 0
-    if manager.fileExists(atPath: folderPath, isDirectory: &isDir) {
-        if isDir.boolValue {
-            let fileArr = manager.subpaths(atPath: folderPath)!
-            for i in 0..<fileArr.count{
-                let path = fileArr[i]
-                fileSize = fileSize + getFileSizeAtPath(filePath: path)
-            }
-            return fileSize
-        }
-    }
-    return getFileSizeAtPath(filePath: folderPath)
-}
-@inline(__always) func createLibraryForUser(){
-    _ = String.ImagePath()
-    _ = String.AudioPath()
-    _ = String.VideoPath()
-    _ = String.OtherPath()
-    _ = String.MusicPath()
-}
-
-@inline(__always) func CDUserId() -> Int{
-    let userId = CDConfigFile.getIntValueFromConfigWith(key: CD_UserId)
-    return userId
-}
-@inline(__always) func deleteLibraryForUser(){
-    String.deleteLibraryUserdataPath()
-}
-
-@inline(__always) func addDefaultSafeFolder() -> Void {
-    let nameArr:[String] = Array(arrayLiteral: "图片文件", "音频文件","视频文件","文本文件")
     
-    for i in 0..<nameArr.count {
-        let nowTime = getCurrentTimestamp()
-        let createtime:Int = nowTime;
-        let folderInfo = CDSafeFolder()
-        folderInfo.folderName = nameArr[i]
-        folderInfo.folderType = NSFolderType(rawValue: i)
-        folderInfo.isLock = LockOff
-        folderInfo.fakeType = .visible
-        folderInfo.createTime = Int(createtime)
-        folderInfo.userId = CDUserId()
-        folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
-        _ = CDSqlManager.instance().addSafeFoldeInfo(folder: folderInfo)
-    }
 }
 
-@inline(__always) func addDefaultMusicClass() {
-    let titleArr:[String] = Array(arrayLiteral: "最喜欢", "最近播放","乐库")
-    let imageArr:[String] = Array(arrayLiteral: "music_love", "music_recent","music_list")
-    for i in 0..<titleArr.count {
-        let nowTime = getCurrentTimestamp()
-        let createtime:Int = nowTime;
-        let classInfo = CDMusicClassInfo()
-        classInfo.className = titleArr[i]
-        classInfo.classId = i + 1
-        classInfo.classAvatar = imageArr[i]
-        classInfo.classCreateTime = Int(createtime)
-        classInfo.userId = CDUserId()
-        CDSqlManager.instance().addOneMusicClassInfoWith(classInfo: classInfo)
-
-    }
-}
-@inline(__always) func JudgeStringIsEmpty(string:String) -> Bool {
-    if string == "" ||
-        string.count == 0{
-        return true
-    }else{
-        return false
-    }
-}
-
-@inline(__always) func LoadImageByName(imageName:String,type:String) -> UIImage? {
-    var path = Bundle.main.path(forResource:imageName, ofType:type)
-    if path == nil{
-        let name = imageName + "@2x"
-        path = Bundle.main.path(forResource:name, ofType:type)
-    }
-    if path == nil{
-        return nil
-    }
-    let image = UIImage(contentsOfFile: path!)
-    return image!
-}
-
-@inline(__always) func createTextFiled(placeholder:String,frame:CGRect) -> UITextField{
-    let textFiled = UITextField(frame: frame)
-    textFiled.placeholder = placeholder
-    textFiled.contentVerticalAlignment = .center
-    textFiled.textColor = TextDarkBlackColor
-    textFiled.font = TextMidFont
-    textFiled.backgroundColor = UIColor.clear
-    return textFiled
-}
-@inline(__always) func GetDocumentPath()->String{
-
-    let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-    return docPath
-}
-
-@inline(__always) func fileManagerDeleteFileWithFilePath(filePath:String){
-    let manager = FileManager.default
-    if manager.fileExists(atPath: filePath) {
-        do{
-            try manager.removeItem(atPath: filePath)
-        }catch{
-            
-        }
-    }
-}
-@inline(__always) func scaleImageAndCropToMaxSize(image:UIImage,newSize:CGSize) ->UIImage {
-    let largestSize = newSize.width > newSize.height ? newSize.width : newSize.height
-    var imageSize:CGSize = image.size
-    var ratio:CGFloat = 0
-    if imageSize.width > imageSize.height{
-        ratio = largestSize/imageSize.height
-    }else{
-        ratio = largestSize/imageSize.width
-    }
-    let rect = CGRect(x: 0.0, y: 0.0, width: ratio * imageSize.width, height: ratio * imageSize.height)
-    UIGraphicsBeginImageContext(rect.size)
-    image.draw(in: rect)
-
-    let scaleImage:UIImage! = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    var offSetX:CGFloat = 0
-    var offSetY:CGFloat = 0
-
-    imageSize = scaleImage.size
-    if imageSize.width < imageSize.height {
-        offSetY = (imageSize.height / 2) - (imageSize.width / 2)
-    }else{
-        offSetX = (imageSize.width / 2) - (imageSize.height / 2)
-    }
-
-
-    let corpRect = CGRect(x: offSetX, y: offSetY, width: imageSize.width - offSetX * 2, height: imageSize.height - offSetY * 2)
-
-    let sourceImageRef:CGImage = scaleImage.cgImage!
-    let croppedImageRef:CGImage = sourceImageRef.cropping(to: corpRect)!
-    let newImage = UIImage(cgImage: croppedImageRef)
-    UIGraphicsEndImageContext()
-    return newImage
-}
-
-@inline(__always)func getMMSSFromSS(second:Double)->String{
-    let hour = Int(second / 3600)
-    let minute = (Int(second) % 3600)/3600
-    let second = Int(second) % 60
-    var format:String = ""
-    if hour > 0 {
-        format = String.init(format: "%02ld:%02ld:%02ld", hour,minute,second)
-    }else{
-        format = String.init(format: "%02ld:%02ld", minute,second)
-    }
-    return format
-}
-
-
-@inline(__always)func getLengthOfStr(text: String, needTrimSpaceCheck: Bool) -> Int {
-    if needTrimSpaceCheck {
-        let realText = removeSpaceAndNewline(str: text)
-        if 0 == realText.count {
-            return 0
-        }
-    }
-
-    var len = 0
-    for scalar in text.unicodeScalars {
-        if scalar.value > 0 && scalar.value < 127{
-            len += 1
-        }else{
-            len += 2
-        }
-    }
-    return len
-}
-
-@inline(__always)func removeSpaceAndNewline(str:String)->String{
-    let text = str.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
-    return text
-
-}
-
-@inline(__always)func getRandString() -> String? {
-    let NUMBER_OF_CHARS: Int = 32
-    let random_str_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    var ranStr = ""
-    for _ in 0..<NUMBER_OF_CHARS {
-        let index = Int(arc4random_uniform(UInt32(random_str_characters.count)))
-        ranStr.append(random_str_characters[random_str_characters.index(random_str_characters.startIndex, offsetBy: index)])
-    }
-    return ranStr
-}
-
-@inline(__always)func getTimeLenWithVideoPath(path:String)->Double{
-    let urlAsset = AVURLAsset(url: URL(fileURLWithPath: path))
-    let second = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
-    return second
-}
-@inline(__always)func canPlayRecord(filePath:String)->Bool{
-
-    let freeDiskSpace = getFreeDiskSpace() - 300 * 1024 * 1024.0
-    let recordSpace = getFileSizeAtPath(filePath: filePath)
-    if Int(freeDiskSpace) > Int(recordSpace) {
-        return true
-    }else{
-        return false
-    }
-}
-@inline(__always)func getFreeDiskSpace() ->Double{
-    return 100.0
-}
-
-@inline(__always)func returnSize(fileSize:Int)->String{
-    var sizeStr = ""
-    var sizef = Float(fileSize)
-    var i = 0
-    while sizef >= 1024 {
-        sizef = sizef / 1024.0
-        i += 1
-    }
-    switch i {
-    case 0:
-        sizeStr = String(format: "%.2ldB", sizef)
-    case 1:
-        sizeStr = String(format: "%.2lfK", sizef)
-    case 2:
-        sizeStr = String(format: "%.2lfM", sizef)
-    case 3:
-        sizeStr = String(format: "%.2lfG", sizef)
-    case 4:
-        sizeStr = String(format: "%.2lfT", sizef)
-    default:
-        sizeStr = ""
-    }
-    return sizeStr
-}
-
-@inline(__always)func getCurrentTimestamp() -> Int{
-    let nowTime = NSDate.init().timeIntervalSince1970 * 1000
-    return Int(nowTime)
-}
-@inline(__always)func timestampTurnString(timestamp:Int)->String{
-    let formter = DateFormatter()
-    formter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    let date = Date(timeIntervalSince1970: TimeInterval(timestamp/1000))
-    let dateStr = formter.string(from: date)
-    return dateStr
-}
-
-@inline(__always)func getVideoPreviewImage(videoUrl:URL) -> UIImage {
-    let avAsset = AVAsset(url: videoUrl)
-    let generator = AVAssetImageGenerator(asset: avAsset)
-    generator.appliesPreferredTrackTransform = true
-    let time = CMTimeMakeWithSeconds(0.0, preferredTimescale: 600)
-    var actualTime:CMTime = CMTimeMake(value: 0, timescale: 0)
-    let imageRef:CGImage = try! generator.copyCGImage(at: time, actualTime: &actualTime)
-    let image = UIImage(cgImage: imageRef)
-
-    return image
-}
-@inline(__always)func checkFileTypeWithExternString(externStr:String)-> NSFileType{
-    if (externStr.uppercased() == "PDF") ||
-        (externStr.uppercased() == "PDFX") {
-        return .PdfType
-    } else if (externStr.uppercased() == "PPT") ||
-        (externStr.uppercased() == "PPTX") ||
-        (externStr.uppercased() == "KEY") {
-        return .PptType
-    } else if (externStr.uppercased() == "DOC") ||
-        (externStr.uppercased() == "DOCX") ||
-        (externStr.uppercased() == "DOCUMENT") ||
-        (externStr.uppercased() == "PAGES") {
-        return .DocType
-    }else if (externStr.uppercased() == "TXT") {
-        return .TxtType
-    } else if (externStr.uppercased() == "XLS") ||
-        (externStr.uppercased() == "XLSX") ||
-        (externStr.uppercased() == "NUMBERS") {
-        return .ExclType
-    } else if (externStr.uppercased() == "RTF") {
-        return .RtfType
-    } else if (externStr.uppercased() == "GIF") {
-        return .GifType
-    }else if (externStr.uppercased() == "PNG") ||
-        (externStr.uppercased() == "JPG") ||
-        (externStr.uppercased() == "TIF") ||
-        (externStr.uppercased() == "JPEG") ||
-        (externStr.uppercased() == "BMP") ||
-        (externStr.uppercased() == "PCD") ||
-        (externStr.uppercased() == "MAC") ||
-        (externStr.uppercased() == "PCX") ||
-        (externStr.uppercased() == "DXF") ||
-        (externStr.uppercased() == "CDR") {
-        return .ImageType
-    }else if (externStr.uppercased() == "HEIC") {
-        return .LiveType
-    }else if (externStr.uppercased() == "MP3") ||
-        (externStr.uppercased() == "WAV") ||
-        (externStr.uppercased() == "CAF") ||
-        (externStr.uppercased() == "CDA") ||
-        (externStr.uppercased() == "MID") ||
-        (externStr.uppercased() == "RAM") ||
-        (externStr.uppercased() == "RMX") ||
-        (externStr.uppercased() == "VQF") ||
-        (externStr.uppercased() == "AIF") ||
-        (externStr.uppercased() == "AIFF") ||
-        (externStr.uppercased() == "SND") ||
-        (externStr.uppercased() == "SVX") ||
-        (externStr.uppercased() == "VOC") ||
-        (externStr.uppercased() == "AMR") ||
-        (externStr.uppercased() == "M4A") ||/*add_cd 系统录音 */
-        (externStr.uppercased() == "M4R") ||
-        (externStr.uppercased() == "M4V") ||
-        (externStr.uppercased() == "AAC"){
-    return .AudioType
-    }else if (externStr.uppercased() == "MOV") ||
-        (externStr.uppercased() == "MP4") ||
-        (externStr.uppercased() == "AVI") ||
-        (externStr.uppercased() == "MPG") ||
-        (externStr.uppercased() == "M2V") ||
-        (externStr.uppercased() == "VOB") ||
-        (externStr.uppercased() == "ASF") ||
-        (externStr.uppercased() == "WMF") ||
-        (externStr.uppercased() == "RMVB") ||
-        (externStr.uppercased() == "RM") ||
-        (externStr.uppercased() == "DIVX") ||
-        (externStr.uppercased() == "MKV") {
-        return .VideoType
-    }else if (externStr.uppercased() == "ZIP") ||
-        (externStr.uppercased() == "RAR") ||
-        (externStr.uppercased() == "7-ZIP") ||
-        (externStr.uppercased() == "ACE") ||
-        (externStr.uppercased() == "ARJ") ||
-        (externStr.uppercased() == "BV2") ||
-        (externStr.uppercased() == "CAD") ||
-        (externStr.uppercased() == "GZIP") ||
-        (externStr.uppercased() == "ISO") ||
-        (externStr.uppercased() == "JAR") ||
-        (externStr.uppercased() == "LZH") ||
-        (externStr.uppercased() == "TAR") ||
-        (externStr.uppercased() == "UUE") ||
-        (externStr.uppercased() == "XZ") {
-        return .ZipType
-    } else {
-        return .OtherType
-    }
-
-
-}
-
-@inline(__always)func imageCompressForSize(image:UIImage,maxWidth:CGFloat) -> UIImage{
-    // 宽高比
-    var ratio: CGFloat = image.size.width / image.size.height
-    // 目标大小
-    var targetW: CGFloat = maxWidth
-    var targetH: CGFloat = maxWidth
-
-    // 宽高均 <= 1280，图片尺寸大小保持不变
-    if image.size.width < maxWidth && image.size.height < maxWidth {
-        return image
-    }
-        // 宽高均 > 1280 && 宽高比 > 2，
-    else if image.size.width > maxWidth && image.size.height > maxWidth {
-
-        // 宽大于高 取较小值(高)等于1280，较大值等比例压缩
-        if ratio > 1 {
-            targetH = maxWidth
-            targetW = targetH * ratio
-        }
-// 高大于宽 取较小值(宽)等于1280，较大值等比例压缩 (宽高比在0.5到2之间 )
-        else {
-            targetW = maxWidth
-            targetH = targetW / ratio
-        }
-    }else{// 宽或高 > 1280
-        if ratio > 2 { // 宽图 图片尺寸大小保持不变
-            targetW = image.size.width
-            targetH = image.size.height
-        } else if ratio < 0.5 {  // 长图 图片尺寸大小保持不变
-            targetW = image.size.width
-            targetH = image.size.height
-        } else if ratio > 1 { // 宽大于高 取较大值(宽)等于1280，较小值等比例压缩
-            targetW = maxWidth
-            targetH = targetW / ratio
-        } else { // 高大于宽 取较大值(高)等于1280，较小值等比例压缩
-            targetH = maxWidth
-            targetW = targetH * ratio
-        }
-    }
-    UIGraphicsBeginImageContext(CGSize(width: targetW, height: targetH))
-    image.draw(in: CGRect(x: 0, y: 0, width: targetW, height: targetH))
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return newImage!
-
-}
-
-@inline(__always) func stringContainsEmoji(string:String) -> Bool {
-    var returnValue = false
-    let nsStr = string as NSString
-
-    nsStr.enumerateSubstrings(in: NSRange(location: 0, length: string.count), options: .byComposedCharacterSequences) { (substring, substringRange, enclosingRange, stop) in
-        let nsSub = substring! as NSString
-
-        let hs = unichar(nsSub.character(at: 0))
-        // surrogate pair
-        if 0xd800 <= hs && hs <= 0xdbff {
-            if nsSub.length > 1 {
-                let ls = unichar(nsSub.character(at: 1))
-                let uc = (Int((hs - 0xd800)) * 0x400) + Int((ls - 0xdc00)) + 0x10000
-                if 0x1d000 <= uc && uc <= 0x1f77f {
-                    returnValue = true
-                }
-            }else if nsSub.length > 1 {
-                let ls = unichar(nsSub.character(at: 1))
-                if ls == 0x20e3 {
-                    returnValue = true
-                }
-            }else{
-                if 0x2100 <= hs && hs <= 0x27ff {
-                    returnValue = true
-                } else if 0x2b05 <= hs && hs <= 0x2b07 {
-                    returnValue = true
-                } else if 0x2934 <= hs && hs <= 0x2935 {
-                    returnValue = true
-                } else if 0x3297 <= hs && hs <= 0x3299 {
-                    returnValue = true
-                } else if hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50 {
-                    returnValue = true
-                }
-
-            }
-        }
-    }
-    return returnValue;
-}
-
-
-@inline(__always) func imageFormatForImageData(data:NSData) ->SDImageFormat{
-    var c: UInt8?
-    data.getBytes(&c, length: 1)
-    switch c {
-    case 0xff:
-        return SDImageFormat.SDImageFormatJPEG
-    case 0x89:
-        return SDImageFormat.SDImageFormatPNG;
-    case 0x47:
-        return SDImageFormat.SDImageFormatGIF;
-    case 0x49,0x4D:
-        return SDImageFormat.SDImageFormatTIFF;
-    case 0x52:
-        if data.length > 12{
-            let string = String(data: data.subdata(with: NSRange(location: 0, length: 12)), encoding: String.Encoding.ascii)!
-            if (string.hasPrefix("PIFF") &&
-                string.hasSuffix("WEBP")){
-                return SDImageFormat.SDImageFormatWebP;
-            }
-        }
-    case 0x00:
-        if data.length > 12{
-            let string = String(data: data.subdata(with: NSRange(location: 4, length: 8)), encoding: String.Encoding.ascii)!
-            if (string == "ftypheic" ||
-                string == "WEBP" ||
-                string == "ftyphevc" ||
-                string == "ftyphevx"){
-                return SDImageFormat.SDImageFormatHEIC;
-            }
-        }
-    default:
-        return SDImageFormat.SDImageFormatUndefined;
-    }
-    return SDImageFormat.SDImageFormatUndefined;
-}
 
 
 

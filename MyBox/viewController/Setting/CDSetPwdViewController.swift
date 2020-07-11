@@ -69,9 +69,9 @@ class CDSetPwdViewController: CDBaseAllViewController {
         let pwdStr = newPwdTextFiled.text!
         let confirmPwdStr = confirmPwdTextFiled.text
 
-        if isModify && JudgeStringIsEmpty(string: oldStr){
+        if isModify && oldStr.isEmpty{
             CDHUDManager.shared.showText(text: "请输入原始密码")
-        }else if JudgeStringIsEmpty(string: pwdStr){
+        }else if pwdStr.isEmpty{
             CDHUDManager.shared.showText(text: "请输入新密码")
             return
         }else if pwdStr.count<6 || pwdStr.count>12{
@@ -85,33 +85,33 @@ class CDSetPwdViewController: CDBaseAllViewController {
         if isModify {
             if isFake {
                 //数据库验证原始密码是否正确
-                let fakePwd = CDSqlManager.instance().queryUserFakeKeyWithUserId(userId: CDUserId())
+                let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
                 if fakePwd != oldStr.md5 {
                     //验证错误，重新输入
                     CDHUDManager.shared.showText(text: "原始访客密码错误，请重新输入")
                     return
                 }
                 //验证通过，保存
-                CDSqlManager.instance().updateUserFakePwdWith(pwd: oldStr.md5)
+                CDSqlManager.shared.updateUserFakePwdWith(pwd: oldStr.md5)
             }else{
-                let realPwd = CDSqlManager.instance().queryUserRealKeyWithUserId(userId: CDUserId())
+                let realPwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
                 if realPwd != pwdStr.md5 {
                     CDHUDManager.shared.showText(text: "原始密码错误，请重新输入")
                     return
                 }
-                CDSqlManager.instance().updateUserRealPwdWith(pwd: pwdStr.md5)
+                CDSqlManager.shared.updateUserRealPwdWith(pwd: pwdStr.md5)
             }
             CDHUDManager.shared.showText(text: "密码修改成功")
             
         }else{
             if !isFake {
                 CDSignalTon.shared.basePwd = pwdStr.md5
-                CDSqlManager.instance().updateUserRealPwdWith(pwd: pwdStr.md5)
+                CDSqlManager.shared.updateUserRealPwdWith(pwd: pwdStr.md5)
                 CDSignalTon.shared.loginType = .real
 //                CDConfigFile.setOjectToConfigWith(key: CD_IsLogin, value: "YES")
 //                let ff = CDConfigFile.getValueFromConfigWith(key: CD_IsLogin)
             }else{
-                CDSqlManager.instance().updateUserFakePwdWith(pwd: pwdStr.md5)
+                CDSqlManager.shared.updateUserFakePwdWith(pwd: pwdStr.md5)
             }
             CDHUDManager.shared.showText(text: "密码设置成功")
         }

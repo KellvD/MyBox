@@ -8,14 +8,33 @@
 
 import UIKit
 
+enum CDConfigKey:String {
+    case touchIdSwi = "touchIdSwi"
+    case fakeSwi = "fakeSwi"
+    
+    case userId = "userId"
+    case firstInstall = "firstInstall"
+    
+    case waterSwi = "waterSwi"
+    case waterText = "waterMarkText"
+    case waterTextColor = "waterTextColor"
+    
+    case logSwi = "logSwi"
+    case logPath = "logPath"
+    case logLevel = "logLevel"
+    case logName = "logName"
+    
+   
+}
+
 class CDConfigFile: NSObject {
 
     class func databasePath()->String{
 
-        return GetDocumentPath().appendingPathComponent(str: "/CDConfig.dat")
+        return String.documentPath().appendingPathComponent(str: "/CDConfig.dat")
     }
     //MARK: Object
-    class func setOjectToConfigWith(key:String,value:String){
+    class func setOjectToConfigWith(key:CDConfigKey,value:String){
 
         let finaPath = databasePath()
         var writeDict = NSMutableDictionary(contentsOfFile: finaPath)
@@ -25,28 +44,29 @@ class CDConfigFile: NSObject {
         if writeDict == nil {
             return
         }
-        writeDict?.setObject(value, forKey: key as NSCopying)
+        writeDict?.setObject(value, forKey: key.rawValue as NSCopying)
         let bv = writeToFileWith(writeDict: writeDict!, filePath: finaPath)
 
         if bv {
             print("写入文件成功")
         }
     }
-    class func getValueFromConfigWith(key:String)->String{
+    class func getValueFromConfigWith(key:CDConfigKey)->String{
         let finaPath = databasePath()
         var ret = ""
         let readDict = NSMutableDictionary(contentsOfFile: finaPath)
         if readDict == nil {
             return ""
         }else{
-            ret = readDict?.object(forKey: key) as? String ?? ""
+            ret = readDict?.object(forKey: key.rawValue) as? String ?? ""
         }
 
         return ret
     }
 
     //MARK: Int
-    class func setIntValueToConfigWith(key:String,intValue:Int){
+    class func setIntValueToConfigWith(key:CDConfigKey,intValue:Int){
+        
         let finaPath = databasePath()
         var writeDict = NSMutableDictionary(contentsOfFile: finaPath)
         if writeDict == nil {
@@ -56,7 +76,7 @@ class CDConfigFile: NSObject {
             return
         }
         let num1 = NSNumber(value:intValue)
-        writeDict?.setObject(num1, forKey: key as NSCopying)
+        writeDict?.setObject(num1, forKey: key.rawValue as NSCopying)
         let bv = writeToFileWith(writeDict: writeDict!, filePath: finaPath)
 
         if bv {
@@ -64,21 +84,21 @@ class CDConfigFile: NSObject {
         }
 
     }
-    class func getIntValueFromConfigWith(key:String)->Int{
+    class func getIntValueFromConfigWith(key:CDConfigKey)->Int{
         let finaPath = databasePath()
         var ret = -1
         let readDict = NSMutableDictionary(contentsOfFile: finaPath)
         if readDict == nil {
             return -1
         }else{
-            let num1 = readDict?.object(forKey: key) as? NSNumber
+            let num1 = readDict?.object(forKey: key.rawValue) as? NSNumber
             ret = num1?.intValue ?? -1
         }
         return ret
     }
 
     //MARK: Int
-    class func setBoolValueToConfigWith(key:String,boolValue:Bool){
+    class func setBoolValueToConfigWith(key:CDConfigKey,boolValue:Bool){
 
         if boolValue {
             setIntValueToConfigWith(key: key, intValue: 1)
@@ -87,7 +107,7 @@ class CDConfigFile: NSObject {
         }
 
     }
-    class func getBoolValueFromConfigWith(key:String)->Bool{
+    class func getBoolValueFromConfigWith(key:CDConfigKey)->Bool{
         let valueC = getIntValueFromConfigWith(key: key)
         if valueC == 1 {
             return true

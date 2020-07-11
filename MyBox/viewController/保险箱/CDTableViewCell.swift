@@ -77,7 +77,7 @@ class CDTableViewCell: UITableViewCell {
         fileNameL.text = fileInfo.fileName
         fileCreateTimeL.text = timestampTurnString(timestamp: fileInfo.createTime)
 
-        let imageName = CDSignalTon.shared.returnImgName(type: fileInfo.fileType!.rawValue)
+        let imageName = getFileHeadImage(type: fileInfo.fileType)
 //        var rect = audioLengthL.frame
         headImage.image = UIImage(named: imageName!)
         selectImage.isHidden = showSelectIcon == .hide

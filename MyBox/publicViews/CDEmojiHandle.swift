@@ -8,7 +8,7 @@
 
 import UIKit
 
-let EmojiRegularExpression = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5 ]+\\]"
+
 class CDEmojiHandle: NSObject {
 
     // 判断字符串中是否有自定义表情

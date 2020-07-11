@@ -12,7 +12,6 @@ class CDVideoScrollerCell: UICollectionViewCell {
     var player:AVPlayer!
     var playBtn:UIButton!
     var playerLayer:AVPlayerLayer!
-    var isPlaying:Bool = false
     var imageView:UIImageView!
     var viewFlagV:UIImageView!
     var videoSizeL:UILabel!
@@ -85,16 +84,14 @@ class CDVideoScrollerCell: UICollectionViewCell {
     @objc func onHandleVideoPlay(){
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidFinish), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
-        if isPlaying {
-            stopPlayer()
-        }else{
+        if player == nil {
             initPlayer()
+        }else{
+            stopPlayer()
         }
     }
 
     func initPlayer() {
-        isPlaying = true
-        imageView.isHidden = true
         videoTap?.isEnabled = true
         playBtn.isHidden = true
         let urlAsset = AVURLAsset(url: videoUrl!, options: nil)
@@ -104,7 +101,6 @@ class CDVideoScrollerCell: UICollectionViewCell {
         try! session.setCategory(.playAndRecord, options: .defaultToSpeaker)
 
         player = AVPlayer(playerItem: playerItem)
-
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = imageView.frame
         playerLayer.videoGravity = .resizeAspectFill
@@ -112,10 +108,8 @@ class CDVideoScrollerCell: UICollectionViewCell {
         player.play()
     }
     func stopPlayer() {
-        if isPlaying {
-            isPlaying = false
+        if  player != nil {
             videoTap?.isEnabled = false
-            imageView.isHidden = false
             playBtn.isHidden = false
             player.pause()
             player.currentItem?.cancelPendingSeeks()

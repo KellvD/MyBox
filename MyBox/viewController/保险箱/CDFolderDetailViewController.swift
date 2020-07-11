@@ -14,17 +14,13 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
 
     private var tableView:UITableView!
     private var fakeSwitch:UISwitch!
-    private var totalSize:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "文件夹简介"
-        let folderPath = String.libraryUserdataPath().appendingPathComponent(str: folderInfo.folderPath)
-        totalSize = getFolderSizeAtPath(folderPath: folderPath)
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         tableView.delegate = self;
         tableView.dataSource = self
         self.view.addSubview(tableView)
-
 
         if folderInfo.isLock == LockOn {
             let footView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: CDSCREEN_WIDTH, height: 100.0))
@@ -39,22 +35,50 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             footView.addSubview(button)
             tableView.tableFooterView = footView
         }
+        
+        
+        
     }
+    lazy var optionTitleArr: [[String]] = {
+        var arr = [["名称"],["创建时间","修改时间"],["大小"],["访客不可见"]]
+        if CDSignalTon.shared.loginType == .fake {
+            arr = [["名称"],["创建时间","修改时间"],["大小"]]
+        }
+        return arr
+    }()
+    
+    lazy var optionValueArr: [[String]] = {
+        var totalSize = 0
+        if folderInfo.folderType == .TextFolder {
+            totalSize = getFolderSizeAtPath(folderPath: String.RootPath().appendingPathComponent(str: folderInfo.folderPath))
+        }else{
+            totalSize = CDSqlManager.shared.queryOneFolderSize(folderId: folderInfo.folderId)
+        }
+        
+        var arr = [
+            [folderInfo.folderName],
+            [timestampTurnString(timestamp: folderInfo.createTime),timestampTurnString(timestamp: folderInfo.modifyTime)],
+            [returnSize(fileSize: totalSize)],
+            [""]
+        ]
+        if CDSignalTon.shared.loginType == .fake {
+            arr = [
+                [folderInfo.folderName],
+                [timestampTurnString(timestamp: folderInfo.createTime),timestampTurnString(timestamp: folderInfo.modifyTime)],
+                [returnSize(fileSize: totalSize)]
+            ]
+        }
+        return arr
+    }()
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return optionTitleArr.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1{
-            return 2
-        }else{
-            return 1
-        }
+        optionTitleArr[section].count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if CDSignalTon.shared.loginType == .fake && indexPath.section == 2{
-            return 0.01
-        }
         return 48
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -80,55 +104,36 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: identify)
         if cell == nil {
             cell = UITableViewCell(style: .default, reuseIdentifier: identify)
-            cell.selectedBackgroundView = UIView()
-            cell.selectedBackgroundView?.backgroundColor = LightBlueColor
-
+            cell.selectionStyle = .none
+            cell.accessoryType = .none
             let titleL = UILabel(frame: CGRect(x: 15, y: 9, width: 100, height: 30))
             titleL.font = TextMidFont
             titleL.textColor = TextBlackColor
             titleL.textAlignment = .left
             titleL.tag = 201
             cell.contentView.addSubview(titleL)
-
-            if indexPath.section == 2{
-                fakeSwitch = UISwitch(frame: CGRect(x: CDSCREEN_WIDTH - 60, y: 9, width: 45, height: 30))
-                fakeSwitch.addTarget(self, action: #selector(chnageFakeModel(swi:)), for: .valueChanged)
-                cell.addSubview(fakeSwitch)
-            }else{
-                let detaileL = UILabel(frame: CGRect(x: titleL.frame.maxX, y: 9, width: CDSCREEN_WIDTH-100-15, height: 30))
-                detaileL.font = TextMidFont
-                detaileL.textColor = TextLightBlackColor
-                detaileL.textAlignment = .left
-                detaileL.tag = 202
-                cell.contentView.addSubview(detaileL)
-            }
+            
+            let detaileL = UILabel(frame: CGRect(x: titleL.frame.maxX, y: 9, width: CDSCREEN_WIDTH-100-15, height: 30))
+            detaileL.font = TextMidFont
+            detaileL.textColor = TextLightBlackColor
+            detaileL.textAlignment = .left
+            detaileL.tag = 202
+            cell.contentView.addSubview(detaileL)
+            
+            fakeSwitch = UISwitch(frame: CGRect(x: CDSCREEN_WIDTH - 60, y: 9, width: 45, height: 30))
+            fakeSwitch.addTarget(self, action: #selector(chnageFakeModel(swi:)), for: .valueChanged)
+            cell.addSubview(fakeSwitch)
+            
         }
         let titleL = cell.viewWithTag(201) as! UILabel
         let detaileL = cell.viewWithTag(202) as? UILabel
-        if indexPath.section == 0 {
-            titleL.text = "名称"
-            detaileL?.text = folderInfo.folderName
-        }else if indexPath.section == 1 {
-            if indexPath.row == 0{
-                titleL.text = "创建时间"
-                detaileL?.text = timestampTurnString(timestamp: folderInfo.createTime)
-            }else{
-                titleL.text = "大小"
-                detaileL?.text = returnSize(fileSize: totalSize)
-            }
-        }else if indexPath.section == 2 {
-            titleL.text = "访客不可见"
-            let isOn = folderInfo.fakeType == .invisible ? true : false
-            fakeSwitch.isOn = isOn
-
-            if CDSignalTon.shared.loginType == .fake {
-                cell.isHidden = true
-            }else{
-                cell.isHidden = false
-            }
-
-        }
-
+        let title = optionTitleArr[indexPath.section][indexPath.row]
+        titleL.text = title
+        detaileL?.text = optionValueArr[indexPath.section][indexPath.row]
+        detaileL?.isHidden = title == "访客不可见"
+        fakeSwitch.isHidden = title != "访客不可见"
+        fakeSwitch.isOn = folderInfo.fakeType == .invisible
+       
         return cell
 
     }
@@ -137,18 +142,19 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
 
         if swi.isOn{
             CDHUDManager.shared.showText(text: "已成功修改为访客可见")
-            CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .visible, folderId: folderInfo.folderId)
+            CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .visible, folderId: folderInfo.folderId)
         }else{
              CDHUDManager.shared.showText(text: "已成功修改为访客不可见")
-            CDSqlManager.instance().updateOneSafeFileFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
+            CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
         }
+        
 
     }
 
     @objc func delectFolderClick(){
 
-        CDSqlManager.instance().deleteOneFolder(folderId: folderInfo.folderId)
-        let allFileArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: folderInfo.folderId)
+        CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
+        let allFileArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         for fileInfo in allFileArr {
 
             if folderInfo.folderType == .ImageFolder {
@@ -156,12 +162,12 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
                 let thumpPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
                 fileManagerDeleteFileWithFilePath(filePath: thumpPath)
 
-                let defaultPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
                 fileManagerDeleteFileWithFilePath(filePath: defaultPath)
 
 
             }else if folderInfo.folderType == .AudioFolder {
-                let encryPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                let encryPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
                 fileManagerDeleteFileWithFilePath(filePath: encryPath)
             }else if folderInfo.folderType == .VideoFolder {
 
@@ -170,12 +176,12 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
 
                 let defaultPath = String.VideoPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
                 fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-            }else if folderInfo.folderType == .OtherFolder {
+            }else if folderInfo.folderType == .TextFolder {
 
-                let encryPath = String.libraryUserdataPath().appendingPathComponent(str: fileInfo.filePath)
+                let encryPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
                 fileManagerDeleteFileWithFilePath(filePath: encryPath)
             }
-            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
         }
 
         self.navigationController?.popViewController(animated: true)

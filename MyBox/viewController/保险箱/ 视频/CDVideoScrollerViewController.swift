@@ -90,7 +90,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         self.deleteItem.addTarget(self, action: #selector(deleteItemItemClick), for: .touchUpInside)
         self.toolBar.addSubview(self.deleteItem)
 
-        [collectionView .scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)]
+        collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -150,11 +150,11 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
             loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
-            CDSqlManager.instance().updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
         }else{
             fileInfo.grade = .normal
             loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
-            CDSqlManager.instance().updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
 
         self.fileArr[currentIndex] = fileInfo
@@ -179,7 +179,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
             //删除加密大图
             let defaultPath = String.VideoPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
             fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-            CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
 
             DispatchQueue.main.async {
                 CDHUDManager.shared.hideWait()

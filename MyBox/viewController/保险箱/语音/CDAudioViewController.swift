@@ -71,7 +71,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     
     func refreshData() {
         toolbar.enableReloadBar(isSelected: false)
-        audioArr = CDSqlManager.instance().queryAllFileFromFolder(folderId: gFolderInfo.folderId)
+        audioArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: gFolderInfo.folderId)
         tableblew.reloadData()
     }
 
@@ -203,7 +203,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
                 let fileInfo = self.selectedAudioArr[index]
                     let defaultPath = String.AudioPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
                     fileManagerDeleteFileWithFilePath(filePath: defaultPath)
-                    CDSqlManager.instance().deleteOneSafeFile(fileId: fileInfo.fileId)
+                    CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
                 }
                 DispatchQueue.main.async {
                     CDHUDManager.shared.hideWait()

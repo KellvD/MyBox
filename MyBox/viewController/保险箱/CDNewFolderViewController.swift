@@ -140,8 +140,10 @@ class CDNewFolderViewController: CDBaseAllViewController {
         folderInfo.fakeType = .visible
         folderInfo.userId = CDUserId()
         folderInfo.createTime = Int(time)
+        folderInfo.modifyTime = Int(time)
+        folderInfo.accessTime = Int(time)
         folderInfo.superId = ROOTSUPERID
-        _ = CDSqlManager.instance().addSafeFoldeInfo(folder: folderInfo)
+        _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
         Cdelete?.createNewFolderSuccess()
         self.navigationController?.popViewController(animated: true)
     }

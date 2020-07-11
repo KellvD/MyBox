@@ -33,7 +33,7 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
         bgView.alpha = 0.4
         self.addSubview(bgView)
 
-        classArr = CDSqlManager.instance().queryAllMusicClass()
+        classArr = CDSqlManager.shared.queryAllMusicClass()
         var height = CGFloat(64 * classArr.count + 48)
         if height >= CDViewHeight / 3 * 2 {
             height = CDViewHeight / 3 * 2
@@ -209,17 +209,17 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
     @objc func sureCreateView(){
         let className = textField.text!
 
-        if JudgeStringIsEmpty(string: className) {
+        if className.isEmpty {
             CDHUDManager.shared.showText(text: "请输入歌单名")
             return
         }
         let classInfo = CDMusicClassInfo()
         classInfo.className = className
         classInfo.classCreateTime = getCurrentTimestamp()
-        CDSqlManager.instance().addOneMusicClassInfoWith(classInfo: classInfo)
+        CDSqlManager.shared.addOneMusicClassInfoWith(classInfo: classInfo)
         CDHUDManager.shared.showText(text: "创建成功")
 
-        classArr = CDSqlManager.instance().queryAllMusicClass()
+        classArr = CDSqlManager.shared.queryAllMusicClass()
         tableView.reloadData()
         cancleCreateView()
     }

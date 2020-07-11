@@ -96,7 +96,7 @@ class CDMusicListView: UITableView,UITableViewDelegate,UITableViewDataSource,CDM
     }
 
     @objc func onOpenMenuView(){
-        let classCount = CDSqlManager.instance().queryMusicClassCount()
+        let classCount = CDSqlManager.shared.queryMusicClassCount()
         var height = CGFloat((classCount + 1) * 64)
         if classCount > 6 {
             height = 7 * 64

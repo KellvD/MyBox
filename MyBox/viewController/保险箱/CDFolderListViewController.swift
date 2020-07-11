@@ -29,7 +29,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         self.view.addSubview(tableView)
         tableView.separatorStyle = .none
         tableView.register(CDSafeFolderCell.self, forCellReuseIdentifier: "folderList")
-        folderArr = CDSqlManager.instance().queryAllOtherFolderWith(folderType: folderType, folderId: folderId)
+        folderArr = CDSqlManager.shared.queryAllOtherFolderWith(folderType: folderType, folderId: folderId)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -85,14 +85,13 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
                     for index in 0..<self.selectedArr.count{
                         let file = self.selectedArr[index]
                         file.folderId = folder.folderId
-                        CDSqlManager.instance().updateOneSafeFileForMove(fileInfo: file)
+                        CDSqlManager.shared.updateOneSafeFileForMove(fileInfo: file)
                     }
                     DispatchQueue.main.async {
                         CDHUDManager.shared.hideWait()
                         CDHUDManager.shared.showText(text: "移入成功")
                         self.moveHandle!(true)
                         self.navigationController?.popViewController(animated: true)
-
                     }
                 }else{
                     CDHUDManager.shared.hideWait()

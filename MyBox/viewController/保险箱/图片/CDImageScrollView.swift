@@ -107,7 +107,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         imageView?.frame = imageViewFrame
         imageViewFrame = imageView?.frame
         if gifData.length > 0 {
-            let type:SDImageFormat = imageFormatForImageData(data:gifData)
+            let type:SDImageFormat = UIImage.getImageFormat(imageData:gifData)
             if type == .SDImageFormatGIF {
                 imageView?.image = UIImage.gif(data: gifData as Data)
             } else {
