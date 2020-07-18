@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65FD1EE793B0CF6BBFFED07F /* Pods_MyBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8731CC370F1FC9A58F66EB16 /* Pods_MyBox.framework */; };
 		731DF4F5245800080043E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731DF4F4245800080043E97F /* Foundation.framework */; };
 		735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A32457C1C7009B7599 /* AVFoundation.framework */; };
 		735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735514A52457C1D1009B7599 /* CoreAudio.framework */; };
@@ -32,12 +31,6 @@
 		EF73305224B98942001DA545 /* CDAudioPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0024B98941001DA545 /* CDAudioPlayView.swift */; };
 		EF73305324B98942001DA545 /* CDConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0124B98941001DA545 /* CDConfigFile.swift */; };
 		EF73305424B98942001DA545 /* CDBaseAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0224B98941001DA545 /* CDBaseAllViewController.swift */; };
-		EF73305524B98942001DA545 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0424B98941001DA545 /* UIView+extension.swift */; };
-		EF73305624B98942001DA545 /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0524B98941001DA545 /* UIImage+extension.swift */; };
-		EF73305724B98942001DA545 /* String+Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0624B98941001DA545 /* String+Path.swift */; };
-		EF73305824B98942001DA545 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0724B98941001DA545 /* String+extension.swift */; };
-		EF73305924B98942001DA545 /* CDConfigBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0824B98941001DA545 /* CDConfigBean.swift */; };
-		EF73305A24B98942001DA545 /* CDInlineTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0924B98941001DA545 /* CDInlineTools.swift */; };
 		EF73305B24B98942001DA545 /* CDCustomDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0A24B98941001DA545 /* CDCustomDefines.swift */; };
 		EF73305C24B98942001DA545 /* CDContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0B24B98941001DA545 /* CDContainerViewController.swift */; };
 		EF73305D24B98942001DA545 /* CDEmojiHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF732F0C24B98941001DA545 /* CDEmojiHandle.swift */; };
@@ -318,12 +311,6 @@
 		EF732F0024B98941001DA545 /* CDAudioPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioPlayView.swift; sourceTree = "<group>"; };
 		EF732F0124B98941001DA545 /* CDConfigFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDConfigFile.swift; sourceTree = "<group>"; };
 		EF732F0224B98941001DA545 /* CDBaseAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBaseAllViewController.swift; sourceTree = "<group>"; };
-		EF732F0424B98941001DA545 /* UIView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
-		EF732F0524B98941001DA545 /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
-		EF732F0624B98941001DA545 /* String+Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Path.swift"; sourceTree = "<group>"; };
-		EF732F0724B98941001DA545 /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
-		EF732F0824B98941001DA545 /* CDConfigBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDConfigBean.swift; sourceTree = "<group>"; };
-		EF732F0924B98941001DA545 /* CDInlineTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInlineTools.swift; sourceTree = "<group>"; };
 		EF732F0A24B98941001DA545 /* CDCustomDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCustomDefines.swift; sourceTree = "<group>"; };
 		EF732F0B24B98941001DA545 /* CDContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDContainerViewController.swift; sourceTree = "<group>"; };
 		EF732F0C24B98941001DA545 /* CDEmojiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEmojiHandle.swift; sourceTree = "<group>"; };
@@ -596,7 +583,6 @@
 				731DF4F5245800080043E97F /* Foundation.framework in Frameworks */,
 				7366B27424920436001C7884 /* OpenGLES.framework in Frameworks */,
 				7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */,
-				65FD1EE793B0CF6BBFFED07F /* Pods_MyBox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,9 +681,6 @@
 				EF732F0024B98941001DA545 /* CDAudioPlayView.swift */,
 				EF732F0124B98941001DA545 /* CDConfigFile.swift */,
 				EF732F0224B98941001DA545 /* CDBaseAllViewController.swift */,
-				EF732F0324B98941001DA545 /* Extension */,
-				EF732F0824B98941001DA545 /* CDConfigBean.swift */,
-				EF732F0924B98941001DA545 /* CDInlineTools.swift */,
 				EF732F0A24B98941001DA545 /* CDCustomDefines.swift */,
 				EF732F0B24B98941001DA545 /* CDContainerViewController.swift */,
 				EF732F0C24B98941001DA545 /* CDEmojiHandle.swift */,
@@ -705,17 +688,6 @@
 				EF732F0E24B98941001DA545 /* CDDeviceTools.swift */,
 			);
 			path = publicViews;
-			sourceTree = "<group>";
-		};
-		EF732F0324B98941001DA545 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				EF732F0424B98941001DA545 /* UIView+extension.swift */,
-				EF732F0524B98941001DA545 /* UIImage+extension.swift */,
-				EF732F0624B98941001DA545 /* String+Path.swift */,
-				EF732F0724B98941001DA545 /* String+extension.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		EF732F0F24B98941001DA545 /* viewController */ = {
@@ -1299,7 +1271,6 @@
 				73550FE12457C0AB009B7599 /* Sources */,
 				73550FE22457C0AB009B7599 /* Frameworks */,
 				73550FE32457C0AB009B7599 /* Resources */,
-				1D134A613A08858F911445DC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1508,23 +1479,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1D134A613A08858F911445DC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyBox/Pods-MyBox-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyBox/Pods-MyBox-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyBox/Pods-MyBox-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BD6F25AFB0D63DD49EA5AFF2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1565,7 +1519,6 @@
 				EF7330D524B98942001DA545 /* CDTextViewController.swift in Sources */,
 				EF7330EB24B98942001DA545 /* CDTextView.swift in Sources */,
 				EF73305B24B98942001DA545 /* CDCustomDefines.swift in Sources */,
-				EF73305524B98942001DA545 /* UIView+extension.swift in Sources */,
 				EF73307C24B98942001DA545 /* CDModifyClassViewController.swift in Sources */,
 				EF7330CA24B98942001DA545 /* CDFolderListViewController.swift in Sources */,
 				EF73311C24B98942001DA545 /* CDPuzzleViewController.swift in Sources */,
@@ -1582,7 +1535,6 @@
 				EF73310B24B98942001DA545 /* CDEditToolView.swift in Sources */,
 				EF7330E624B98942001DA545 /* PECropView.swift in Sources */,
 				EF73310924B98942001DA545 /* CDEdit.swift in Sources */,
-				EF73305724B98942001DA545 /* String+Path.swift in Sources */,
 				EF73311D24B98942001DA545 /* CDComposeGifViewController.swift in Sources */,
 				EF73310724B98942001DA545 /* CDWaterMarkViewController.swift in Sources */,
 				EF7330C524B98942001DA545 /* CDAudioViewController.swift in Sources */,
@@ -1592,7 +1544,6 @@
 				EF73315524B98942001DA545 /* CDHUDManager.swift in Sources */,
 				EF73315B24B98942001DA545 /* CDGeneralTool.swift in Sources */,
 				EF7330ED24B98942001DA545 /* CDBrightView.swift in Sources */,
-				EF73305A24B98942001DA545 /* CDInlineTools.swift in Sources */,
 				EF73315C24B98942001DA545 /* CDCircleProcess.swift in Sources */,
 				EF73313824B98942001DA545 /* GPCameraManager.swift in Sources */,
 				EF73312124B98942001DA545 /* CDLockViewController.swift in Sources */,
@@ -1603,7 +1554,6 @@
 				EF7330C924B98942001DA545 /* CDToolBar.swift in Sources */,
 				EF73310824B98942001DA545 /* CDWaterMarkView.swift in Sources */,
 				EF73315624B98942001DA545 /* CDPopMenuView.swift in Sources */,
-				EF73305924B98942001DA545 /* CDConfigBean.swift in Sources */,
 				EF73308924B98942001DA545 /* CDSetPwdViewController.swift in Sources */,
 				EF73310D24B98942001DA545 /* CDPhotoView.swift in Sources */,
 				EF7330CC24B98942001DA545 /* CDWebViewController.swift in Sources */,
@@ -1630,7 +1580,6 @@
 				EF7330CF24B98942001DA545 /* CDNewFolderViewController.swift in Sources */,
 				EF73316224B98942001DA545 /* CDSqlManager.swift in Sources */,
 				EF7330E124B98942001DA545 /* CDImageScrollView.swift in Sources */,
-				EF73305624B98942001DA545 /* UIImage+extension.swift in Sources */,
 				EF73307B24B98942001DA545 /* CDMusicListView.swift in Sources */,
 				EF73305324B98942001DA545 /* CDConfigFile.swift in Sources */,
 				EF7330C624B98942001DA545 /* CDAudioRecordViewController.swift in Sources */,
@@ -1644,7 +1593,6 @@
 				EF7330DA24B98942001DA545 /* CDVideoScrollerCell.swift in Sources */,
 				EF7330D824B98942001DA545 /* CDSegmentVideoViewController.swift in Sources */,
 				EF73310F24B98942001DA545 /* CDEditorsView.swift in Sources */,
-				EF73305824B98942001DA545 /* String+extension.swift in Sources */,
 				EF73313924B98942001DA545 /* CDCameraTopBar.swift in Sources */,
 				EF73307A24B98942001DA545 /* CDClassCell.swift in Sources */,
 				EF7330E824B98942001DA545 /* CDPhotoChooseView.swift in Sources */,
