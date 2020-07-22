@@ -71,8 +71,6 @@
 	<string>允许MLF将音频转为文字</string>
 	<key>Speech Recognition Usage Description</key>
 	<string>允许MLF访问你的语音</string>
-	<key>UIBackgroundModes</key>
-	<array/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

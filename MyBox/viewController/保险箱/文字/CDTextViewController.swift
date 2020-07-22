@@ -476,6 +476,7 @@ QLPreviewControllerDataSource{
     func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
         return 1
     }
+    
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
         let fileInfo:CDSafeFileInfo = textTD.filesArr[controller.currentPreviewItemIndex]
         let filePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)

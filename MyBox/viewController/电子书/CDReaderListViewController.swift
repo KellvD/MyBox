@@ -95,9 +95,30 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         
         let readVC = CDReaderPageViewController()
         readVC.hidesBottomBarWhenPushed = true
-        readVC.gresource = String.RootPath().appendingPathComponent(str: gfile.filePath)
+        readVC.resource = String.RootPath().appendingPathComponent(str: gfile.filePath)
         self.navigationController?.pushViewController(readVC, animated: true)
         
+    }
+    
+    @available(iOS, introduced: 8.0, deprecated: 13.0)
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let gfile = dataArr[indexPath.row]
+        let detail = UITableViewRowAction(style: .normal, title: "删除") { (action, index) in
+            
+        }
+        return [detail]
+    }
+    
+    @available(iOS 11, *)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let gfile = dataArr[indexPath.row]
+        
+        let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+        }
+        delete.backgroundColor = .red
+        let action = UISwipeActionsConfiguration(actions: [delete])
+        return action
     }
 }
 

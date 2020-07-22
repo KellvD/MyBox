@@ -249,13 +249,11 @@
 		7372DB9E24BC07BA003CBE8D /* CDLogPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DB9D24BC07BA003CBE8D /* CDLogPreviewViewController.swift */; };
 		7372DBA024BC10F6003CBE8D /* CDPDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DB9F24BC10F6003CBE8D /* CDPDFViewController.swift */; };
 		7372DBC424BC4614003CBE8D /* CDReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DBC324BC4614003CBE8D /* CDReaderViewController.swift */; };
-		7372DBCD24BC461C003CBE8D /* CDReaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DBC624BC461C003CBE8D /* CDReaderConfig.swift */; };
 		7372DBD024BC461C003CBE8D /* CDReaderBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DBC924BC461C003CBE8D /* CDReaderBean.swift */; };
 		7372DBD124BC461C003CBE8D /* CDReaderToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DBCB24BC461C003CBE8D /* CDReaderToolBar.swift */; };
 		7372DBD424BC488D003CBE8D /* CDReaderPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372DBD324BC488D003CBE8D /* CDReaderPageViewController.swift */; };
 		738A5D5724BD86A500F140AB /* CDChapterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738A5D5624BD86A500F140AB /* CDChapterViewController.swift */; };
 		73CF237724BF0F8E00B9D8F1 /* CDReaderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF237624BF0F8E00B9D8F1 /* CDReaderListViewController.swift */; };
-		73CF237924BF132200B9D8F1 /* CDReaderUtilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CF237824BF132200B9D8F1 /* CDReaderUtilites.swift */; };
 		73D1A0EC24657211001EC3EF /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E824657210001EC3EF /* 37x-Checkmark.png */; };
 		73D1A0ED24657211001EC3EF /* 37x-Error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0E924657210001EC3EF /* 37x-Error@2x.png */; };
 		73D1A0EE24657211001EC3EF /* 37x-Error.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D1A0EA24657210001EC3EF /* 37x-Error.png */; };
@@ -294,6 +292,10 @@
 		EF1415822479635A00AAE11C /* record_sure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF14157E2479635A00AAE11C /* record_sure@2x.png */; };
 		EF1415862479637600AAE11C /* CDCircleProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1415842479637600AAE11C /* CDCircleProcess.swift */; };
 		EF1415872479637600AAE11C /* record_timeProgressBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF1415852479637600AAE11C /* record_timeProgressBG@2x.png */; };
+		EF558FBA24C87B01002F43ED /* CDReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF558FB924C87B01002F43ED /* CDReaderManager.swift */; };
+		EF558FC424C87D73002F43ED /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF558FC324C87D73002F43ED /* ShareViewController.swift */; };
+		EF558FC724C87D73002F43ED /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF558FC524C87D73002F43ED /* MainInterface.storyboard */; };
+		EF558FCB24C87D73002F43ED /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF558FC124C87D73002F43ED /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */; };
 		EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -330,7 +332,28 @@
 		EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFDD41F72481F9C3000AFDB8 /* MJRefresh.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EF558FC924C87D73002F43ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 73550FDD2457C0AB009B7599 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF558FC024C87D73002F43ED;
+			remoteInfo = Share;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		EF7C522824C2DAD600DA7605 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EF558FCB24C87D73002F43ED /* Share.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFC242F3245BF6AF00DDC829 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -599,13 +622,11 @@
 		7372DB9D24BC07BA003CBE8D /* CDLogPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLogPreviewViewController.swift; sourceTree = "<group>"; };
 		7372DB9F24BC10F6003CBE8D /* CDPDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPDFViewController.swift; sourceTree = "<group>"; };
 		7372DBC324BC4614003CBE8D /* CDReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderViewController.swift; sourceTree = "<group>"; };
-		7372DBC624BC461C003CBE8D /* CDReaderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderConfig.swift; sourceTree = "<group>"; };
 		7372DBC924BC461C003CBE8D /* CDReaderBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderBean.swift; sourceTree = "<group>"; };
 		7372DBCB24BC461C003CBE8D /* CDReaderToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderToolBar.swift; sourceTree = "<group>"; };
 		7372DBD324BC488D003CBE8D /* CDReaderPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDReaderPageViewController.swift; sourceTree = "<group>"; };
 		738A5D5624BD86A500F140AB /* CDChapterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDChapterViewController.swift; sourceTree = "<group>"; };
 		73CF237624BF0F8E00B9D8F1 /* CDReaderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderListViewController.swift; sourceTree = "<group>"; };
-		73CF237824BF132200B9D8F1 /* CDReaderUtilites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderUtilites.swift; sourceTree = "<group>"; };
 		73D1A0E824657210001EC3EF /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		73D1A0E924657210001EC3EF /* 37x-Error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Error@2x.png"; sourceTree = "<group>"; };
 		73D1A0EA24657210001EC3EF /* 37x-Error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Error.png"; sourceTree = "<group>"; };
@@ -642,6 +663,12 @@
 		EF14157E2479635A00AAE11C /* record_sure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_sure@2x.png"; sourceTree = "<group>"; };
 		EF1415842479637600AAE11C /* CDCircleProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCircleProcess.swift; sourceTree = "<group>"; };
 		EF1415852479637600AAE11C /* record_timeProgressBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_timeProgressBG@2x.png"; sourceTree = "<group>"; };
+		EF558FB924C87B01002F43ED /* CDReaderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReaderManager.swift; sourceTree = "<group>"; };
+		EF558FBC24C87C9F002F43ED /* MyBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
+		EF558FC124C87D73002F43ED /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF558FC324C87D73002F43ED /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		EF558FC624C87D73002F43ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EF558FC824C87D73002F43ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSqlModel.swift; sourceTree = "<group>"; };
 		EFC242F6245BF7DE00DDC829 /* file_dir_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_dir_big@2x.png"; sourceTree = "<group>"; };
 		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
@@ -700,6 +727,13 @@
 				731DF4F5245800080043E97F /* Foundation.framework in Frameworks */,
 				7366B27424920436001C7884 /* OpenGLES.framework in Frameworks */,
 				7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF558FBE24C87D73002F43ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +888,7 @@
 			isa = PBXGroup;
 			children = (
 				73550FE72457C0AB009B7599 /* MyBox */,
+				EF558FC224C87D73002F43ED /* Share */,
 				73550FE62457C0AB009B7599 /* Products */,
 				735514A22457C1C7009B7599 /* Frameworks */,
 			);
@@ -863,6 +898,7 @@
 			isa = PBXGroup;
 			children = (
 				73550FE52457C0AB009B7599 /* MyBox.app */,
+				EF558FC124C87D73002F43ED /* Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -870,6 +906,7 @@
 		73550FE72457C0AB009B7599 /* MyBox */ = {
 			isa = PBXGroup;
 			children = (
+				EF558FBC24C87C9F002F43ED /* MyBox.entitlements */,
 				735513252457C19D009B7599 /* Supporting Files */,
 				735513842457C19D009B7599 /* appleLunch */,
 				731DF4FC2458099F0043E97F /* lib */,
@@ -1373,8 +1410,7 @@
 		7372DBC524BC461C003CBE8D /* model */ = {
 			isa = PBXGroup;
 			children = (
-				7372DBC624BC461C003CBE8D /* CDReaderConfig.swift */,
-				73CF237824BF132200B9D8F1 /* CDReaderUtilites.swift */,
+				EF558FB924C87B01002F43ED /* CDReaderManager.swift */,
 				7372DBC924BC461C003CBE8D /* CDReaderBean.swift */,
 			);
 			path = model;
@@ -1453,6 +1489,16 @@
 			path = CDCircleProgress;
 			sourceTree = "<group>";
 		};
+		EF558FC224C87D73002F43ED /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				EF558FC324C87D73002F43ED /* ShareViewController.swift */,
+				EF558FC524C87D73002F43ED /* MainInterface.storyboard */,
+				EF558FC824C87D73002F43ED /* Info.plist */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1464,15 +1510,34 @@
 				73550FE22457C0AB009B7599 /* Frameworks */,
 				73550FE32457C0AB009B7599 /* Resources */,
 				EFC242F3245BF6AF00DDC829 /* CopyFiles */,
+				EF7C522824C2DAD600DA7605 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EF558FCA24C87D73002F43ED /* PBXTargetDependency */,
 			);
 			name = MyBox;
 			productName = MyBox;
 			productReference = 73550FE52457C0AB009B7599 /* MyBox.app */;
 			productType = "com.apple.product-type.application";
+		};
+		EF558FC024C87D73002F43ED /* Share */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF558FCC24C87D73002F43ED /* Build configuration list for PBXNativeTarget "Share" */;
+			buildPhases = (
+				EF558FBD24C87D73002F43ED /* Sources */,
+				EF558FBE24C87D73002F43ED /* Frameworks */,
+				EF558FBF24C87D73002F43ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Share;
+			productName = Share;
+			productReference = EF558FC124C87D73002F43ED /* Share.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1480,13 +1545,16 @@
 		73550FDD2457C0AB009B7599 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "(c) Huawei Technologies Co., Ltd. 2012-2019.";
 				TargetAttributes = {
 					73550FE42457C0AB009B7599 = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
+					};
+					EF558FC024C87D73002F43ED = {
+						CreatedOnToolsVersion = 11.5;
 					};
 				};
 			};
@@ -1504,6 +1572,7 @@
 			projectRoot = "";
 			targets = (
 				73550FE42457C0AB009B7599 /* MyBox */,
+				EF558FC024C87D73002F43ED /* Share */,
 			);
 		};
 /* End PBXProject section */
@@ -1684,6 +1753,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EF558FBF24C87D73002F43ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF558FC724C87D73002F43ED /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1723,6 +1800,7 @@
 				735513FB2457C19E009B7599 /* CDFileDetailViewController.swift in Sources */,
 				735514062457C19E009B7599 /* CDVideoScrollerViewController.swift in Sources */,
 				7355145C2457C19E009B7599 /* CDAssetPickViewController.swift in Sources */,
+				EF558FBA24C87B01002F43ED /* CDReaderManager.swift in Sources */,
 				7323679C249088E70092F05E /* CDSideBar.swift in Sources */,
 				7355144D2457C19E009B7599 /* CDGuideViewController.swift in Sources */,
 				73262D0824ADCFDC001AF8F9 /* CDCropView.swift in Sources */,
@@ -1753,7 +1831,6 @@
 				735513F32457C19E009B7599 /* CDAudioViewController.swift in Sources */,
 				735513FC2457C19E009B7599 /* CDNewFolderViewController.swift in Sources */,
 				73262D2824ADD114001AF8F9 /* CDPhotoView.swift in Sources */,
-				73CF237924BF132200B9D8F1 /* CDReaderUtilites.swift in Sources */,
 				73F7153E24B30F1C00B3C9FC /* String+extension.swift in Sources */,
 				735513FA2457C19E009B7599 /* CDSafeFolderCell.swift in Sources */,
 				735513B62457C19E009B7599 /* CDMarkFileViewController.swift in Sources */,
@@ -1802,7 +1879,6 @@
 				735514602457C19E009B7599 /* CDCameraTopBar.swift in Sources */,
 				735514052457C19E009B7599 /* CDDirNavBar.swift in Sources */,
 				735514012457C19E009B7599 /* CDNewTextViewController.swift in Sources */,
-				7372DBCD24BC461C003CBE8D /* CDReaderConfig.swift in Sources */,
 				7355145D2457C19E009B7599 /* CDAssetTon.swift in Sources */,
 				73262D0D24ADCFDC001AF8F9 /* CDImageEditModels.swift in Sources */,
 				735514072457C19E009B7599 /* CDSegmentVideoViewController.swift in Sources */,
@@ -1814,7 +1890,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EF558FBD24C87D73002F43ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF558FC424C87D73002F43ED /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EF558FCA24C87D73002F43ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF558FC024C87D73002F43ED /* Share */;
+			targetProxy = EF558FC924C87D73002F43ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EF558FC524C87D73002F43ED /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF558FC624C87D73002F43ED /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		73550FF72457C0AD009B7599 /* Debug */ = {
@@ -1934,8 +2037,10 @@
 		73550FFA2457C0AD009B7599 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N294699B43;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1964,8 +2069,10 @@
 		73550FFB2457C0AD009B7599 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N294699B43;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1990,6 +2097,46 @@
 			};
 			name = Release;
 		};
+		EF558FCD24C87D73002F43ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N294699B43;
+				INFOPLIST_FILE = Share/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = MyBox.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EF558FCE24C87D73002F43ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N294699B43;
+				INFOPLIST_FILE = Share/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = MyBox.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2007,6 +2154,15 @@
 			buildConfigurations = (
 				73550FFA2457C0AD009B7599 /* Debug */,
 				73550FFB2457C0AD009B7599 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF558FCC24C87D73002F43ED /* Build configuration list for PBXNativeTarget "Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF558FCD24C87D73002F43ED /* Debug */,
+				EF558FCE24C87D73002F43ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

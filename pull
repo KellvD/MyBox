@@ -1,2 +1,2 @@
 #!/bin/sh
-git pull git@github.com:molingfengqi/MyBox.git master
+git pull git@github.com:molingfengqi/MyBox.git dev
