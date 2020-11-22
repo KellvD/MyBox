@@ -16,31 +16,16 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
     var defaultImageView:UIImageView!
     var defaultView:UIView!
 
-
-
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let _ = CDSqlManager.shared
         let _ = CDSignalTon.shared
+        let _ = CDLocationManager.shared
         let _ = CDMusicManager.shareInstance()
         let _ = CDEditManager.shareInstance()
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = UIColor.white
 
-        application.statusBarStyle = .lightContent
-        let shadow = NSShadow()
-        shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0)
-        shadow.shadowOffset = CGSize(width: 0, height: 0)
-
-        let navBar = UINavigationBar.appearance()
-        navBar.setBackgroundImage(UIImage(named: "上导航栏-背景@2x"), for: .default)
-        var textAttributes:[NSAttributedString.Key:Any] = [:]
-        textAttributes[.foregroundColor] = UIColor(red: 251/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1.0)
-        textAttributes[.shadow] = shadow
-        textAttributes[.attachment] = TextBigFont
-        navBar.titleTextAttributes = textAttributes
-
-        
         CDSignalTon.shared.tab = CDTabBarViewController()
         
         if !isFirstInstall(){
@@ -49,7 +34,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
             let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
             if !realpwd.isEmpty || !fakePwd.isEmpty {
                 let lockVC = CDLockViewController()
-                loginNav = UINavigationController(rootViewController: lockVC)
+                loginNav = CDNavigationController(rootViewController: lockVC)
             }
 
         }else{

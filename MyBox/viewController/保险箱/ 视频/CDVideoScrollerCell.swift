@@ -35,13 +35,13 @@ class CDVideoScrollerCell: UICollectionViewCell {
         self.addSubview(imageView)
 
         viewFlagV = UIImageView(frame: CGRect(x: imageView.frame.width - 25, y: imageView.frame.height - 25, width: 24, height: 24))
-        viewFlagV.image = LoadImageByName(imageName: "videoFlag", type: "png")
+        viewFlagV.image = LoadImage(imageName: "videoFlag", type: "png")
         imageView.addSubview(viewFlagV)
         viewFlagV.isHidden = true
 
         playBtn = UIButton(type: .custom)
         playBtn.frame = CGRect(x: frame.width/2 - 25, y: imageView.frame.height/2 - 25, width: 50, height: 50)
-        playBtn.setImage(LoadImageByName(imageName: "play", type: "png"), for: .normal)
+        playBtn.setImage(LoadImage(imageName: "play", type: "png"), for: .normal)
         playBtn.addTarget(self, action: #selector(onHandleVideoPlay), for: .touchUpInside)
         imageView.addSubview(playBtn)
         playBtn.isHidden = true
@@ -70,7 +70,7 @@ class CDVideoScrollerCell: UICollectionViewCell {
         videoUrl = URL(fileURLWithPath: videoPath)
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
-            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+            mImgage = LoadImage(imageName: "小图解密失败", type:"png")
         }
 
         itemH = (mImgage.size.height * self.frame.width)/mImgage.size.width

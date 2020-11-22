@@ -67,7 +67,7 @@ class CDMusicListView: UITableView,UITableViewDelegate,UITableViewDataSource,CDM
 
             let editBtn = UIButton(type: .custom)
             editBtn.frame = CGRect(x: CDSCREEN_WIDTH-55, y: 5, width: 40, height: 50)
-            editBtn.setImage(LoadImageByName(imageName: "editMusic", type: "png"), for: .normal)
+            editBtn.setImage(LoadImage(imageName: "editMusic", type: "png"), for: .normal)
             editBtn.addTarget(self, action: #selector(onEditOneMusicClick(sender:)), for: .touchUpInside)
             editBtn.tag = indexPath.row + 100
             cell.contentView.addSubview(editBtn)

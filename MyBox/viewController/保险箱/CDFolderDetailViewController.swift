@@ -50,22 +50,22 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     lazy var optionValueArr: [[String]] = {
         var totalSize = 0
         if folderInfo.folderType == .TextFolder {
-            totalSize = getFolderSizeAtPath(folderPath: String.RootPath().appendingPathComponent(str: folderInfo.folderPath))
+            totalSize = GetFolderSize(folderPath: String.RootPath().appendingPathComponent(str: folderInfo.folderPath))
         }else{
             totalSize = CDSqlManager.shared.queryOneFolderSize(folderId: folderInfo.folderId)
         }
         
         var arr = [
             [folderInfo.folderName],
-            [timestampTurnString(timestamp: folderInfo.createTime),timestampTurnString(timestamp: folderInfo.modifyTime)],
-            [returnSize(fileSize: totalSize)],
+            [GetTimeFormat(timestamp: folderInfo.createTime),GetTimeFormat(timestamp: folderInfo.modifyTime)],
+            [GetSizeFormat(fileSize: totalSize)],
             [""]
         ]
         if CDSignalTon.shared.loginType == .fake {
             arr = [
                 [folderInfo.folderName],
-                [timestampTurnString(timestamp: folderInfo.createTime),timestampTurnString(timestamp: folderInfo.modifyTime)],
-                [returnSize(fileSize: totalSize)]
+                [GetTimeFormat(timestamp: folderInfo.createTime),GetTimeFormat(timestamp: folderInfo.modifyTime)],
+                [GetSizeFormat(fileSize: totalSize)]
             ]
         }
         return arr

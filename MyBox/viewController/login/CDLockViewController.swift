@@ -24,7 +24,7 @@ class CDLockViewController:CDBaseAllViewController {
 
         //头像
         let headImageView = UIImageView(frame: CGRect(x: (CDSCREEN_WIDTH-100)/2, y: 100, width: 100, height: 100))
-        headImageView.image = LoadImageByName(imageName: "icon", type: "jpg")
+        headImageView.image = LoadImage(imageName: "icon", type: "jpg")
         self.view.addSubview(headImageView);
 
         let leftLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 48))

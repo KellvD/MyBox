@@ -77,22 +77,22 @@ class CDAudioRecordViewController: CDBaseAllViewController {
         self.view.addSubview(breakLine)
 
         self.leftFirstLine = UIImageView(frame: CGRect(x: -CDSCREEN_WIDTH, y: 35.0, width: CDSCREEN_WIDTH + 1, height: CDSCREEN_WIDTH * 70 / 750))
-        leftFirstLine.image = LoadImageByName(imageName: "record_line1", type: "png")
+        leftFirstLine.image = LoadImage(imageName: "record_line1", type: "png")
         leftFirstLine.isHidden = true
         self.view.addSubview(leftFirstLine)
 
         self.leftSecondLine = UIImageView(frame: CGRect(x: -CDSCREEN_WIDTH, y: 35.0, width: CDSCREEN_WIDTH + 1, height: CDSCREEN_WIDTH * 104 / 750))
-        leftSecondLine.image = LoadImageByName(imageName: "record_line2", type: "png")
+        leftSecondLine.image = LoadImage(imageName: "record_line2", type: "png")
         leftSecondLine.isHidden = true
         self.view.addSubview(leftSecondLine)
 
         self.rightFirstLine = UIImageView(frame: CGRect(x: 0.0, y: 35.0, width: CDSCREEN_WIDTH + 1, height: CDSCREEN_WIDTH * 70 / 750))
-        rightFirstLine.image = LoadImageByName(imageName: "record_line1", type: "png")
+        rightFirstLine.image = LoadImage(imageName: "record_line1", type: "png")
         rightFirstLine.isHidden = true
         self.view.addSubview(rightFirstLine)
 
         self.rightSecondLine = UIImageView(frame: CGRect(x: 0, y: 35.0, width: CDSCREEN_WIDTH + 1, height: CDSCREEN_WIDTH * 104 / 750))
-        rightSecondLine.image = LoadImageByName(imageName: "record_line2", type: "png")
+        rightSecondLine.image = LoadImage(imageName: "record_line2", type: "png")
         rightSecondLine.isHidden = true
         self.view.addSubview(rightSecondLine)
 
@@ -102,8 +102,8 @@ class CDAudioRecordViewController: CDBaseAllViewController {
 
         self.recordBtn = UIButton(type: .custom)
         recordBtn.frame = CGRect(x: CDSCREEN_WIDTH/2 - 83/2, y: (CDViewHeight - 64.0) * 0.6 + (CDViewHeight - 64.0) * 0.4 / 2 - 83.0 / 2 - 5.0, width: 83.0, height: 83.0)
-        recordBtn.setImage(LoadImageByName(imageName: "record_unrecord", type: "png"), for: .normal)
-        recordBtn.setImage(LoadImageByName(imageName: "record_recording", type: "png"), for: .selected)
+        recordBtn.setImage(LoadImage(imageName: "record_unrecord", type: "png"), for: .normal)
+        recordBtn.setImage(LoadImage(imageName: "record_recording", type: "png"), for: .selected)
         recordBtn.addTarget(self, action: #selector(startRecordClick), for: .touchUpInside)
         self.view.addSubview(recordBtn)
 
@@ -111,16 +111,16 @@ class CDAudioRecordViewController: CDBaseAllViewController {
         
         self.saveBtn = UIButton(type: .custom)
         saveBtn.frame = CGRect(x: CDSCREEN_WIDTH - 90.0, y: recordBtn.frame.minY + 83.0/2 - 60.0/2, width: 50, height: 50)
-        saveBtn.setImage(LoadImageByName(imageName: "record_sure", type: "png"), for: .normal)
-        saveBtn.setImage(LoadImageByName(imageName: "record_sure_grey", type: "png"), for: .disabled)
+        saveBtn.setImage(LoadImage(imageName: "record_sure", type: "png"), for: .normal)
+        saveBtn.setImage(LoadImage(imageName: "record_sure_grey", type: "png"), for: .disabled)
         saveBtn.isEnabled = false
         saveBtn.addTarget(self, action: #selector(finishRecordClick), for: .touchUpInside)
         self.view.addSubview(saveBtn)
 
         self.cancleBtn = UIButton(type: .custom)
         cancleBtn.frame = CGRect(x: 40.0, y: recordBtn.frame.minY + 83.0/2 - 60.0/2, width: 50, height: 50)
-        cancleBtn.setImage(LoadImageByName(imageName: "record_cancle", type: "png"), for: .normal)
-        cancleBtn.setImage(LoadImageByName(imageName: "record_sure_grey", type: "png"), for: .disabled)
+        cancleBtn.setImage(LoadImage(imageName: "record_cancle", type: "png"), for: .normal)
+        cancleBtn.setImage(LoadImage(imageName: "record_sure_grey", type: "png"), for: .disabled)
         cancleBtn.isEnabled = false
         cancleBtn.addTarget(self, action: #selector(cancleReocrdClick), for: .touchUpInside)
         self.view.addSubview(cancleBtn)
@@ -211,7 +211,7 @@ class CDAudioRecordViewController: CDBaseAllViewController {
                         self.recordPause()
                     }else{
                         if self.recorder == nil { //recorder不存在，创建，存在接着录音
-                            self.newFilePath = String.AudioPath().appendingPathComponent(str: "\(getCurrentTimestamp()).aac")
+                            self.newFilePath = String.AudioPath().appendingPathComponent(str: "\(GetTimestamp()).aac")
                             let dict = [AVFormatIDKey:NSNumber(value: kAudioFormatMPEG4AAC),
                             AVSampleRateKey:NSNumber(value: 8000),
                             AVNumberOfChannelsKey:NSNumber(value: 1),

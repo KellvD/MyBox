@@ -86,7 +86,7 @@ class GPCameraManager: NSObject,GPUImageVideoCameraDelegate {
         })
     }
     func startRecordVideo(){
-        let time = getCurrentTimestamp()
+        let time = GetTimestamp()
         let videoPath = String.VideoPath().appendingPathComponent(str: "\(time).mp4")
         let url = URL(fileURLWithPath: videoPath)
         moveWriter = GPUImageMovieWriter(movieURL: url, size: CGSize(width: 480.0, height: 640.0), fileType: AVFileType.mp4.rawValue, outputSettings: nil)

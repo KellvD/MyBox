@@ -201,7 +201,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     }
     //录制视频
     func startTakeVideo(){
-        let time = getCurrentTimestamp()
+        let time = GetTimestamp()
         let videoPath = String.VideoPath().appendingPathComponent(str: "\(time).mp4")
         let url = URL(fileURLWithPath: videoPath)
        

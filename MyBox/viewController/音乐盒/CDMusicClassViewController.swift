@@ -49,7 +49,7 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
 
         let editBtn = UIButton(type: .custom)
         editBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        editBtn.setImage(LoadImageByName(imageName: "editClass", type: "png"), for: .normal);
+        editBtn.setImage(LoadImage(imageName: "editClass", type: "png"), for: .normal);
         editBtn.addTarget(self, action: #selector(presentedPopView), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editBtn)
 

@@ -132,7 +132,7 @@ class CDPreviewCell: UICollectionViewCell {
 
         playBtn = UIButton(type: .custom)
         playBtn.frame = CGRect(x: frame.width/2 - 25, y: imageView.frame.height/2 - 25, width: 50, height: 50)
-        playBtn.setImage(LoadImageByName(imageName: "play", type: "png"), for: .normal)
+        playBtn.setImage(LoadImage(imageName: "play", type: "png"), for: .normal)
         playBtn.addTarget(self, action: #selector(startPlayer), for: .touchUpInside)
         imageView.addSubview(playBtn)
         playBtn.isHidden = true

@@ -577,7 +577,7 @@ QLPreviewControllerDataSource{
         var isDir:ObjCBool = true
         if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
             if isDir.boolValue {
-                desDirPath = desDirPath + timestampTurnString(timestamp: getCurrentTimestamp())
+                desDirPath = desDirPath + GetTimeFormat(timestamp: GetTimestamp())
             }
         }
         //获取解压文件夹中所有子文件，文件夹保存
@@ -630,7 +630,7 @@ QLPreviewControllerDataSource{
     
     //保存文件夹,并返回该文件夹的FolderId,作为保存子文件的folderId、文件夹的superId
     func saveSubFolders(path:String,superId:Int,Return:@escaping(_ folderId:Int) -> Void) {
-        let nowTime = getCurrentTimestamp()
+        let nowTime = GetTimestamp()
         let createtime:Int = nowTime;
         let folderInfo = CDSafeFolder()
         folderInfo.folderName = path.getFileNameFromPath().removingPercentEncoding()
@@ -653,14 +653,14 @@ QLPreviewControllerDataSource{
         fileName = fileName.removingPercentEncoding()
         let suffix = path.getSuffix()
         fileInfo.fileType = suffix.getFileTypeFromSuffix()
-        fileInfo.fileSize = getFileSizeAtPath(filePath: path)
+        fileInfo.fileSize = GetFileSize(filePath: path)
         
         fileInfo.folderId = superId
         fileInfo.userId = CDUserId()
         fileInfo.fileName = fileName
-        fileInfo.createTime =  getCurrentTimestamp()
-        fileInfo.modifyTime = getCurrentTimestamp()
-        fileInfo.accessTime = getCurrentTimestamp()
+        fileInfo.createTime =  GetTimestamp()
+        fileInfo.modifyTime = GetTimestamp()
+        fileInfo.accessTime = GetTimestamp()
         fileInfo.filePath = path.relativePath()
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }

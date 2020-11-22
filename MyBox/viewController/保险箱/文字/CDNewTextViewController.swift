@@ -55,9 +55,9 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         fileInfo.userId = CDUserId()
         fileInfo.folderId = folderId
         fileInfo.fileName = fileName
-        fileInfo.createTime = getCurrentTimestamp()
-        fileInfo.modifyTime = getCurrentTimestamp()
-        fileInfo.accessTime = getCurrentTimestamp()
+        fileInfo.createTime = GetTimestamp()
+        fileInfo.modifyTime = GetTimestamp()
+        fileInfo.accessTime = GetTimestamp()
         fileInfo.fileType = NSFileType.PlainTextType
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
         self.navigationController?.popViewController(animated: true);

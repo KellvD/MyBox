@@ -52,7 +52,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
 
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImageByName(imageName: "fileDetail", type: "png"), style: .plain, target: self, action: #selector(detailBtnClicked))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage(imageName: "fileDetail", type: "png"), style: .plain, target: self, action: #selector(detailBtnClicked))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
         indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: CDViewHeight - 48 - 40, width: 50, height: 30))
@@ -78,9 +78,9 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         self.loveItem = UIButton(type:.custom)
         self.loveItem.frame = CGRect(x: spqce0 * 2 + 45, y: 1.5, width: 45, height: 45)
         if fileInfo.grade == .lovely{
-            loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
+            loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
         }else{
-            loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
+            loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
         }
         self.loveItem.addTarget(self, action: #selector(loveItemClick), for: .touchUpInside)
         self.toolBar.addSubview(self.loveItem)
@@ -121,9 +121,9 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let fileinfo = inputArr[page]
         DispatchQueue.main.async {
             if fileinfo.grade == .lovely {
-                self.loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
+                self.loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
             }else{
-                self.loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
+                self.loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
             }
             if fileinfo.fileType == .GifType{
                 self.editItem.isEnabled = false
@@ -172,11 +172,11 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let fileInfo = inputArr[currentIndex]
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
-            loveItem.setImage(LoadImageByName(imageName: "love_press", type: "png"), for: .normal)
+            loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
         }else{
             fileInfo.grade = .normal
-            loveItem.setImage(LoadImageByName(imageName: "love_normal", type: "png"), for: .normal)
+            loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
     }

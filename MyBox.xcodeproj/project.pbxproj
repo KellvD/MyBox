@@ -22,7 +22,6 @@
 		732368442490BD540092F05E /* GPCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732368432490BD540092F05E /* GPCameraManager.swift */; };
 		732368462490BEC00092F05E /* GPUCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732368452490BEC00092F05E /* GPUCameraViewController.swift */; };
 		73262D5924AED51D001AF8F9 /* UnrarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73262D5824AED51D001AF8F9 /* UnrarKit.framework */; };
-		73262D5C24AEE3F6001AF8F9 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */; };
 		735514502457C19E009B7599 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 735513262457C19D009B7599 /* Assets.xcassets */; };
 		735514522457C19E009B7599 /* CDPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132A2457C19D009B7599 /* CDPreviewViewController.swift */; };
 		735514542457C19E009B7599 /* CDAlbumPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355132C2457C19D009B7599 /* CDAlbumPickViewController.swift */; };
@@ -237,7 +236,6 @@
 		EF3FEF76256A1D180054E59A /* 项目符号01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FEE6A256A1D180054E59A /* 项目符号01@2x.png */; };
 		EF3FEF77256A1D180054E59A /* 项目符号03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FEE6B256A1D180054E59A /* 项目符号03@2x.png */; };
 		EF3FEF78256A1D180054E59A /* CDInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEE6C256A1D180054E59A /* CDInputAccessoryView.swift */; };
-		EF3FEF79256A1D180054E59A /* UIView+Exsition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEE6D256A1D180054E59A /* UIView+Exsition.swift */; };
 		EF3FEF7A256A1D180054E59A /* CDPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEE6E256A1D180054E59A /* CDPickerView.swift */; };
 		EF3FEF7B256A1D180054E59A /* CDPDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEE6F256A1D180054E59A /* CDPDFViewController.swift */; };
 		EF3FEF7C256A1D180054E59A /* linkIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FEE71256A1D180054E59A /* linkIcon@2x.png */; };
@@ -334,9 +332,17 @@
 		EF3FEFD7256A1D180054E59A /* CDSetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEEDC256A1D180054E59A /* CDSetPwdViewController.swift */; };
 		EF3FEFD8256A1D180054E59A /* CDMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEEDE256A1D180054E59A /* CDMemoryViewController.swift */; };
 		EF3FEFD9256A1D180054E59A /* CDDeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */; };
+		EF3FEFDB256A20E50054E59A /* UIView+animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEFDA256A20E50054E59A /* UIView+animation.swift */; };
+		EF3FEFDD256A20F80054E59A /* CDLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEFDC256A20F70054E59A /* CDLocationManager.swift */; };
 		EF558FC424C87D73002F43ED /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF558FC324C87D73002F43ED /* ShareViewController.swift */; };
 		EF558FC724C87D73002F43ED /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF558FC524C87D73002F43ED /* MainInterface.storyboard */; };
 		EF558FCB24C87D73002F43ED /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF558FC124C87D73002F43ED /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF65C06C256A27D700D71FB3 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF65C06B256A27D700D71FB3 /* SnapKit.framework */; };
+		EF65C06E256A280600D71FB3 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF65C06B256A27D700D71FB3 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF65C074256A2FB100D71FB3 /* CDNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C073256A2FB100D71FB3 /* CDNavigationController.swift */; };
+		EF65C078256A305600D71FB3 /* mine_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF65C076256A305600D71FB3 /* mine_normal@2x.png */; };
+		EF65C079256A305600D71FB3 /* mine_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF65C077256A305600D71FB3 /* mine_select@2x.png */; };
+		EF65C07D256A34D000D71FB3 /* CDLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C07C256A34D000D71FB3 /* CDLogManager.swift */; };
 		EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */; };
 		EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -400,6 +406,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EF65C06E256A280600D71FB3 /* SnapKit.framework in CopyFiles */,
 				73F7153324B2BFA500B3C9FC /* Masonry.framework in CopyFiles */,
 				73F7152C24B2B60F00B3C9FC /* UnrarKit.framework in CopyFiles */,
 				732368412490BCED0092F05E /* GPUImage.framework in CopyFiles */,
@@ -431,7 +438,6 @@
 		732368452490BEC00092F05E /* GPUCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUCameraViewController.swift; sourceTree = "<group>"; };
 		73262D2924ADE092001AF8F9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		73262D5824AED51D001AF8F9 /* UnrarKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnrarKit.framework; sourceTree = "<group>"; };
-		73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
 		73550FE52457C0AB009B7599 /* MyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		735513262457C19D009B7599 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7355132A2457C19D009B7599 /* CDPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPreviewViewController.swift; sourceTree = "<group>"; };
@@ -648,7 +654,6 @@
 		EF3FEE6A256A1D180054E59A /* 项目符号01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "项目符号01@2x.png"; sourceTree = "<group>"; };
 		EF3FEE6B256A1D180054E59A /* 项目符号03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "项目符号03@2x.png"; sourceTree = "<group>"; };
 		EF3FEE6C256A1D180054E59A /* CDInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInputAccessoryView.swift; sourceTree = "<group>"; };
-		EF3FEE6D256A1D180054E59A /* UIView+Exsition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Exsition.swift"; sourceTree = "<group>"; };
 		EF3FEE6E256A1D180054E59A /* CDPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPickerView.swift; sourceTree = "<group>"; };
 		EF3FEE6F256A1D180054E59A /* CDPDFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPDFViewController.swift; sourceTree = "<group>"; };
 		EF3FEE71256A1D180054E59A /* linkIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkIcon@2x.png"; sourceTree = "<group>"; };
@@ -745,11 +750,18 @@
 		EF3FEEDC256A1D180054E59A /* CDSetPwdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSetPwdViewController.swift; sourceTree = "<group>"; };
 		EF3FEEDE256A1D180054E59A /* CDMemoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMemoryViewController.swift; sourceTree = "<group>"; };
 		EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDeviceInfoViewController.swift; sourceTree = "<group>"; };
+		EF3FEFDA256A20E50054E59A /* UIView+animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+animation.swift"; sourceTree = "<group>"; };
+		EF3FEFDC256A20F70054E59A /* CDLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDLocationManager.swift; sourceTree = "<group>"; };
 		EF558FBC24C87C9F002F43ED /* MyBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
 		EF558FC124C87D73002F43ED /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF558FC324C87D73002F43ED /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		EF558FC624C87D73002F43ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EF558FC824C87D73002F43ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF65C06B256A27D700D71FB3 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SnapKit.framework; sourceTree = "<group>"; };
+		EF65C073256A2FB100D71FB3 /* CDNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNavigationController.swift; sourceTree = "<group>"; };
+		EF65C076256A305600D71FB3 /* mine_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_normal@2x.png"; sourceTree = "<group>"; };
+		EF65C077256A305600D71FB3 /* mine_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_select@2x.png"; sourceTree = "<group>"; };
+		EF65C07C256A34D000D71FB3 /* CDLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLogManager.swift; sourceTree = "<group>"; };
 		EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSqlModel.swift; sourceTree = "<group>"; };
 		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
 		EFC2431C245C307300DDC829 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxRelay.framework; sourceTree = "<group>"; };
@@ -799,6 +811,7 @@
 				73FC55D724654DBA0052E117 /* MBProgressHUD.framework in Frameworks */,
 				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
 				731DF53B24580FDD0043E97F /* ZipArchive.framework in Frameworks */,
+				EF65C06C256A27D700D71FB3 /* SnapKit.framework in Frameworks */,
 				735514B12457C216009B7599 /* Security.framework in Frameworks */,
 				732368402490BCDD0092F05E /* GPUImage.framework in Frameworks */,
 				73262D5924AED51D001AF8F9 /* UnrarKit.framework in Frameworks */,
@@ -823,6 +836,7 @@
 		731DF4FC2458099F0043E97F /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				EF65C06B256A27D700D71FB3 /* SnapKit.framework */,
 				73F7153124B2BF8800B3C9FC /* Masonry.framework */,
 				73262D5824AED51D001AF8F9 /* UnrarKit.framework */,
 				7323683F2490BCDD0092F05E /* GPUImage.framework */,
@@ -910,14 +924,14 @@
 		735513282457C19D009B7599 /* ThirdParts */ = {
 			isa = PBXGroup;
 			children = (
-				732368422490BD3F0092F05E /* GPUCamera */,
-				EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */,
-				EF1415832479637600AAE11C /* CDCircleProgress */,
-				73D1A0E6246571E5001EC3EF /* CDHUD */,
-				735513292457C19D009B7599 /* MuitPickImage */,
-				735513382457C19D009B7599 /* SwiftGif */,
 				7355133B2457C19D009B7599 /* CDCamera */,
+				EF1415832479637600AAE11C /* CDCircleProgress */,
+				EF65C07F256A352900D71FB3 /* CDFileManager */,
+				73D1A0E6246571E5001EC3EF /* CDHUD */,
+				732368422490BD3F0092F05E /* GPUCamera */,
+				735513292457C19D009B7599 /* MuitPickImage */,
 				7355136B2457C19D009B7599 /* sqlManger */,
+				735513382457C19D009B7599 /* SwiftGif */,
 			);
 			path = ThirdParts;
 			sourceTree = "<group>";
@@ -1000,17 +1014,16 @@
 		735513732457C19D009B7599 /* publicViews */ = {
 			isa = PBXGroup;
 			children = (
-				73F7153F24B3112700B3C9FC /* Extension */,
-				73F7154024B3386B00B3C9FC /* CDConfigBean.swift */,
-				737020C12491D87000F98F42 /* CDContainerViewController.swift */,
 				EFDD41FA2481FC23000AFDB8 /* CDAudioPlayView.swift */,
-				EFDD41FD2481FC23000AFDB8 /* CDBaseAllViewController.swift */,
-				EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */,
+				737020C12491D87000F98F42 /* CDContainerViewController.swift */,
 				EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */,
 				EFDD42012481FC24000AFDB8 /* CDDeviceTools.swift */,
 				EFDD42022481FC24000AFDB8 /* CDEmojiHandle.swift */,
-				EFDD42052481FC24000AFDB8 /* CDSignalTon.swift */,
 				73F7153724B2FEB200B3C9FC /* CDInlineTools.swift */,
+				EF3FEFDC256A20F70054E59A /* CDLocationManager.swift */,
+				EFDD42052481FC24000AFDB8 /* CDSignalTon.swift */,
+				EFDD42162481FC9F000AFDB8 /* CDGeneralTool.swift */,
+				73F7153F24B3112700B3C9FC /* Extension */,
 			);
 			path = publicViews;
 			sourceTree = "<group>";
@@ -1025,8 +1038,10 @@
 		735513842457C19D009B7599 /* appleLunch */ = {
 			isa = PBXGroup;
 			children = (
+				EFDD41FD2481FC23000AFDB8 /* CDBaseAllViewController.swift */,
 				735513852457C19D009B7599 /* image */,
 				735513862457C19D009B7599 /* CDAppDelegate.swift */,
+				EF65C073256A2FB100D71FB3 /* CDNavigationController.swift */,
 				730ED78124A98EC00044D8AE /* CDTabBarViewController.swift */,
 			);
 			path = appleLunch;
@@ -1035,6 +1050,8 @@
 		735513852457C19D009B7599 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				EF65C076256A305600D71FB3 /* mine_normal@2x.png */,
+				EF65C077256A305600D71FB3 /* mine_select@2x.png */,
 				7321175924ADBA9B009B3DE7 /* music_normal@2x.png */,
 				7321175B24ADBA9B009B3DE7 /* music_select@2x.png */,
 				7321175A24ADBA9B009B3DE7 /* reader_normal@2x.png */,
@@ -1110,7 +1127,7 @@
 				73F7153B24B30BD200B3C9FC /* UIImage+extension.swift */,
 				EFDD41FB2481FC23000AFDB8 /* String+Path.swift */,
 				73F7153D24B30F1C00B3C9FC /* String+extension.swift */,
-				73262D5B24AEE3F6001AF8F9 /* UIView+extension.swift */,
+				EF3FEFDA256A20E50054E59A /* UIView+animation.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1374,7 +1391,6 @@
 				EF3FEE51256A1D180054E59A /* CDInputView.swift */,
 				EF3FEE52256A1D180054E59A /* image */,
 				EF3FEE6C256A1D180054E59A /* CDInputAccessoryView.swift */,
-				EF3FEE6D256A1D180054E59A /* UIView+Exsition.swift */,
 				EF3FEE6E256A1D180054E59A /* CDPickerView.swift */,
 			);
 			path = TextView;
@@ -1610,17 +1626,17 @@
 		EF3FEED2256A1D180054E59A /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */,
+				EF3FEED6256A1D180054E59A /* CDLogConfigViewController.swift */,
+				EF3FEED8256A1D180054E59A /* CDLogPreviewViewController.swift */,
+				EF3FEED7256A1D180054E59A /* CDMapViewController.swift */,
+				EF3FEEDE256A1D180054E59A /* CDMemoryViewController.swift */,
 				EF3FEED3256A1D180054E59A /* CDMineViewController.swift */,
 				EF3FEED4256A1D180054E59A /* CDOptionViewController.swift */,
-				EF3FEED5256A1D180054E59A /* CDSwitchCell.swift */,
-				EF3FEED6256A1D180054E59A /* CDLogConfigViewController.swift */,
-				EF3FEED7256A1D180054E59A /* CDMapViewController.swift */,
-				EF3FEED8256A1D180054E59A /* CDLogPreviewViewController.swift */,
-				EF3FEED9256A1D180054E59A /* image */,
 				EF3FEEDC256A1D180054E59A /* CDSetPwdViewController.swift */,
+				EF3FEED5256A1D180054E59A /* CDSwitchCell.swift */,
+				EF3FEED9256A1D180054E59A /* image */,
 				EF3FEEDD256A1D180054E59A /* view */,
-				EF3FEEDE256A1D180054E59A /* CDMemoryViewController.swift */,
-				EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -1649,6 +1665,16 @@
 				EF558FC824C87D73002F43ED /* Info.plist */,
 			);
 			path = Share;
+			sourceTree = "<group>";
+		};
+		EF65C07F256A352900D71FB3 /* CDFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				73F7154024B3386B00B3C9FC /* CDConfigBean.swift */,
+				EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */,
+				EF65C07C256A34D000D71FB3 /* CDLogManager.swift */,
+			);
+			path = CDFileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1788,6 +1814,7 @@
 				EF3FEF3C256A1D180054E59A /* file_audio_big@2x.png in Resources */,
 				EF3FEF9E256A1D180054E59A /* backward_disable@2x.png in Resources */,
 				7355149C2457C19E009B7599 /* leftUp@2x.png in Resources */,
+				EF65C079256A305600D71FB3 /* mine_select@2x.png in Resources */,
 				EF3FEF40256A1D180054E59A /* no_edit@2x.png in Resources */,
 				EF3FEF68256A1D180054E59A /* 项目符号00@2x.png in Resources */,
 				EF3FEF48256A1D180054E59A /* record_sure@2x.png in Resources */,
@@ -1870,6 +1897,7 @@
 				7355149F2457C19E009B7599 /* 下导航-bg@2x.png in Resources */,
 				EF3FEF0C256A1D180054E59A /* 字体-黑-大@2x.png in Resources */,
 				7355149B2457C19E009B7599 /* leftDown@2x.png in Resources */,
+				EF65C078256A305600D71FB3 /* mine_normal@2x.png in Resources */,
 				EF3FEEE4256A1D180054E59A /* defaultMusicImage@2x.png in Resources */,
 				EF3FEF99256A1D180054E59A /* 裁剪@2x.png in Resources */,
 				EF3FEF36256A1D180054E59A /* file_excel_big@2x.png in Resources */,
@@ -1957,14 +1985,12 @@
 				737020C22491D87000F98F42 /* CDContainerViewController.swift in Sources */,
 				73F7153824B2FEB200B3C9FC /* CDInlineTools.swift in Sources */,
 				EF3FEF14256A1D180054E59A /* CDReaderListViewController.swift in Sources */,
-				73262D5C24AEE3F6001AF8F9 /* UIView+extension.swift in Sources */,
 				EF3FEF5D256A1D180054E59A /* CDTextView.swift in Sources */,
 				EF3FEFCE256A1D180054E59A /* CDFaceLockViewController.swift in Sources */,
 				EF3FEFBD256A1D180054E59A /* CDImageEditModels.swift in Sources */,
 				735514972457C19E009B7599 /* CDAppDelegate.swift in Sources */,
 				EF3FEEF8256A1D180054E59A /* CDCollectionView.swift in Sources */,
 				EF3FEF54256A1D180054E59A /* CDToolBar.swift in Sources */,
-				EF3FEF79256A1D180054E59A /* UIView+Exsition.swift in Sources */,
 				EF3FEF96256A1D180054E59A /* CDCropToolsBar.swift in Sources */,
 				EF3FEF50256A1D180054E59A /* CDAudioViewController.swift in Sources */,
 				EF3FEFBA256A1D180054E59A /* CDColorPicker.swift in Sources */,
@@ -2034,17 +2060,21 @@
 				EF3FEF98256A1D180054E59A /* CDBrightView.swift in Sources */,
 				EF3FEEFA256A1D180054E59A /* CDClassCell.swift in Sources */,
 				735514862457C19E009B7599 /* CDSqlManager.swift in Sources */,
+				EF65C07D256A34D000D71FB3 /* CDLogManager.swift in Sources */,
 				EF3FEFCC256A1D180054E59A /* CDGuideViewController.swift in Sources */,
 				EF3FEF7F256A1D180054E59A /* CDNewTextViewController.swift in Sources */,
 				EF3FEEFC256A1D180054E59A /* CDModifyClassViewController.swift in Sources */,
 				73FC55DA2465503C0052E117 /* CDHUDManager.swift in Sources */,
 				EF3FEF11256A1D180054E59A /* CDReaderBean.swift in Sources */,
 				EF3FEFD3256A1D180054E59A /* CDMapViewController.swift in Sources */,
+				EF65C074256A2FB100D71FB3 /* CDNavigationController.swift in Sources */,
+				EF3FEFDD256A20F80054E59A /* CDLocationManager.swift in Sources */,
 				EF3FEF13256A1D180054E59A /* CDReaderManager.swift in Sources */,
 				EFDD42092481FC25000AFDB8 /* CDAudioPlayView.swift in Sources */,
 				EF3FEFCB256A1D180054E59A /* CDImageViewController.swift in Sources */,
 				735514562457C19E009B7599 /* CDMediaPickerViewController.swift in Sources */,
 				EF3FEFB6256A1D180054E59A /* CDPhotoEditTextView.swift in Sources */,
+				EF3FEFDB256A20E50054E59A /* UIView+animation.swift in Sources */,
 				EF3FEEE1256A1D180054E59A /* CDMusicClassViewController.swift in Sources */,
 				EF3FEFD2256A1D180054E59A /* CDLogConfigViewController.swift in Sources */,
 				EF3FEFD0256A1D180054E59A /* CDOptionViewController.swift in Sources */,

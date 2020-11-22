@@ -99,7 +99,7 @@ class CDAssetTon: NSObject {
         let preaets = AVAssetExportSession.exportPresets(compatibleWith: videoAsset)
         if preaets.contains(AVAssetExportPresetHighestQuality) {
             let session:AVAssetExportSession = AVAssetExportSession.init(asset: videoAsset, presetName: AVAssetExportPreset640x480)!
-            let time = getCurrentTimestamp()
+            let time = GetTimestamp()
             let tmpVideoPath = String.VideoPath().appendingPathComponent(str: "/\(time).mp4")
             //输出路径
             session.outputURL = URL.init(fileURLWithPath: tmpVideoPath)

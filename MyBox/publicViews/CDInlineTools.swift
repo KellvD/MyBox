@@ -19,15 +19,6 @@ import Photos
 }
 
 /*
- 获取设备UUID
- */
-@inline(__always) func StringWithUUID()->String{
-    let uuidObj = CFUUIDCreate(nil)
-    let uuidString = CFUUIDCreateString(nil, uuidObj) as String?
-    return uuidString!
-}
-
-/*
 获取当前用户ID
 */
 @inline(__always) func CDUserId() -> Int{
@@ -38,7 +29,7 @@ import Photos
 /*
 获取文件尺寸大小
 */
-@inline(__always) func getFileSizeAtPath(filePath:String) ->Int{
+@inline(__always) func GetFileSize(filePath:String) ->Int{
 
     var fileSize:Int = 0
     if FileManager.default.fileExists(atPath: filePath) {
@@ -54,7 +45,7 @@ import Photos
 /*
 获取文件夹尺寸大小
 */
-@inline(__always) func getFolderSizeAtPath(folderPath:String) -> Int{
+@inline(__always) func GetFolderSize(folderPath:String) -> Int{
     
     
     var isDir:ObjCBool = false
@@ -66,20 +57,20 @@ import Photos
             
             fileArr.forEach { (path) in
                 let allPath = folderPath + "/" + path
-                fileSize = fileSize + getFileSizeAtPath(filePath: allPath)
+                fileSize = fileSize + GetFileSize(filePath: allPath)
             }
             return fileSize
             
         }
     }
-    return getFileSizeAtPath(filePath: folderPath)
+    return GetFileSize(filePath: folderPath)
     
 }
 
 /*
 加载图片
 */
-@inline(__always) func LoadImageByName(imageName:String,type:String) -> UIImage? {
+@inline(__always) func LoadImage(imageName:String,type:String) -> UIImage? {
     var path = Bundle.main.path(forResource:imageName, ofType:type)
     if path == nil{
         let name = imageName + "@2x"
@@ -109,7 +100,7 @@ import Photos
 /*
 格式化时间戳
 */
-@inline(__always)func getMMSSFromSS(second:Double)->String{
+@inline(__always)func GetMMSSFromSS(second:Double)->String{
     let hour = Int(second / 3600)
     let minute = (Int(second) % 3600)/3600
     let second = Int(second) % 60
@@ -125,7 +116,7 @@ import Photos
 /*
 获取32位随机数
 */
-@inline(__always)func getRandString() -> String? {
+@inline(__always)func GetRandString() -> String? {
     let NUMBER_OF_CHARS: Int = 32
     let random_str_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     var ranStr = ""
@@ -139,7 +130,7 @@ import Photos
 /*
 获取视频的长度
 */
-@inline(__always)func getTimeLenWithVideoPath(path:String)->Double{
+@inline(__always)func GetVideoLength(path:String)->Double{
     let urlAsset = AVURLAsset(url: URL(fileURLWithPath: path))
     let second = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
     return second
@@ -148,7 +139,7 @@ import Photos
 /*
 格式化文件size
 */
-@inline(__always)func returnSize(fileSize:Int)->String{
+@inline(__always)func GetSizeFormat(fileSize:Int)->String{
     var sizeStr = ""
     var sizef = Float(fileSize)
     var i = 0
@@ -176,7 +167,7 @@ import Photos
 /*
 获取当前时间戳
 */
-@inline(__always)func getCurrentTimestamp() -> Int{
+@inline(__always)func GetTimestamp() -> Int{
     let nowTime = NSDate.init().timeIntervalSince1970 * 1000
     return Int(nowTime)
 }
@@ -184,7 +175,7 @@ import Photos
 /*
 格式化时间戳
 */
-@inline(__always)func timestampTurnString(timestamp:Int)->String{
+@inline(__always)func GetTimeFormat(timestamp:Int)->String{
     let formter = DateFormatter()
     formter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     let date = Date(timeIntervalSince1970: TimeInterval(timestamp/1000))
@@ -208,7 +199,7 @@ import Photos
         return image
     } catch  {
         print(error)
-        return LoadImageByName(imageName: "file_video_big", type: "png")!
+        return LoadImage(imageName: "file_video_big", type: "png")!
     }
     
 }
@@ -240,7 +231,7 @@ import Photos
 @inline(__always)func getAppName() -> String{
     
     let appInfo = Bundle.main.infoDictionary
-    let appName = appInfo!["CFBundleDisplayName"] as! String
+    let appName = appInfo!["CFBundleName"] as! String
     return appName
     
 }
@@ -361,6 +352,7 @@ import Photos
     print("statusHeight = \(statusHeight)")
     return statusHeight
 }
+
 
 @inline(__always)func UIColorFromRGB(_ red:CGFloat,_ green:CGFloat,_ blue:CGFloat) -> UIColor{
     return UIColor(red:red/255.0, green:green/255.0,blue:blue/255.0,alpha:1.0)

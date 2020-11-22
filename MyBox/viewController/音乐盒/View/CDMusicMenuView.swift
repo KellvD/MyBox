@@ -99,7 +99,7 @@ class CDMusicMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
                 let imagePath = String.RootPath().appendingPathComponent(str: musicInfo.musicImage)
                 var image = UIImage(contentsOfFile: imagePath)
                 if image == nil{
-                    image = LoadImageByName(imageName: "defaultMusicImage", type: "png")
+                    image = LoadImage(imageName: "defaultMusicImage", type: "png")
                 }
                 imageV.image = image
                 musicnameL.text = musicInfo.musicName
@@ -135,18 +135,18 @@ class CDMusicMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
             let sperateLine = cell.viewWithTag(103) as! UILabel
             if indexPath.row == 1{//下一曲
                 titleV.text = "下一首播放"
-                imageV.image = LoadImageByName(imageName: "下一首播放", type: "png")
+                imageV.image = LoadImage(imageName: "下一首播放", type: "png")
             }else if indexPath.row == 2{//收藏到歌单
                 titleV.text = "添加至歌单"
-                imageV.image = LoadImageByName(imageName: "添加至歌单", type: "png")
+                imageV.image = LoadImage(imageName: "添加至歌单", type: "png")
 
             }else if indexPath.row == 3{//分享
                 titleV.text = "分享"
-                imageV.image = LoadImageByName(imageName: "分享", type: "png")
+                imageV.image = LoadImage(imageName: "分享", type: "png")
 
             }else if indexPath.row == 4{//删除
                 titleV.text = "删除"
-                imageV.image = LoadImageByName(imageName: "删除", type: "png")
+                imageV.image = LoadImage(imageName: "删除", type: "png")
             }
 
             if indexPath.row == 4{

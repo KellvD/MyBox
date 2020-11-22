@@ -237,7 +237,7 @@ class CDPhotoItemCell: UICollectionViewCell {
         let videoTime = cdAsset.asset.duration
         if videoTime > 0 {
             formatLabel?.isHidden = false
-            self.formatLabel?.text = getMMSSFromSS(second: videoTime)
+            self.formatLabel?.text = GetMMSSFromSS(second: videoTime)
 
         }
     }

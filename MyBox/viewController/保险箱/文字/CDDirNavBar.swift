@@ -74,7 +74,7 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         let titleName = folder.folderName
-        let width:CGFloat = CDGeneralTool.getStringWidth(string: titleName + " > ", height: 40, font: TextMidFont)
+        let width:CGFloat = (titleName + " > ").labelWidth(height: 40, font: TextMidFont)
         return CGSize(width: width, height: 40)
     }
     

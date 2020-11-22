@@ -38,5 +38,13 @@ class CDDeviceTools: NSObject {
     class func getSystemVersion() -> (version:String,name:String) {
         return (UIDevice.current.systemVersion,UIDevice.current.systemName)
     }
-    
+    /*
+     获取设备UUID
+     */
+    class func getUUID()->String{
+        let uuidObj = CFUUIDCreate(nil)
+        let uuidString = CFUUIDCreateString(nil, uuidObj) as String?
+        return uuidString!
+    }
+
 }

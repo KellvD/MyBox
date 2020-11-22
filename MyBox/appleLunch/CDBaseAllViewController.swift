@@ -29,8 +29,8 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         self.view.backgroundColor = UIColor.white
         self.popBtn = UIButton(type: .custom)
         self.popBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
-        self.popBtn.setImage(LoadImageByName(imageName: "back_normal", type: "png"), for: .normal)
-        self.popBtn.setImage(LoadImageByName(imageName: "back_pressed", type: "png"), for: .selected)
+        self.popBtn.setImage(LoadImage(imageName: "back_normal", type: "png"), for: .normal)
+        self.popBtn.setImage(LoadImage(imageName: "back_pressed", type: "png"), for: .selected)
         self.popBtn.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.popBtn)
     }

@@ -76,7 +76,7 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         let line = cell.contentView.viewWithTag(104)
         
         let gfile = dataArr[indexPath.row]
-        headImage.image = LoadImageByName(imageName: "file_txt_big", type: "png")
+        headImage.image = LoadImage(imageName: "file_txt_big", type: "png")
         fileNameL.text = gfile.fileName
         detailLabel.text = "%43"
         line?.isHidden = indexPath.row == dataArr.count - 1

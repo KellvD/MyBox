@@ -30,10 +30,10 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [timestampTurnString(timestamp: fileInfo.createTime),
-                 timestampTurnString(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(timestamp: fileInfo.createTime),
+                 GetTimeFormat(timestamp: fileInfo.modifyTime)
                 ],
-                [returnSize(fileSize: fileInfo.fileSize)],
+                [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 ["\(fileInfo.fileWidth) x \(fileInfo.fileHeight)"],
                 [fileInfo.markInfo]
             ]
@@ -41,20 +41,20 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [timestampTurnString(timestamp: fileInfo.createTime),
-                 timestampTurnString(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(timestamp: fileInfo.createTime),
+                 GetTimeFormat(timestamp: fileInfo.modifyTime)
                 ],
-                [returnSize(fileSize: fileInfo.fileSize)],
-                [getMMSSFromSS(second: fileInfo.timeLength)],
+                [GetSizeFormat(fileSize: fileInfo.fileSize)],
+                [GetMMSSFromSS(second: fileInfo.timeLength)],
                 [fileInfo.markInfo]
             ]
         }else{
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [timestampTurnString(timestamp: fileInfo.createTime),
-                 timestampTurnString(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(timestamp: fileInfo.createTime),
+                 GetTimeFormat(timestamp: fileInfo.modifyTime)
                 ],
-                [returnSize(fileSize: fileInfo.fileSize)],
+                [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [fileInfo.markInfo]
             ]
         }

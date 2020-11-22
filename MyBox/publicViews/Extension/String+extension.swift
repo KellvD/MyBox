@@ -111,7 +111,7 @@ extension String{
         return returnValue;
     }
     
-    func Width(height:CGFloat,font:UIFont) -> CGFloat {
+    func labelWidth(height:CGFloat,font:UIFont) -> CGFloat {
         let size:CGSize = CGSize(width: 0, height: height)
         let frame = self.boundingRect(with: size, options:
             NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |
@@ -120,7 +120,7 @@ extension String{
         return frame.size.width
     }
     
-    func Height(width:CGFloat,font:UIFont) -> CGFloat {
+    func labelHeight(width:CGFloat,font:UIFont) -> CGFloat {
         let size:CGSize = CGSize(width: width, height: 0)
         let frame = self.boundingRect(with: size, options:
             NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |

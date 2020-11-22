@@ -12,7 +12,6 @@ import CoreGraphics.CGImage
 import Photos
 
 
-
 class CDSignalTon: NSObject {
 
     var basePwd = String() //
@@ -54,7 +53,7 @@ class CDSignalTon: NSObject {
             addDefaultMusicClass()
             
             //配置日志
-            CDLogBean.setLogConfig(isOn: false, logLevel: .Debug, logName: "log \(timestampTurnString(timestamp: getCurrentTimestamp()))", logPath: String.documentPath())
+            CDLogBean.setLogConfig(isOn: false, logLevel: .Debug, logName: "log \(GetTimeFormat(timestamp: GetTimestamp()))", logPath: String.documentPath())
 
             //配置水印
             CDWaterBean.setWaterConfig(isOn: false, text: getAppName())
@@ -79,7 +78,7 @@ class CDSignalTon: NSObject {
         let nameArr:[String] = ["图片文件", "音频文件","视频文件","文本文件"]
         let pathArr:[String] = [String.ImagePath(),String.AudioPath(),String.VideoPath(),String.OtherPath()]
         for i in 0..<nameArr.count {
-            let nowTime = getCurrentTimestamp()
+            let nowTime = GetTimestamp()
             let createtime:Int = nowTime;
             let folderInfo = CDSafeFolder()
             folderInfo.folderName = nameArr[i]
@@ -114,7 +113,7 @@ class CDSignalTon: NSObject {
         let titleArr:[String] = Array(arrayLiteral: "最喜欢", "最近播放","乐库")
         let imageArr:[String] = Array(arrayLiteral: "music_love", "music_recent","music_list")
         for i in 0..<titleArr.count {
-            let nowTime = getCurrentTimestamp()
+            let nowTime = GetTimestamp()
             let createtime:Int = nowTime;
             let classInfo = CDMusicClassInfo()
             classInfo.className = titleArr[i]
@@ -153,7 +152,7 @@ class CDSignalTon: NSObject {
         }
         
         let fileType = suffix.getFileTypeFromSuffix()
-        let currentTime = getCurrentTimestamp()
+        let currentTime = GetTimestamp()
         let fileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
         fileInfo.userId = CDUserId()
@@ -228,7 +227,7 @@ class CDSignalTon: NSObject {
                 return
             }
         }
-        let fileSize = getFileSizeAtPath(filePath: filePath)
+        let fileSize = GetFileSize(filePath: filePath)
         fileInfo.fileSize = fileSize
         fileInfo.filePath = filePath.relativePath()
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
@@ -253,7 +252,7 @@ class CDSignalTon: NSObject {
             
 //        }
         
-        let time = getCurrentTimestamp()
+        let time = GetTimestamp()
         let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
         let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).\(suffix)")
         let smallImage = image.compress(maxWidth: 1280)
@@ -277,7 +276,7 @@ class CDSignalTon: NSObject {
         fileInfo.fileName = fileName
         fileInfo.filePath = savePath.relativePath()
         fileInfo.thumbImagePath = thumbPath.relativePath()
-        fileInfo.fileSize = getFileSizeAtPath(filePath: savePath)
+        fileInfo.fileSize = GetFileSize(filePath: savePath)
         fileInfo.fileWidth = Double(image.size.width)
         fileInfo.fileHeight = Double(image.size.height)
         fileInfo.createTime = Int(time)
@@ -445,7 +444,7 @@ class CDSignalTon: NSObject {
      音频拼接
     */
     func appendAudio(folderId:Int,appendFile:[CDSafeFileInfo],Complete:@escaping(_ success:Bool)->Void){
-        let nowTime = getCurrentTimestamp()
+        let nowTime = GetTimestamp()
         //导出路径
         let composePath = String.AudioPath().appendingPathComponent(str: "\(nowTime).m4a")
         let composition = AVMutableComposition()

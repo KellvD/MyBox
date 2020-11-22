@@ -35,7 +35,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         videoPath = String.VideoPath().appendingFormat("/%@",videoInfo.filePath.lastPathComponent())
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
-            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+            mImgage = LoadImage(imageName: "小图解密失败", type:"png")
         }
 
         let itemH = (mImgage.size.height * self.view.frame.width)/mImgage.size.width
@@ -45,7 +45,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         self.view.addSubview(imageView)
 
         playBtn = UIImageView(frame: CGRect(x: CDSCREEN_WIDTH/2 - 25, y: imageView.frame.minY + itemH/2 - 25, width: 50, height: 50))
-        playBtn.image = LoadImageByName(imageName: "play", type: "png")
+        playBtn.image = LoadImage(imageName: "play", type: "png")
         playBtn.isUserInteractionEnabled = true
         playBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onHandleVideoPlay)))
 
@@ -55,7 +55,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         videoTap.isEnabled = false
 
 
-        timeLength = getTimeLenWithVideoPath(path: videoPath)
+        timeLength = GetVideoLength(path: videoPath)
 
         let urlAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: nil)
         let playerItem = AVPlayerItem(asset: urlAsset)
@@ -75,7 +75,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         hasPlayTimeLab.textColor = TextGrayColor
         hasPlayTimeLab.backgroundColor = UIColor.clear
         hasPlayTimeLab.font = TextSmallFont
-        hasPlayTimeLab.text = getMMSSFromSS(second: 0)
+        hasPlayTimeLab.text = GetMMSSFromSS(second: 0)
         hasPlayTimeLab.adjustsFontSizeToFitWidth = true
         playView.addSubview(hasPlayTimeLab)
 
@@ -90,7 +90,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         remainTimeLab.textColor = TextGrayColor
         remainTimeLab.backgroundColor = UIColor.clear
         remainTimeLab.font = TextSmallFont
-        remainTimeLab.text = getMMSSFromSS(second: timeLength)
+        remainTimeLab.text = GetMMSSFromSS(second: timeLength)
         remainTimeLab.adjustsFontSizeToFitWidth = true
         playView.addSubview(remainTimeLab)
 
@@ -114,7 +114,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
     @objc func onDoneSegmentVideo(){
         let urlAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: nil)
         let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetPassthrough)
-        let currentTime = getCurrentTimestamp()
+        let currentTime = GetTimestamp()
 
         let exportPath = String.VideoPath().appendingPathComponent(str: "\(currentTime).mp4")
         let exportUrl = URL(fileURLWithPath: exportPath)
@@ -145,7 +145,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
             self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { (cmTime) in
                 let currentTime = CMTimeGetSeconds(cmTime)
                 self.sliderView.value = Float(currentTime)
-                self.hasPlayTimeLab.text = getMMSSFromSS(second: currentTime)
+                self.hasPlayTimeLab.text = GetMMSSFromSS(second: currentTime)
 
             }
         }
@@ -165,7 +165,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
             player.pause()
         }
         let currentTime = Double(sliderView.value)
-        hasPlayTimeLab.text = getMMSSFromSS(second: currentTime)
+        hasPlayTimeLab.text = GetMMSSFromSS(second: currentTime)
         setPlayerTime(currentTime: currentTime)
         if isPlayIng {
             player.play()
@@ -185,7 +185,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         }
         currentTime -= 0.5
         sliderView.value = Float(currentTime)
-        hasPlayTimeLab.text = getMMSSFromSS(second: currentTime)
+        hasPlayTimeLab.text = GetMMSSFromSS(second: currentTime)
         setPlayerTime(currentTime: currentTime)
         if isPlayIng {
             player.play()
@@ -202,7 +202,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         currentTime += 0.5
         sliderView.value = Float(currentTime)
         
-        hasPlayTimeLab.text = getMMSSFromSS(second: currentTime)
+        hasPlayTimeLab.text = GetMMSSFromSS(second: currentTime)
         setPlayerTime(currentTime: currentTime)
         if isPlayIng {
             player.play()
@@ -229,7 +229,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         player.removeTimeObserver(self)
         player = nil;
         sliderView.value = 0
-        hasPlayTimeLab.text = getMMSSFromSS(second: 0)
+        hasPlayTimeLab.text = GetMMSSFromSS(second: 0)
 
     }
 

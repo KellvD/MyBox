@@ -43,7 +43,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         self.view.addSubview(firstLine)
         //
         iconImageV = UIImageView(frame: CGRect(x: 5, y: firstLine.frame.maxY + 12.5, width: 45, height: 45))
-        iconImageV.image = LoadImageByName(imageName: "图片", type: "png")
+        iconImageV.image = LoadImage(imageName: "图片", type: "png")
         self.view.addSubview(iconImageV)
 
         folderNameField = UITextField(frame: CGRect(x: iconImageV.frame.maxX+5, y: firstLine.frame.maxY + 12.5, width: CDSCREEN_WIDTH-100, height: 45))
@@ -89,7 +89,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         TextFV.addGestureRecognizer(textTap)
 
         selectView = UIImageView(frame: CGRect(x: ImageFV.frame.minX, y: ImageFV.frame.minY, width: ImageFV.frame.width, height: ImageFV.frame.width))
-        selectView.image = LoadImageByName(imageName: "照片选中", type: "png")
+        selectView.image = LoadImage(imageName: "照片选中", type: "png")
         self.view.addSubview(selectView)
         selectType = .ImageFolder
 
@@ -101,7 +101,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         if selectType != .ImageFolder {
             selectView.frame = CGRect(x: ImageFV.frame.minX, y: ImageFV.frame.minY, width: ImageFV.frame.width, height: ImageFV.frame.width)
             selectType = .ImageFolder
-            iconImageV.image = LoadImageByName(imageName: "图片", type: "png")
+            iconImageV.image = LoadImage(imageName: "图片", type: "png")
         }
     }
     @objc func audioSelectTap(){
@@ -109,7 +109,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         if selectType != .AudioFolder {
             selectView.frame = CGRect(x: AudioFV.frame.minX, y: AudioFV.frame.minY, width: AudioFV.frame.width, height: AudioFV.frame.width)
             selectType = .AudioFolder
-            iconImageV.image = LoadImageByName(imageName: "音频", type: "png")
+            iconImageV.image = LoadImage(imageName: "音频", type: "png")
         }
     }
     @objc func videoSelectTap(){
@@ -117,21 +117,21 @@ class CDNewFolderViewController: CDBaseAllViewController {
         if selectType != .VideoFolder {
             selectView.frame = CGRect(x: VideoFV.frame.minX, y: VideoFV.frame.minY, width: VideoFV.frame.width, height: VideoFV.frame.width)
             selectType = .VideoFolder
-            iconImageV.image = LoadImageByName(imageName: "视频", type: "png")
+            iconImageV.image = LoadImage(imageName: "视频", type: "png")
         }
     }
     @objc func textSelectTap(){
         if selectType != .TextFolder {
             selectView.frame = CGRect(x: TextFV.frame.minX, y: TextFV.frame.minY, width: TextFV.frame.width, height: TextFV.frame.width)
             selectType = .TextFolder
-            iconImageV.image = LoadImageByName(imageName: "其他", type: "png")
+            iconImageV.image = LoadImage(imageName: "其他", type: "png")
         }
     }
 
     @objc func doneBtnClick(){
 
         let folderName:String = folderNameField.text!
-        let time = getCurrentTimestamp()
+        let time = GetTimestamp()
 
         let folderInfo = CDSafeFolder()
         folderInfo.folderName = folderName
@@ -151,7 +151,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
     func createFolderV(x:CGFloat,y:CGFloat,imageName:String,title:String) -> UIView {
         let bgView = UIView(frame: CGRect(x: x, y: y, width: 60, height: 60+30))
         let imageV = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        imageV.image = LoadImageByName(imageName: imageName, type: "png")
+        imageV.image = LoadImage(imageName: imageName, type: "png")
         bgView.addSubview(imageV)
         let titleL = UILabel(frame: CGRect(x: 0, y: 60, width: 60, height: 30))
         titleL.text = title

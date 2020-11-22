@@ -26,7 +26,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.image = LoadImageByName(imageName: "下导航-bg", type: "png")
+        self.image = LoadImage(imageName: "下导航-bg", type: "png")
         self.isUserInteractionEnabled = true
         pause = UIButton(type: .custom)
         pause.frame = CGRect(x: 10, y: 9, width: 30, height: 30)
@@ -35,7 +35,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
 
         sliderView = UISlider(frame: CGRect(x: pause.frame.maxX+5, y: 14, width: CDSCREEN_WIDTH-130, height: 20))
         sliderView.minimumValue = 0
-        sliderView.setThumbImage(LoadImageByName(imageName: "sliderThumb", type: "png"), for: .normal)
+        sliderView.setThumbImage(LoadImage(imageName: "sliderThumb", type: "png"), for: .normal)
         sliderView.addTarget(self, action: #selector(changePlayTime), for: .valueChanged)
         self.addSubview(sliderView)
 
@@ -48,7 +48,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
         
         let stopBtn = UIButton(type: .custom)
         stopBtn.frame = CGRect(x: CDSCREEN_WIDTH - 40, y: 9, width: 30, height: 30)
-        stopBtn.setImage(LoadImageByName(imageName: "record_cancle", type: "png"), for: .normal)
+        stopBtn.setImage(LoadImage(imageName: "record_cancle", type: "png"), for: .normal)
         stopBtn.addTarget(self, action: #selector(stopPlayer), for: .touchUpInside)
         self.addSubview(stopBtn)
 
@@ -60,10 +60,10 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
     
     func createPlayer(audioPath:String){
 
-        pause.setBackgroundImage(LoadImageByName(imageName: "audiostop", type: "png"), for: .normal)
+        pause.setBackgroundImage(LoadImage(imageName: "audiostop", type: "png"), for: .normal)
         pause.tag = 210
         updatePlayerTimeViewWithCurrentTime(current: 0.0)
-        timeLength = getTimeLenWithVideoPath(path: audioPath)
+        timeLength = GetVideoLength(path: audioPath)
         sliderView.maximumValue = Float(timeLength)
 
         let session = AVAudioSession.sharedInstance()
@@ -97,13 +97,13 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
     }
     @objc func onAudioBtnPressed(btn:UIButton) {
         if btn.tag == 210 {
-            pause.setBackgroundImage(LoadImageByName(imageName: "audioplay", type: "png"), for: .normal)
+            pause.setBackgroundImage(LoadImage(imageName: "audioplay", type: "png"), for: .normal)
             pause.tag = 201
             player.pause()
             pauseTimer()
 
         }else{
-            pause.setBackgroundImage(LoadImageByName(imageName: "audiostop", type: "png"), for: .normal)
+            pause.setBackgroundImage(LoadImage(imageName: "audiostop", type: "png"), for: .normal)
             pause.tag = 210
             player.play()
             startTimer()
@@ -129,7 +129,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
 
         let currentT = Double(current + 0.5)
         self.sliderView.value = current
-        self.remainTimeLab.text = getMMSSFromSS(second: currentT)
+        self.remainTimeLab.text = GetMMSSFromSS(second: currentT)
 
     }
     func startTimer() {

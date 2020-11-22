@@ -93,9 +93,9 @@ class CDImageCell: UICollectionViewCell {
         if isBatchEdit {
             selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
-                selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+                selectedView.image = LoadImage(imageName: "selected", type: "png")
             }else{
-                selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+                selectedView.image = LoadImage(imageName: "no_selected", type: "png")
             }
 
         }else{
@@ -110,7 +110,7 @@ class CDImageCell: UICollectionViewCell {
         let tmpPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
-            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+            mImgage = LoadImage(imageName: "小图解密失败", type:"png")
         }
         self.backgroundView = UIImageView(image: mImgage)
     }
@@ -120,9 +120,9 @@ class CDImageCell: UICollectionViewCell {
         if isMutilEdit {
             selectedView.isHidden = false
             if fileInfo.isSelected == .CDTrue {
-                selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+                selectedView.image = LoadImage(imageName: "selected", type: "png")
             }else{
-                selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+                selectedView.image = LoadImage(imageName: "no_selected", type: "png")
             }
 
         }else{
@@ -132,18 +132,18 @@ class CDImageCell: UICollectionViewCell {
         let tmpPath = String.thumpVideoPath().appendingFormat("/%@",fileInfo.thumbImagePath.lastPathComponent())
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
-            mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+            mImgage = LoadImage(imageName: "小图解密失败", type:"png")
         }
         self.videoSizeL.isHidden = false
-        self.videoSizeL.text = getMMSSFromSS(second: fileInfo.timeLength)
+        self.videoSizeL.text = GetMMSSFromSS(second: fileInfo.timeLength)
         self.backgroundView = UIImageView(image: mImgage)
     }
     
     func reloadSelectImageView() {
         if isSelected {
-            selectedView.image = LoadImageByName(imageName: "selected", type: "png")
+            selectedView.image = LoadImage(imageName: "selected", type: "png")
         }else{
-            selectedView.image = LoadImageByName(imageName: "no_selected", type: "png")
+            selectedView.image = LoadImage(imageName: "no_selected", type: "png")
         }
     }
 }

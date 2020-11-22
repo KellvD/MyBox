@@ -60,7 +60,7 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         delayLabel.isHidden = true
         
         let focusCursor = UIImageView(frame: CGRect(origin: CGPoint(x: self.view.frame.width/2, y: self.view.frame.height/2), size: CGSize(width: 100, height: 100)))
-        focusCursor.image = LoadImageByName(imageName: "frame", type: "png")
+        focusCursor.image = LoadImage(imageName: "frame", type: "png")
         focusCursor.isHidden = true
         self.view.addSubview(focusCursor)
         cameraManger.focusCursor = focusCursor
@@ -78,7 +78,7 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
                 previewVC.isVideo = false
                 previewVC.previewHandle = {(success) in
                     if success {
-                        let dic:[String:Any] = ["fileName":"\(getCurrentTimestamp()).png","file":image!]
+                        let dic:[String:Any] = ["fileName":"\(GetTimestamp()).png","file":image!]
                         self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
                     } else {
                         self.cameraManger.reloadLayer()

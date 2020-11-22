@@ -81,22 +81,22 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
         cancleBtn = UIButton(type: .custom)
         cancleBtn.frame = CGRect(x: 15, y: 0, width: 45, height: 45)
-        cancleBtn.setImage(LoadImageByName(imageName: "chexiao", type: "png"), for: .normal)
-        cancleBtn.setImage(LoadImageByName(imageName: "chexiao-grey", type: "png"), for: .disabled)
+        cancleBtn.setImage(LoadImage(imageName: "chexiao", type: "png"), for: .normal)
+        cancleBtn.setImage(LoadImage(imageName: "chexiao-grey", type: "png"), for: .disabled)
         cancleBtn.addTarget(self, action: #selector(cancleBtnClick), for: .touchUpInside)
         bgView.addSubview(cancleBtn)
         cancleBtn.isEnabled = false
 
         composeBtn = UIButton(type: .custom)
         composeBtn.frame = CGRect(x: (CDSCREEN_WIDTH - 45)/2, y: 0, width: 45, height: 45)
-        composeBtn.setImage(LoadImageByName(imageName: "hecheng", type: "png"), for: .normal)
+        composeBtn.setImage(LoadImage(imageName: "hecheng", type: "png"), for: .normal)
         composeBtn.addTarget(self, action: #selector(composeBtnClick), for: .touchUpInside)
         bgView.addSubview(composeBtn)
 
         sureBtn = UIButton(type: .custom)
         sureBtn.frame = CGRect(x: CDSCREEN_WIDTH - 15 - 45, y: 0, width: 45, height: 45)
-        sureBtn.setImage(LoadImageByName(imageName: "sure", type: "png"), for: .normal)
-        sureBtn.setImage(LoadImageByName(imageName: "sure-grey", type: "png"), for: .disabled)
+        sureBtn.setImage(LoadImage(imageName: "sure", type: "png"), for: .normal)
+        sureBtn.setImage(LoadImage(imageName: "sure-grey", type: "png"), for: .disabled)
         sureBtn.setTitleColor(UIColor.black, for: .normal)
         sureBtn.addTarget(self, action: #selector(sureBtnClick), for: .touchUpInside)
         bgView.addSubview(sureBtn)
@@ -110,14 +110,14 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
             let lPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
             var lImgage:UIImage! = UIImage(contentsOfFile: lPath)
             if lImgage == nil {
-                lImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+                lImgage = LoadImage(imageName: "小图解密失败", type:"png")
             }
             thumpArr.append(lImgage)
 
             let tmpPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
             var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
             if mImgage == nil {
-                mImgage = LoadImageByName(imageName: "小图解密失败", type:"png")
+                mImgage = LoadImage(imageName: "小图解密失败", type:"png")
             }
             imageArr.append(mImgage)
         }
@@ -213,7 +213,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     }
     
     private func onComposeGif(){
-        nowTime = getCurrentTimestamp()
+        nowTime = GetTimestamp()
         let delay = gifDelaySlider.value
         print(delay)
         gifPath = String.ImagePath().appendingPathComponent(str: String(format: "%lld.gif", nowTime))

@@ -158,13 +158,13 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
             countL.isHidden = true
             titleV.frame = CGRect(x: imageV.frame.maxX+15, y: 17, width: CDSCREEN_WIDTH - imageV.frame.maxX, height: 30)
             titleV.text = "创建歌单"
-            imageV.image = LoadImageByName(imageName: "创建歌单", type: "png")
+            imageV.image = LoadImage(imageName: "创建歌单", type: "png")
         }else{
             countL.isHidden = false
             titleV.frame = CGRect(x: imageV.frame.maxX+15, y: 5, width: 200, height: 30)
             let classInfo = classArr[indexPath.row-1]
             titleV.text = classInfo.className
-            imageV.image = LoadImageByName(imageName: classInfo.classAvatar, type: "png")
+            imageV.image = LoadImage(imageName: classInfo.classAvatar, type: "png")
             countL.text = "\(classArr.count) 首"
 
         }
@@ -215,7 +215,7 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
         }
         let classInfo = CDMusicClassInfo()
         classInfo.className = className
-        classInfo.classCreateTime = getCurrentTimestamp()
+        classInfo.classCreateTime = GetTimestamp()
         CDSqlManager.shared.addOneMusicClassInfoWith(classInfo: classInfo)
         CDHUDManager.shared.showText(text: "创建成功")
 
