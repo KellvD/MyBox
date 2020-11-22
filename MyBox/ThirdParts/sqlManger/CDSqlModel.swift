@@ -65,6 +65,8 @@ class CDMusicInfo: NSObject {
     var musicPath = String()
     var musicImage = String()
 }
+
+
 class CDMusicClassInfo: NSObject {
     var classId = Int()
     var className = String()

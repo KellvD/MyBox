@@ -11,7 +11,7 @@ import UIKit
 
 class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
-    var textView:UITextView!
+    var textView:CDTextView!
     var menuView:UIToolbar!
     var folderId = 0
 
@@ -29,12 +29,8 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         doneBtn.contentHorizontalAlignment = .right
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneBtn)
 
-        textView = UITextView(frame: CGRect(x: 10, y: 0, width: CDSCREEN_WIDTH - 20, height: CDViewHeight))
-        textView.delegate = self
-        textView.font = TextMidFont
-        textView.layoutManager.allowsNonContiguousLayout = false
-        textView.backgroundColor = UIColor.clear
-        self.view.addSubview(textView)
+        textView = CDTextView(frame: CGRect(x: 10, y: 0, width: CDSCREEN_WIDTH - 20, height: CDViewHeight), subViewController: self)
+        
         textView.becomeFirstResponder()
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notic:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -54,9 +50,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         sender.isUserInteractionEnabled = false
         textView.resignFirstResponder()
         var fileName = contentStr
-        if contentStr.count > 6 {
-            fileName = contentStr.AsNSString().substring(to: 6)
-        }
+        fileName = contentStr.count > 6 ? contentStr.AsNSString().substring(to: 6) : contentStr
         let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
         fileInfo.userId = CDUserId()
         fileInfo.folderId = folderId

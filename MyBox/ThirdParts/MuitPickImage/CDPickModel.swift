@@ -13,7 +13,7 @@ import Photos
  将选中的图片，视频传出到MediaPick中处理
  */
 protocol CDAssetSelectedDelagete{
-    func selectedAssetsComplete(assets:[CDPHAsset])
+    func selectedAssetsComplete(phAssets:[CDPHAsset])
 }
 
 
@@ -23,15 +23,15 @@ class CDAlbum {
     //相簿资源
     var fetchResult:PHFetchResult<PHAsset>
 
-    var firstImage:UIImage?
+    var coverImage:UIImage?
     init(title:String?, fetchResult:PHFetchResult<PHAsset>) {
         self.title = title
         self.fetchResult = fetchResult
-        let asset = fetchResult[0]
+        let asset = fetchResult.lastObject
         let size = CGSize(width: 60, height: 60)
         let imageManager = PHCachingImageManager()
-        imageManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
-            self.firstImage = image
+        imageManager.requestImage(for: asset!, targetSize: size, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
+            self.coverImage = image
         })
     }
 }
@@ -54,8 +54,8 @@ enum CDMediaType:Int {
 }
 
 
-enum PhotoFormat {
-    case Gif
-    case Live
-    case Normal
+enum PhotoFormat:String {
+    case Gif = "GIF"
+    case Live = "LIVE"
+    case Normal = "NORMAL"
 }

@@ -14,22 +14,6 @@ class CDAssetTon: NSObject {
     var mediaType:CDMediaType!
     static let shared = CDAssetTon()
 
-    func authorizationStatusAuthorized(Result:@escaping (Bool)->Void) {
-        let status = PHPhotoLibrary.authorizationStatus()
-
-        if status == .authorized{
-            Result(true)
-        }else if status == .notDetermined{
-            PHPhotoLibrary.requestAuthorization { (status) in
-                print(status)
-                Result(true)
-            }
-        }else{
-            Result(false)
-        }
-
-    }
-
     //MARK:获取图片列表
     func getAllAlbums(WithFinished Finished: @escaping ([CDAlbum]) -> Void) {
 

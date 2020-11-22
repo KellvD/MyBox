@@ -185,7 +185,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }
     }
     @objc func setBtnClick()->Void{
-        let setVC = CDSettingViewController()
+        let setVC = CDMineViewController()
         setVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(setVC, animated: true)
 
@@ -213,7 +213,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             CDSignalTon.shared.customPickerView = camera
             self.present(camera, animated: true, completion: nil)
         } else if title == "电子书" {
-           let setVC = CDSettingViewController()
+           let setVC = CDMineViewController()
             setVC.hidesBottomBarWhenPushed  = true
            self.navigationController?.pushViewController(setVC, animated: true)
         }

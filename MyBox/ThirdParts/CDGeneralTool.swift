@@ -97,23 +97,7 @@ class CDGeneralTool: NSObject {
         }
     }
     
-    class func getStringWidth(string:String,height:CGFloat,font:UIFont) -> CGFloat {
-        let size:CGSize = CGSize(width: 0, height: height)
-        let frame = string.boundingRect(with: size, options:
-            NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |
-                NSStringDrawingOptions.truncatesLastVisibleLine.rawValue |
-                NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
-        return frame.size.width
-    }
     
-    class func getStringHeight(string:String,width:CGFloat,font:UIFont) -> CGFloat {
-        let size:CGSize = CGSize(width: width, height: 0)
-        let frame = string.boundingRect(with: size, options:
-            NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |
-                NSStringDrawingOptions.truncatesLastVisibleLine.rawValue |
-                NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
-        return frame.size.height
-    }
     
     
     class func IdentifedQRFromPhoto(image:UIImage) -> String {

@@ -9,10 +9,13 @@
 import UIKit
 import AVFoundation
 import MJRefresh
+/**
+ * 操作文件的状态类型
+ */
 enum CDHandleType {
-    case discover
-    case delete
-    case nothing
+    case resume   //删、改等操作完后将剩余文件恢复未选状态状态
+    case delete   //删除状态
+    case nothing  //单纯的显示选择框，待选状态
 }
 class CDImageViewController:
     CDBaseAllViewController,
@@ -50,7 +53,7 @@ class CDImageViewController:
         self.title = "图片文件"
         isNeedReloadData = true
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-20)/4 , height: (CDSCREEN_WIDTH-20)/4)
+        layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-10)/4 , height: (CDSCREEN_WIDTH-10)/4)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
@@ -90,6 +93,10 @@ class CDImageViewController:
     @objc func headerRefresh(){
 
     }
+    
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     // MARK:批量按钮
     @objc func batchBtnClick(){
         batchHandleFiles(isBatch: !batchBtn.isSelected,type: .nothing)
@@ -108,7 +115,7 @@ class CDImageViewController:
             toolbar.hiddenReloadBar(isMulit: false)
             selectedImageArr.forEach { (tmpFile) in
                 let index = imageArr.firstIndex(of: tmpFile)
-                if type == .discover {
+                if type == .resume {
                     tmpFile.isSelected = .CDFalse
                 }else if type == .delete{
                     imageArr.remove(at: index!)
@@ -177,11 +184,10 @@ class CDImageViewController:
     
     func handelSelectedArr(){
         selectedImageArr.removeAll()
-        imageArr.forEach { (file) in
-            if file.isSelected == .CDTrue {
-                selectedImageArr.append(file)
-            }
-        }
+        selectedImageArr = imageArr.filter({ (tmp) -> Bool in
+            tmp.isSelected == .CDTrue
+        })
+        
     }
     //MARK:分享事件
     @objc func shareBarItemClick(){
@@ -197,7 +203,7 @@ class CDImageViewController:
         
         presentShareActivityWith(dataArr: shareArr) { (error) in
             //分享完成，取消批量操作，恢复数据至未选状态
-            self.batchHandleFiles(isBatch: false, type: .discover)
+            self.batchHandleFiles(isBatch: false, type: .resume)
         }
     }
     // MARK:移动
@@ -245,7 +251,7 @@ class CDImageViewController:
                 CDHUDManager.shared.hideWait()
                 CDHUDManager.shared.showComplete(text: "导出成功!")
                 //导出完成后，取消批量操作,恢复选中数据源
-                self.batchHandleFiles(isBatch: false, type: .discover)
+                self.batchHandleFiles(isBatch: false, type: .resume)
             }
 
         }
@@ -363,7 +369,7 @@ class CDImageViewController:
     }
     //MARK:导入
     @objc func inputItemClick() -> Void {
-        checkPermission(type: .Library) { (isAllow) in
+        checkPermission(type: .library) { (isAllow) in
              if isAllow {
                 DispatchQueue.main.async {
                     //保持屏幕常亮
@@ -377,7 +383,7 @@ class CDImageViewController:
                 }
                 
              } else {
-                openPermission(type: .Library, viewController: self)
+                openPermission(type: .library, viewController: self)
             }
         }
         
@@ -434,29 +440,27 @@ class CDImageViewController:
     func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
         
         CDSignalTon.shared.saveOrigialImage(obj: data, folderId: folderInfo.folderId)
-               if index == 1 { //第一个出现进度条
-                   DispatchQueue.main.async {
-                       CDHUDManager.shared.showProgress(text: "开始导入！")
-                       CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
-                   }
-               }
-               if index == totalCount  {
-                   DispatchQueue.main.async {
-                       CDSignalTon.shared.customPickerView = nil
-                       picker.dismiss(animated: true, completion: nil)
-                       self.refreshDBData()
-                       CDHUDManager.shared.hideProgress()
-                       CDHUDManager.shared.showComplete(text: "导入完成！")
-                   }
-                   
-               }else{
-                   DispatchQueue.main.async {
-                       CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
-                   }
-                   
-               }
+        if index == 1 { //第一个出现进度条
+            DispatchQueue.main.async {
+                CDHUDManager.shared.showProgress(text: "开始导入！")
+                CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+            }
+        }
+        if index == totalCount  {
+            DispatchQueue.main.async {
+                CDSignalTon.shared.customPickerView = nil
+                picker.dismiss(animated: true, completion: nil)
+                self.refreshDBData()
+                CDHUDManager.shared.showComplete(text: "导入完成！")
+                CDHUDManager.shared.hideProgress()
+            }
+        }else{
+            DispatchQueue.main.async {
+                CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
+            }
+        }
     }
-
+    
 
     func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
         CDSignalTon.shared.customPickerView = nil

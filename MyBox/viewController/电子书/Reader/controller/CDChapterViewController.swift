@@ -105,6 +105,7 @@ class CDChapterViewController: UIViewController,UITableViewDelegate,UITableViewD
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         myDelegate.onDidSelectdChapter(chapterIndex: indexPath.row)
@@ -112,3 +113,4 @@ class CDChapterViewController: UIViewController,UITableViewDelegate,UITableViewD
     }
 
 }
+

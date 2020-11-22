@@ -18,20 +18,15 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hiddBackbutton()
-       
+        dataArr = CDSqlManager.shared.queryAllTextSafeFile()
         tabView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH), style: .plain)
         tabView.delegate = self
         tabView.dataSource = self
         tabView.separatorStyle = .none
         view.addSubview(tabView)
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onLoadTextFile))
     }
     
-    @objc func onLoadTextFile(){
-        dataArr = CDSqlManager.shared.queryAllTextSafeFile()
-        self.tabView.reloadData()
-    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArr.count;

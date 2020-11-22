@@ -48,7 +48,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         self.title = "视频文件"
         isNeedReloadData = true
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-20)/4 , height: (CDSCREEN_WIDTH-20)/4)
+        layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-10)/4 , height: (CDSCREEN_WIDTH-10)/4)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
@@ -308,18 +308,20 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     }
     //MARK:导入
     @objc func inputItemClick() -> Void {
-        checkPermission(type: .camera) { (isAllow) in
+        checkPermission(type: . library) { (isAllow) in
             if isAllow {
-                //保持屏幕常亮
-                let elcPicker = CDMediaPickerViewController(isVideo: true)
-                elcPicker.pickerDelegate = self
-                CDAssetTon.shared.mediaType = .CDMediaVideo
-                elcPicker.folderId = self.folderInfo.folderId
-                CDSignalTon.shared.customPickerView = elcPicker
-                elcPicker.modalPresentationStyle = .fullScreen
-                self.present(elcPicker, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    //保持屏幕常亮
+                    let elcPicker = CDMediaPickerViewController(isVideo: true)
+                    elcPicker.pickerDelegate = self
+                    CDAssetTon.shared.mediaType = .CDMediaVideo
+                    elcPicker.folderId = self.folderInfo.folderId
+                    CDSignalTon.shared.customPickerView = elcPicker
+                    elcPicker.modalPresentationStyle = .fullScreen
+                    self.present(elcPicker, animated: true, completion: nil)
+                }
             } else {
-                openPermission(type: .Library, viewController: self)
+                openPermission(type: .library, viewController: self)
             }
         }
         

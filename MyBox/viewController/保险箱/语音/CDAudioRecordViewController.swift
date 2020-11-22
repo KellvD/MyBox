@@ -183,17 +183,17 @@ class CDAudioRecordViewController: CDBaseAllViewController {
                 let tmpStr = self.textField.text!
                 let len = tmpStr.getLength(needTrimSpaceCheck: true)
                 if len > 30 {
-                    CDHUDManager.shared.showText(text: "文件名不能超过28个字符")
+                    CDHUDManager.shared.showText(text: "文件名不能超过30个字符")
+                    return
                 }
+                self.recordStop()
                 self.textField.resignFirstResponder()
                 let audioPath = String.AudioPath().appendingPathComponent(str:"\(tmpStr).aac")
 
-                do {
-                    try FileManager.default.moveItem(atPath: self.newFilePath, toPath: audioPath)
-                    CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder)
-                } catch  {
-                    
-                }
+                //从录音路劲拷贝到重命名路径
+                try! FileManager.default.copyItem(atPath: self.newFilePath, toPath: audioPath)
+                try! FileManager.default.removeItem(atPath: self.newFilePath)
+                CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder)
                 
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
@@ -212,30 +212,27 @@ class CDAudioRecordViewController: CDBaseAllViewController {
                     }else{
                         if self.recorder == nil { //recorder不存在，创建，存在接着录音
                             self.newFilePath = String.AudioPath().appendingPathComponent(str: "\(getCurrentTimestamp()).aac")
+                            let dict = [AVFormatIDKey:NSNumber(value: kAudioFormatMPEG4AAC),
+                            AVSampleRateKey:NSNumber(value: 8000),
+                            AVNumberOfChannelsKey:NSNumber(value: 1),
+                            AVLinearPCMBitDepthKey:NSNumber(value: 16),
+                            AVEncoderAudioQualityKey:NSNumber(value: AVAudioQuality.high.rawValue),
+                            AVLinearPCMIsFloatKey:NSNumber(value: true)]
+                            
                             do{
                                 try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
                                 try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
                                 try AVAudioSession.sharedInstance().setActive(true)
-                            }catch{
-                                
-                            }
-                            let dict = [AVFormatIDKey:NSNumber(value: kAudioFormatMPEG4AAC),
-                                        AVSampleRateKey:NSNumber(value: 8000),
-                                        AVNumberOfChannelsKey:NSNumber(value: 1),
-                                        AVLinearPCMBitDepthKey:NSNumber(value: 16),
-                                        AVEncoderAudioQualityKey:NSNumber(value: AVAudioQuality.high.rawValue),
-                                        AVLinearPCMIsFloatKey:NSNumber(value: true)]
-                            
-                            do{
                                 try self.recorder = AVAudioRecorder(url: URL.init(string: self.newFilePath)!, settings:dict)
                             }catch{
                                 
                             }
+                            
                             self.recorder.isMeteringEnabled = true
                             self.recorder.prepareToRecord()
                             
                             self.destoryTimer()
-                            self.lineTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.controllerMove), userInfo: nil, repeats: true)
+                            self.lineTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.controllerMove), userInfo: nil, repeats: true)
                             self.lineTimer.fireDate = .distantFuture
                         }
                         self.recordStart()
@@ -252,7 +249,7 @@ class CDAudioRecordViewController: CDBaseAllViewController {
     @objc func controllerMove(){
 
         timerCount += 1
-        if timerCount == 20 {
+        if timerCount == 10 {
             timerCount = 0
             let timeLength = Int(recorder.currentTime)
             let hours = Int(timeLength / 3600)

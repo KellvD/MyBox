@@ -10,16 +10,16 @@ import UIKit
 import Photos
 import MJRefresh
 
-let itemWidth_Height = (CDSCREEN_WIDTH-20)/4
+let itemWidth_Height = (CDSCREEN_WIDTH-10)/4
 let normalLoadCount = 36
 class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
    
     public var albumItem:CDAlbum!
     public var isVideo:Bool!
     public var assetDelegate:CDAssetSelectedDelagete!
-
-    public var cdAssetArr:[CDPHAsset] = []
-    public var photoTab:UICollectionView!
+    
+    private var cdAssetArr:[CDPHAsset] = []
+    private var photoTab:UICollectionView!
     private var previewBtn:UIButton!
     private var sendBtn:UIButton!
     private var selectCount = 0
@@ -55,6 +55,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         self.previewBtn.addTarget(self, action: #selector(onPreviewClick), for: .touchUpInside)
         bottomV.addSubview(self.previewBtn)
 
+        
         self.sendBtn = UIButton(type: .custom)
         self.sendBtn .frame = CGRect(x: CDSCREEN_WIDTH-80, y: 4, width: 65, height: 40)
         self.sendBtn .setTitle("发送", for:.normal)
@@ -70,29 +71,38 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     }
     
     func refleshData(index:Int)  {
-        for i in 0..<self.albumItem.fetchResult.count {
-            let asset = self.albumItem.fetchResult[i]
-            let cdAsset = CDPHAsset()
-            cdAsset.asset = asset
-            cdAsset.isSelected = .CDFalse
+        DispatchQueue.global().async {
+            for i in 0..<self.albumItem.fetchResult.count {
+                let asset = self.albumItem.fetchResult[i]
+                let cdAsset = CDPHAsset()
+                cdAsset.asset = asset
+                cdAsset.isSelected = .CDFalse
 
-            let resource = PHAssetResource.assetResources(for: asset).first
-            cdAsset.fileSize = resource?.value(forKey: "fileSize") as? Int
-            cdAsset.fileName = (asset.value(forKey: "filename") as! String)
-            cdAsset.videoLength = asset.duration
-            if resource?.uniformTypeIdentifier == "com.compuserve.gif" {
-                cdAsset.format = .Gif
-            } else if asset.mediaSubtypes.contains(.photoLive) {
-                cdAsset.format = .Live
-            } else{
-                cdAsset.format = .Normal
+                let resource = PHAssetResource.assetResources(for: asset).first
+                cdAsset.fileSize = (resource?.value(forKey: "fileSize") as! Int) as Int
+                cdAsset.fileName = (asset.value(forKey: "filename") as! String)
+                cdAsset.videoLength = asset.duration
+                if resource?.uniformTypeIdentifier == "com.compuserve.gif" {
+                    cdAsset.format = .Gif
+                } else if asset.mediaSubtypes.contains(.photoLive) {
+                    cdAsset.format = .Live
+                } else{
+                    cdAsset.format = .Normal
+                }
+                self.cdAssetArr.append(cdAsset)
+                //先刷新30个，避免进入界面空白
+                DispatchQueue.main.async {
+                    if self.cdAssetArr.count == 30 {
+                        self.photoTab.reloadData()
+                    }
+                }
+
             }
-            self.cdAssetArr.append(cdAsset)
-
+            DispatchQueue.main.async {
+                self.photoTab.reloadData()                
+            }
         }
-        DispatchQueue.main.async {
-            self.photoTab.reloadData()
-        }
+        
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cdAssetArr.count
@@ -100,7 +110,6 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoSelectIDentify", for: indexPath) as! CDPhotoItemCell
-
         let asset:CDPHAsset = self.cdAssetArr[indexPath.item]
         if isVideo {
             cell.setAssetVideoData(cdAsset: asset)
@@ -141,10 +150,9 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     @objc func onPreviewClick(){
         let preViewVC = CDPreviewViewController()
         var selecctArr:[CDPHAsset] = []
-        cdAssetArr.forEach { (asset) in
-            if asset.isSelected == .CDTrue {
-                selecctArr.append(asset)
-            }
+        
+        for asset in cdAssetArr where asset.isSelected == .CDTrue {
+            selecctArr.append(asset)
         }
         preViewVC.assetArr = selecctArr
         preViewVC.isVideo = isVideo
@@ -160,7 +168,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
             }
         }
         DispatchQueue.global().async {
-            self.assetDelegate.selectedAssetsComplete(assets: selectArr)
+            self.assetDelegate.selectedAssetsComplete(phAssets: selectArr)
 
         }
     }
@@ -170,44 +178,36 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     }
 
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 
 class CDPhotoItemCell: UICollectionViewCell {
 
-    var imageView:UIImageView!
-    var selectImageView:UIImageView!
-    var itemWidth:CGFloat = 0.0
-    var infoL:UILabel?
+    private var imageView:UIImageView!
+    public var selectImageView:UIImageView!
+    private var itemWidth:CGFloat = 0.0
+    private var formatLabel:UILabel?
 
 
     override init(frame:CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
-        self.itemWidth = self.frame.width
-        self.imageView = UIImageView(frame: CGRect(x: 0.5, y: 0.5, width: frame.width-1, height: frame.height-1))
-        self.addSubview(self.imageView)
+        itemWidth = self.frame.width - 1
+        imageView = UIImageView(frame: CGRect(x: 0.5, y: 0.5, width: frame.width-1, height: frame.height-1))
+        imageView.contentMode = .scaleToFill
+        self.addSubview(imageView)
 
-        self.selectImageView = UIImageView(frame: CGRect(x: 0.5, y: 0.5, width: frame.width-2, height: frame.height-2))
-        self.selectImageView.image = UIImage(named: "照片选中@2x")
-        self.addSubview(self.selectImageView)
-        self.selectImageView.isHidden = true
+        selectImageView = UIImageView(frame: CGRect(x: 0.5, y: 0.5, width: frame.width-2, height: frame.height-2))
+        selectImageView.image = UIImage(named: "照片选中@2x")
+        self.addSubview(selectImageView)
+        selectImageView.isHidden = true
         
-        infoL = UILabel(frame: CGRect(x: 2, y: frame.height - 20, width: frame.width-4, height: 20))
-        infoL?.textColor = UIColor.white
-        infoL?.textAlignment = .right
-        infoL?.font = UIFont.systemFont(ofSize: 12)
-        self.addSubview(infoL!)
+        
+        formatLabel = UILabel(frame: CGRect(x: 2, y: frame.height - 20, width: frame.width-4, height: 20))
+        formatLabel?.textColor = UIColor.white
+        formatLabel?.textAlignment = .right
+        formatLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        self.addSubview(formatLabel!)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -220,28 +220,13 @@ class CDPhotoItemCell: UICollectionViewCell {
         CDAssetTon.shared.getImageFromAsset(asset: asset, targetSize: cellSize) { (image, info) in
             self.imageView.image = image
         }
-
-        if cdAsset.format == .Gif {
-            infoL?.isHidden = false
-            infoL?.text = "GIF"
-            infoL?.font = UIFont.boldSystemFont(ofSize: 12)
-
-        }else if cdAsset.format == .Live {
-            infoL?.isHidden = false
-            infoL?.text = "LIVE"
-            infoL?.font = UIFont.boldSystemFont(ofSize: 12)
-
-        }else{
-            infoL?.isHidden = true
-        }
+        formatLabel?.isHidden = cdAsset.format == .Normal
+        formatLabel?.text = cdAsset.format.rawValue
+        self.selectImageView.isHidden = !(cdAsset.isSelected == .CDTrue)
         
-        if cdAsset.isSelected == .CDTrue{
-            self.selectImageView.isHidden = false
-        }else{
-            self.selectImageView.isHidden = true
-        }
         
     }
+    
     public func setAssetVideoData(cdAsset:CDPHAsset){
 
         let scale = UIScreen.main.scale
@@ -249,25 +234,12 @@ class CDPhotoItemCell: UICollectionViewCell {
         CDAssetTon.shared.getImageFromAsset(asset: cdAsset.asset, targetSize: cellSize) { (image, info) in
             self.imageView.image = image
         }
-        let videoTime = Int(cdAsset.asset.duration)
+        let videoTime = cdAsset.asset.duration
         if videoTime > 0 {
-            infoL?.isHidden = false
-            self.infoL?.text = getMMSSFromSS(second: videoTime)
+            formatLabel?.isHidden = false
+            self.formatLabel?.text = getMMSSFromSS(second: videoTime)
 
         }
-    }
-
-    func getMMSSFromSS(second:Int)->String{
-        let hour = second / 3600
-        let minute = (Int(second) % 3600)/3600
-        let second = Int(second) % 60
-        var format:String = ""
-        if hour > 0 {
-            format = String.init(format: "%02ld:%02ld:%02ld", hour,minute,second)
-        }else{
-            format = String.init(format: "%02ld:%02ld", minute,second)
-        }
-        return format
     }
     
 }

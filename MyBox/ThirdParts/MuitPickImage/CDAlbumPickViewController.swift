@@ -55,9 +55,11 @@ class CDAlbumPickViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.ablumList.count
     }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentify = "imageListpickcell"
         var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentify)
@@ -79,6 +81,7 @@ class CDAlbumPickViewController: UITableViewController {
             titleLabel.textColor = TextBlackColor
             cell.addSubview(titleLabel)
 
+            
             let countlabel = UILabel(frame: CGRect(x: imageView.frame.maxX+15, y: titleLabel.frame.maxY, width: 100, height: 15))
             countlabel.tag = 103
             countlabel.font = TextMidSmallFont
@@ -100,12 +103,14 @@ class CDAlbumPickViewController: UITableViewController {
         let alum:CDAlbum = ablumList[indexPath.row]
         titleLabel.text = alum.title;
         countLabel.text = "\(alum.fetchResult.count) 张"
-        headImage.image = alum.firstImage
+        headImage.image = alum.coverImage
         separatorLine.isHidden = indexPath.row == ablumList.count - 1
         return cell
 
 
     }
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let alum:CDAlbum = ablumList[indexPath.row]

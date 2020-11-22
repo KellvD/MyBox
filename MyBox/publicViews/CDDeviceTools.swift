@@ -19,5 +19,24 @@ class CDDeviceTools: NSObject {
         let batteryStatus = UIDevice.current.batteryState
         return (batteryLevel,batteryStatus)
     }
-    //获取
+    
+    //获取磁盘
+    class func getDiskSpace() -> (total:Int, free:Int) {
+        let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+       let systemAttr = try! FileManager.default.attributesOfFileSystem(forPath: docPath)
+        let total = systemAttr[FileAttributeKey.systemSize] as! Int
+        let free = systemAttr[FileAttributeKey.systemFreeSize] as! Int
+        return (total,free)
+    }
+    
+    //手机别名,型号
+    class func getIphoneInfo() -> (name:String,model:String){
+        return (UIDevice.current.name,UIDevice.current.model)
+    }
+    
+    //系统版本
+    class func getSystemVersion() -> (version:String,name:String) {
+        return (UIDevice.current.systemVersion,UIDevice.current.systemName)
+    }
+    
 }

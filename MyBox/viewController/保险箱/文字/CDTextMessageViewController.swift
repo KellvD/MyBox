@@ -11,21 +11,16 @@ import UIKit
 class CDTextMessageViewController: CDBaseAllViewController {
 
     var fileInfo:CDSafeFileInfo!
-    var textView:UITextView!
+    var textView:CDTextView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = fileInfo.fileName
-
+        
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItemClick))
         self.navigationItem.rightBarButtonItem = editItem
 
-        textView = UITextView(frame: CGRect(x: 10, y: 0, width: CDSCREEN_WIDTH - 20, height: CDViewHeight))
-        textView.backgroundColor = UIColor.clear
-        textView.font = TextMidFont
-        textView.textColor = UIColor.black
+        textView = CDTextView(frame: CGRect(x: 10, y: 0, width: CDSCREEN_WIDTH - 20, height: CDViewHeight), subViewController: self)
 
-        textView.layoutManager.allowsNonContiguousLayout = false
-        self.view.addSubview(textView)
 
         if CDEmojiHandle.hasEmojiWithText(text: fileInfo.fileText) {
             

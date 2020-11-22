@@ -17,6 +17,7 @@ import Photos
         return true
     }
 }
+
 /*
  获取设备UUID
  */
@@ -159,7 +160,7 @@ import Photos
     case 0:
         sizeStr = String(format: "%.2ldB", sizef)
     case 1:
-        sizeStr = String(format: "%.2lfK", sizef)
+        sizeStr = String(format: "%.2lfKB", sizef)
     case 2:
         sizeStr = String(format: "%.2lfM", sizef)
     case 3:
@@ -238,7 +239,25 @@ import Photos
 
 @inline(__always)func getAppName() -> String{
     
-    return "Mybox"
+    let appInfo = Bundle.main.infoDictionary
+    let appName = appInfo!["CFBundleDisplayName"] as! String
+    return appName
+    
+}
+
+@inline(__always)func getAppShortVersion() -> String{
+    
+    let appInfo = Bundle.main.infoDictionary
+    let appVersion = appInfo!["CFBundleShortVersionString"] as! String
+    return appVersion
+    
+}
+
+@inline(__always)func getAppVersion() -> String{
+    
+    let appInfo = Bundle.main.infoDictionary
+    let appVersionNUm = appInfo!["CFBundleVersion"] as! String
+    return appVersionNUm
 }
 
 
@@ -246,7 +265,7 @@ import Photos
  判断权限
  */
 @inline(__always)func checkPermission(type:CDDevicePermissionType,Result:@escaping (Bool)->Void){
-    if type == .Library {
+    if type == .library {
        let status = PHPhotoLibrary.authorizationStatus()
         if status == .authorized{
             Result(true)
@@ -285,18 +304,22 @@ import Photos
         status == .authorizedWhenInUse{
             Result(true)
         } else if status == .notDetermined{
-            Result(false)
+            CLLocationManager().requestWhenInUseAuthorization()
+            Result(true)
         } else {
             Result(false)
         }
     }
 }
 
+/**
+ *配置相机、相册、地图、麦克风权限
+ */
 @inline(__always)func openPermission(type:CDDevicePermissionType,viewController:CDBaseAllViewController){
     
     var title:String!
     var message:String!
-    if type == .Library {
+    if type == .library {
         title = "相册被拒绝访问"
         message = "请在”设置>隐私>照片>\(getAppName())“，设置读取和写入"
     } else if type == .camera {
@@ -306,7 +329,8 @@ import Photos
         title = "麦克风被拒绝访问"
         message = "请在“设置>隐私>麦克风>\(getAppName())”选项中，打开允许访问的开关"
     } else if type == .location {
-        
+        title = "地图定位被拒绝访问"
+        message = "请在“设置>隐私>定位服务>\(getAppName())”选项中，选择使用权限"
     }
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "以后设置", style: .cancel, handler: nil))
@@ -323,7 +347,9 @@ import Photos
     viewController.present(alert, animated: true, completion: nil)
 }
 
-
+/**
+ *获取状态栏高度
+ */
 @inline(__always)func GetStatusHeight() ->CGFloat{
     var statusHeight:CGFloat = 0
     if #available(iOS 13.0,*){
@@ -336,4 +362,17 @@ import Photos
     return statusHeight
 }
 
+@inline(__always)func UIColorFromRGB(_ red:CGFloat,_ green:CGFloat,_ blue:CGFloat) -> UIColor{
+    return UIColor(red:red/255.0, green:green/255.0,blue:blue/255.0,alpha:1.0)
+}
 
+@inline(__always)func UIColorFromRGBA(_ red:CGFloat,_ green:CGFloat,_ blue:CGFloat,_ alpha:CGFloat) -> UIColor{
+    return UIColor(red:red/255.0, green:green/255.0,blue:blue/255.0,alpha:alpha)
+}
+
+@inline(__always)func UIColorFromHex(hexNum:Int) -> UIColor{
+    return UIColor(red: CGFloat((hexNum & 0xFF0000) >> 16) / 255.0,
+                   green: CGFloat((hexNum & 0x00FF00) >> 8) / 255.0,
+                   blue: CGFloat((hexNum & 0x0000FF) >> 0) / 255.0,
+                   alpha: 1.0)
+}

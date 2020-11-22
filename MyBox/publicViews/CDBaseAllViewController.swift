@@ -42,6 +42,10 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         self.popBtn.isHidden = true
     }
 
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     func presentDocumentPicker(documentTypes:[String]) {
         if #available(iOS 8, *) {
             let documentPicker = UIDocumentPickerViewController(documentTypes: documentTypes, in: .open)
@@ -65,6 +69,11 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                 if urlArr.count > 0 {
                     index += 1
                     let subUrl = urlArr.first!
+                    let fileSize = try! Data(contentsOf: subUrl).count
+                    if fileSize > CDDeviceTools.getDiskSpace().free {
+                        self.alertSpaceWarn(alertType: .AlertDocumentType)
+                        
+                    }
                     let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
@@ -107,26 +116,9 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         self.present(activityVC, animated: true, completion: nil)
     }
     
-    func alertSpaceWarn(alertType:AlertType) {
-        var message:String!
+    func alertSpaceWarn(alertType:DiskSpaceAlertType) {
+        let message:String = alertType.rawValue
 
-        if alertType == .AlertShootVideoType  {
-            message = "可用存储空间不足，无法拍摄视频。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertVideosType  {
-            message = "可用存储空间不足，无法导入此视频。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertPlayVideoType  {
-            message = "可用存储空间不足，无法播放视频。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertTakePhotoType  {
-            message = "可用存储空间不足，无法拍摄照片。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertPhotosType  {
-            message = "可用存储空间不足，无法导入这些图片。您可以在设置里管理存储空间"
-        }else if alertType == .AlertBrowsePhotosType  {
-            message = "可用存储空间不足，无法浏览照片。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertMakeRecordType  {
-            message = "可用存储空间不足，无法录制音频。您可以在设置里管理存储空间。"
-        }else if alertType == .AlertRecordsType {
-            message = "可用存储空间不足，无法播放音频。您可以在设置里管理存储空间。"
-        }
         let alert = UIAlertController(title: "警告", message: message, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "否", style: .cancel, handler: { (action) in

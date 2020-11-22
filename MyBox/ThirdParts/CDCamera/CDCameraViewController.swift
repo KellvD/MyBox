@@ -52,7 +52,6 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         bottomBar = CDCameraBottomBar(frame: CGRect(x: 0, y: self.view.frame.height - 140, width: self.view.frame.width, height: 140))
         bottomBar.delegate = self
         self.view.addSubview(bottomBar)
-
         delayLabel = UILabel(frame: CGRect(x: self.view.frame.midX - 80, y: self.view.frame.midY - 100, width: 160, height: 200))
         delayLabel.textColor = .white
         delayLabel.textAlignment = .center

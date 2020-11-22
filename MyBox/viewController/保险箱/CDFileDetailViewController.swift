@@ -11,38 +11,24 @@ import UIKit
 class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDMarkFileDelegate {
 
     private var tableView:UITableView!
+    private var optionValueArr: [[String]] = [[]]
     var fileInfo:CDSafeFileInfo!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initOptionValue()
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         tableView.delegate = self;
         tableView.dataSource = self
         self.view.addSubview(tableView)
     }
 
-    lazy var optionTitleArr: [[String]] = {
-        var arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["备注"]]
+    func initOptionValue(){
+        optionValueArr.removeAll()
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
-             arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["尺寸"],["备注"]]
-        }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
-            arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["时长"],["备注"]]
-        }
-        return arr
-    }()
-    
-    lazy var optionValueArr: [[String]] = {
-        var arr = [
-            [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-            [timestampTurnString(timestamp: fileInfo.createTime),
-             timestampTurnString(timestamp: fileInfo.modifyTime)
-            ],
-            [returnSize(fileSize: fileInfo.fileSize)],
-            [fileInfo.markInfo]
-        ]
-        if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
-            arr = [
+            optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
                 [timestampTurnString(timestamp: fileInfo.createTime),
                  timestampTurnString(timestamp: fileInfo.modifyTime)
@@ -53,7 +39,7 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             ]
             
         }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
-            arr = [
+            optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
                 [timestampTurnString(timestamp: fileInfo.createTime),
                  timestampTurnString(timestamp: fileInfo.modifyTime)
@@ -62,10 +48,28 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
                 [getMMSSFromSS(second: fileInfo.timeLength)],
                 [fileInfo.markInfo]
             ]
-            
+        }else{
+            optionValueArr = [
+                [fileInfo.fileName,fileInfo.filePath.getSuffix()],
+                [timestampTurnString(timestamp: fileInfo.createTime),
+                 timestampTurnString(timestamp: fileInfo.modifyTime)
+                ],
+                [returnSize(fileSize: fileInfo.fileSize)],
+                [fileInfo.markInfo]
+            ]
+        }
+    }
+    lazy var optionTitleArr: [[String]] = {
+        var arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["备注"]]
+        if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
+             arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["尺寸"],["备注"]]
+        }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
+            arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["时长"],["备注"]]
         }
         return arr
     }()
+    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return optionTitleArr.count
     }
@@ -118,7 +122,6 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
 
         titleLabel.text = title
         detaileL.text = optionValueArr[indexPath.section][indexPath.row]
-        cell.accessoryType = indexPath.section == 0 && indexPath.row == 0 ? .disclosureIndicator : .none
         if title == "名称" || title == "备注"{
              cell.accessoryType =  .disclosureIndicator
         } else {
@@ -153,11 +156,11 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             markVC.markInfo = fileInfo.markInfo
             markVC.markType = .fileMark
             self.navigationController?.pushViewController(markVC, animated: true)
-
         }
     }
     func onMarkFileSuccess() {
         fileInfo = CDSqlManager.shared.queryOneSafeFileWithFileId(fileId: fileInfo.fileId)
+        initOptionValue()
         tableView.reloadData()
     }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonCrypto
+import UIKit
 extension String{
     /*
     字符串的MD5算法
@@ -31,7 +32,7 @@ extension String{
     */
     var isEmpty:Bool{
         
-        if self == "" || self.count == 0 || self == nil{
+        if self == "" || self.count == 0{
             return true
         }else{
             return false
@@ -56,7 +57,6 @@ extension String{
                 return 0
             }
         }
-
         var len = 0
         for scalar in self.unicodeScalars {
             if scalar.value > 0 && scalar.value < 127{
@@ -109,6 +109,24 @@ extension String{
             }
         }
         return returnValue;
+    }
+    
+    func Width(height:CGFloat,font:UIFont) -> CGFloat {
+        let size:CGSize = CGSize(width: 0, height: height)
+        let frame = self.boundingRect(with: size, options:
+            NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |
+                NSStringDrawingOptions.truncatesLastVisibleLine.rawValue |
+                NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
+        return frame.size.width
+    }
+    
+    func Height(width:CGFloat,font:UIFont) -> CGFloat {
+        let size:CGSize = CGSize(width: width, height: 0)
+        let frame = self.boundingRect(with: size, options:
+            NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue |
+                NSStringDrawingOptions.truncatesLastVisibleLine.rawValue |
+                NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
+        return frame.size.height
     }
 
 }

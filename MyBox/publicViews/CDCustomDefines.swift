@@ -125,16 +125,17 @@ enum NSFileGrade:Int {
 
 }
 
-enum AlertType:Int
+enum DiskSpaceAlertType:String
 {
-    case AlertShootVideoType = 1   // 录像
-    case AlertVideosType = 2      // 从系统库导入视频
-    case AlertPlayVideoType = 3    // 播放视频
-    case AlertTakePhotoType = 4    // 拍照
-    case AlertPhotosType = 5       // 从系统库导入图片
-    case AlertBrowsePhotosType = 6 // 浏览图片
-    case AlertMakeRecordType = 7   // 录音
-    case AlertRecordsType = 8      // 播放录音
+    case AlertShootVideoType = "可用存储空间不足，无法拍摄视频。您可以在设置里管理存储空间。"   // 录像
+    case AlertVideosType = "可用存储空间不足，无法导入此视频。您可以在设置里管理存储空间。"      // 从系统库导入视频
+    case AlertPlayVideoType = "可用存储空间不足，无法播放视频。您可以在设置里管理存储空间。"    // 播放视频
+    case AlertTakePhotoType = "可用存储空间不足，无法拍摄照片。您可以在设置里管理存储空间。"    // 拍照
+    case AlertPhotosType = "可用存储空间不足，无法导入这些图片。您可以在设置里管理存储空间"       // 从系统库导入图片
+    case AlertBrowsePhotosType = "可用存储空间不足，无法浏览照片。您可以在设置里管理存储空间。" // 浏览图片
+    case AlertMakeRecordType = "可用存储空间不足，无法录制音频。您可以在设置里管理存储空间。"   // 录音
+    case AlertRecordsType = "可用存储空间不足，无法播放音频。您可以在设置里管理存储空间。"      // 播放录音
+    case AlertDocumentType = "可用存储空间不足，无法导入文件。您可以在设置里管理存储空间。"      // Document
 }
 
 
@@ -156,7 +157,7 @@ enum CDSelectedStatus:String {
 let IOSVersion = Float(UIDevice.current.systemVersion)
 
 enum CDDevicePermissionType:Int {
-    case Library = 1 //图库
+    case library = 1 //图库
     case camera = 2
     case micorphone = 3
     case location = 4

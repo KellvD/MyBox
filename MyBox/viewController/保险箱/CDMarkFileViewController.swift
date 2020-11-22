@@ -70,7 +70,7 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
             }
             return
         }
-        remainNumberLabel.text = "\(len)/\(maxTextCount)"
+        remainNumberLabel.text = "\(len ?? 0)/\(maxTextCount)"
 
         if markType  == .fileName{
             markInfo = noteTextView.text.removeSpaceAndNewline()

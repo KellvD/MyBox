@@ -78,7 +78,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
             player = nil
         }
         do{
-            try player = AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath))
+            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath))
         }catch{
 
         }
@@ -87,6 +87,7 @@ class CDAudioPlayView: UIImageView,AVAudioPlayerDelegate {
             do{
                 try player = AVAudioPlayer(data: audioData! as Data)
             }catch{
+                
             }
         }
 

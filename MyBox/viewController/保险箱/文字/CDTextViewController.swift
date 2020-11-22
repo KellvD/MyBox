@@ -94,16 +94,13 @@ QLPreviewControllerDataSource{
     func handelSelectedArr(){
         selectedFileArr.removeAll()
         selectedFolderArr.removeAll()
-        textTD.filesArr.forEach { (tmpFile) in
-            if tmpFile.isSelected == .CDTrue {
-                selectedFileArr.append(tmpFile)
-            }
-        }
-        textTD.foldersArr.forEach { (tmpFolder) in
-            if tmpFolder.isSelected == .CDTrue {
-                selectedFolderArr.append(tmpFolder)
-            }
-        }
+        
+        selectedFileArr = textTD.filesArr.filter({ (tmp) -> Bool in
+            tmp.isSelected == .CDTrue
+        })
+        selectedFolderArr = textTD.foldersArr.filter({ (tmp) -> Bool in
+            tmp.isSelected == .CDTrue
+        })
     }
     //多选
     @objc func batchBtnClick(){

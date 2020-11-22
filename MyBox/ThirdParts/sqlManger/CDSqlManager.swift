@@ -451,8 +451,7 @@ extension CDSqlManager{
 
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
-            try db.run(sql.update(db_fileName <- fileName))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_fileName <- fileName,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFileName-->success")
         }catch{
             CDPrint(item:"updateOneSafeFileName-->error:\(error)")
@@ -462,8 +461,7 @@ extension CDSqlManager{
 
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
-            try db.run(sql.update(db_markInfo <- markInfo))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_markInfo <- markInfo,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFileMarkInfo-->success")
         }catch{
             CDPrint(item:"updateOneSafeFileMarkInfo-->error:\(error)")
@@ -473,10 +471,8 @@ extension CDSqlManager{
     func updateOneSafeFileGrade(grade:NSFileGrade,fileId:Int) {
         do{
             let sql = SafeFileInfo.filter((db_fileId == fileId)&&(db_userId == CDUserId()))
-            try db.run(sql.update(db_grade <- grade.rawValue))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_grade <- grade.rawValue,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFileGrade-->success")
-            
         }catch{
             CDPrint(item:"updateOneSafeFileGrade-->error:\(error)")
         }
@@ -489,8 +485,7 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
 
-            try db.run(sql.update(db_folderId <- fileInfo.folderId))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_folderId <- fileInfo.folderId,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFileForMove-->success")
         }catch{
             CDPrint(item:"updateOneSafeFileForMove-->error:\(error)")
@@ -741,8 +736,7 @@ extension CDSqlManager{
         do{
             let sql = SafeFolder.filter(db_folderId == folderId)
             
-            try db.run(sql.update(db_folderName <- folderName))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_folderName <- folderName,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFolderName-->success")
             
             
@@ -755,8 +749,7 @@ extension CDSqlManager{
 
         do{
             let sql = SafeFolder.filter(db_folderId == folderId)
-            try db.run(sql.update(db_fakeType <- fakeType.rawValue))
-            try db.run(sql.update(db_modifyTime <- getCurrentTimestamp()))
+            try db.run(sql.update(db_fakeType <- fakeType.rawValue,db_modifyTime <- getCurrentTimestamp()))
             CDPrint(item:"updateOneSafeFileIndentity-->success")
         }catch{
             CDPrint(item:"updateOneSafeFileIndentity-->error:\(error)")

@@ -20,6 +20,7 @@ class CDSignalTon: NSObject {
     var loginType:CDLoginType!
     var touchIDSwitch:Bool = false //touch ID开关
     var fakeSwitch:Bool = false  //访客开关
+    var darkSwitch:Bool = false  //暗黑模式
     var isViewDisappearStopRecording = false
     var videoAssetArr:[CDPHAsset] = []
     var tmpDict = NSMutableDictionary()
@@ -141,7 +142,12 @@ class CDSignalTon: NSObject {
             print("saveSafeFileInfo Fail:" + error.localizedDescription)
             return
         }
-        //拍照，合成Gif等操作将文件预先保存在本地，在此处将文件读到data临时存放，删除本地文件，统一在此处入库
+        
+        if contentData.count <= 0 {
+            print("saveSafeFileInfo Fail :Content is nil")
+            return;
+        }
+        //拍照，合成Gif等操作将文件预先保存在本地，在此处将文件读到data临时存放，删除原本地文件，统一在下面按照格式化路径入库
         if FileManager.default.fileExists(atPath: tmpFilePath) {
             try! FileManager.default.removeItem(atPath: tmpFilePath)
         }
@@ -226,8 +232,6 @@ class CDSignalTon: NSObject {
         fileInfo.fileSize = fileSize
         fileInfo.filePath = filePath.relativePath()
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
-        
-        
     }
     
     /**

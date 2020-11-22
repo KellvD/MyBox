@@ -102,6 +102,9 @@ extension UIImage{
     class func getImageFormat(imageData:NSData) ->SDImageFormat{
         var c: UInt8?
         imageData.getBytes(&c, length: 1)
+        let data = imageData as Data
+        var byte = [UInt8]()
+        let v = data.copyBytes(to: &byte, count: 4)
         switch c {
         case 0xff:
             return SDImageFormat.SDImageFormatJPEG
@@ -133,5 +136,13 @@ extension UIImage{
             return SDImageFormat.SDImageFormatUndefined;
         }
         return SDImageFormat.SDImageFormatUndefined;
+    }
+    
+    class func clipFromView(view:UIView) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0.0)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image  = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
 }

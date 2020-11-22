@@ -93,7 +93,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
             }
         }
         DispatchQueue.global().async {
-            self.assetDelegate.selectedAssetsComplete(assets: selectArr)
+            self.assetDelegate.selectedAssetsComplete(phAssets: selectArr)
 
         }
     }

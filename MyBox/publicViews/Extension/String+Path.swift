@@ -32,7 +32,7 @@ extension String{
     }
 
     /**
-    创建SafeRulek路径
+    创建SafeRule路径
     */
     static func RootPath() -> String{
         let docpath = documentPath()

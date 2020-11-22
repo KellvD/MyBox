@@ -11,6 +11,7 @@ import UIKit
 enum CDConfigKey:String {
     case touchIdSwi = "touchIdSwi"
     case fakeSwi = "fakeSwi"
+    case darkSwi = "darkSwi"
     
     case userId = "userId"
     case firstInstall = "firstInstall"
