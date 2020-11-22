@@ -1450,15 +1450,15 @@
 		EF3FEE84256A1D180054E59A /* 图片 */ = {
 			isa = PBXGroup;
 			children = (
-				EF3FEE85256A1D180054E59A /* CDImageScrollView.swift */,
-				EF3FEE86256A1D180054E59A /* CDImageScrollerViewController.swift */,
-				EF3FEE87256A1D180054E59A /* CDImageCell.swift */,
-				EF3FEE88256A1D180054E59A /* PhotoEdit */,
-				EF3FEEC0256A1D180054E59A /* image */,
-				EF3FEECA256A1D180054E59A /* CDPuzzleViewController.swift */,
 				EF3FEECB256A1D180054E59A /* CDComposeGifViewController.swift */,
 				EF3FEECC256A1D180054E59A /* CDComposeVideoViewController.swift */,
+				EF3FEE87256A1D180054E59A /* CDImageCell.swift */,
+				EF3FEE86256A1D180054E59A /* CDImageScrollerViewController.swift */,
+				EF3FEE85256A1D180054E59A /* CDImageScrollView.swift */,
 				EF3FEECD256A1D180054E59A /* CDImageViewController.swift */,
+				EF3FEECA256A1D180054E59A /* CDPuzzleViewController.swift */,
+				EF3FEEC0256A1D180054E59A /* image */,
+				EF3FEE88256A1D180054E59A /* PhotoEdit */,
 			);
 			path = "图片";
 			sourceTree = "<group>";
@@ -1466,22 +1466,22 @@
 		EF3FEE88256A1D180054E59A /* PhotoEdit */ = {
 			isa = PBXGroup;
 			children = (
-				EF3FEE89256A1D180054E59A /* CDMosaicView.swift */,
-				EF3FEE8A256A1D180054E59A /* mosaic */,
-				EF3FEE8C256A1D180054E59A /* Corp */,
-				EF3FEE93256A1D180054E59A /* CDCropView.swift */,
 				EF3FEE94256A1D180054E59A /* CDBrightView.swift */,
-				EF3FEE95256A1D180054E59A /* images */,
-				EF3FEEAD256A1D180054E59A /* CDRotateView.swift */,
-				EF3FEEAE256A1D180054E59A /* Controller */,
-				EF3FEEB0256A1D180054E59A /* Watermark */,
-				EF3FEEB3256A1D180054E59A /* public */,
+				EF3FEE93256A1D180054E59A /* CDCropView.swift */,
 				EF3FEEB5256A1D180054E59A /* CDEditManager.swift */,
-				EF3FEEB6256A1D180054E59A /* CDPhotoEditTextView.swift */,
-				EF3FEEB7256A1D180054E59A /* View */,
-				EF3FEEBD256A1D180054E59A /* CDWatermarkView.swift */,
-				EF3FEEBE256A1D180054E59A /* CDImageEditModels.swift */,
 				EF3FEEBF256A1D180054E59A /* CDFilterView.swift */,
+				EF3FEEBE256A1D180054E59A /* CDImageEditModels.swift */,
+				EF3FEE89256A1D180054E59A /* CDMosaicView.swift */,
+				EF3FEEB6256A1D180054E59A /* CDPhotoEditTextView.swift */,
+				EF3FEEAD256A1D180054E59A /* CDRotateView.swift */,
+				EF3FEEBD256A1D180054E59A /* CDWatermarkView.swift */,
+				EF3FEEAE256A1D180054E59A /* Controller */,
+				EF3FEE8C256A1D180054E59A /* Corp */,
+				EF3FEE95256A1D180054E59A /* images */,
+				EF3FEE8A256A1D180054E59A /* mosaic */,
+				EF3FEEB3256A1D180054E59A /* public */,
+				EF3FEEB7256A1D180054E59A /* View */,
+				EF3FEEB0256A1D180054E59A /* Watermark */,
 			);
 			path = PhotoEdit;
 			sourceTree = "<group>";
