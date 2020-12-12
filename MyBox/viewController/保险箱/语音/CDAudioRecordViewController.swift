@@ -133,7 +133,7 @@ class CDAudioRecordViewController: CDBaseAllViewController {
             alert.addAction(UIAlertAction(title: "否", style: .cancel, handler: { (action) in }))
             alert.addAction(UIAlertAction(title: "是", style: .default, handler: { (action) in
                 self.recordStop()
-                fileManagerDeleteFileWithFilePath(filePath: self.newFilePath)
+                DeleteFile(filePath: self.newFilePath)
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)

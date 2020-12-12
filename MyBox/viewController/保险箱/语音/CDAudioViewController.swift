@@ -202,7 +202,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             for index in 0..<self.selectedAudioArr.count{
                 let fileInfo = self.selectedAudioArr[index]
                     let defaultPath = String.AudioPath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-                    fileManagerDeleteFileWithFilePath(filePath: defaultPath)
+                    DeleteFile(filePath: defaultPath)
                     CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
                 }
                 DispatchQueue.main.async {

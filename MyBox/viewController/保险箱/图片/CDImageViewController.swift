@@ -113,11 +113,11 @@ class CDImageViewController:
             backBtn.setTitle("返回", for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
-            selectedImageArr.forEach { (tmpFile) in
-                let index = imageArr.firstIndex(of: tmpFile)
-                if type == .resume {
-                    tmpFile.isSelected = .CDFalse
-                }else if type == .delete{
+            imageArr.forEach { (tmpFile) in
+               
+                tmpFile.isSelected = .CDFalse
+                if type == .delete{
+                    let index = imageArr.firstIndex(of: tmpFile)
                     imageArr.remove(at: index!)
                 }
             }
@@ -127,10 +127,10 @@ class CDImageViewController:
 
     // MARK:返回
     @objc func backBtnClick() -> Void {
-        if batchBtn.isSelected { //
+        if batchBtn.isSelected {
             selectedImageArr.removeAll()
             var hasGif = false
-            if (self.backBtn.titleLabel?.text == "全选") { //全选
+            if (self.backBtn.currentTitle == "全选") { //全选
                 imageArr.forEach { (file) in
                     file.isSelected = .CDTrue
                     if file.fileType == .GifType {
@@ -138,7 +138,7 @@ class CDImageViewController:
                     }
                 }
                 selectCount = imageArr.count
-            } else {
+            } else {//全不选
                 imageArr.forEach { (file) in
                     file.isSelected = .CDFalse
                 }
@@ -154,9 +154,7 @@ class CDImageViewController:
         if selectCount > 0 {
             toolbar.enableReloadBar(isSelected: true)
             //拼图：2-16张，GIF不能拼
-            if selectCount > 16 ||
-                selectCount < 2 ||
-                hasGif{
+            if selectCount > 16 || selectCount < 2 || hasGif{
                 toolbar.appendItem.isEnabled = false
             } else {
                 toolbar.appendItem.isEnabled = true
@@ -269,10 +267,10 @@ class CDImageViewController:
                 let fileInfo = selectedImageArr[index]
                 //删除加密小题
                 let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-                fileManagerDeleteFileWithFilePath(filePath: thumbPath)
+                DeleteFile(filePath: thumbPath)
                 //删除加密大图
                 let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-                fileManagerDeleteFileWithFilePath(filePath: defaultPath)
+                DeleteFile(filePath: defaultPath)
                 CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             }
             DispatchQueue.main.async {

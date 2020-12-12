@@ -96,6 +96,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             self.editBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             //2.拍照，导入变成操作按钮
             toolbar.hiddenReloadBar(isMulit: true)
+            //3.文件全部未选状态
             videoArr.forEach { (file) in
                 file.isSelected = .CDFalse
             }
@@ -213,7 +214,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                     let filsC:CDSafeFileInfo = outputVideoArr[0];
                     let fileName = filsC.filePath.lastPathComponent()
                     let thumpVideoPath = String.thumpVideoPath().appendingPathComponent(str: fileName)
-                    fileManagerDeleteFileWithFilePath(filePath: thumpVideoPath)
+                    DeleteFile(filePath: thumpVideoPath)
                     outputVideoArr.remove(at: 0)
                     outputVideoToLocal()
                 }
@@ -262,10 +263,10 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             let fileInfo = selectedVideoArr[index]
             //删除加密小题
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: thumbPath)
+            DeleteFile(filePath: thumbPath)
             //删除加密大图
             let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: defaultPath)
+            DeleteFile(filePath: defaultPath)
             CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
         }
         DispatchQueue.main.async {

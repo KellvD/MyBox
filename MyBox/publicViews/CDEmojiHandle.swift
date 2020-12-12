@@ -21,7 +21,6 @@ class CDEmojiHandle: NSObject {
 
         do {
             regular = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-
         } catch  {
             print("检查富文本error:\(error.localizedDescription)")
             return false

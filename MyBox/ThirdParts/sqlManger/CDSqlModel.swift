@@ -51,6 +51,7 @@ class CDSafeFileInfo: NSObject {
     var userId = Int()
     var grade:NSFileGrade!
     var isSelected:CDSelectedStatus!
+    var folderType:NSFolderType! //文件所属大类
 }
 
 class CDMusicInfo: NSObject {

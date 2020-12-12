@@ -18,7 +18,7 @@ class CDAlbumPickViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.topItem?.title = ""
         let cancle = UIBarButtonItem(barButtonSystemItem: .cancel, target: assetDelegate, action: #selector(cancleMediaPicker))
         self.navigationItem.rightBarButtonItem = cancle
         self.loadAllAlbum()

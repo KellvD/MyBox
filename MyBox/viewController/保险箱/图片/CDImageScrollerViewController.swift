@@ -77,11 +77,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         //收藏
         self.loveItem = UIButton(type:.custom)
         self.loveItem.frame = CGRect(x: spqce0 * 2 + 45, y: 1.5, width: 45, height: 45)
-        if fileInfo.grade == .lovely{
-            loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
-        }else{
-            loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
-        }
+        loveItem.setImage(LoadImage(imageName: fileInfo.grade == .lovely ? "love_press":"love_normal", type: "png"), for: .normal)
         self.loveItem.addTarget(self, action: #selector(loveItemClick), for: .touchUpInside)
         self.toolBar.addSubview(self.loveItem)
 
@@ -188,10 +184,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let sheet = UIAlertController(title: nil, message: "删除照片", preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "确定", style: .destructive, handler: { (action) in
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: thumbPath)
+            DeleteFile(filePath: thumbPath)
             //删除加密大图
             let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
-            fileManagerDeleteFileWithFilePath(filePath: defaultPath)
+            DeleteFile(filePath: defaultPath)
             CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {

@@ -63,25 +63,37 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         CDSignalTon.shared.customPickerView = nil
         var index = 0
+        var errorArr:[String] = []
         func handleAllDocumentPickerFiles(urlArr:[URL]){
             DispatchQueue.global().async {
                 var tmpUrlArr = urlArr
                 if urlArr.count > 0 {
                     index += 1
                     let subUrl = urlArr.first!
-                    let fileSize = try! Data(contentsOf: subUrl).count
-                    if fileSize > CDDeviceTools.getDiskSpace().free {
-                        self.alertSpaceWarn(alertType: .AlertDocumentType)
-                        
-                    }
                     let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
                         fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
-                            
-                            CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
-                            tmpUrlArr.removeFirst()
-                            handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
+                            do {
+                                let fileSize = try Data(contentsOf: newUrl).count
+                                if fileSize > CDDeviceTools.getDiskSpace().free {
+                                    DispatchQueue.main.async {
+                                        self.alertSpaceWarn(alertType: .AlertDocumentType)
+                                        CDHUDManager.shared.hideProgress()
+                                        return
+                                    }
+                                }else{
+                                    CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
+                                    tmpUrlArr.removeFirst()
+                                    handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
+                                }
+                            } catch {
+                                errorArr.append(subUrl.absoluteString)
+                                CDPrintManager.log("文件导入失败:\(error.localizedDescription)", type: .ErrorLog)
+                                tmpUrlArr.removeFirst()
+                                handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
+                                return
+                            }
                         }
                     }
                     DispatchQueue.main.async {
@@ -90,7 +102,12 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                 }else{
                     DispatchQueue.main.async {
                         CDHUDManager.shared.hideProgress()
-                        CDHUDManager.shared.showComplete(text: "导入完成")
+                        if errorArr.count == 0{
+                            CDHUDManager.shared.showComplete(text: "导入完成")
+                        }else{
+                            CDHUDManager.shared.showComplete(text: "部分文件导入失败，详情见日志")
+                        }
+                        
                         self.processHandle?(true)
                     }
                 }

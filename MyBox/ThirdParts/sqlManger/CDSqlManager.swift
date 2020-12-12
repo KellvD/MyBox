@@ -64,16 +64,16 @@ class CDSqlManager: NSObject {
     let UserInfo = Table("CDUserInfo")
     let MusicInfo = Table("CDMusicInfo")
     let MusicClassInfo = Table("CDMusicClassInfo")
-    
     override init() {
         super.init()
         objc_sync_enter(self)
         openDatabase()
+        
         objc_sync_exit(self)
     }
 
     func CDPrint(item:Any) {
-        print(item)
+        //print(item)
     }
 
     public func openDatabase() {
@@ -84,6 +84,7 @@ class CDSqlManager: NSObject {
             FileManager.default.createFile(atPath: dbpath, contents: nil, attributes: nil)
             db = try! Connection(dbpath)
             createTable()
+            CDPrintManager.log("数据库创建成功", type: .InfoLog)
         }else{
             db = try! Connection(dbpath)
         }
@@ -92,7 +93,7 @@ class CDSqlManager: NSObject {
     }
 
     func createTable() -> Void {
-
+        CDPrintManager.log("创建数据库表", type: .InfoLog)
         do{
             let create = UserInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
                 build.column(db_userId)
@@ -103,7 +104,7 @@ class CDSqlManager: NSObject {
             CDPrint(item:"createUserInfo -->success")
 
         }catch{
-            CDPrint(item:"createUserInfo -->error:\(error)")
+            CDPrintManager.log("createUserInfo -->error:\(error)", type: .ErrorLog)
         }
 
         do{
@@ -126,7 +127,7 @@ class CDSqlManager: NSObject {
             CDPrint(item:"createSafeFolder -->success")
 
         }catch{
-            CDPrint(item:"createSafeFolder -->error:\(error)")
+            CDPrintManager.log("createSafeFolder -->error:\(error)", type: .ErrorLog)
         }
 
         do{
@@ -149,11 +150,12 @@ class CDSqlManager: NSObject {
                 build.column(db_grade)
                 build.column(db_userId)
                 build.column(db_markInfo)
+                build.column(db_folderType)
             }
             try db.run(create1)
             CDPrint(item:"createSafeFileInfo -->success")
         }catch{
-            CDPrint(item:"createSafeFileInfo-->error:\(error)")
+            CDPrintManager.log("createSafeFileInfo-->error:\(error)", type: .ErrorLog)
         }
 
         do{
@@ -173,8 +175,9 @@ class CDSqlManager: NSObject {
             try db.run(create1)
             CDPrint(item:"createMusicInfo -->success")
         }catch{
-            CDPrint(item:"createMusicInfo -->error:\(error)")
+            CDPrintManager.log("createMusicInfo -->error:\(error)", type: .ErrorLog)
         }
+        
         do{
             let create1 = MusicClassInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
                 build.column(db_id, primaryKey: true)
@@ -189,22 +192,29 @@ class CDSqlManager: NSObject {
             CDPrint(item:"createMusicClassInfo -->success")
            
         }catch{
-            CDPrint(item:"createMusicClassInfo -->error:\(error)")
+            CDPrintManager.log("createMusicClassInfo -->error:\(error)", type: .ErrorLog)
         }
+        
+        //默添加user
+        let user = CDUserInfo()
+        user.userId = FIRSTUSERID
+        addOneUserInfoWith(usernInfo: user)
     }
     
     func firstUpdate() {
         do{
             try db.run(
                 SafeFolder.addColumn(db_accessTime, defaultValue: 0)
+                
             )
             
             CDPrint(item:"addUserInfo -->success")
         }catch{
-            CDPrint(item:"addUserIn -->error:\(error)")
+            CDPrintManager.log("addUserIn -->error:\(error)", type: .ErrorLog)
         }
         
     }
+    
     
     //MARK:extension
     //获取文件夹下所有子文件和子文件夹
@@ -222,7 +232,7 @@ class CDSqlManager: NSObject {
         return (subFolderArr,subFileArr)
     
     }
-    
+
 }
 //MARK: userInfo
 extension CDSqlManager{
@@ -237,7 +247,7 @@ extension CDSqlManager{
             )
             CDPrint(item:"addUserInfo -->success")
         }catch{
-            CDPrint(item:"addUserIn -->error:\(error)")
+            CDPrintManager.log("addUserIn -->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -261,7 +271,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"queryUserRealKeyWithUserId -->success")
         }catch{
-            CDPrint(item:"queryUserRealKeyWithUserId -->error:\(error)")
+            CDPrintManager.log("queryUserRealKeyWithUserId -->error:\(error)", type: .ErrorLog)
         }
         return realKey
     }
@@ -275,7 +285,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"queryUserFakeKeyWithUserId-->success")
         }catch{
-            CDPrint(item:"queryUserFakeKeyWithUserId-->error")
+            CDPrintManager.log("queryUserFakeKeyWithUserId-->error:\(error)", type: .ErrorLog)
         }
         return fakeKey
     }
@@ -287,7 +297,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_basePwd <- pwd))
             CDPrint(item:"updateUserRealPwdWith-->success")
         }catch{
-            CDPrint(item:"updateUserRealPwdWith-->error")
+            CDPrintManager.log("updateUserRealPwdWith-->error:\(error)", type: .ErrorLog)
         }
         
     }
@@ -299,7 +309,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_basePwd <- pwd))
             CDPrint(item:"updateUserRealPwdWith-->success")
         }catch{
-            CDPrint(item:"updateUserRealPwdWith-->error")
+            CDPrintManager.log("updateUserRealPwdWith-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -309,7 +319,7 @@ extension CDSqlManager{
             //delete from UserInfo where db_userId = userId
             CDPrint(item:"deleteOneUser-->success")
         }catch{
-            CDPrint(item:"deleteOneUser-->error")
+            CDPrintManager.log("deleteOneUser-->error:\(error)", type: .ErrorLog)
         }
     }
 }
@@ -338,6 +348,7 @@ extension CDSqlManager{
         file.userId = item[db_userId]
         file.markInfo = item[db_markInfo]
         file.isSelected = .CDFalse
+        file.folderType = NSFolderType(rawValue: item[db_folderType])
         
         return file
     }
@@ -363,12 +374,13 @@ extension CDSqlManager{
                 db_grade <- 1,
                 db_filePath <- fileInfo.filePath,
                 db_userId <- fileInfo.userId,
-                db_markInfo <- fileInfo.markInfo)
+                db_markInfo <- fileInfo.markInfo,
+                db_folderType <- fileInfo.folderType!.rawValue)
             )
 
             CDPrint(item:"addSafeFileInfo-->success")
         }catch {
-            CDPrint(item:"addSafeFileInfo-->error:\(error)")
+            CDPrintManager.log("addSafeFileInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     public func queryMaxFileId()->Int{
@@ -385,7 +397,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"queryMaxFileId -->success")
         }catch{
-            CDPrint(item:"queryMaxFileId -->error:\(error)")
+            CDPrintManager.log("queryMaxFileId -->error:\(error)", type: .ErrorLog)
         }
         return maxFileId
     }
@@ -398,7 +410,7 @@ extension CDSqlManager{
                 fileArr.append(file)
             }
         } catch  {
-            CDPrint(item:"queryAllFileFromFolder -->error:\(error)")
+            CDPrintManager.log("queryAllFileFromFolder -->error:\(error)", type: .ErrorLog)
         }
         return fileArr
     }
@@ -412,7 +424,7 @@ extension CDSqlManager{
                 
             }
         } catch  {
-            CDPrint(item:"queryOneSafeFileWithFileId -->error:\(error)")
+            CDPrintManager.log("queryOneSafeFileWithFileId -->error:\(error)", type: .ErrorLog)
         }
         return file
     }
@@ -420,17 +432,36 @@ extension CDSqlManager{
     func queryOneSafeFileGrade(fileId:Int) ->NSFileGrade {
         var grade = NSFileGrade(rawValue: 1)
         do{
-            let sql = SafeFileInfo.filter(db_userId == CDUserId())
-
+            let sql = SafeFileInfo.filter(db_fileId == fileId)
+           
             for item in try db.prepare(sql.select(db_grade)) {
                 grade = NSFileGrade(rawValue: item[db_grade])
 
             }
             CDPrint(item:"queryMaxFileId -->success")
         }catch{
-            CDPrint(item:"queryMaxFileId -->error:\(error)")
+            CDPrintManager.log("queryMaxFileId -->error:\(error)", type: .ErrorLog)
         }
         return grade!
+    }
+    
+    func queryEveryFileCount()->(imageCount:Int,videoCount:Int,audioCount:Int,otherCount:Int){
+        do {
+            
+            let imageCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.ImageFolder.rawValue).count)
+             let videoCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.VideoFolder.rawValue).count)
+             let audioCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.AudioFolder.rawValue).count)
+             let otherCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.TextFolder.rawValue).count)
+            
+//            for item in try db.prepare("select count(*) from CDSafeFileInfo where folderType = 0") {
+//                CDPrint(item: item)
+//            }
+          return(imageCount,videoCount,audioCount,otherCount)
+            
+        } catch  {
+            CDPrintManager.log("AllTextSafeFile -->error:\(error)", type: .ErrorLog)
+        }
+        return(2,3,4,5)
     }
     
     public func queryAllTextSafeFile()-> [CDSafeFileInfo]{
@@ -442,7 +473,7 @@ extension CDSqlManager{
                 fileArr.append(file)
             }
         } catch  {
-            CDPrint(item:"AllTextSafeFile -->error:\(error)")
+            CDPrintManager.log("AllTextSafeFile -->error:\(error)", type: .ErrorLog)
         }
         return fileArr
     }
@@ -454,7 +485,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_fileName <- fileName,db_modifyTime <- GetTimestamp()))
             CDPrint(item:"updateOneSafeFileName-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileName-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileName-->error:\(error)", type: .ErrorLog)
         }
     }
     public func updateOneSafeFileMarkInfo(markInfo:String,fileId:Int) {
@@ -464,7 +495,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_markInfo <- markInfo,db_modifyTime <- GetTimestamp()))
             CDPrint(item:"updateOneSafeFileMarkInfo-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileMarkInfo-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileMarkInfo-->error:\(error)", type: .ErrorLog)
         }
     }
 
@@ -474,7 +505,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_grade <- grade.rawValue,db_modifyTime <- GetTimestamp()))
             CDPrint(item:"updateOneSafeFileGrade-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileGrade-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileGrade-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -488,7 +519,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_folderId <- fileInfo.folderId,db_modifyTime <- GetTimestamp()))
             CDPrint(item:"updateOneSafeFileForMove-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileForMove-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileForMove-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -499,7 +530,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_modifyTime <- modifyTime))
             CDPrint(item:"updateOneSafeFileModifyTime-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileModifyTime-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileModifyTime-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -510,7 +541,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_accessTime <- accessTime))
             CDPrint(item:"updateOneSafeFileAccessTime-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileAccessTime-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileAccessTime-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -520,7 +551,7 @@ extension CDSqlManager{
             //delete from SafeFile where db_fileId = fileId
             CDPrint(item:"deleteOneSafeFile-->success")
         }catch{
-            CDPrint(item:"deleteOneSafeFile-->error:\(error)")
+            CDPrintManager.log("deleteOneSafeFile-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -529,7 +560,7 @@ extension CDSqlManager{
             try db.run(SafeFileInfo.filter(db_folderId == folderId).delete())
             CDPrint(item:"deleteAllSubSafeFile-->success")
         }catch{
-            CDPrint(item:"deleteAllSubSafeFile-->error:\(error)")
+            CDPrintManager.log("deleteAllSubSafeFile-->error:\(error)", type: .ErrorLog)
         }
     }
   
@@ -578,7 +609,7 @@ extension CDSqlManager{
             CDPrint(item:"addSafeFoldeInfo-->success")
             
         }catch{
-            CDPrint(item:"addSafeFoldeInfo-->error:\(error)")
+            CDPrintManager.log("addSafeFoldeInfo-->error:\(error)", type: .ErrorLog)
         }
         return folderId
     }
@@ -607,7 +638,7 @@ extension CDSqlManager{
             totalArr.insert(lockArr, at: 0)
             totalArr.insert(unlockArr, at: 1)
         } catch  {
-            CDPrint(item:"queryDefaultAllFolder-->error:\(error)")
+            CDPrintManager.log("queryDefaultAllFolder-->error:\(error)", type: .ErrorLog)
         }
         return totalArr
 
@@ -620,7 +651,7 @@ extension CDSqlManager{
                 totalArr.append(folderInfo)
             }
         } catch  {
-            CDPrint(item:"querySubAllFolder-->error:\(error)")
+            CDPrintManager.log("querySubAllFolder-->error:\(error)", type: .ErrorLog)
         }
         return totalArr
 
@@ -633,7 +664,7 @@ extension CDSqlManager{
                 totalArr.append(folderId)
             }
         } catch  {
-            CDPrint(item:"querySubAllFolder-->error:\(error)")
+            CDPrintManager.log("querySubAllFolder-->error:\(error)", type: .ErrorLog)
         }
         return totalArr
 
@@ -658,7 +689,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"queryFolderSizeByFolderId-->success")
         }catch{
-            CDPrint(item:"queryFolderSizeByFolderId-->error:\(error)")
+            CDPrintManager.log("queryFolderSizeByFolderId-->error:\(error)", type: .ErrorLog)
         }
         return totalSize
     }
@@ -674,7 +705,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"queryOneFolderSizeByFolder-->success")
         }catch{
-            CDPrint(item:"queryOneFolderSizeByFolder-->error:\(error)")
+            CDPrintManager.log("queryOneFolderSizeByFolder-->error:\(error)", type: .ErrorLog)
         }
         return totalSize
     }
@@ -695,7 +726,7 @@ extension CDSqlManager{
             }
             CDPrint(item:"querySafeFolderCount-->success")
         }catch{
-            CDPrint(item:"querySafeFolderCount-->error:\(error)")
+            CDPrintManager.log("querySafeFolderCount-->error:\(error)", type: .ErrorLog)
         }
         return maxFolderId
     }
@@ -741,7 +772,7 @@ extension CDSqlManager{
             
             
         }catch{
-            CDPrint(item:"updateOneSafeFolderName-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFolderName-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -752,7 +783,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_fakeType <- fakeType.rawValue,db_modifyTime <- GetTimestamp()))
             CDPrint(item:"updateOneSafeFileIndentity-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFileIndentity-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFileIndentity-->error:\(error)", type: .ErrorLog)
         }
     }
     /*
@@ -765,7 +796,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_modifyTime <- modifyTime))
             CDPrint(item:"updateOneSafeFolderModifyTime-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFolderModifyTime-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFolderModifyTime-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -779,7 +810,7 @@ extension CDSqlManager{
             try db.run(sql.update(db_accessTime <- accessTime))
             CDPrint(item:"updateOneSafeFolderAccessTime-->success")
         }catch{
-            CDPrint(item:"updateOneSafeFolderAccessTime-->error:\(error)")
+            CDPrintManager.log("updateOneSafeFolderAccessTime-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -788,7 +819,7 @@ extension CDSqlManager{
             try db.run(SafeFolder.filter(db_folderId == folderId).delete())
             CDPrint(item:"deleteOneFolder-->success")
         }catch{
-            CDPrint(item:"deleteOneFolder-->error:\(error)")
+            CDPrintManager.log("deleteOneFolder-->error:\(error)", type: .ErrorLog)
         }
     }
     
@@ -797,7 +828,7 @@ extension CDSqlManager{
             try db.run(SafeFolder.filter(db_superId >= superId).delete())
             CDPrint(item:"deleteAllSubSafeFolder-->success")
         }catch{
-            CDPrint(item:"deleteAllSubSafeFolder-->error:\(error)")
+            CDPrintManager.log("deleteAllSubSafeFolder-->error:\(error)", type: .ErrorLog)
         }
     }
 }
@@ -823,7 +854,7 @@ extension CDSqlManager {
 
             CDPrint(item:"addCDMusicInfoInfo-->success")
         }catch{
-            CDPrint(item:"addCDMusicInfoInfo-->error:\(error)")
+            CDPrintManager.log("addCDMusicInfoInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func deleteOneMusicInfoWith(musicId:Int) -> Void {
@@ -831,7 +862,7 @@ extension CDSqlManager {
             try db.run(MusicInfo.filter((db_musicId == musicId) && (db_userId == CDUserId())).delete())
             CDPrint(item:"deleteOneMusicInfo-->success")
         }catch{
-            CDPrint(item:"deleteOneMusicInfo-->error:\(error)")
+            CDPrintManager.log("deleteOneMusicInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func deleteOneClassAllMusicClassInfoWith(musicClassId:Int) -> Void {
@@ -840,7 +871,7 @@ extension CDSqlManager {
             //delete from UserInfo where db_userId = userId
             CDPrint(item:"deleteOneClassAllMusicClassInfo-->success")
         }catch{
-            CDPrint(item:"deleteOneClassAllMusicClassInfo-->error:\(error)")
+            CDPrintManager.log("deleteOneClassAllMusicClassInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func updateOneMusicInfoWith(musicInfo:CDMusicInfo) -> Void {
@@ -859,7 +890,7 @@ extension CDSqlManager {
             )
             CDPrint(item:"updateOneMusicInfo-->success")
         }catch{
-            CDPrint(item:"updateOneMusicInfo -->error:\(error)")
+            CDPrintManager.log("updateOneMusicInfo -->error:\(error)", type: .ErrorLog)
         }
     }
     func queryOneMusicInfoWith(userId:Int,musicId:Int) -> CDMusicInfo {
@@ -926,7 +957,7 @@ extension CDSqlManager {
             }
             CDPrint(item:"queryMusicCount -->success")
         }catch{
-            CDPrint(item:"queryMusicCount -->error:\(error)")
+            CDPrintManager.log("queryMusicCount -->error:\(error)", type: .ErrorLog)
         }
         return count
     }
@@ -949,7 +980,7 @@ extension CDSqlManager {
 
             CDPrint(item:"addCDMusicClassInfo-->success")
         }catch{
-            CDPrint(item:"addCDMusicClassInfo-->error:\(error)")
+            CDPrintManager.log("addCDMusicClassInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func deleteOneMusicClassInfoWith(classId:Int) -> Void {
@@ -957,7 +988,7 @@ extension CDSqlManager {
             try db.run(MusicClassInfo.filter((db_classId == classId) && (db_userId == CDUserId())).delete())
             CDPrint(item:"deleteOneMusicClassInfo-->success")
         }catch{
-            CDPrint(item:"deleteOneMusicClassInfo-->error:\(error)")
+            CDPrintManager.log("deleteOneMusicClassInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func deleteAllMusicClassInfoWith(userId:Int) -> Void {
@@ -965,7 +996,7 @@ extension CDSqlManager {
             try db.run(MusicClassInfo.filter(db_userId == CDUserId()).delete())
             CDPrint(item:"deleteAllMusicClassInfo-->success")
         }catch{
-            CDPrint(item:"deleteAllMusicClassInfo-->error:\(error)")
+            CDPrintManager.log("deleteAllMusicClassInfo-->error:\(error)", type: .ErrorLog)
         }
     }
     func updateOneMusicClassInfoWith(classInfo:CDMusicClassInfo) -> Void {
@@ -977,7 +1008,7 @@ extension CDSqlManager {
                 db_classId <- classInfo.classId))
             CDPrint(item:"updateOneMusicClassInfo-->success")
         }catch{
-            CDPrint(item:"updateOneMusicClassInfo -->error:\(error)")
+            CDPrintManager.log("updateOneMusicClassInfo -->error:\(error)", type: .ErrorLog)
         }
     }
     public func queryMusicClassCount()->Int{
@@ -991,7 +1022,7 @@ extension CDSqlManager {
             }
             CDPrint(item:"queryMusicClassCount -->success")
         }catch{
-            CDPrint(item:"queryMusicClassCount -->error:\(error)")
+            CDPrintManager.log("queryMusicClassCount -->error:\(error)", type: .ErrorLog)
         }
         return count
     }

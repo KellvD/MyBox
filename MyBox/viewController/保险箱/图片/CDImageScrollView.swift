@@ -45,7 +45,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
     @objc func longTapAction(tap:UILongPressGestureRecognizer){
         if tap.state == .began {
             let image = imageView.image
-            let msg = CDGeneralTool.IdentifedQRFromPhoto(image: image!)
+            let msg = image!.qrMessage()
             print(msg)
             if msg.count > 0 {
                 tapQRHandle(msg)
@@ -108,7 +108,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         imageViewFrame = imageView?.frame
         if gifData.length > 0 {
             let type:SDImageFormat = UIImage.getImageFormat(imageData:gifData)
-            if type == .SDImageFormatGIF {
+            if type == .GIF {
                 imageView?.image = UIImage.gif(data: gifData as Data)
             } else {
                 imageView?.image = image

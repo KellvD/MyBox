@@ -577,7 +577,7 @@ QLPreviewControllerDataSource{
         var isDir:ObjCBool = true
         if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
             if isDir.boolValue {
-                desDirPath = desDirPath + GetTimeFormat(timestamp: GetTimestamp())
+                desDirPath = desDirPath + GetTimeFormat(GetTimestamp())
             }
         }
         //获取解压文件夹中所有子文件，文件夹保存
@@ -662,6 +662,7 @@ QLPreviewControllerDataSource{
         fileInfo.modifyTime = GetTimestamp()
         fileInfo.accessTime = GetTimestamp()
         fileInfo.filePath = path.relativePath()
+        fileInfo.folderType = .TextFolder
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
     func removeNotification() {

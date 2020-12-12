@@ -21,6 +21,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
     init(isVideo:Bool) {
         let albumVC = CDAlbumPickViewController()
         super.init(rootViewController: albumVC)
+        self.navigationBar.tintColor = UIColor.black
         albumVC.assetDelegate = self
         albumVC.isSelectedVideo = isVideo
         isForVideo = isVideo
@@ -29,9 +30,6 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     @objc public func cancleMediaPicker() {
@@ -53,14 +51,13 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
                         return;
                     }
                     //Live图片本地暂无法保存
-//                    if tmpAsset.format == .Live {
+                    if tmpAsset.format == .Live {
 //                        CDAssetTon.shared.getLivePhotoFromAsset(asset: tmpAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
 //                            if livePhoto != nil{
 //                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":livePhoto!,"imageType":"live"]
 //                                self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
 //                            }
 //                        }
-//                    }else{
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
                             if image != nil{
                                 let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":image!,"imageType":"normal"]
@@ -68,7 +65,22 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
                                 
                             }
                         }
-//                    }
+                    }else if tmpAsset.format == .Gif {
+                        CDAssetTon.shared.getImageDataFromAsset(asset: tmpAsset.asset) { (data, info) in
+                            if data != nil{
+                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":data!,"imageType":"gif"]
+                                self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
+                            }
+                        }
+                    }else{
+                        CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
+                            if image != nil{
+                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":image!,"imageType":"normal"]
+                                self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
+                                
+                            }
+                        }
+                    }
                     
                     
                 }
@@ -90,6 +102,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
             }
         }
     }
+    
     @objc func videoAssetWorkDone(tmpPath:String){
         let index = totalCount - gphAssets.count
         let dic:[String:Any] = ["fileURL":URL(fileURLWithPath: tmpPath)]

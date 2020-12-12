@@ -84,9 +84,9 @@ import Photos
 }
 
 /*
-加载图片
+删除文件
 */
-@inline(__always) func fileManagerDeleteFileWithFilePath(filePath:String){
+@inline(__always) func DeleteFile(filePath:String){
     let manager = FileManager.default
     if manager.fileExists(atPath: filePath) {
         do{
@@ -175,7 +175,7 @@ import Photos
 /*
 格式化时间戳
 */
-@inline(__always)func GetTimeFormat(timestamp:Int)->String{
+@inline(__always)func GetTimeFormat(_ timestamp:Int)->String{
     let formter = DateFormatter()
     formter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     let date = Date(timeIntervalSince1970: TimeInterval(timestamp/1000))
@@ -186,7 +186,7 @@ import Photos
 /*
 获取视频的首帧图片
 */
-@inline(__always)func getVideoPreviewImage(videoUrl:URL) -> UIImage {
+@inline(__always)func GetVideoPreviewImage(videoUrl:URL) -> UIImage {
     let avAsset = AVAsset(url: videoUrl)
     let generator = AVAssetImageGenerator(asset: avAsset)
     generator.appliesPreferredTrackTransform = true
@@ -205,7 +205,7 @@ import Photos
 }
 
 
-@inline(__always)func getFileHeadImage(type: NSFileType) -> String? {
+@inline(__always)func GetFileHeadImage(type: NSFileType) -> String? {
     let arr: [String] = [
         "file_txt_big",
         "file_audio_big",
@@ -228,7 +228,7 @@ import Photos
     return arr[type.rawValue]
 }
 
-@inline(__always)func getAppName() -> String{
+@inline(__always)func GetAppName() -> String{
     
     let appInfo = Bundle.main.infoDictionary
     let appName = appInfo!["CFBundleName"] as! String
@@ -236,7 +236,7 @@ import Photos
     
 }
 
-@inline(__always)func getAppShortVersion() -> String{
+@inline(__always)func GetAppShortVersion() -> String{
     
     let appInfo = Bundle.main.infoDictionary
     let appVersion = appInfo!["CFBundleShortVersionString"] as! String
@@ -312,16 +312,16 @@ import Photos
     var message:String!
     if type == .library {
         title = "相册被拒绝访问"
-        message = "请在”设置>隐私>照片>\(getAppName())“，设置读取和写入"
+        message = "请在”设置>隐私>照片>\(GetAppName())“，设置读取和写入"
     } else if type == .camera {
         title = "相机访问被拒绝"
-        message = "请在“设置>隐私>相机>\(getAppName())”选项中，打开允许访问的开关"
+        message = "请在“设置>隐私>相机>\(GetAppName())”选项中，打开允许访问的开关"
     } else if type == .micorphone {
         title = "麦克风被拒绝访问"
-        message = "请在“设置>隐私>麦克风>\(getAppName())”选项中，打开允许访问的开关"
+        message = "请在“设置>隐私>麦克风>\(GetAppName())”选项中，打开允许访问的开关"
     } else if type == .location {
         title = "地图定位被拒绝访问"
-        message = "请在“设置>隐私>定位服务>\(getAppName())”选项中，选择使用权限"
+        message = "请在“设置>隐私>定位服务>\(GetAppName())”选项中，选择使用权限"
     }
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "以后设置", style: .cancel, handler: nil))

@@ -170,6 +170,8 @@ class CDPreviewCell: UICollectionViewCell {
             if cdAsset.format == .Gif {
                 CDAssetTon.shared.getImageDataFromAsset(asset: cdAsset.asset) { (data, info) in
                     if isMain {
+                        
+                        
                         let image = UIImage(data: data!)
                         let width = image!.size.width
                         let height = image!.size.height

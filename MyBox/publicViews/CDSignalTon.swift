@@ -25,7 +25,6 @@ class CDSignalTon: NSObject {
     var tmpDict = NSMutableDictionary()
     var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
-    var logbBean:CDLogBean!
     var waterBean:CDWaterBean!
     var tab:CDTabBarViewController!
     
@@ -36,10 +35,6 @@ class CDSignalTon: NSObject {
         if isFirstInstall() {//已经登录了
             basePwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: userId)
         }else{
-            //保存密码信息
-            let userInfo = CDUserInfo()
-            userInfo.userId = FIRSTUSERID
-            CDSqlManager.shared.addOneUserInfoWith(usernInfo: userInfo)
             //写入文件
             userId = FIRSTUSERID
             CDConfigFile.setIntValueToConfigWith(key: .userId, intValue: userId)
@@ -51,12 +46,9 @@ class CDSignalTon: NSObject {
             addDefaultSafeFolder()
             //创建音频
             addDefaultMusicClass()
-            
-            //配置日志
-            CDLogBean.setLogConfig(isOn: false, logLevel: .Debug, logName: "log \(GetTimeFormat(timestamp: GetTimestamp()))", logPath: String.documentPath())
 
             //配置水印
-            CDWaterBean.setWaterConfig(isOn: false, text: getAppName())
+            CDWaterBean.setWaterConfig(isOn: false, text: GetAppName())
             
             CDConfigFile.setOjectToConfigWith(key: .firstInstall, value: "YES")
             
@@ -68,7 +60,6 @@ class CDSignalTon: NSObject {
         touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: .touchIdSwi)
         
         waterBean = CDWaterBean()
-        logbBean = CDLogBean()
     }
     
     /**
@@ -138,8 +129,7 @@ class CDSignalTon: NSObject {
         do {
             try contentData = Data(contentsOf: tmpFileUrl)
         } catch  {
-            print("saveSafeFileInfo Fail:" + error.localizedDescription)
-            return
+           return
         }
         
         if contentData.count <= 0 {
@@ -161,6 +151,7 @@ class CDSignalTon: NSObject {
         fileInfo.modifyTime = currentTime
         fileInfo.accessTime = currentTime
         fileInfo.fileType = fileType
+        fileInfo.folderType = subFolderType
         var filePath:String!
 
         if subFolderType == .ImageFolder{
@@ -200,7 +191,7 @@ class CDSignalTon: NSObject {
                     return
                 }
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                let image = getVideoPreviewImage(videoUrl: URL(fileURLWithPath: filePath))
+                let image = GetVideoPreviewImage(videoUrl: URL(fileURLWithPath: filePath))
                 let data = image.jpegData(compressionQuality: 1.0)
                 do {
                     try data?.write(to: URL(fileURLWithPath: thumbPath))
@@ -238,34 +229,41 @@ class CDSignalTon: NSObject {
      */
     func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
         let fileName = obj["fileName"] as! String
-//        let imageType = obj["imageType"] as! String
+        let imageType = obj["imageType"] as! String
         let suffix = fileName.getSuffix()
         let fileType = suffix.getFileTypeFromSuffix()
-//        var photo:PHLivePhoto!
-        var image:UIImage!
-//        if imageType == "live" {
-//            photo = obj["file"] as? PHLivePhoto
-//            return
-//        }
-//        else{
-            image = obj["file"] as? UIImage
-            
-//        }
         
         let time = GetTimestamp()
         let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
         let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).\(suffix)")
-        let smallImage = image.compress(maxWidth: 1280)
-        do{
-            let imageData = smallImage.jpegData(compressionQuality: 0.5)
-            try imageData?.write(to: URL(fileURLWithPath: savePath))
-        }catch{
-            return
+        
+//        var photo:PHLivePhoto!
+        var image:UIImage
+        if imageType == "gif"{
+            let data = obj["file"] as! Data
+            image = UIImage(data: data)!
+            do{
+                try data.write(to: URL(fileURLWithPath: savePath))
+            }catch{
+                return
+            }
+        }else{
+            
+            image = obj["file"] as! UIImage
+            let smallImage = image.compress(maxWidth: 1280)
+            do{
+                let imageData = smallImage.jpegData(compressionQuality: 0.5)
+                try imageData?.write(to: URL(fileURLWithPath: savePath))
+            }catch{
+                return
+            }
+            
         }
-
+        
+        
+        //缩略图
         let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
-        let tmpData:Data = thumbImage.jpegData(compressionQuality: 1.0)! as Data
-
+        let tmpData = thumbImage.jpegData(compressionQuality: 1.0)! as Data
         do {
             try tmpData.write(to: URL(fileURLWithPath: thumbPath))
         } catch  {
@@ -284,6 +282,7 @@ class CDSignalTon: NSObject {
         fileInfo.accessTime = Int(time)
         fileInfo.fileType = fileType
         fileInfo.userId = CDUserId()
+        fileInfo.folderType = .ImageFolder
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
 
@@ -483,6 +482,9 @@ class CDSignalTon: NSObject {
         })
     }
     
+    /**
+     
+     */
     
 }
 

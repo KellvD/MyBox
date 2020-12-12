@@ -13,39 +13,115 @@ public enum Direction : Int {
 }
 extension UIView{
     
-    func width()->CGFloat{
-        return self.frame.width
+    var minX: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.x = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.x
+        }
     }
-    func height()->CGFloat{
-        return self.frame.height
+    
+    var minY: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.y = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.y
+        }
     }
-    func minX()->CGFloat{
-        return self.frame.minX
+    
+    var midX: CGFloat {
+        set {
+            var center = self.center
+            center.x = newValue
+            self.center = center
+        }
+        get {
+            return self.center.x
+        }
     }
-    func minY()->CGFloat{
-        return self.frame.minY
+    
+    var midY: CGFloat {
+        set {
+            var center = self.center
+            center.y = newValue
+            self.center = center
+        }
+        get {
+            return self.center.y
+        }
     }
-    func maxX()->CGFloat{
-        return self.frame.maxX
+    var maxY: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.y = newValue - frame.size.height
+            self.frame = frame
+        }
+        get {
+            return self.height + self.minY
+        }
     }
-    func maxY()->CGFloat{
-        return self.frame.maxY
+    
+    var maxX: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.x = newValue - frame.size.width
+            self.frame = frame
+        }
+        get {
+            return self.width + self.minX
+        }
     }
-    func size()->CGSize{
-        return self.frame.size
+    var width: CGFloat {
+        set {
+            var frame = self.frame
+            frame.size.width = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size.width
+        }
     }
-    func midX()->CGFloat{
-        return self.frame.midX
+    
+    var height: CGFloat {
+        set {
+            var frame = self.frame
+            frame.size.height = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size.height
+        }
     }
-    func midY()->CGFloat{
-        return self.frame.midY
+    
+    var size: CGSize {
+        set {
+            var frame = self.frame
+            frame.size = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size
+        }
     }
-    func centerY()->CGFloat{
-        return self.center.y
+    
+    var origin: CGPoint {
+        set {
+            var frame = self.frame
+            frame.origin = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin
+        }
     }
-    func centerX()->CGFloat{
-        return self.center.x
-    }
+    
+    
     
     
     /**
@@ -58,7 +134,6 @@ extension UIView{
         animation.type = .push
         animation.subtype = subtype
         layer.add(animation, forKey: nil)
-        
     }
     
     /**
@@ -67,6 +142,8 @@ extension UIView{
      size:圆角的尺寸
      */
     func addRadius(corners:UIRectCorner,size:CGSize) {
+        self.layoutIfNeeded()
+        self.setNeedsLayout()
         let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: size)
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.bounds
@@ -92,5 +169,40 @@ extension UIView{
         layer.frame = self.bounds
         self.layer.addSublayer(layer)
     }
+    
+    /*
+     *View增加边框
+     *color:边框颜色
+     *width:边框宽度
+     *edge:边框位置
+     */
+    func addBorder(color:UIColor,width:CGFloat,edge:UIRectEdge) {
+        if edge == .all {
+            self.layer.borderColor = color.cgColor
+            self.layer.borderWidth = width
+        }else{
+            let layer = CALayer()
+            layer.backgroundColor = color.cgColor;
+            let x = edge != .right ? 0 : self.frame.width - width
+            let y = edge != .bottom ? 0 : self.frame.height - width
+            layer.frame = CGRect(x: x, y: y, width: self.frame.width, height: self.frame.height)
+            self.layer.addSublayer(layer)
+        }
+        self.layer.masksToBounds = true
+    }
+    
+    /**
+     *View 增加磨玻璃效果
+     *style:样式
+     */
+    func addBlurEffect(style:UIBlurEffect.Style){
+        let effect = UIBlurEffect(style: style)
+        let effectView = UIVisualEffectView(effect: effect)
+        effectView.frame = self.bounds
+        self.backgroundColor = .clear
+        self.addSubview(effectView)
+        self.sendSubviewToBack(effectView)
+    }
+    
     
 }

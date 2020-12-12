@@ -32,14 +32,15 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.navigationController!.navigationBar.topItem?.title = ""
         let mainLayout = UICollectionViewFlowLayout()
-        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDViewHeight - 64)
-        mainLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDViewHeight - bottom_H - 30)
+        mainLayout.sectionInset = UIEdgeInsets(top: 10, left: 2, bottom: 10, right: 2)
         mainLayout.minimumLineSpacing = 0
         mainLayout.minimumInteritemSpacing = 0
         mainLayout.scrollDirection = .horizontal
-        self.mainCollectionView = CDPreviewView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), layout: mainLayout,isMain: true)
+        self.mainCollectionView = CDPreviewView(frame: CGRect(x: 0, y: StatusHeight + NavigationHeight, width: CDSCREEN_WIDTH, height: CDViewHeight - bottom_H), layout: mainLayout,isMain: true)
 
         self.mainCollectionView.assetArr = assetArr
         self.mainCollectionView.isVideo = isVideo
@@ -51,7 +52,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         self.view.addSubview(self.mainCollectionView)
 
 
-        bottomV = UIView(frame: CGRect(x: 0, y: CDViewHeight - bottom_H, width: CDSCREEN_WIDTH, height: bottom_H))
+        bottomV = UIView(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - bottom_H, width: CDSCREEN_WIDTH, height: bottom_H))
         bottomV.backgroundColor = UIColor.black
         bottomV.bringSubviewToFront(self.view)
         self.view.addSubview(bottomV)
@@ -123,7 +124,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
     func hideOrPopBottomV() {
         var rect = bottomV.frame
         UIView.animate(withDuration: 0.25) {
-            rect.origin.y = rect.origin.y < CDViewHeight ? CDViewHeight : CDViewHeight - bottom_H
+            rect.origin.y = rect.origin.y < CDSCREEN_HEIGTH ? CDSCREEN_HEIGTH : CDSCREEN_HEIGTH - bottom_H
             self.bottomV.frame = rect
         }
     }

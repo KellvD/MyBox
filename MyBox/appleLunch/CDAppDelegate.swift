@@ -18,7 +18,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let _ = CDSqlManager.shared
-        let _ = CDSignalTon.shared
+//        let _ = CDSignalTon.shared
         let _ = CDLocationManager.shared
         let _ = CDMusicManager.shareInstance()
         let _ = CDEditManager.shareInstance()
@@ -100,7 +100,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
         let label = UILabel.init(frame: CGRect(x: 0, y: iconY+170-30, width: Int(CDSCREEN_WIDTH), height: 40))
         label.textAlignment = .center
-        label.text = getAppName()
+        label.text = GetAppName()
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 24)
         defaultView.addSubview(label)

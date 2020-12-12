@@ -30,14 +30,15 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = self.albumItem.title
-
+        self.navigationController!.navigationBar.topItem?.title = ""
+        self.automaticallyAdjustsScrollViewInsets = false
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:itemWidth_Height , height: itemWidth_Height)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .vertical
-        self.photoTab = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-48), collectionViewLayout: layout)
+        self.photoTab = UICollectionView(frame: CGRect(x: 0, y: StatusHeight + NavigationHeight, width: CDSCREEN_WIDTH, height: CDViewHeight - 48), collectionViewLayout: layout)
         self.photoTab.delegate = self
         self.photoTab.dataSource = self
         self.photoTab.backgroundColor = UIColor.white

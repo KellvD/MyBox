@@ -111,6 +111,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
 
 
     }
+    //
     @objc func onDoneSegmentVideo(){
         let urlAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: nil)
         let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetPassthrough)

@@ -21,7 +21,7 @@ enum CDConfigKey:String {
     case waterTextColor = "waterTextColor"
     
     case logSwi = "logSwi"
-    case logPath = "logPath"
+    case logFolder = "logFolder"
     case logLevel = "logLevel"
     case logName = "logName"
     
@@ -50,7 +50,7 @@ class CDConfigFile: NSObject {
         let bv = writeToFileWith(writeDict: writeDict!, filePath: finaPath)
 
         if bv {
-            print("写入文件成功")
+            
         }
     }
     class func getValueFromConfigWith(key:CDConfigKey)->String{
@@ -82,7 +82,7 @@ class CDConfigFile: NSObject {
         let bv = writeToFileWith(writeDict: writeDict!, filePath: finaPath)
 
         if bv {
-            print("Int 值写入成功")
+            
         }
 
     }
@@ -126,7 +126,7 @@ class CDConfigFile: NSObject {
 
     }
 
-    class func writeToFileWith(writeDict:NSMutableDictionary,filePath:String)->Bool{
+    private class func writeToFileWith(writeDict:NSMutableDictionary,filePath:String)->Bool{
         objc_sync_enter(self)
         let writeFlag = writeDict.write(toFile: filePath, atomically: true)
         objc_sync_exit(self)

@@ -136,18 +136,19 @@ enum DiskSpaceAlertType:String
     case AlertMakeRecordType = "可用存储空间不足，无法录制音频。您可以在设置里管理存储空间。"   // 录音
     case AlertRecordsType = "可用存储空间不足，无法播放音频。您可以在设置里管理存储空间。"      // 播放录音
     case AlertDocumentType = "可用存储空间不足，无法导入文件。您可以在设置里管理存储空间。"      // Document
+    case AlertFormatType = "读取文件失败，权限不足"
 }
 
 
 
 enum SDImageFormat:NSInteger {
-    case SDImageFormatUndefined = -1
-    case SDImageFormatJPEG = 0
-    case SDImageFormatPNG = 1
-    case SDImageFormatGIF
-    case SDImageFormatTIFF
-    case SDImageFormatWebP
-    case SDImageFormatHEIC
+    case Undefined = -1
+    case JPEG = 0
+    case PNG = 1
+    case GIF
+    case TIFF
+    case WebP
+    case HEIC
 }
 
 enum CDSelectedStatus:String {
@@ -165,8 +166,10 @@ enum CDDevicePermissionType:Int {
 }
 //-----------------------------logCongig
 enum CDLogLevel:Int {
-    case Debug = 0
-    case Info = 1
-    case Error = 2
+    case DebugLog = 0
+    case InfoLog = 1
+    case ErrorLog = 2
+    case WarnLog = 3
+    case AllLog = 4
 }
 

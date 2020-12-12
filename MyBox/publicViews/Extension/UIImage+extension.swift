@@ -7,11 +7,9 @@
 //
 
 import UIKit
-
+import CoreGraphics
 extension UIImage{
-    /*
-    压缩图片
-    */
+    //MARK: 压缩图片
     func compress(maxWidth:CGFloat) -> UIImage{
         // 宽高比
         let ratio: CGFloat = self.size.width / self.size.height
@@ -59,9 +57,7 @@ extension UIImage{
 
     }
     
-    /*
-    裁剪照片
-    */
+    //MARK: 裁剪照片
     func scaleAndCropToMaxSize(newSize:CGSize) ->UIImage {
         let largestSize = newSize.width > newSize.height ? newSize.width : newSize.height
         var imageSize:CGSize = self.size
@@ -96,30 +92,26 @@ extension UIImage{
         return newImage
     }
     
-    /**
-     获取图片格式
-     */
+     //MARK:获取图片格式
     class func getImageFormat(imageData:NSData) ->SDImageFormat{
         var c: UInt8?
         imageData.getBytes(&c, length: 1)
-        let data = imageData as Data
-        var byte = [UInt8]()
-        let v = data.copyBytes(to: &byte, count: 4)
+
         switch c {
         case 0xff:
-            return SDImageFormat.SDImageFormatJPEG
+            return SDImageFormat.JPEG
         case 0x89:
-            return SDImageFormat.SDImageFormatPNG;
+            return SDImageFormat.PNG;
         case 0x47:
-            return SDImageFormat.SDImageFormatGIF;
+            return SDImageFormat.GIF;
         case 0x49,0x4D:
-            return SDImageFormat.SDImageFormatTIFF;
+            return SDImageFormat.TIFF;
         case 0x52:
             if imageData.length > 12{
                 let string = String(data: imageData.subdata(with: NSRange(location: 0, length: 12)), encoding: String.Encoding.ascii)!
                 if (string.hasPrefix("PIFF") &&
                     string.hasSuffix("WEBP")){
-                    return SDImageFormat.SDImageFormatWebP;
+                    return SDImageFormat.WebP;
                 }
             }
         case 0x00:
@@ -129,20 +121,59 @@ extension UIImage{
                     string == "WEBP" ||
                     string == "ftyphevc" ||
                     string == "ftyphevx"){
-                    return SDImageFormat.SDImageFormatHEIC;
+                    return SDImageFormat.HEIC;
                 }
             }
         default:
-            return SDImageFormat.SDImageFormatUndefined;
+            return SDImageFormat.Undefined;
         }
-        return SDImageFormat.SDImageFormatUndefined;
+        return SDImageFormat.Undefined;
     }
     
+    //MARK:UIView 转成UIImage
     class func clipFromView(view:UIView) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0.0)
         view.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image  = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
+    }
+    
+    //MARK:扫描二维码
+    func qrMessage() -> String {
+        //创建图片扫描仪
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
+        //获取到二维码
+        let deatureArr = detector?.features(in: CIImage(cgImage: self.cgImage!))
+        if deatureArr!.count == 0 {
+            return ""
+        }
+        let feature = deatureArr?.first as! CIQRCodeFeature //二维码图像特征
+        let message = feature.messageString
+        return message!
+    }
+    
+    //MARK:生成二维码
+    //url:二维码中的信息
+    //size:二维码的尺寸
+    class func createQRImage(url:String,size:CGFloat)->UIImage?{
+        let filter = CIFilter(name: "CIQRCodeGenerator") //二维码滤镜
+        filter?.setDefaults()
+        let data = url.data(using: .utf8)
+        filter?.setValue(data, forKey: "inputMessage")
+        // 设置二维码的纠错率
+        filter?.setValue("M", forKey: "inputCorrectionLevel")
+        
+        // 从二维码滤镜里面, 获取结果图片
+        var outputImage = filter?.outputImage
+        let transform = CGAffineTransform.init(scaleX: 20, y: 20)
+        outputImage = outputImage?.transformed(by: transform)
+        let resultImage = UIImage(ciImage: outputImage!)
+        UIGraphicsBeginImageContext(CGSize(width: size, height: size))
+        resultImage.draw(in: CGRect(x: 0, y: 0, width: size, height: size))
+        
+        let qrImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return qrImage!
     }
 }

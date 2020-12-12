@@ -18,33 +18,31 @@ class CDAssetTon: NSObject {
     func getAllAlbums(WithFinished Finished: @escaping ([CDAlbum]) -> Void) {
 
         var allAlbumArr:[CDAlbum] = []
-        PHPhotoLibrary.requestAuthorization( { (status) in
-            //列出所有相册,由subtype决定
-            let options = PHFetchOptions()
-            let albums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
+        //列出所有相册,由subtype决定
+        let options = PHFetchOptions()
+        let albums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
+        
+        for i in 0..<albums.count{
+            let resultsOptions = PHFetchOptions()
+            if self.mediaType == .CDMediaVideo{
+                resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
+            }else if self.mediaType == .CDMediaImage{
+                resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+            }else{
+                resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.unknown.rawValue)
+            }
             
-            for i in 0..<albums.count{
-                let resultsOptions = PHFetchOptions()
-                if self.mediaType == .CDMediaVideo{
-                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
-                }else if self.mediaType == .CDMediaImage{
-                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-                }else{
-                    resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.unknown.rawValue)
-                }
-                
-                let defaluC = albums[i]
-                let assetsFetchResult = PHAsset.fetchAssets(in: defaluC, options: resultsOptions)
-                if assetsFetchResult.count>0 {
-                    let title = self.titleOfAlbumForChinse(title: defaluC.localizedTitle)
-                    if title != "最近删除"{
-                        allAlbumArr.append(CDAlbum(title:title, fetchResult:assetsFetchResult))
-                        
-                    }
+            let defaluC = albums[i]
+            let assetsFetchResult = PHAsset.fetchAssets(in: defaluC, options: resultsOptions)
+            if assetsFetchResult.count>0 {
+                let title = self.titleOfAlbumForChinse(title: defaluC.localizedTitle)
+                if title != "最近删除"{
+                    allAlbumArr.append(CDAlbum(title:title, fetchResult:assetsFetchResult))
+                    
                 }
             }
-            Finished(allAlbumArr)
-        })
+        }
+        Finished(allAlbumArr)
         
     }
 

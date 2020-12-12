@@ -334,15 +334,14 @@
 		EF3FEFD9256A1D180054E59A /* CDDeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */; };
 		EF3FEFDB256A20E50054E59A /* UIView+animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEFDA256A20E50054E59A /* UIView+animation.swift */; };
 		EF3FEFDD256A20F80054E59A /* CDLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3FEFDC256A20F70054E59A /* CDLocationManager.swift */; };
-		EF558FC424C87D73002F43ED /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF558FC324C87D73002F43ED /* ShareViewController.swift */; };
-		EF558FC724C87D73002F43ED /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF558FC524C87D73002F43ED /* MainInterface.storyboard */; };
-		EF558FCB24C87D73002F43ED /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF558FC124C87D73002F43ED /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF52D40E2584EA0900E52674 /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF52D40D2584EA0900E52674 /* UIButton+extension.swift */; };
+		EF52D4122584EA1700E52674 /* CDNetworkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF52D4102584EA1700E52674 /* CDNetworkTools.swift */; };
+		EF52D4132584EA1700E52674 /* CDPrintManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF52D4112584EA1700E52674 /* CDPrintManager.swift */; };
 		EF65C06C256A27D700D71FB3 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF65C06B256A27D700D71FB3 /* SnapKit.framework */; };
 		EF65C06E256A280600D71FB3 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF65C06B256A27D700D71FB3 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF65C074256A2FB100D71FB3 /* CDNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C073256A2FB100D71FB3 /* CDNavigationController.swift */; };
 		EF65C078256A305600D71FB3 /* mine_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF65C076256A305600D71FB3 /* mine_normal@2x.png */; };
 		EF65C079256A305600D71FB3 /* mine_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF65C077256A305600D71FB3 /* mine_select@2x.png */; };
-		EF65C07D256A34D000D71FB3 /* CDLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF65C07C256A34D000D71FB3 /* CDLogManager.swift */; };
 		EFC242F2245BC7FC00DDC829 /* CDSqlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */; };
 		EFC242F4245BF6BB00DDC829 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53A24580FDD0043E97F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC242F5245BF6BB00DDC829 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 731DF53824580F3B0043E97F /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -378,16 +377,6 @@
 		EFDD42182482005B000AFDB8 /* MJRefresh.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFDD41F72481F9C3000AFDB8 /* MJRefresh.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		EF558FC924C87D73002F43ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 73550FDD2457C0AB009B7599 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EF558FC024C87D73002F43ED;
-			remoteInfo = Share;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		EF7C522824C2DAD600DA7605 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -395,7 +384,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EF558FCB24C87D73002F43ED /* Share.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -752,16 +740,14 @@
 		EF3FEEDF256A1D180054E59A /* CDDeviceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDeviceInfoViewController.swift; sourceTree = "<group>"; };
 		EF3FEFDA256A20E50054E59A /* UIView+animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+animation.swift"; sourceTree = "<group>"; };
 		EF3FEFDC256A20F70054E59A /* CDLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDLocationManager.swift; sourceTree = "<group>"; };
+		EF52D40D2584EA0900E52674 /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
+		EF52D4102584EA1700E52674 /* CDNetworkTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNetworkTools.swift; sourceTree = "<group>"; };
+		EF52D4112584EA1700E52674 /* CDPrintManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPrintManager.swift; sourceTree = "<group>"; };
 		EF558FBC24C87C9F002F43ED /* MyBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
-		EF558FC124C87D73002F43ED /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF558FC324C87D73002F43ED /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		EF558FC624C87D73002F43ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		EF558FC824C87D73002F43ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF65C06B256A27D700D71FB3 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SnapKit.framework; sourceTree = "<group>"; };
 		EF65C073256A2FB100D71FB3 /* CDNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNavigationController.swift; sourceTree = "<group>"; };
 		EF65C076256A305600D71FB3 /* mine_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_normal@2x.png"; sourceTree = "<group>"; };
 		EF65C077256A305600D71FB3 /* mine_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_select@2x.png"; sourceTree = "<group>"; };
-		EF65C07C256A34D000D71FB3 /* CDLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLogManager.swift; sourceTree = "<group>"; };
 		EFC242F1245BC7FC00DDC829 /* CDSqlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSqlModel.swift; sourceTree = "<group>"; };
 		EFC2431B245C307300DDC829 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
 		EFC2431C245C307300DDC829 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxRelay.framework; sourceTree = "<group>"; };
@@ -823,13 +809,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EF558FBE24C87D73002F43ED /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -867,7 +846,6 @@
 			isa = PBXGroup;
 			children = (
 				73550FE72457C0AB009B7599 /* MyBox */,
-				EF558FC224C87D73002F43ED /* Share */,
 				73550FE62457C0AB009B7599 /* Products */,
 				735514A22457C1C7009B7599 /* Frameworks */,
 			);
@@ -877,7 +855,6 @@
 			isa = PBXGroup;
 			children = (
 				73550FE52457C0AB009B7599 /* MyBox.app */,
-				EF558FC124C87D73002F43ED /* Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1014,6 +991,8 @@
 		735513732457C19D009B7599 /* publicViews */ = {
 			isa = PBXGroup;
 			children = (
+				EF52D4102584EA1700E52674 /* CDNetworkTools.swift */,
+				EF52D4112584EA1700E52674 /* CDPrintManager.swift */,
 				EFDD41FA2481FC23000AFDB8 /* CDAudioPlayView.swift */,
 				737020C12491D87000F98F42 /* CDContainerViewController.swift */,
 				EFDD42062481FC25000AFDB8 /* CDCustomDefines.swift */,
@@ -1124,6 +1103,7 @@
 		73F7153F24B3112700B3C9FC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				EF52D40D2584EA0900E52674 /* UIButton+extension.swift */,
 				73F7153B24B30BD200B3C9FC /* UIImage+extension.swift */,
 				EFDD41FB2481FC23000AFDB8 /* String+Path.swift */,
 				73F7153D24B30F1C00B3C9FC /* String+extension.swift */,
@@ -1657,22 +1637,11 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		EF558FC224C87D73002F43ED /* Share */ = {
-			isa = PBXGroup;
-			children = (
-				EF558FC324C87D73002F43ED /* ShareViewController.swift */,
-				EF558FC524C87D73002F43ED /* MainInterface.storyboard */,
-				EF558FC824C87D73002F43ED /* Info.plist */,
-			);
-			path = Share;
-			sourceTree = "<group>";
-		};
 		EF65C07F256A352900D71FB3 /* CDFileManager */ = {
 			isa = PBXGroup;
 			children = (
 				73F7154024B3386B00B3C9FC /* CDConfigBean.swift */,
 				EFDD42032481FC24000AFDB8 /* CDConfigFile.swift */,
-				EF65C07C256A34D000D71FB3 /* CDLogManager.swift */,
 			);
 			path = CDFileManager;
 			sourceTree = "<group>";
@@ -1693,29 +1662,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				EF558FCA24C87D73002F43ED /* PBXTargetDependency */,
 			);
 			name = MyBox;
 			productName = MyBox;
 			productReference = 73550FE52457C0AB009B7599 /* MyBox.app */;
 			productType = "com.apple.product-type.application";
-		};
-		EF558FC024C87D73002F43ED /* Share */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EF558FCC24C87D73002F43ED /* Build configuration list for PBXNativeTarget "Share" */;
-			buildPhases = (
-				EF558FBD24C87D73002F43ED /* Sources */,
-				EF558FBE24C87D73002F43ED /* Frameworks */,
-				EF558FBF24C87D73002F43ED /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Share;
-			productName = Share;
-			productReference = EF558FC124C87D73002F43ED /* Share.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1730,9 +1681,6 @@
 					73550FE42457C0AB009B7599 = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
-					};
-					EF558FC024C87D73002F43ED = {
-						CreatedOnToolsVersion = 11.5;
 					};
 				};
 			};
@@ -1750,7 +1698,6 @@
 			projectRoot = "";
 			targets = (
 				73550FE42457C0AB009B7599 /* MyBox */,
-				EF558FC024C87D73002F43ED /* Share */,
 			);
 		};
 /* End PBXProject section */
@@ -1960,14 +1907,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EF558FBF24C87D73002F43ED /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EF558FC724C87D73002F43ED /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1976,6 +1915,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF3FEFB1256A1D180054E59A /* CDImageEditViewController.swift in Sources */,
+				EF52D4122584EA1700E52674 /* CDNetworkTools.swift in Sources */,
 				EF3FEFB0256A1D180054E59A /* CDRotateView.swift in Sources */,
 				EF3FEF8D256A1D180054E59A /* CDImageScrollView.swift in Sources */,
 				EF3FEF93256A1D180054E59A /* PECropRectView.swift in Sources */,
@@ -2008,6 +1948,7 @@
 				EF3FEEF7256A1D180054E59A /* CDMusicMenuView.swift in Sources */,
 				EF3FEFBB256A1D180054E59A /* CDEditorsView.swift in Sources */,
 				EF3FEFB9256A1D180054E59A /* CDPhotoView.swift in Sources */,
+				EF52D40E2584EA0900E52674 /* UIButton+extension.swift in Sources */,
 				732368442490BD540092F05E /* GPCameraManager.swift in Sources */,
 				EF3FEF84256A1D180054E59A /* CDSegmentVideoViewController.swift in Sources */,
 				EFDD42132481FC25000AFDB8 /* CDSignalTon.swift in Sources */,
@@ -2060,7 +2001,6 @@
 				EF3FEF98256A1D180054E59A /* CDBrightView.swift in Sources */,
 				EF3FEEFA256A1D180054E59A /* CDClassCell.swift in Sources */,
 				735514862457C19E009B7599 /* CDSqlManager.swift in Sources */,
-				EF65C07D256A34D000D71FB3 /* CDLogManager.swift in Sources */,
 				EF3FEFCC256A1D180054E59A /* CDGuideViewController.swift in Sources */,
 				EF3FEF7F256A1D180054E59A /* CDNewTextViewController.swift in Sources */,
 				EF3FEEFC256A1D180054E59A /* CDModifyClassViewController.swift in Sources */,
@@ -2092,6 +2032,7 @@
 				EF3FEF7B256A1D180054E59A /* CDPDFViewController.swift in Sources */,
 				EF3FEF59256A1D180054E59A /* CDFileDetailViewController.swift in Sources */,
 				EF3FEFD1256A1D180054E59A /* CDSwitchCell.swift in Sources */,
+				EF52D4132584EA1700E52674 /* CDPrintManager.swift in Sources */,
 				EF3FEEF5256A1D180054E59A /* CDMusicManager.swift in Sources */,
 				EF3FEF0E256A1D180054E59A /* CDReaderPageViewController.swift in Sources */,
 				EF3FEF53256A1D180054E59A /* CDTableViewCell.swift in Sources */,
@@ -2112,34 +2053,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EF558FBD24C87D73002F43ED /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EF558FC424C87D73002F43ED /* ShareViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		EF558FCA24C87D73002F43ED /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EF558FC024C87D73002F43ED /* Share */;
-			targetProxy = EF558FC924C87D73002F43ED /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		EF558FC524C87D73002F43ED /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EF558FC624C87D73002F43ED /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		73550FF72457C0AD009B7599 /* Debug */ = {
@@ -2259,7 +2173,6 @@
 		73550FFA2457C0AD009B7599 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
@@ -2291,7 +2204,6 @@
 		73550FFB2457C0AD009B7599 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
@@ -2319,46 +2231,6 @@
 			};
 			name = Release;
 		};
-		EF558FCD24C87D73002F43ED /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N294699B43;
-				INFOPLIST_FILE = Share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = MyBox.Share;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		EF558FCE24C87D73002F43ED /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N294699B43;
-				INFOPLIST_FILE = Share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = MyBox.Share;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2376,15 +2248,6 @@
 			buildConfigurations = (
 				73550FFA2457C0AD009B7599 /* Debug */,
 				73550FFB2457C0AD009B7599 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EF558FCC24C87D73002F43ED /* Build configuration list for PBXNativeTarget "Share" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EF558FCD24C87D73002F43ED /* Debug */,
-				EF558FCE24C87D73002F43ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
