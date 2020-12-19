@@ -128,7 +128,19 @@ extension String{
                 NSStringDrawingOptions.usesFontLeading.rawValue), attributes: [NSAttributedString.Key.font:font], context: nil)
         return frame.size.height
     }
-
+    
+    func matches(pattern:String)->Bool{
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue:0))
+            let res = regex.matches(in: self, options: NSRegularExpression.MatchingOptions(rawValue:0), range: NSMakeRange(0, self.count))
+            if res.count > 0 {
+                return true
+            }
+            return false
+        } catch  {
+            return false
+        }
+    }
 }
 
 

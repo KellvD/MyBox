@@ -36,10 +36,10 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         fatalError("init(coder:) has not been implemented")
     }
     func reloadBarData() {
-        
         self.collectionView.reloadData()
         self.collectionView.scrollToItem(at: IndexPath(item: CDSignalTon.shared.dirNavArr.count-1, section: 0), at: .centeredHorizontally, animated: true)
     }
+    
     func numberOfItemsInSection(collectionView:UICollectionView) -> Int {
         return 1
     }

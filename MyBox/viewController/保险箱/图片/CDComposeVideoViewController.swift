@@ -1,9 +1,9 @@
 //
 //  CDComposeVideoViewController.swift
-//  MyRule
+//  MyBox
 //
-//  Created by changdong on 2019/6/18.
-//  Copyright © 2019 changdong. All rights reserved.
+//  Created by changdong cwx889303 on 2020/12/18.
+//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
 //
 
 import UIKit
@@ -12,8 +12,8 @@ class CDComposeVideoViewController: CDBaseAllViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("合成视频", comment: "")
 
+        // Do any additional setup after loading the view.
     }
     
 

@@ -128,7 +128,7 @@ class CDSegmentVideoViewController: CDBaseAllViewController,AVAudioPlayerDelegat
         exportSession?.timeRange = range
         exportSession?.exportAsynchronously(completionHandler: {
             if exportSession?.status == .completed{
-                CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: exportUrl, folderId: self.videoInfo.folderId, subFolderType: .VideoFolder)
+                CDSignalTon.shared.saveSafeFileInfo(fileUrl: exportUrl, folderId: self.videoInfo.folderId, subFolderType: .VideoFolder,isFromDocment: false)
             }
         })
 

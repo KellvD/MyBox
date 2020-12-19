@@ -43,7 +43,7 @@ class CDPhotoView:  UIScrollView,UIScrollViewDelegate,UIGestureRecognizerDelegat
     }
     
     @objc func singleTapAction() {
-        NotificationCenter.default.post(name: BarsHiddenOrNot, object: nil)
+        NotificationCenter.default.post(name: .BarsHiddenOrNot, object: nil)
     }
 
     @objc func doubleTapAction(tap:UITapGestureRecognizer) {

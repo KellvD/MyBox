@@ -14,8 +14,7 @@ class CDImageCell: UICollectionViewCell {
     var scroller:CDImageScrollView! //滚动展示是可缩放
     var tapQRHandle:CDTapRQHandle!
     
-    private var videoSizeL:UILabel!
-    private var gifL:UILabel!
+    private var tipLabel:UILabel!
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -26,20 +25,12 @@ class CDImageCell: UICollectionViewCell {
         scroller.isHidden = true
         self.contentView.addSubview(scroller)
 
-        videoSizeL = UILabel(frame: CGRect(x: 0, y: frame.height - 20, width: frame.width - 5, height: 20))
-        videoSizeL.textAlignment = .right
-        videoSizeL.font = TextSmallFont
-        videoSizeL.textColor = UIColor.white
-        self.contentView.addSubview(videoSizeL)
-        videoSizeL.isHidden = true
-
-        gifL = UILabel(frame: CGRect(x: 2, y: frame.height - 20, width: frame.width-4, height: 20))
-        gifL.textColor = UIColor.white
-        gifL.textAlignment = .right
-        gifL.text = "GIF"
-        gifL.font = UIFont.systemFont(ofSize: 12)
-        self.contentView.addSubview(gifL)
-        gifL.isHidden = true
+        tipLabel = UILabel(frame: CGRect(x: 0, y: frame.height - 20, width: frame.width - 5, height: 20))
+        tipLabel.textAlignment = .right
+        tipLabel.font = TextSmallFont
+        tipLabel.textColor = UIColor.white
+        self.contentView.addSubview(tipLabel)
+        tipLabel.isHidden = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -90,22 +81,11 @@ class CDImageCell: UICollectionViewCell {
 
     }
     func setImageData(fileInfo:CDSafeFileInfo,isBatchEdit:Bool){
-        if isBatchEdit {
-            selectedView.isHidden = false
-            if fileInfo.isSelected == .CDTrue {
-                selectedView.image = LoadImage(imageName: "selected", type: "png")
-            }else{
-                selectedView.image = LoadImage(imageName: "no_selected", type: "png")
-            }
+        selectedView.isHidden = !isBatchEdit
+        selectedView.image = LoadImage(imageName: fileInfo.isSelected == .CDTrue ? "selected" : "no_selected", type: "png")
 
-        }else{
-            selectedView.isHidden = true
-        }
-        if fileInfo.fileType == .GifType{
-            gifL.isHidden = false
-        }else{
-            gifL.isHidden = true
-        }
+        tipLabel.isHidden = !(fileInfo.fileType == .GifType)
+        tipLabel.text = "GIF"
 
         let tmpPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
@@ -117,33 +97,23 @@ class CDImageCell: UICollectionViewCell {
     
     
     func setVideoData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
-        if isMutilEdit {
-            selectedView.isHidden = false
-            if fileInfo.isSelected == .CDTrue {
-                selectedView.image = LoadImage(imageName: "selected", type: "png")
-            }else{
-                selectedView.image = LoadImage(imageName: "no_selected", type: "png")
-            }
-
-        }else{
-            selectedView.isHidden = true
-        }
-
+        
+        selectedView.isHidden = !isMutilEdit
+        selectedView.image = LoadImage(imageName: fileInfo.isSelected == .CDTrue ? "selected" : "no_selected", type: "png")
+        self.tipLabel.isHidden = false
+        self.tipLabel.text = GetMMSSFromSS(second: fileInfo.timeLength)
+        
         let tmpPath = String.thumpVideoPath().appendingFormat("/%@",fileInfo.thumbImagePath.lastPathComponent())
         var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
         if mImgage == nil {
             mImgage = LoadImage(imageName: "小图解密失败", type:"png")
         }
-        self.videoSizeL.isHidden = false
-        self.videoSizeL.text = GetMMSSFromSS(second: fileInfo.timeLength)
+       
         self.backgroundView = UIImageView(image: mImgage)
     }
     
     func reloadSelectImageView() {
-        if isSelected {
-            selectedView.image = LoadImage(imageName: "selected", type: "png")
-        }else{
-            selectedView.image = LoadImage(imageName: "no_selected", type: "png")
-        }
+        selectedView.image = LoadImage(imageName: isSelected ? "selected" : "no_selected", type: "png")
+        
     }
 }

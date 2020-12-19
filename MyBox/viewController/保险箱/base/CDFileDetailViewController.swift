@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDMarkFileDelegate {
+class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
 
     private var tableView:UITableView!
     private var optionValueArr: [[String]] = [[]]
@@ -30,8 +30,8 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(timestamp: fileInfo.createTime),
-                 GetTimeFormat(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(fileInfo.createTime),
+                 GetTimeFormat(fileInfo.modifyTime)
                 ],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 ["\(fileInfo.fileWidth) x \(fileInfo.fileHeight)"],
@@ -41,8 +41,8 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(timestamp: fileInfo.createTime),
-                 GetTimeFormat(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(fileInfo.createTime),
+                 GetTimeFormat(fileInfo.modifyTime)
                 ],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [GetMMSSFromSS(second: fileInfo.timeLength)],
@@ -51,14 +51,15 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         }else{
             optionValueArr = [
                 [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(timestamp: fileInfo.createTime),
-                 GetTimeFormat(timestamp: fileInfo.modifyTime)
+                [GetTimeFormat(fileInfo.createTime),
+                 GetTimeFormat(fileInfo.modifyTime)
                 ],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [fileInfo.markInfo]
             ]
         }
     }
+    
     lazy var optionTitleArr: [[String]] = {
         var arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["备注"]]
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
@@ -140,26 +141,35 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             let markVC = CDMarkFileViewController()
             markVC.title = "重命名"
             markVC.maxTextCount = 60
-            markVC.fileId = fileInfo.fileId
-            markVC.delegate = self
-            markVC.markInfo = fileInfo.fileName
+            markVC.oldContent = fileInfo.fileName
             markVC.markType = .fileName
-
+            markVC.markHandle = {(newContent) in
+                CDPrintManager.log("文件重命名-原名:\(self.fileInfo.fileName),新名:\(newContent!),folderId = \(self.fileInfo.fileId)", type: .InfoLog)
+                CDSqlManager.shared.updateOneSafeFileName(fileName: newContent!, fileId: self.fileInfo.fileId)
+                self.fileInfo.fileName = newContent!
+                CDHUDManager.shared.showComplete(text: "重命名成功")
+                self.reloadData()
+                
+            }
             self.navigationController?.pushViewController(markVC, animated: true)
 
         }else if title == "备注"{
             let markVC = CDMarkFileViewController()
             markVC.title = "备注"
             markVC.maxTextCount = 140
-            markVC.fileId = fileInfo.fileId
-            markVC.delegate = self
-            markVC.markInfo = fileInfo.markInfo
             markVC.markType = .fileMark
+            markVC.oldContent = fileInfo.markInfo
+            markVC.markHandle = {[](newContent) in
+                CDPrintManager.log("文件修改备注-原备注:\(self.fileInfo.markInfo),新备注:\(newContent!),fileId = \(self.fileInfo.fileId)", type: .InfoLog)
+                CDSqlManager.shared.updateOneSafeFileMarkInfo(markInfo: newContent!, fileId: self.fileInfo.fileId)
+                self.fileInfo.markInfo = newContent!
+                CDHUDManager.shared.showComplete(text: "重命名成功")
+                self.reloadData()
+            }
             self.navigationController?.pushViewController(markVC, animated: true)
         }
     }
-    func onMarkFileSuccess() {
-        fileInfo = CDSqlManager.shared.queryOneSafeFileWithFileId(fileId: fileInfo.fileId)
+    func reloadData() {
         initOptionValue()
         tableView.reloadData()
     }

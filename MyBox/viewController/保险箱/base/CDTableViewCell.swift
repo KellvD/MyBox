@@ -13,7 +13,7 @@ enum CDSelectIconState:Int  {
     case show = 2 //显示
     case selected = 3 //选中
 }
-class CDTableViewCell: UITableViewCell {
+class CDFileTableViewCell: UITableViewCell {
 
     var fileNameL:UILabel!
     var fileCreateTimeL:UILabel!
@@ -22,8 +22,6 @@ class CDTableViewCell: UITableViewCell {
     var selectImage:UIImageView!
     var isSelect:Bool = false
     var showSelectIcon:CDSelectIconState!
-
-
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 
@@ -75,9 +73,9 @@ class CDTableViewCell: UITableViewCell {
 
     func setConfigFileData(fileInfo:CDSafeFileInfo) {
         fileNameL.text = fileInfo.fileName
-        fileCreateTimeL.text = GetTimeFormat(timestamp: fileInfo.createTime)
+        fileCreateTimeL.text = GetTimeFormat(fileInfo.createTime)
 
-        let imageName = getFileHeadImage(type: fileInfo.fileType)
+        let imageName = GetFileHeadImage(type: fileInfo.fileType)
 //        var rect = audioLengthL.frame
         headImage.image = UIImage(named: imageName!)
         selectImage.isHidden = showSelectIcon == .hide
@@ -89,7 +87,6 @@ class CDTableViewCell: UITableViewCell {
 //            rect.origin.x -= 30
         }
         
-        
         if fileInfo.fileType == .AudioType {
 //            audioLengthL.frame = frame
             audioLengthL.isHidden = false
@@ -99,7 +96,7 @@ class CDTableViewCell: UITableViewCell {
     
     func setConfigFolderData(folder:CDSafeFolder) {
         fileNameL.text = folder.folderName
-        fileCreateTimeL.text = GetTimeFormat(timestamp: folder.createTime)
+        fileCreateTimeL.text = GetTimeFormat(folder.createTime)
         headImage.image = UIImage(named: "file_dir_big")
         
         selectImage.isHidden = showSelectIcon == .hide
@@ -110,4 +107,54 @@ class CDTableViewCell: UITableViewCell {
         }
     }
     
+}
+
+
+class CDFolderTableViewCell: UITableViewCell {
+
+
+    var headImageView:UIImageView!
+    var titleLabel:UILabel!
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        let view = UIView()
+        self.selectedBackgroundView = view
+        self.selectedBackgroundView?.backgroundColor = LightBlueColor
+
+        self.headImageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
+        self.headImageView.backgroundColor = UIColor.clear
+        contentView.addSubview(self.headImageView)
+
+        self.titleLabel = UILabel(frame: CGRect(x: 70, y: 20, width: CDSCREEN_WIDTH-100, height: 25))
+        self.titleLabel.textColor = TextBlackColor
+        contentView.addSubview(self.titleLabel)
+
+        let separatorLine = UIView(frame: CGRect(x: 15, y: 64, width: CDSCREEN_WIDTH-15, height: 1))
+        separatorLine.backgroundColor = SeparatorGrayColor
+        contentView.addSubview(separatorLine)
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
+    func configDataWith(folderInfo:CDSafeFolder) -> Void {
+
+        if (folderInfo.folderType == .ImageFolder){
+            self.headImageView.image = UIImage(named: "图片")
+        }else if (folderInfo.folderType == .AudioFolder){
+            self.headImageView.image = UIImage(named: "音频")
+        }else if (folderInfo.folderType == .VideoFolder){
+            self.headImageView.image = UIImage(named: "视频")
+        }else if (folderInfo.folderType == .TextFolder){
+            self.headImageView.image = UIImage(named: "其他")
+        }
+        self.titleLabel.text = folderInfo.folderName
+    }
+
+
 }

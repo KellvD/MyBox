@@ -42,6 +42,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     @objc func longTapAction(tap:UILongPressGestureRecognizer){
         if tap.state == .began {
             let image = imageView.image
@@ -55,7 +56,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         
     }
     @objc func singleTapAction() {
-        NotificationCenter.default.post(name: BarsHiddenOrNot, object: nil)
+        NotificationCenter.default.post(name: .BarsHiddenOrNot, object: nil)
     }
 
     @objc func doubleTapAction(tap:UITapGestureRecognizer) {
@@ -63,7 +64,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        if isZoomed() == false && imageViewFrame?.equalTo(imageView.frame) == false {
+        if !isZoomed() && !(imageViewFrame?.equalTo(imageView.frame))! {
             imageView.frame = imageViewFrame
         }
     }

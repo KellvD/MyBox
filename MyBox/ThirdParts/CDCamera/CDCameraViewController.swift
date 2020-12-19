@@ -84,6 +84,7 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
                         self.cameraManger.reloadLayer()
                     }
                 }
+                
                 previewVC.origialImage = image
                 previewVC.modalPresentationStyle = .fullScreen
                 self.present(previewVC, animated: false, completion: nil)

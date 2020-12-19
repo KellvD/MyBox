@@ -106,6 +106,7 @@ class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelaget
     @objc func videoAssetWorkDone(tmpPath:String){
         let index = totalCount - gphAssets.count
         let dic:[String:Any] = ["fileURL":URL(fileURLWithPath: tmpPath)]
+        
         self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: index + 1, totalCount: self.totalCount)
         gphAssets.removeFirst()
         if gphAssets.count > 0 {

@@ -46,21 +46,17 @@ let ProgressViewBgColor = UIColor(red:0, green:104/255.0,blue:183/255.0,alpha:0.
 
 let FIRSTUSERID = 100001 //数据库ID，扩展多账户模式
 let waterMarkTag = 98764
-let CDPrint = print
 let ROOTSUPERID = -1
+let CDMaxWatermarkLength = 20
 
 let CD_ReaderBgModel = "ReaderBgModel"
 let CD_ChapterIndex = "chapterIndex"
 
-let DismissImagePicker = NSNotification.Name(rawValue: "DismissImagePicker")
-let NeedReloadData = NSNotification.Name(rawValue: "NeedReloadData")
-let DocumentInputFile = NSNotification.Name(rawValue: "DocumentInputFile")
 
-let RefreshProgress = NSNotification.Name(rawValue: "RefreshProgress")
-let BarsHiddenOrNot = NSNotification.Name(rawValue: "BarsHiddenOrNot")
-let PlayThePlayer = NSNotification.Name(rawValue: "PlayThePlayer")
+
 
 let EmojiRegularExpression = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5 ]+\\]"
+let symbolExpression = "[`~!@#$%^&*()+=|{}':',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]"
 
 let TextBigFont = UIFont.systemFont(ofSize: 20)
 let TextMidFont =  UIFont.systemFont(ofSize: 17)
@@ -172,4 +168,5 @@ enum CDLogLevel:Int {
     case WarnLog = 3
     case AllLog = 4
 }
+
 

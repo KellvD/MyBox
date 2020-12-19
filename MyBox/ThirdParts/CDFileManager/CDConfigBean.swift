@@ -21,7 +21,6 @@ class CDLogBean: NSObject {
                 } catch  {
                     CDPrintManager.log("日志目录创建失败", type: .InfoLog)
                 }
-                
             }
         }
         get {

@@ -1,19 +1,19 @@
 //
-//  CDAppendVideoViewController.swift
-//  MyRule
+//  CDSideViewController.swift
+//  MyBox
 //
-//  Created by changdong on 2019/6/19.
-//  Copyright © 2019 changdong. All rights reserved.
+//  Created by changdong  on 2020/6/10.
+//  Copyright © 2020 changdong. 2012-2019. All rights reserved.
 //
 
 import UIKit
 
-class CDAppendVideoViewController: CDBaseAllViewController {
-    public var composeHandle:CDComposeHandle!
+class CDSideViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
+        // Do any additional setup after loading the view.
     }
     
 

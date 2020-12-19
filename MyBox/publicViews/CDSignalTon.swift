@@ -46,7 +46,6 @@ class CDSignalTon: NSObject {
             addDefaultSafeFolder()
             //创建音频
             addDefaultMusicClass()
-
             //配置水印
             CDWaterBean.setWaterConfig(isOn: false, text: GetAppName())
             
@@ -120,14 +119,14 @@ class CDSignalTon: NSObject {
     /**
     保存文件
     */
-    func saveSafeFileInfo(tmpFileUrl:URL,folderId:Int,subFolderType:NSFolderType){
-        let tmpFilePath = tmpFileUrl.absoluteString
+    func saveSafeFileInfo(fileUrl:URL,folderId:Int,subFolderType:NSFolderType,isFromDocment:Bool){
+        let tmpFilePath = isFromDocment ? fileUrl.absoluteString : fileUrl.path
         let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
         let suffix = tmpFilePath.getSuffix()
         var contentData = Data()
         //保存数据到临时data
         do {
-            try contentData = Data(contentsOf: tmpFileUrl)
+            try contentData = Data(contentsOf: fileUrl)
         } catch  {
            return
         }
@@ -179,7 +178,7 @@ class CDSignalTon: NSObject {
             
         }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
             let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-            let urlAsset: AVURLAsset = AVURLAsset(url: tmpFileUrl, options: opts)
+            let urlAsset: AVURLAsset = AVURLAsset(url: fileUrl, options: opts)
             let voiceTime = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
             fileInfo.timeLength = voiceTime
             if subFolderType == .VideoFolder{
@@ -474,7 +473,7 @@ class CDSignalTon: NSObject {
         session?.shouldOptimizeForNetworkUse = true //优化网络
         session?.exportAsynchronously(completionHandler: {
             if session?.status == AVAssetExportSession.Status.completed{
-                self.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: composePath), folderId: folderId, subFolderType: .AudioFolder)
+                self.saveSafeFileInfo(fileUrl: URL(fileURLWithPath: composePath), folderId: folderId, subFolderType: .AudioFolder,isFromDocment: false)
                 Complete(true)
             }else{
                 Complete(false)
@@ -483,8 +482,13 @@ class CDSignalTon: NSObject {
     }
     
     /**
-     
+      批量删除
      */
+    func batchDeleteFile(fileArr:[CDSafeFileInfo]){
+        fileArr.forEach { (tmpFile) in
+            
+        }
+    }
     
 }
 

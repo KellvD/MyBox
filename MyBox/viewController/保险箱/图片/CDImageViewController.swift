@@ -39,9 +39,7 @@ class CDImageViewController:
     private var outputImageArr:[CDSafeFileInfo] = []
     private var isNeedReloadData:Bool = false
     private var selectCount:Int = 0
-    deinit {
-        removeNotification()
-    }
+
     override func viewWillAppear(_ animated: Bool) {
         if isNeedReloadData {
             isNeedReloadData = false
@@ -84,7 +82,6 @@ class CDImageViewController:
 
         self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .ImageFolder, superVC: self)
         self.view.addSubview(self.toolbar)
-        registerNotification()
 
     }
     @objc func footerRefresh(){
@@ -99,10 +96,10 @@ class CDImageViewController:
     }
     // MARK:批量按钮
     @objc func batchBtnClick(){
-        batchHandleFiles(isBatch: !batchBtn.isSelected,type: .nothing)
+        batchHandleFiles(isBatch: !batchBtn.isSelected)
     }
     
-    func batchHandleFiles(isBatch:Bool,type:CDHandleType) -> Void {
+    func batchHandleFiles(isBatch:Bool) -> Void {
         selectCount = 0
         batchBtn.isSelected = isBatch
         if (batchBtn.isSelected) { //点了批量操作
@@ -114,12 +111,7 @@ class CDImageViewController:
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             imageArr.forEach { (tmpFile) in
-               
                 tmpFile.isSelected = .CDFalse
-                if type == .delete{
-                    let index = imageArr.firstIndex(of: tmpFile)
-                    imageArr.remove(at: index!)
-                }
             }
         }
         collectionView.reloadData()
@@ -151,18 +143,10 @@ class CDImageViewController:
 
     }
     func refreshUI(hasGif:Bool){
-        if selectCount > 0 {
-            toolbar.enableReloadBar(isSelected: true)
-            //拼图：2-16张，GIF不能拼
-            if selectCount > 16 || selectCount < 2 || hasGif{
-                toolbar.appendItem.isEnabled = false
-            } else {
-                toolbar.appendItem.isEnabled = true
-            }
-        } else {
-            toolbar.enableReloadBar(isSelected: false)
-        }
-        if selectCount == imageArr.count {
+    
+        toolbar.appendItem.isEnabled = !(selectCount > 16 || selectCount < 2 || hasGif)
+        toolbar.enableReloadBar(isSelected: selectCount > 0)
+        if selectCount == imageArr.count && imageArr.count > 0{
             backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
             backBtn.contentHorizontalAlignment = .left
             backBtn.setTitle("全不选", for: .normal)
@@ -201,7 +185,7 @@ class CDImageViewController:
         
         presentShareActivityWith(dataArr: shareArr) { (error) in
             //分享完成，取消批量操作，恢复数据至未选状态
-            self.batchHandleFiles(isBatch: false, type: .resume)
+            self.batchHandleFiles(isBatch: false)
         }
     }
     // MARK:移动
@@ -215,7 +199,7 @@ class CDImageViewController:
         folderList.folderId = folderInfo.folderId
         folderList.moveHandle = {(_ success:Bool) -> Void in
             //移动返回后，删除移动数据源，取消批量操作,选中数据源以删除，不用恢复
-            self.batchHandleFiles(isBatch: false, type: .delete)
+            self.batchHandleFiles(isBatch: false)
         }
         self.navigationController?.pushViewController(folderList, animated: true)
 
@@ -249,7 +233,7 @@ class CDImageViewController:
                 CDHUDManager.shared.hideWait()
                 CDHUDManager.shared.showComplete(text: "导出成功!")
                 //导出完成后，取消批量操作,恢复选中数据源
-                self.batchHandleFiles(isBatch: false, type: .resume)
+                self.batchHandleFiles(isBatch: false)
             }
 
         }
@@ -263,19 +247,21 @@ class CDImageViewController:
     @objc func deleteBarItemClick(){
         handelSelectedArr()
         func deleteTheSelectImage() -> Void {
-            for index in 0..<selectedImageArr.count{
-                let fileInfo = selectedImageArr[index]
+            selectedImageArr.forEach { (tmpFile) in
                 //删除加密小题
-                let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+                let thumbPath = String.thumpImagePath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
                 DeleteFile(filePath: thumbPath)
                 //删除加密大图
-                let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+                let defaultPath = String.ImagePath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
                 DeleteFile(filePath: defaultPath)
-                CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
+                CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
+                
+                let index = imageArr.firstIndex(of: tmpFile)
+                imageArr.remove(at: index!)
             }
             DispatchQueue.main.async {
                  //删除操作后，删除本地数据源中被删除的元素，取消批量操作,选中数据源以删除，不用恢复
-                self.batchHandleFiles(isBatch: false, type: .delete)
+                self.batchHandleFiles(isBatch: false)
                 CDHUDManager.shared.hideWait()
                 CDHUDManager.shared.showComplete(text: "删除完成！")
                 
@@ -314,7 +300,7 @@ class CDImageViewController:
                 //拼接产生新的数据，更新DB数据源
                 self.refreshDBData()
                 //取消批量操作，更新DB时，所有本地数据重新从DB中更新，无需重复操作
-                self.batchHandleFiles(isBatch: false, type: .nothing)
+                self.batchHandleFiles(isBatch: false)
             }
             self.navigationController?.pushViewController(gifVC, animated: true)
 
@@ -465,19 +451,7 @@ class CDImageViewController:
         picker.dismiss(animated: true, completion: nil)
     }
 
-    
-    //MARK:NSNotications
-    @objc func onNeedReloadData() {
-        isNeedReloadData = true
-    }
-    
-    func removeNotification() {
-        NotificationCenter.default.removeObserver(self, name: NeedReloadData, object: nil)
-    
-    }
-    func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(onNeedReloadData), name: NeedReloadData, object: nil)
-    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

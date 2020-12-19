@@ -9,25 +9,20 @@
 import UIKit
 import MediaPlayer
 class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource {
-    var fileArr:[CDSafeFileInfo] = []
-    var startIndex:Int!
-    var currentIndex:Int!
-    var totalCount:Int!
-    var collectionView:UICollectionView!
-    var toolBar:UIImageView!
-    var shareItem:UIButton!
-    var loveItem:UIButton!
-    var deleteItem:UIButton!
-    var editItem:UIButton!
-    var indexLabel:UILabel!
-
+    public var fileArr:[CDSafeFileInfo] = []
+    public var currentIndex:Int!
+    
+    private var collectionView:UICollectionView!
+    private var toolBar:CDToolBar!
+    private var indexLabel:UILabel!
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopCurrentPlayCell()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        totalCount = fileArr.count
         let fileInfo = fileArr[currentIndex]
         self.title = fileInfo.fileName
         let layout = UICollectionViewFlowLayout()
@@ -47,56 +42,17 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage(imageName: "fileDetail", type: "png"), style: .plain, target: self, action: #selector(detailBtnClicked))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
-        indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: CDViewHeight - 48 - 40, width: 50, height: 30))
-        indexLabel.textAlignment = .center
-        indexLabel.textColor = UIColor.lightGray
-        indexLabel.font = TextMidFont
-        indexLabel.text = String(format: "%d/%d", currentIndex+1,totalCount)
-        indexLabel.backgroundColor = UIColor.clear
-        self.view.addSubview(indexLabel)
-
-        self.toolBar = UIImageView(frame: CGRect(x: 0, y: CDViewHeight - 48, width: CDSCREEN_WIDTH, height: 48))
-        self.toolBar.isUserInteractionEnabled = true
-        self.toolBar.image = UIImage(named: "下导航-bg")
+        self.toolBar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .ImageFolder, superVC: self)
         self.view.addSubview(self.toolBar)
-        let spqce0:CGFloat = (CDSCREEN_WIDTH - 45 * 4)/5
-        //分享
-        self.shareItem = UIButton(type:.custom)
-        self.shareItem.frame = CGRect(x: spqce0, y: 1.5, width: 45, height: 45)
-        self.shareItem.setImage(UIImage(named: "menu_forward"), for: .normal)
-        self.shareItem.addTarget(self, action: #selector(shareItemClick), for: .touchUpInside)
-        self.toolBar.addSubview(self.shareItem)
-        //收藏
-        self.loveItem = UIButton(type:.custom)
-        self.loveItem.frame = CGRect(x: spqce0 * 2 + 45, y: 1.5, width: 45, height: 45)
-        if fileInfo.grade == .lovely{
-            loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
-        }else{
-            loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
-        }
-        self.loveItem.addTarget(self, action: #selector(loveItemClick), for: .touchUpInside)
-        self.toolBar.addSubview(self.loveItem)
-
-        //编辑
-        self.editItem = UIButton(type:.custom)
-        self.editItem.frame = CGRect(x: spqce0 * 3 + 45 * 2, y: 1.5, width: 45, height: 45)
-        self.editItem.setImage(UIImage(named: "美图"), for: .normal)
-        self.editItem.addTarget(self, action: #selector(editItemClick), for: .touchUpInside)
-        self.toolBar.addSubview(self.editItem)
-        //删除
-        self.deleteItem = UIButton(type:.custom)
-        self.deleteItem.frame = CGRect(x: spqce0 * 4 + 45 * 3, y: 1.5, width: 45, height: 45)
-        self.deleteItem.setImage(UIImage(named: "menu_delete"), for: .normal)
-        self.deleteItem.addTarget(self, action: #selector(deleteItemItemClick), for: .touchUpInside)
-        self.toolBar.addSubview(self.deleteItem)
+        self.toolBar.loveItem.setImage(LoadImage(imageName: fileInfo.grade == .lovely ? "love_press" : "love_normal", type: "png"), for: .normal)
 
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fileArr.count
-
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CDVideoScrollerCell", for: indexPath) as! CDVideoScrollerCell
 
@@ -111,16 +67,12 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         let page = firstIndexPath!.item
         let fileinfo = fileArr[page]
         DispatchQueue.main.async {
-            if fileinfo.grade == .lovely {
-                self.loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
-
-            }else{
-                self.loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
-            }
+            self.toolBar.loveItem.setImage(LoadImage(imageName: fileinfo.grade == .lovely ? "love_press" : "love_normal", type: "png"), for: .normal)
         }
+        
         self.title = fileinfo.fileName
         currentIndex = page
-        indexLabel.text = String(format: "%d/%d", currentIndex+1,totalCount)
+        indexLabel.text = String(format: "%d/%d", currentIndex+1,fileArr.count)
 
     }
 
@@ -128,12 +80,14 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         //暂停上次播放的
         stopCurrentPlayCell()
     }
+    
     @objc func detailBtnClicked(){
         let fileInfo = fileArr[currentIndex]
         let fileDetail = CDFileDetailViewController()
         fileDetail.fileInfo = fileInfo
         self.navigationController?.pushViewController(fileDetail, animated: true)
     }
+    
     //MARK:分享
     @objc func shareItemClick()
     {
@@ -142,6 +96,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
         let url = URL(fileURLWithPath: videoPath)
         presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
+    
     //MARK:收藏
     @objc func loveItemClick()
     {
@@ -149,16 +104,17 @@ class CDVideoScrollerViewController: CDBaseAllViewController,UICollectionViewDel
 
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
-            loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
+            self.toolBar.loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
         }else{
             fileInfo.grade = .normal
-            loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
+            self.toolBar.loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
 
         self.fileArr[currentIndex] = fileInfo
     }
+    
     @objc func editItemClick(){
         let fileInfo = fileArr[currentIndex]
         let segmentVC = CDSegmentVideoViewController()

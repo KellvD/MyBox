@@ -28,7 +28,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         tableView.dataSource = self
         self.view.addSubview(tableView)
         tableView.separatorStyle = .none
-        tableView.register(CDSafeFolderCell.self, forCellReuseIdentifier: "folderList")
+        tableView.register(CDFolderTableViewCell.self, forCellReuseIdentifier: "folderList")
         folderArr = CDSqlManager.shared.queryAllOtherFolderWith(folderType: folderType, folderId: folderId)
     }
 
@@ -61,10 +61,10 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellId = "folderList"
-        var cell:CDSafeFolderCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as?CDSafeFolderCell
+        var cell:CDFolderTableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as?CDFolderTableViewCell
 
         if cell == nil {
-            cell = CDSafeFolderCell(style: .value1, reuseIdentifier: cellId)
+            cell = CDFolderTableViewCell(style: .value1, reuseIdentifier: cellId)
         }
         let folder:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
         cell.configDataWith(folderInfo: folder)

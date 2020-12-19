@@ -438,9 +438,8 @@ extension CDSqlManager{
                 grade = NSFileGrade(rawValue: item[db_grade])
 
             }
-            CDPrint(item:"queryMaxFileId -->success")
         }catch{
-            CDPrintManager.log("queryMaxFileId -->error:\(error)", type: .ErrorLog)
+            CDPrintManager.log("queryOneSafeFileGrade -->error:\(error)", type: .ErrorLog)
         }
         return grade!
     }
@@ -449,19 +448,33 @@ extension CDSqlManager{
         do {
             
             let imageCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.ImageFolder.rawValue).count)
-             let videoCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.VideoFolder.rawValue).count)
-             let audioCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.AudioFolder.rawValue).count)
-             let otherCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.TextFolder.rawValue).count)
+            let videoCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.VideoFolder.rawValue).count)
+            let audioCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.AudioFolder.rawValue).count)
+            let otherCount = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.TextFolder.rawValue).count)
             
-//            for item in try db.prepare("select count(*) from CDSafeFileInfo where folderType = 0") {
-//                CDPrint(item: item)
-//            }
-          return(imageCount,videoCount,audioCount,otherCount)
+            //            for item in try db.prepare("select count(*) from CDSafeFileInfo where folderType = 0") {
+            //                CDPrint(item: item)
+            //            }
+            return(imageCount,videoCount,audioCount,otherCount)
             
         } catch  {
-            CDPrintManager.log("AllTextSafeFile -->error:\(error)", type: .ErrorLog)
+            CDPrintManager.log("queryEveryFileCount -->error:\(error)", type: .ErrorLog)
         }
-        return(2,3,4,5)
+        return(0,0,0,0)
+    }
+    
+    func queryEveryFileTotalSize()->(imageSize:Int,videoSize:Int,audioSize:Int,otherSize:Int){
+        do {
+       
+            let imageSize = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.ImageFolder.rawValue).select(db_fileSize.sum)) ?? 0
+            let videoSize = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.VideoFolder.rawValue).select(db_fileSize.sum)) ?? 0
+            let audioSize = try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.AudioFolder.rawValue).select(db_fileSize.sum)) ?? 0
+            let otherSize =  try db.scalar(SafeFileInfo.filter(db_folderType == NSFolderType.TextFolder.rawValue).select(db_fileSize.sum)) ?? 0
+            return(imageSize,videoSize,audioSize,otherSize)
+        } catch  {
+            CDPrintManager.log("queryEveryFileTotalSize -->error:\(error)", type: .ErrorLog)
+        }
+        return(0,0,0,0)
     }
     
     public func queryAllTextSafeFile()-> [CDSafeFileInfo]{
@@ -473,7 +486,7 @@ extension CDSqlManager{
                 fileArr.append(file)
             }
         } catch  {
-            CDPrintManager.log("AllTextSafeFile -->error:\(error)", type: .ErrorLog)
+            CDPrintManager.log("queryAllTextSafeFile -->error:\(error)", type: .ErrorLog)
         }
         return fileArr
     }
@@ -483,7 +496,6 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             try db.run(sql.update(db_fileName <- fileName,db_modifyTime <- GetTimestamp()))
-            CDPrint(item:"updateOneSafeFileName-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileName-->error:\(error)", type: .ErrorLog)
         }
@@ -493,7 +505,6 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             try db.run(sql.update(db_markInfo <- markInfo,db_modifyTime <- GetTimestamp()))
-            CDPrint(item:"updateOneSafeFileMarkInfo-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileMarkInfo-->error:\(error)", type: .ErrorLog)
         }
@@ -503,7 +514,6 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter((db_fileId == fileId)&&(db_userId == CDUserId()))
             try db.run(sql.update(db_grade <- grade.rawValue,db_modifyTime <- GetTimestamp()))
-            CDPrint(item:"updateOneSafeFileGrade-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileGrade-->error:\(error)", type: .ErrorLog)
         }
@@ -517,7 +527,6 @@ extension CDSqlManager{
             let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
 
             try db.run(sql.update(db_folderId <- fileInfo.folderId,db_modifyTime <- GetTimestamp()))
-            CDPrint(item:"updateOneSafeFileForMove-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileForMove-->error:\(error)", type: .ErrorLog)
         }
@@ -528,7 +537,6 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             try db.run(sql.update(db_modifyTime <- modifyTime))
-            CDPrint(item:"updateOneSafeFileModifyTime-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileModifyTime-->error:\(error)", type: .ErrorLog)
         }
@@ -539,7 +547,6 @@ extension CDSqlManager{
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             try db.run(sql.update(db_accessTime <- accessTime))
-            CDPrint(item:"updateOneSafeFileAccessTime-->success")
         }catch{
             CDPrintManager.log("updateOneSafeFileAccessTime-->error:\(error)", type: .ErrorLog)
         }
@@ -549,7 +556,6 @@ extension CDSqlManager{
         do{
             try db.run(SafeFileInfo.filter(db_fileId == fileId).delete())
             //delete from SafeFile where db_fileId = fileId
-            CDPrint(item:"deleteOneSafeFile-->success")
         }catch{
             CDPrintManager.log("deleteOneSafeFile-->error:\(error)", type: .ErrorLog)
         }
@@ -678,53 +684,36 @@ extension CDSqlManager{
         return folderInfo
     }
 
-    public func queryFolderSizeByFolderId(folderId:Int)->Int{
-
-        var totalSize = 0
-
-        do{
-            let sql = SafeFolder.filter(db_folderId == folderId)
-            for item in try db.prepare(sql.select(db_fileSize)) {
-                totalSize += item[db_fileSize]
-            }
-            CDPrint(item:"queryFolderSizeByFolderId-->success")
-        }catch{
-            CDPrintManager.log("queryFolderSizeByFolderId-->error:\(error)", type: .ErrorLog)
-        }
-        return totalSize
-    }
-
     public func queryOneFolderSize(folderId:Int) -> Int{
 
         var totalSize = 0
         do{
             let sql = SafeFileInfo.filter(db_folderId == folderId)
-            for item in try db.prepare(sql.select(db_fileSize)) {
-                let size = item[db_fileSize]
-                totalSize += size
-            }
-            CDPrint(item:"queryOneFolderSizeByFolder-->success")
+            totalSize = try db.scalar(sql.select(db_fileSize.sum)) ?? 0
         }catch{
             CDPrintManager.log("queryOneFolderSizeByFolder-->error:\(error)", type: .ErrorLog)
         }
         return totalSize
     }
     
-    
-    
+    public func queryOneFolderFileCount(folderId:Int) -> Int{
+
+        var totalCount = 0
+        do{
+            let sql = SafeFileInfo.filter(db_folderId == folderId)
+            totalCount = try db.scalar(sql.count)
+        }catch{
+            CDPrintManager.log("queryOneFolderFileCount-->error:\(error)", type: .ErrorLog)
+        }
+        return totalCount
+    }
+
     public func queryMaxSafeFolderId()->Int{
 
         var maxFolderId = 0
         do{
             let sql = SafeFolder.filter(db_userId == CDUserId())
-
-            for item in try db.prepare(sql.select(db_folderId)) {
-                 let folderId = item[db_folderId]
-                if  maxFolderId < folderId{
-                    maxFolderId = folderId
-                }
-            }
-            CDPrint(item:"querySafeFolderCount-->success")
+            maxFolderId = try db.scalar(sql.select(db_folderId.max)) ?? 0
         }catch{
             CDPrintManager.log("querySafeFolderCount-->error:\(error)", type: .ErrorLog)
         }
@@ -951,11 +940,8 @@ extension CDSqlManager {
         var count = 0
         do{
             let sql = MusicInfo.filter(db_userId == CDUserId())
-
-            for _ in try db.prepare(sql.select(db_musicId)) {
-                count += 1
-            }
-            CDPrint(item:"queryMusicCount -->success")
+            count = try db.scalar(sql.select(db_musicId.max)) ?? 0
+            count += 1
         }catch{
             CDPrintManager.log("queryMusicCount -->error:\(error)", type: .ErrorLog)
         }

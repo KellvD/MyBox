@@ -20,12 +20,15 @@ class CDToolBar: UIImageView {
     var moveItem:UIButton!  //移动
     var deleteItem:UIButton!  //删除
     var appendItem:UIButton! //拼图
-    var _foldertype:NSFolderType!
-
+    var loveItem:UIButton!
+    var editItem:UIButton!
     
-    init(frame: CGRect, foldertype: NSFolderType, superVC: CDBaseAllViewController) {
+    var _foldertype:NSFolderType!
+    var isPreviewMedia:Bool = false
+    
+    init(frame: CGRect, foldertype: NSFolderType?, superVC: CDBaseAllViewController) {
         super.init(frame: frame)
-        _foldertype = foldertype
+        
         isUserInteractionEnabled = true
         image = UIImage(named: "下导航-bg")
         
@@ -46,7 +49,14 @@ class CDToolBar: UIImageView {
         //图库,录音，编辑文字
         inputItem = UIButton(type:.custom)
         inputItem.frame = CGRect.zero
-        inputItem.setImage(UIImage(named: "input"), for: .normal)
+        if foldertype == .TextFolder {
+            inputItem.setImage(UIImage(named: "addText"), for: .normal)
+        } else if foldertype == .AudioFolder {
+            inputItem.setImage(UIImage(named: "record"), for: .normal)
+        }else{
+            inputItem.setImage(UIImage(named: "input"), for: .normal)
+        }
+        
         inputItem.addTarget(superVC, action: #selector(inputItemClick), for: .touchUpInside)
         addSubview(inputItem)
         
@@ -87,42 +97,52 @@ class CDToolBar: UIImageView {
         appendItem.addTarget(superVC, action: #selector(appendItemClick), for: .touchUpInside)
         addSubview(appendItem)
         
+        //收藏
+        loveItem = UIButton(type:.custom)
+        loveItem.frame = CGRect.zero
+        loveItem.setImage(LoadImage(imageName: fileInfo.grade == .lovely ? "love_press":"love_normal", type: "png"), for: .normal)
+        loveItem.addTarget(self, action: #selector(loveItemClick), for: .touchUpInside)
+        addSubview(loveItem)
         
-        
-        
-        var space0:CGFloat = 0.0
+        //编辑
+        editItem = UIButton(type:.custom)
+        editItem.frame = CGRect.zero
+        editItem.setImage(UIImage(named: "美图"), for: .normal)
+        editItem.addTarget(self, action: #selector(editItemClick), for: .touchUpInside)
+        addSubview(editItem)
+              
+//        if foldertype == .ImageFolder || foldertype == .VideoFolder{
+//            space0 = (frame.width - 45*3)/4
+//            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
+//            takeItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
+//            inputItem.frame = CGRect(x: space0 * 3 + _width * 2, y: _Y, width: _width, height: _height)
+//        }else if foldertype == .AudioFolder || foldertype == .TextFolder{
+//            space0 = (frame.width - 45*2)/3
+//            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
+//            inputItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
+
+//
+//        }
+//
         let _Y:CGFloat = 1.5
         let _width:CGFloat = 45.0
         let _height:CGFloat = 45.0
-        if foldertype == .ImageFolder || foldertype == .VideoFolder{
-            space0 = (frame.width - 45*3)/4
-            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
-            takeItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
-            inputItem.frame = CGRect(x: space0 * 3 + _width * 2, y: _Y, width: _width, height: _height)
-        }else{
-            space0 = (frame.width - 45*2)/3
-            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
-            inputItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
-            if foldertype == .TextFolder {
-                inputItem.setImage(UIImage(named: "addText"), for: .normal)
-            } else if foldertype == .AudioFolder {
-                inputItem.setImage(UIImage(named: "record"), for: .normal)
-            }
-            
-        }
         
         var buttonArr:[UIButton] = []
-        if foldertype == .TextFolder { //分享，移动，删除
-            space0 = (frame.width - 3 * _width) / 4;
-            buttonArr = [shareItem,moveItem,deleteItem]
-        } else if foldertype == .AudioFolder { //分享，移动，删除，拼接
-            space0 = (frame.width - 4 * _width) / 5;
-            buttonArr = [shareItem,moveItem,deleteItem,appendItem]
-        } else { //分享，移动，删除，拼接，导出
-            space0 = (frame.width - 5 * _width) / 6;
-            buttonArr = [shareItem,moveItem,outputItem,deleteItem,appendItem]
+        if isPreviewMedia {
+            buttonArr = [shareItem,loveItem,editItem,deleteItem]
+        }else{
+            _foldertype = foldertype!
+            if foldertype! == .TextFolder { //分享，移动，删除
+                buttonArr = [shareItem,moveItem,deleteItem]
+            } else if foldertype! == .AudioFolder { //分享，移动，删除，拼接
+                buttonArr = [shareItem,moveItem,deleteItem,appendItem]
+            } else { //分享，移动，删除，拼接，导出
+                buttonArr = [shareItem,moveItem,outputItem,deleteItem,appendItem]
+            }
         }
-        
+       
+        var space0:CGFloat = (frame.width - buttonArr.count * _width) / (buttonArr.count + 1);
         for i in 0..<buttonArr.count {
             let btn = buttonArr[i]
             let _X = CGFloat(space0 * CGFloat(i + 1)) + _width * CGFloat(i)
@@ -146,7 +166,6 @@ class CDToolBar: UIImageView {
             takeItem.isHidden = isMulit
             
         }
-
         shareItem.isHidden = !isMulit
         moveItem.isHidden = !isMulit
         outputItem.isHidden = !isMulit
@@ -192,5 +211,13 @@ class CDToolBar: UIImageView {
     
     @objc func addDirItemClick(){
 
+    }
+    
+    @objc func loveItemClick(){
+        
+    }
+    
+    @objc func editItemClick(){
+        
     }
 }

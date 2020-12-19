@@ -10,10 +10,6 @@ import UIKit
 import CoreServices
 import AVFoundation
 
-extension CDComposeGifViewController {
-    public typealias CDComposeHandle = (_ success:Bool) -> Void
-}
-
 enum CDComposeType {
     case Gif
     case Video
@@ -22,7 +18,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
 
     public var fileArr:[CDSafeFileInfo] = []
-    public var composeHandle:CDComposeGifViewController.CDComposeHandle?
+    public var composeHandle:CDComposeHandle?
     public var folderId:Int!
     public var composeType:CDComposeType!
     
@@ -38,9 +34,6 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     private var nowTime:Int!
     private var isCompose:Bool = false
     private var gifDelaySlider:CDGifDelayView!
-
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         if composeType == .Gif{
@@ -181,7 +174,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
         sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
             if self.composeType == .Gif{
-                CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder)
+                CDSignalTon.shared.saveSafeFileInfo(fileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
                 
                 self.composeHandle!(true)
             }else{

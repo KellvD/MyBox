@@ -193,7 +193,7 @@ class CDAudioRecordViewController: CDBaseAllViewController {
                 //从录音路劲拷贝到重命名路径
                 try! FileManager.default.copyItem(atPath: self.newFilePath, toPath: audioPath)
                 try! FileManager.default.removeItem(atPath: self.newFilePath)
-                CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder)
+                CDSignalTon.shared.saveSafeFileInfo(fileUrl: URL(fileURLWithPath: audioPath), folderId: self.folderId, subFolderType: .AudioFolder,isFromDocment: false)
                 
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)

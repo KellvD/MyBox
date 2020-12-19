@@ -8,7 +8,8 @@
 
 import UIKit
 
-class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDCreateFolderDelegate,CDPopMenuViewDelegate {
+class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource,CDPopMenuViewDelegate {
+    
 
     var tableView:UITableView!
     var folderArr:[Array<CDSafeFolder>] = Array()
@@ -38,7 +39,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         self.tableView.backgroundColor = SeparatorGrayColor
         self.tableView.separatorStyle = .none
         self.view.addSubview(self.tableView)
-        tableView.register(CDSafeFolderCell.self, forCellReuseIdentifier: "safeCellIdentifier")
+        tableView.register(CDFolderTableViewCell.self, forCellReuseIdentifier: "safeCellIdentifier")
         
         
 //        let setBtn = UIButton(type: .custom)
@@ -97,10 +98,10 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellId = "safeCellIdentifier"
-        var cell:CDSafeFolderCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as?CDSafeFolderCell
+        var cell:CDFolderTableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as?CDFolderTableViewCell
 
         if cell == nil {
-            cell = CDSafeFolderCell(style: .value1, reuseIdentifier: cellId)
+            cell = CDFolderTableViewCell(style: .value1, reuseIdentifier: cellId)
         }
         let folder:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
         cell.configDataWith(folderInfo: folder)
@@ -192,18 +193,15 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
     @objc func addfFolderClick()->Void{
     
-        popView.showPopView()
-    }
-
-    func createNewFolderSuccess() {
-        
+        let newVC = CDNewFolderViewController()
+        newVC.hidesBottomBarWhenPushed  = true
+        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     //MARK:
     func onSelectedPopMenu(title: String) {
         if title == "新建文件夹" {
             let newVC = CDNewFolderViewController()
-            newVC.Cdelete = self
             newVC.hidesBottomBarWhenPushed  = true
             self.navigationController?.pushViewController(newVC, animated: true)
         } else if title == "扫一扫" {
