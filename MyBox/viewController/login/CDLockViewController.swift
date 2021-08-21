@@ -12,7 +12,7 @@ import LocalAuthentication
 
 class CDLockViewController:CDBaseAllViewController {
     var pwdTextFiled:UITextField!
-    
+     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
