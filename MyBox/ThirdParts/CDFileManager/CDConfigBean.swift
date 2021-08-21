@@ -58,13 +58,14 @@ class CDLogBean: NSObject {
     }
     static var logPath: String {
         set{
-            if !FileManager.default.fileExists(atPath: newValue) {
+            if newValue != "" && !FileManager.default.fileExists(atPath: newValue) {
                 if FileManager.default.createFile(atPath: newValue, contents: nil, attributes: nil) {
                     CDPrintManager.log("日志文件创建完成", type: .InfoLog)
                 }else{
                     CDPrintManager.log("日志文件创建失败", type: .InfoLog)
                 }
             }
+            
         }
         get {
             return  String.documentPath().appendingPathComponent(str: "/\(logFolder)/\(logName)")
@@ -73,17 +74,17 @@ class CDLogBean: NSObject {
     
     class func closeLogConfig(){
         CDLogBean.isOn = false
-        CDLogBean.logFolder = ""
-        CDLogBean.logName = ""
-        CDLogBean.logLevel = .DebugLog
-        CDLogBean.logPath = ""
+        
         do {
             try FileManager.default.removeItem(atPath: logPath)
             CDPrintManager.log("日志关闭，文件删除完成", type: .InfoLog)
         } catch  {
             CDPrintManager.log("日志关闭，文件删除失败error:\(error.localizedDescription)", type: .ErrorLog)
         }
-        
+        CDLogBean.logLevel = .DebugLog
+        CDLogBean.logFolder = ""
+        CDLogBean.logName = ""
+        CDLogBean.logPath = ""
     }
 }
 

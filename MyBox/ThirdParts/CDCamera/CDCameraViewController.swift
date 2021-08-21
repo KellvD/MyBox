@@ -9,12 +9,12 @@
 import UIKit
 import AVFoundation
 
-@objc protocol CDCameraViewControllerDelegate {
+@objc protocol CDCameraViewControllerDelegate:NSObjectProtocol  {
 
     @objc optional func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:Dictionary<String,Any>)
 }
 
-@objc protocol CDScanQRDelegate {
+@objc protocol CDScanQRDelegate:NSObjectProtocol  {
 
     @objc optional func onScanQRDidFinshed(cameraVC:CDCameraViewController,obj:String)
 }
@@ -27,7 +27,8 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
     var isVideo:Bool!
     var cameraManger:CDCameraManger!
     var delayLabel:UILabel!
-    var QRView:UIImageView!
+    var QRBorderView:UIImageView! //扫描二维码识别边框
+    var qrPopView:CDQrPopView!  //扫描二维码弹出内容框
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,17 +61,20 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         delayLabel.isHidden = true
         
         let focusCursor = UIImageView(frame: CGRect(origin: CGPoint(x: self.view.frame.width/2, y: self.view.frame.height/2), size: CGSize(width: 100, height: 100)))
-        focusCursor.image = LoadImage(imageName: "frame", type: "png")
+        focusCursor.image = LoadImage("frame")
         focusCursor.isHidden = true
         self.view.addSubview(focusCursor)
         cameraManger.focusCursor = focusCursor
         
-        QRView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        QRView.layer.borderWidth = 1
-        QRView.layer.borderColor = UIColor.yellow.cgColor
-        QRView.backgroundColor = .clear
-        self.view.addSubview(QRView)
-        cameraManger.qrView = QRView
+        QRBorderView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        QRBorderView.layer.borderWidth = 1
+        QRBorderView.layer.borderColor = UIColor.yellow.cgColor
+        QRBorderView.backgroundColor = .clear
+        self.view.addSubview(QRBorderView)
+        cameraManger.qrView = QRBorderView
+        
+//        qrPopView = CDQrPopView(frame: CGRect(x: 15.0, y: -135.0, width: self.view.frame.width - 30.0, height: 100))
+//        self.view.addSubview(qrPopView)
         
         cameraManger.takePhotoComplete = {(image) in
             if image != nil {
@@ -111,20 +115,38 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
             self.present(previewVC, animated: false, completion: nil)
         }
         
-        cameraManger.scanRQComplete = {(qrUrl,recoverHandle) in
-            let urlStr = qrUrl?.host
-            let alert = UIAlertController(title: "扫描到二维码", message: "在「Safari浏览器」中打开\(urlStr!)", preferredStyle: .alert)
+        cameraManger.scanRQComplete = { [weak self](content,recoverHandle) in
+            
+            let qrUrl = URL(string: content!)
+            let type:CDQrPopView.CDQRType = qrUrl != nil && UIApplication.shared.canOpenURL(qrUrl!) ? .Url : .Text
 
-            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+            let qrContent = type == .Url ? qrUrl!.host! : content!
+            
+            
+            self!.qrPopView.loadData(type: type, qrContent: qrContent)
+            UIView.animate(withDuration: 0.25) {
+                var fra = self!.qrPopView.frame
+                fra.origin.y = 15.0
+                self!.qrPopView.frame = fra
+            }
+            
+            self!.qrPopView.onTapQrCodeHandle = {[weak self](isEnable) in
                 recoverHandle()
-            }))
-            alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
-                recoverHandle()
-                if UIApplication.shared.canOpenURL(qrUrl!) {
-                    UIApplication.shared.open(qrUrl!, options: [:], completionHandler: nil)
+                UIView.animate(withDuration: 0.25) {
+                    var fra = self!.qrPopView.frame
+                    fra.origin.y = -115.0
+                    self!.qrPopView.frame = fra
                 }
-            }))
-            self.present(alert, animated: true, completion: nil)
+                if isEnable {
+                    if type == .Url {
+                        UIApplication.shared.open(qrUrl!, options: [:], completionHandler: nil)
+                    }else{
+                        let uslStr = "https://www.baidu.com/s?ie=UTF-8&wd=\(content!)"
+                        UIApplication.shared.open(URL(string: uslStr)!, options: [:], completionHandler: nil)
+                    }
+                }
+                
+            }
         }
         
         cameraManger.updateDelayComplete = {(delay,isEnd) in
@@ -143,7 +165,6 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
             } else {
                 self.delayLabel.isHidden = true
             }
-            
         }
     }
 
@@ -185,9 +206,87 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
     func turnHDRModel(model: Int) {
     }
     
+    
     func onFigPhoto() {
         
     }
 
     
+}
+
+
+class CDQrPopView: UIView {
+    enum CDQRType:Int {
+        case Text
+        case Url
+    }
+    private var typeLabel:UILabel!
+    private var titleLabel:UILabel!
+    private var contentLabel:UILabel!
+    var onTapQrCodeHandle:((_ isEnable:Bool)->Void)!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.layer.cornerRadius = 14.0
+        self.backgroundColor = UIColor(204, 194, 189)
+        let iconView = UIImageView(frame: CGRect(x: 15.0, y: 15.0, width: 30, height: 30))
+        iconView.backgroundColor = .red
+        iconView.isUserInteractionEnabled = true
+        self.addSubview(iconView)
+        
+        let detailIconView = UIImageView(frame: CGRect(x: self.frame.width - 20 - 45.0, y: self.frame.height/2.0 - 45.0/2.0, width: 45.0, height: 45.0))
+        detailIconView.backgroundColor = .blue
+        detailIconView.isUserInteractionEnabled = true
+        self.addSubview(detailIconView)
+        
+        
+        typeLabel = UILabel(frame: CGRect(x: iconView.frame.maxX + 10.0, y: iconView.frame.minY, width: detailIconView.frame.minX - iconView.frame.maxX - 20.0, height: 30.0))
+        typeLabel.textColor = .gray
+        typeLabel.font = UIFont.boldSystemFont(ofSize: 13)
+        addSubview(typeLabel)
+        
+        titleLabel = UILabel(frame: CGRect(x: iconView.frame.minX, y: typeLabel.frame.maxY, width: detailIconView.frame.minX - iconView.frame.maxX, height: 20.0))
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        addSubview(titleLabel)
+        
+        contentLabel = UILabel(frame: CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.maxY, width: self.width - iconView.frame.maxX, height: titleLabel.frame.height))
+        contentLabel.textColor = .black
+        contentLabel.font = UIFont.systemFont(ofSize: 15)
+        addSubview(contentLabel)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onHitQrCodeTap))
+        addGestureRecognizer(tap)
+        
+        let hiddenTap = UISwipeGestureRecognizer(target: self, action: #selector(onHiddenQrCodeTap))
+        hiddenTap.direction = .up
+        addGestureRecognizer(hiddenTap)
+        
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func loadData(type:CDQRType,qrContent:String){
+        if type == .Text {
+            typeLabel.text = "文本二维码"
+            titleLabel.text = "在Safari浏览器中搜索网页"
+            contentLabel.text = "内容：“\(qrContent)”"
+        }else{
+            typeLabel.text = "网站二维码"
+            titleLabel.text = "在Safari浏览器中打开网站"
+            contentLabel.text = "链接：“\(qrContent)”"
+        }
+        
+    }
+    
+    @objc func onHitQrCodeTap(){
+        self.onTapQrCodeHandle(true)
+    }
+    
+    @objc func onHiddenQrCodeTap(){
+        self.onTapQrCodeHandle(false)
+    }
 }

@@ -15,7 +15,7 @@ enum NSNavigationBarType:Int {
     case cancle = 4
     case done = 5
 }
-protocol CDNavigationBarDelegate {
+protocol CDNavigationBarDelegate :NSObjectProtocol {
     func onCDNavigationBarItemDidSelected(type: NSNavigationBarType)
 }
 class CDNavigationBar: UIImageView {
@@ -33,7 +33,7 @@ class CDNavigationBar: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
-        self.backgroundColor = UIColor.gray
+        self.backgroundColor = UIColor.black
         CDEditManager.shareInstance().naviBar = self
 
         backItem = UIButton(type: .custom)
@@ -60,7 +60,7 @@ class CDNavigationBar: UIImageView {
 
         cancleItem = UIButton(type: .custom)
         cancleItem.frame = CGRect(x: 15, y: 1.5 + 20, width: 45, height: 45)
-        cancleItem.setTitle("取消", for: .normal)
+        cancleItem.setTitle(LocalizedString("cancel"), for: .normal)
         cancleItem.addTarget(self, action: #selector(onCDNavigationBarItemClick(sender:)), for: .touchUpInside)
         cancleItem.tag = NSNavigationBarType.cancle.rawValue
         self.addSubview(cancleItem)

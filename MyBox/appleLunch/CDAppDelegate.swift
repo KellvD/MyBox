@@ -17,30 +17,19 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
     var defaultView:UIView!
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        
         let _ = CDSqlManager.shared
-//        let _ = CDSignalTon.shared
+        let _ = CDSignalTon.shared
         let _ = CDLocationManager.shared
         let _ = CDMusicManager.shareInstance()
         let _ = CDEditManager.shareInstance()
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
-        self.window?.backgroundColor = UIColor.white
-
-        CDSignalTon.shared.tab = CDTabBarViewController()
+        self.window?.backgroundColor = .baseBgColor
         
-        if !isFirstInstall(){
-            self.window?.rootViewController = CDSignalTon.shared.tab
-            let realpwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
-            let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
-            if !realpwd.isEmpty || !fakePwd.isEmpty {
-                let lockVC = CDLockViewController()
-                loginNav = CDNavigationController(rootViewController: lockVC)
-            }
-
-        }else{
-            self.window?.rootViewController = CDSignalTon.shared.tab
-        }
-        
+        let rootVC = CDRootViewController()
+        self.window?.rootViewController = CDTabBarViewController()
         if CDSignalTon.shared.waterBean.isOn {
             CDSignalTon.shared.addWartMarkToWindow(appWindow: window!)
         } else {
@@ -59,14 +48,12 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
                 self.loginNav?.popViewController(animated: false)
             }
         }
-        if !isFirstInstall() {
-            let realpwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
-            let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
-            if !realpwd.isEmpty || !fakePwd.isEmpty {
-                let lockVC = CDLockViewController()
-                loginNav = UINavigationController(rootViewController: lockVC)
-
-            }
+        let realpwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
+        let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
+        if !realpwd.isEmpty || !fakePwd.isEmpty {
+            let lockVC = CDLockViewController()
+            loginNav = UINavigationController(rootViewController: lockVC)
+            self.window?.rootViewController = loginNav
         }
         isEnterBackground = false
     }
@@ -87,9 +74,9 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
             defaultImageView = UIImageView.init()
             defaultView = UIView.init()
         }
-        defaultImageView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight+64)
+        defaultImageView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
         defaultImageView.backgroundColor = CustomBlueColor
-        defaultView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight+64)
+        defaultView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
         defaultView.addSubview(defaultImageView)
 
         let iconY = CDViewHeight > 667 ? 145 : 115
@@ -114,10 +101,11 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        lockOrUnlock()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        lockOrUnlock()
+        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -131,5 +119,10 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    
+    
+  
+   
 }
 

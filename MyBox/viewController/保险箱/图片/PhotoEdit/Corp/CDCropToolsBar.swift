@@ -59,7 +59,7 @@ class CDCropToolsBar: UIView {
         let marginX:CGFloat = 15.0
         let btnWidth:CGFloat = 40
         let marginBtnSpace:CGFloat = (frame.width - marginX * 2 - 120) / 2
-        let buttonTitles = ["取消","还原","保存"]
+        let buttonTitles = [LocalizedString("cancel"),"还原","保存"]
 
         for i in 0..<3 {
             let button = UIButton(type: .custom)

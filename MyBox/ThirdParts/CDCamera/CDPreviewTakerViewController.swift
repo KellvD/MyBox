@@ -32,7 +32,7 @@ class CDPreviewTakerViewController: UIViewController {
         //返回按钮
         let backBtn = UIButton(type: .custom)
         backBtn.frame = CGRect(x: 0, y: 1.5, width: 45, height: 45)
-        backBtn.setImage(LoadImage(imageName: "back_blue", type: "png"), for: .normal)
+        backBtn.setImage(LoadImage("back_blue"), for: .normal)
         backBtn.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         naviBar.addSubview(backBtn)
         
@@ -58,7 +58,7 @@ class CDPreviewTakerViewController: UIViewController {
         
         playBtn = UIButton(type: .custom)
         playBtn.frame = CGRect(x: CDSCREEN_WIDTH/2 - 45/2, y: 1.5, width: 45, height: 45)
-        playBtn.setImage(LoadImage(imageName: "audiostop", type: "png"), for: .normal)
+        playBtn.setImage(LoadImage("audiostop"), for: .normal)
         playBtn.addTarget(self, action: #selector(playVideoClick), for: .touchUpInside)
         toolBar.addSubview(playBtn)
         
@@ -119,19 +119,19 @@ class CDPreviewTakerViewController: UIViewController {
         }else if player.timeControlStatus == .playing {
             //正在播放就暂停
             player.pause()
-            playBtn.setImage(LoadImage(imageName: "audioplay", type: "png"), for: .normal)
+            playBtn.setImage(LoadImage("audioplay"), for: .normal)
 
         }else if player.timeControlStatus == .paused {
             //暂停了就播放
             player.play()
-            playBtn.setImage(LoadImage(imageName: "audiostop", type: "png"), for: .normal)
+            playBtn.setImage(LoadImage("audiostop"), for: .normal)
 
         }
     }
     
     func initPlayer() {
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidFinish), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-        playBtn.setImage(LoadImage(imageName: "audiostop", type: "png"), for: .normal)
+        playBtn.setImage(LoadImage("audiostop"), for: .normal)
         let urlAsset = AVURLAsset(url: videoUrl!, options: nil)
         let playerItem = AVPlayerItem(asset: urlAsset)
         let session = AVAudioSession.sharedInstance()
@@ -159,7 +159,7 @@ class CDPreviewTakerViewController: UIViewController {
     }
 
     @objc func playerItemDidFinish(){
-        playBtn.setImage(LoadImage(imageName: "audioplay", type: "png"), for: .normal)
+        playBtn.setImage(LoadImage("audioplay"), for: .normal)
         player.pause()
         player.currentItem?.seek(to: CMTime.zero, completionHandler: nil)
     }

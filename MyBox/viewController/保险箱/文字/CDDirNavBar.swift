@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol CDDirNavBarDelegate {
+@objc protocol CDDirNavBarDelegate:NSObjectProtocol  {
     @objc func onSelectedDirWithFolderId(folderId: Int)
 }
 class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {

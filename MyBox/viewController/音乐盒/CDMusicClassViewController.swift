@@ -31,8 +31,8 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
         tableView.listViewDelegate = self;
         self.view.addSubview(tableView)
 
-        let titleArr:[String] = [musicPopEditClass,musicPopEditSort]
-        let imageArr:[String] = [musicPopEditClass,musicPopEditSort]
+//        let titleArr:[String] = [musicPopEditClass,musicPopEditSort]
+//        let imageArr:[String] = [musicPopEditClass,musicPopEditSort]
 
 //        popView = CDPopMenuView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), imageArr: imageArr, titleArr: titleArr, isLeft: false)
 //        popView.popDelegate = self
@@ -49,7 +49,7 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
 
         let editBtn = UIButton(type: .custom)
         editBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        editBtn.setImage(LoadImage(imageName: "editClass", type: "png"), for: .normal);
+        editBtn.setImage(LoadImage("editClass"), for: .normal);
         editBtn.addTarget(self, action: #selector(presentedPopView), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editBtn)
 
@@ -83,11 +83,11 @@ class CDMusicClassViewController: CDBaseAllViewController,CDPopMenuViewDelegate,
     //MARK:ListViewDelegate
     func onHandleOneMusicToDelete(musicInfo: CDMusicInfo) {
         let alertVC = UIAlertController(title: "提示", message: "确认要操作删除？", preferredStyle: .alert)
-        let sureAc = UIAlertAction(title: "确定", style: .default) { (handle) in
+        let sureAc = UIAlertAction(title: LocalizedString("sure"), style: .default) { (handle) in
             CDSqlManager.shared.deleteOneMusicInfoWith(musicId: musicInfo.musicId)
             self.refleshListData()
         }
-        let cancleAc = UIAlertAction(title: "取消", style: .cancel) { (handle) in
+        let cancleAc = UIAlertAction(title: LocalizedString("cancel"), style: .cancel) { (handle) in
         }
         alertVC.addAction(cancleAc)
         alertVC.addAction(sureAc)

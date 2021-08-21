@@ -14,11 +14,23 @@ import Foundation
 
 let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
 let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
-let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
-let iPhoneX = (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0) || (UIScreen.main.bounds.size.width == 414.0 && UIScreen.main.bounds.size.height == 869.0)
-
+let bottomSafeHeight:CGFloat = (iPhoneX || iPhone12) ? 34.0 : 0.0
 let StatusHeight = GetStatusHeight()
-let NavigationHeight:CGFloat = 44
+let NavigationHeight:CGFloat = 44.0
+let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
+
+let iPhoneX = (CDSCREEN_WIDTH == 375.0 && CDSCREEN_HEIGTH == 812.0) ||
+                (CDSCREEN_WIDTH == 414.0 && CDSCREEN_HEIGTH == 896.0)
+
+
+
+let iPhone12 = (CDSCREEN_WIDTH == 428.0 && CDSCREEN_HEIGTH == 926.0) ||
+                (CDSCREEN_WIDTH == 390.0 && CDSCREEN_HEIGTH == 844.0) ||
+                (CDSCREEN_WIDTH == 360.0 && CDSCREEN_HEIGTH == 780.0)
+
+
+//底部自定义工具栏高度
+let BottomBarHeight:CGFloat = bottomSafeHeight + 48.0
 
 let thumpImageWidth = (CDSCREEN_WIDTH-6.0)/4.0
 let thumpImageHeight = (CDSCREEN_WIDTH-6.0)/4.0
@@ -34,12 +46,12 @@ let TextLightGrayColor =   UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,
 
 let SeparatorLightGrayColor =  UIColor(red:153/255.0,green:153/255.0,blue:153/255.0,alpha:1.0)//#999999
 
-let SeparatorGrayColor  = UIColor(red:243/255.0,green:243/255.0,blue:243/255.0,alpha:1.0)
+
 let TextGrayColor    =    UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,alpha:1.0)
 
 let LightBlueColor   =    UIColor(red:213/255.0,green:230/255.0,blue:244/255.0,alpha:1.0)
 let NavigationColor   =    UIColor(red:0/255.0,green:95/255.0,blue:187/255.0,alpha:1.0)
-let BaseBackGroundColor   =    UIColor(red:242/255.0,green:243/255.0,blue:243/255.0,alpha:1.0)
+let BaseBackGroundColor   =    UIColor(red:247/255.0,green:247/255.0,blue:247/255.0,alpha:1.0)
 
 let CustomPinkColor   =   UIColor(red:255/255.0,green:73/255.0,blue:0/255.0,alpha:1.0)
 let ProgressViewBgColor = UIColor(red:0, green:104/255.0,blue:183/255.0,alpha:0.3)
@@ -52,13 +64,16 @@ let CDMaxWatermarkLength = 20
 let CD_ReaderBgModel = "ReaderBgModel"
 let CD_ChapterIndex = "chapterIndex"
 
+let SECTION_SPACE:CGFloat = 15.0
+let CELL_HEIGHT:CGFloat = 48.0
+
 
 
 
 let EmojiRegularExpression = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5 ]+\\]"
-let symbolExpression = "[`~!@#$%^&*()+=|{}':',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]"
+let symbolExpression = "[`~!@#$%^&*+=|{}':',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}‘；：”“’。，、？|]"
 
-let TextBigFont = UIFont.systemFont(ofSize: 20)
+let UIFont20 = UIFont.systemFont(ofSize: 20)
 let TextMidFont =  UIFont.systemFont(ofSize: 17)
 let TextSmallFont =  UIFont.systemFont(ofSize: 12)
 let TextMidSmallFont = UIFont.systemFont(ofSize: 15)
@@ -91,13 +106,14 @@ enum CDBrightType:Int {
     case Bright = 0
 }
 enum CDEditorsType:Int {
-    case Crop = 1 //剪裁
-    case Filter = 2 //滤镜
-    case Bright = 3 //亮度
-    case Rotate = 4 //旋转
-    case Mosaic = 5//马赛克
-    case Watermark = 6 //水印
-    case Text = 7//文字
+    case Crop = 0 //剪裁
+    case Text = 1//文字
+    case Graffiti = 2
+    case Rotate = 3 //旋转
+    case Mosaic = 4//马赛克
+    case Watermark = 5 //水印
+    case Filter = 6 //滤镜
+    case Bright = 7 //亮度
 }
 //登录模式
 enum CDLoginType:Int{
@@ -169,4 +185,11 @@ enum CDLogLevel:Int {
     case AllLog = 4
 }
 
+enum CDThemeMode :Int{
+    case Nomal = 0
+    case Dark = 1
+}
 
+let NotInitPwd = -1;
+let HasInitPwd = 0;
+let DelayInitPwd = 1;

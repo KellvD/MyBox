@@ -108,8 +108,8 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //                            let info = CDMusicInfo()
 //                            info.musicName = fileName
 //                            info.musicSinger = muiscInfo.artist
-//                            info.musicPath = musicPath.relativePath()
-//                            info.musicImage = imagePath.relativePath()
+//                            info.musicPath = musicPath.relativePath
+//                            info.musicImage = imagePath.relativePath
 //                            info.musicClassId = 3
 //                            info.musicTimeLength = muiscInfo.length
 //                            CDSqlManager.shared.addOneMusicInfoWith(musicInfo: info)
@@ -127,7 +127,7 @@ class CDMusicViewController: CDBaseAllViewController,CDMusicClassDelegate {
 //            }
 //            DispatchQueue.main.async {
 //                CDHUD.hide()
-//                CDHUDManager.shared.showText(text: "加载完成")
+//                CDHUDManager.shared.showText("加载完成")
 //            }
 //        }
 //        let musicArr = CDSqlManager.shared.queryAllMusic()

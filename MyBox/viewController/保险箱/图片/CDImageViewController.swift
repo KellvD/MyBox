@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import MJRefresh
+import CDMediaPicker
 /**
  * 操作文件的状态类型
  */
@@ -39,6 +40,7 @@ class CDImageViewController:
     private var outputImageArr:[CDSafeFileInfo] = []
     private var isNeedReloadData:Bool = false
     private var selectCount:Int = 0
+    private var selectGifCount:Int = 0
 
     override func viewWillAppear(_ animated: Bool) {
         if isNeedReloadData {
@@ -48,7 +50,6 @@ class CDImageViewController:
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "图片文件"
         isNeedReloadData = true
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-10)/4 , height: (CDSCREEN_WIDTH-10)/4)
@@ -57,7 +58,7 @@ class CDImageViewController:
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .vertical
 
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight - 48), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight - BottomBarHeight), collectionViewLayout: layout)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageCellIdrr")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -76,11 +77,11 @@ class CDImageViewController:
 
         self.backBtn = UIButton(type: .custom)
         self.backBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        self.backBtn.setTitle("返回", for: .normal)
+        self.backBtn.setTitle(LocalizedString("back"), for: .normal)
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
 
-        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .ImageFolder, superVC: self)
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .ImageTools, superVC: self)
         self.view.addSubview(self.toolbar)
 
     }
@@ -103,11 +104,11 @@ class CDImageViewController:
         selectCount = 0
         batchBtn.isSelected = isBatch
         if (batchBtn.isSelected) { //点了批量操作
-            backBtn.setTitle("全选", for: .normal)
+            backBtn.setTitle(LocalizedString("select all"), for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: true)
         } else {
-            backBtn.setTitle("返回", for: .normal)
+            backBtn.setTitle(LocalizedString("back"), for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             imageArr.forEach { (tmpFile) in
@@ -121,12 +122,11 @@ class CDImageViewController:
     @objc func backBtnClick() -> Void {
         if batchBtn.isSelected {
             selectedImageArr.removeAll()
-            var hasGif = false
-            if (self.backBtn.currentTitle == "全选") { //全选
+            if (self.backBtn.currentTitle == LocalizedString("select all")) { //全选
                 imageArr.forEach { (file) in
                     file.isSelected = .CDTrue
                     if file.fileType == .GifType {
-                        hasGif = true
+                        selectGifCount += 1
                     }
                 }
                 selectCount = imageArr.count
@@ -135,23 +135,23 @@ class CDImageViewController:
                     file.isSelected = .CDFalse
                 }
                 selectCount = 0
+                selectGifCount = 0
             }
-            refreshUI(hasGif: hasGif)
+            refreshUI()
         } else {
             self.navigationController?.popViewController(animated: true)
         }
 
     }
-    func refreshUI(hasGif:Bool){
-    
-        toolbar.appendItem.isEnabled = !(selectCount > 16 || selectCount < 2 || hasGif)
-        toolbar.enableReloadBar(isSelected: selectCount > 0)
+    func refreshUI(){
+        toolbar.enableReloadBar(isEnable: selectCount > 0)
+        toolbar.appendItem.isEnabled = (selectCount <= 16 && selectCount >= 2) && selectGifCount == 0
         if selectCount == imageArr.count && imageArr.count > 0{
             backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
             backBtn.contentHorizontalAlignment = .left
-            backBtn.setTitle("全不选", for: .normal)
+            backBtn.setTitle(LocalizedString("unselect all"), for: .normal)
         } else {
-            backBtn.setTitle("全选", for: .normal)
+            backBtn.setTitle(LocalizedString("select all"), for: .normal)
         }
         collectionView.reloadData()
     }
@@ -159,7 +159,7 @@ class CDImageViewController:
     func refreshDBData() {
         //沙盒导入，拍照，图库，拼接刷新DB数据源
         selectedImageArr.removeAll()
-        toolbar.enableReloadBar(isSelected: false)
+        toolbar.enableReloadBar(isEnable: false)
         imageArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         collectionView.reloadData()
     }
@@ -177,13 +177,14 @@ class CDImageViewController:
         var shareArr:[NSObject] = []
         for index in 0..<self.selectedImageArr.count{
             let file:CDSafeFileInfo = self.selectedImageArr[index]
-            let imagePath = String.ImagePath().appendingPathComponent(str: file.filePath.lastPathComponent())
+            let imagePath = String.RootPath().appendingPathComponent(str: file.filePath)
             
             let image = UIImage(contentsOfFile: imagePath)!
             shareArr.append(image)
         }
         
-        presentShareActivityWith(dataArr: shareArr) { (error) in
+        presentShareActivityWith(dataArr: shareArr) {[unowned self] (error) in
+            
             //分享完成，取消批量操作，恢复数据至未选状态
             self.batchHandleFiles(isBatch: false)
         }
@@ -193,7 +194,6 @@ class CDImageViewController:
 
         handelSelectedArr()
         let folderList = CDFolderListViewController()
-        folderList.title = "文件夹列表"
         folderList.selectedArr = selectedImageArr
         folderList.folderType = .ImageFolder
         folderList.folderId = folderInfo.folderId
@@ -208,11 +208,11 @@ class CDImageViewController:
     // MARK:导出
     @objc func outputBarItemClick(){
         handelSelectedArr()
-        let outAlert = UIAlertController(title: nil, message: "您确定要导入选中的图片到系统相册？", preferredStyle: .alert)
-        outAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
-        outAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+        let outAlert = UIAlertController(title: nil, message: LocalizedString("Are you sure you want to export the selected video to the system album?"), preferredStyle: .alert)
+        outAlert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
+        outAlert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shared.showWait(text: "正在处理...")
+                CDHUDManager.shared.showWait(LocalizedString("Processing..."))
                 self.outputImageArr = self.selectedImageArr
                 self.outputPhotoToLocal()
             }
@@ -223,15 +223,14 @@ class CDImageViewController:
     func outputPhotoToLocal() -> Void {
         if self.outputImageArr.count > 0 {
             let file:CDSafeFileInfo = self.outputImageArr[0]
-            let fileName = file.filePath.lastPathComponent()
-            let imagePath = String.ImagePath().appendingPathComponent(str: fileName)
+            let imagePath = String.RootPath().appendingPathComponent(str: file.filePath)
             let imageD:UIImage! = UIImage(contentsOfFile: imagePath)
             UIImageWriteToSavedPhotosAlbum(imageD, self, #selector(outputPhotoComplete(image:didFinishSavingWithError:contextInfo:)), nil)
 
         } else {
             DispatchQueue.main.async {
                 CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showComplete(text: "导出成功!")
+                CDHUDManager.shared.showComplete(LocalizedString("Export complete"))
                 //导出完成后，取消批量操作,恢复选中数据源
                 self.batchHandleFiles(isBatch: false)
             }
@@ -248,11 +247,11 @@ class CDImageViewController:
         handelSelectedArr()
         func deleteTheSelectImage() -> Void {
             selectedImageArr.forEach { (tmpFile) in
-                //删除加密小题
-                let thumbPath = String.thumpImagePath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
+                
+                let thumbPath = String.RootPath().appendingPathComponent(str: tmpFile.thumbImagePath)
                 DeleteFile(filePath: thumbPath)
-                //删除加密大图
-                let defaultPath = String.ImagePath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
+                
+                let defaultPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
                 DeleteFile(filePath: defaultPath)
                 CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                 
@@ -263,21 +262,21 @@ class CDImageViewController:
                  //删除操作后，删除本地数据源中被删除的元素，取消批量操作,选中数据源以删除，不用恢复
                 self.batchHandleFiles(isBatch: false)
                 CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showComplete(text: "删除完成！")
+                CDHUDManager.shared.showComplete(LocalizedString("Delete complete"))
                 
             }
         }
         
         
-        let btnTitle = selectedImageArr.count > 1 ? "删除\(selectedImageArr.count)张图片":"删除照片"
+        let btnTitle = selectedImageArr.count > 1 ? LocalizedString("Delete %@ photos", "\(selectedImageArr.count)"):LocalizedString("Delete Photo")
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUDManager.shared.showWait(text: "删除中...")
+            CDHUDManager.shared.showWait(LocalizedString("Processing..."))
             DispatchQueue.global().async {
                 deleteTheSelectImage()
             }
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
 
     }
@@ -286,12 +285,12 @@ class CDImageViewController:
     @objc func appendItemClick(){
         handelSelectedArr()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "拼图", style: .default, handler: { (action) in
-            let puzzleVC = CDPuzzleViewController()
-           self.navigationController?.pushViewController(puzzleVC, animated: true)
-        }))
+//        sheet.addAction(UIAlertAction(title: "拼图", style: .default, handler: { (action) in
+//            let puzzleVC = CDPuzzleViewController()
+//           self.navigationController?.pushViewController(puzzleVC, animated: true)
+//        }))
 
-        sheet.addAction(UIAlertAction(title: "合成GIF", style: .default, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: LocalizedString("Composite GIF"), style: .default, handler: { (action) in
             let gifVC = CDComposeGifViewController()
             gifVC.fileArr = self.selectedImageArr
             gifVC.folderId = self.folderInfo.folderId
@@ -305,12 +304,12 @@ class CDImageViewController:
             self.navigationController?.pushViewController(gifVC, animated: true)
 
         }))
-        sheet.addAction(UIAlertAction(title: "合成视频", style: .default, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: LocalizedString("Composite Video"), style: .default, handler: { (action) in
             let videoVC = CDComposeVideoViewController()
             self.navigationController?.pushViewController(videoVC, animated: true)
 
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
     //MARK: document
@@ -358,12 +357,14 @@ class CDImageViewController:
                 DispatchQueue.main.async {
                     //保持屏幕常亮
                     UIApplication.shared.isIdleTimerDisabled = true
+                    
                     let cdPicker = CDMediaPickerViewController(isVideo: false)
                     cdPicker.pickerDelegate = self
-                    CDAssetTon.shared.mediaType = .CDMediaImage
+                    
                     CDSignalTon.shared.customPickerView = cdPicker
                     cdPicker.modalPresentationStyle = .fullScreen
                     self.present(cdPicker, animated: true, completion: nil)
+                    
                 }
                 
              } else {
@@ -395,14 +396,20 @@ class CDImageViewController:
                 cell.isSelected = true
                 selectCount += 1
                 tmFile.isSelected = .CDTrue
+                if tmFile.fileType == .GifType {
+                    selectGifCount += 1
+                }
             } else {
                 cell.isSelected = false
                 selectCount -= 1
                 tmFile.isSelected = .CDFalse
+                if tmFile.fileType == .GifType {
+                    selectGifCount -= 1
+                }
             }
             cell.reloadSelectImageView()
             
-            refreshUI(hasGif: tmFile.fileType == .GifType)
+            refreshUI()
         } else {
             self.isNeedReloadData = true
             let scrollerVC = CDImageScrollerViewController()
@@ -426,7 +433,7 @@ class CDImageViewController:
         CDSignalTon.shared.saveOrigialImage(obj: data, folderId: folderInfo.folderId)
         if index == 1 { //第一个出现进度条
             DispatchQueue.main.async {
-                CDHUDManager.shared.showProgress(text: "开始导入！")
+                CDHUDManager.shared.showProgress(LocalizedString("Start importing"))
                 CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
             }
         }
@@ -435,7 +442,7 @@ class CDImageViewController:
                 CDSignalTon.shared.customPickerView = nil
                 picker.dismiss(animated: true, completion: nil)
                 self.refreshDBData()
-                CDHUDManager.shared.showComplete(text: "导入完成！")
+                CDHUDManager.shared.showComplete(LocalizedString("Export complete"))
                 CDHUDManager.shared.hideProgress()
             }
         }else{
@@ -456,7 +463,6 @@ class CDImageViewController:
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
    
 
 }

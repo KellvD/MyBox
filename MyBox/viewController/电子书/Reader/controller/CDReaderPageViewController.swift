@@ -22,21 +22,24 @@ class CDReaderPageViewController: CDBaseAllViewController,CDReaderToolBarDelegat
     private var _changeChapterIndex:Int = 0//将要变化的章节
     private var _changePageIndex:Int = 0 //将要变化的页数
     private var _isTransition:Bool = false //是否开始翻页
-    
+    private var barStyle:UIStatusBarStyle!
     
     override var prefersStatusBarHidden: Bool{
         return _hiddenNavBar
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.statusBarStyle = .default
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "上导航栏-背景@2x"), for: .default)
+        barStyle = .default
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "上导航栏-背景"), for: .default)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return barStyle
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        CDHUDManager.shared.showWait(text: "正在加载中，请稍等...")
+        CDHUDManager.shared.showWait("正在加载中，请稍等...")
         self.addChild(self.pageVC)
         CDReaderManager.shared.laodFile(filePath: self.resource)
         NotificationCenter.default.addObserver(forName: NSNotification.Name("TXTLoadToModel"), object: nil, queue: OperationQueue.main) { (noti) in
@@ -83,6 +86,7 @@ class CDReaderPageViewController: CDBaseAllViewController,CDReaderToolBarDelegat
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
     override func viewDidLayoutSubviews() {
         self.pageVC.view.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
     }
@@ -93,12 +97,12 @@ class CDReaderPageViewController: CDBaseAllViewController,CDReaderToolBarDelegat
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.barTintColor = CDReaderManager.shared.config.theme
         if CDReaderManager.shared.config.theme == night {
-            UIApplication.shared.statusBarStyle = .lightContent
+            barStyle = .lightContent
         } else {
             if #available(iOS 13.0, *) {
-                UIApplication.shared.statusBarStyle = .darkContent
+                barStyle = .darkContent
             } else {
-                UIApplication.shared.statusBarStyle = .default
+                barStyle = .default
             }
         }
     }

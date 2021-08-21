@@ -12,27 +12,28 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
 
     private var tableView:UITableView!
     private var optionValueArr: [[String]] = [[]]
-    var fileInfo:CDSafeFileInfo!
-    
+    public var fileInfo:CDSafeFileInfo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initOptionValue()
+        self.title = fileInfo.fileName
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         tableView.delegate = self;
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.register(CDSwitchCell.self, forCellReuseIdentifier: "fileDetailcell")
         self.view.addSubview(tableView)
+        
     }
 
     func initOptionValue(){
         optionValueArr.removeAll()
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(fileInfo.createTime),
-                 GetTimeFormat(fileInfo.modifyTime)
-                ],
+                [fileInfo.fileName,fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime),GetTimeFormat(fileInfo.modifyTime) ],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 ["\(fileInfo.fileWidth) x \(fileInfo.fileHeight)"],
                 [fileInfo.markInfo]
@@ -40,20 +41,16 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             
         }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(fileInfo.createTime),
-                 GetTimeFormat(fileInfo.modifyTime)
-                ],
+                [fileInfo.fileName,fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.modifyTime)],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [GetMMSSFromSS(second: fileInfo.timeLength)],
                 [fileInfo.markInfo]
             ]
         }else{
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.getSuffix()],
-                [GetTimeFormat(fileInfo.createTime),
-                 GetTimeFormat(fileInfo.modifyTime)
-                ],
+                [fileInfo.fileName,fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.modifyTime)],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [fileInfo.markInfo]
             ]
@@ -61,11 +58,11 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
     }
     
     lazy var optionTitleArr: [[String]] = {
-        var arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["备注"]]
+        var arr = [[LocalizedString("Name"),LocalizedString("Format")],[LocalizedString("Created time"),LocalizedString("Modified Time")],[LocalizedString("Length")],[LocalizedString("Remarks")]]
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
-             arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["尺寸"],["备注"]]
+            arr.insert([LocalizedString("Size")], at: 3)
         }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
-            arr = [["名称","格式"],["创建时间","修改时间"],["大小"],["时长"],["备注"]]
+            arr.insert([LocalizedString("Duration")], at: 3)
         }
         return arr
     }()
@@ -78,97 +75,82 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionTitleArr[section].count
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
+        let optionTitle = optionTitleArr[indexPath.section][indexPath.row]
+        return optionTitle == LocalizedString("Remarks") ? 120 : CELL_HEIGHT
     }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15.0
+        return SECTION_SPACE
     }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.01
     }
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
+        return nil
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
+        return nil
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identify = "fileDetailcell"
-
-        var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: identify)
+        let cellId = "fileDetailcell"
+        var cell:CDSwitchCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as? CDSwitchCell
         if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: identify)
-            cell.selectedBackgroundView = UIView()
-            cell.selectedBackgroundView?.backgroundColor = LightBlueColor
-
-            let titleL = UILabel(frame: CGRect(x: 15, y: 9, width: 100, height: 30))
-            titleL.font = TextMidFont
-            titleL.textColor = TextBlackColor
-            titleL.textAlignment = .left
-            titleL.tag = 101
-            cell.contentView.addSubview(titleL)
-
-            let detaileL = UILabel(frame: CGRect(x: titleL.frame.maxX, y: 9, width: CDSCREEN_WIDTH-100-15, height: 30))
-            detaileL.font = TextMidFont
-            detaileL.textColor = TextLightBlackColor
-            detaileL.textAlignment = .left
-            detaileL.tag = 102
-            cell.contentView.addSubview(detaileL)
-
+            cell = CDSwitchCell(style: .default, reuseIdentifier: cellId)
         }
-        let title = optionTitleArr[indexPath.section][indexPath.row]
-        let titleLabel = cell.contentView.viewWithTag(101) as! UILabel
-        let detaileL = cell.contentView.viewWithTag(102) as! UILabel
-
-        titleLabel.text = title
-        detaileL.text = optionValueArr[indexPath.section][indexPath.row]
-        if title == "名称" || title == "备注"{
-             cell.accessoryType =  .disclosureIndicator
-        } else {
-             cell.accessoryType = .none
-        }
+        let optionTitle = optionTitleArr[indexPath.section][indexPath.row]
+        cell.titleLabel.text = optionTitle
+        cell.valueLabel.text = optionValueArr[indexPath.section][indexPath.row]
+        cell.valueLabel.isHidden = false
+        cell.accessoryType = (optionTitle == LocalizedString("Name") || optionTitle == LocalizedString("Remarks")) ? .disclosureIndicator : .none
+        cell.selectionStyle = (optionTitle == LocalizedString("Name") || optionTitle == LocalizedString("Remarks")) ? .default : .none
+        cell.separatorLineIsHidden = indexPath.row == optionTitleArr[indexPath.section].count - 1
         return cell
-
+        
     }
-
-
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let title = optionTitleArr[indexPath.section][indexPath.row]
-        if title == "名称" {
+        if title == LocalizedString("Name") {
             let markVC = CDMarkFileViewController()
-            markVC.title = "重命名"
+            markVC.title = LocalizedString("Renamed")
             markVC.maxTextCount = 60
-            markVC.oldContent = fileInfo.fileName
+            markVC.oldContent = fileInfo.fileName.removeSuffix()
             markVC.markType = .fileName
-            markVC.markHandle = {(newContent) in
+            markVC.markHandle = {[unowned self](newContent) in
                 CDPrintManager.log("文件重命名-原名:\(self.fileInfo.fileName),新名:\(newContent!),folderId = \(self.fileInfo.fileId)", type: .InfoLog)
                 CDSqlManager.shared.updateOneSafeFileName(fileName: newContent!, fileId: self.fileInfo.fileId)
                 self.fileInfo.fileName = newContent!
-                CDHUDManager.shared.showComplete(text: "重命名成功")
+                CDHUDManager.shared.showComplete(LocalizedString("Renamed successfully"))
                 self.reloadData()
                 
             }
             self.navigationController?.pushViewController(markVC, animated: true)
 
-        }else if title == "备注"{
+        }else if title == LocalizedString("Remarks"){
             let markVC = CDMarkFileViewController()
-            markVC.title = "备注"
+            markVC.title = LocalizedString("Remarks")
             markVC.maxTextCount = 140
             markVC.markType = .fileMark
             markVC.oldContent = fileInfo.markInfo
-            markVC.markHandle = {[](newContent) in
+            markVC.markHandle = {
+                let newContent = $0
                 CDPrintManager.log("文件修改备注-原备注:\(self.fileInfo.markInfo),新备注:\(newContent!),fileId = \(self.fileInfo.fileId)", type: .InfoLog)
                 CDSqlManager.shared.updateOneSafeFileMarkInfo(markInfo: newContent!, fileId: self.fileInfo.fileId)
                 self.fileInfo.markInfo = newContent!
-                CDHUDManager.shared.showComplete(text: "重命名成功")
+                CDHUDManager.shared.showComplete("Remarks successfully")
                 self.reloadData()
             }
             self.navigationController?.pushViewController(markVC, animated: true)
         }
     }
+    
     func reloadData() {
         initOptionValue()
         tableView.reloadData()

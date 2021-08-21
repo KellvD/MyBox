@@ -20,7 +20,7 @@ let DelayKey = "delayKey"
 
 typealias CDCameraTakePhotoComplete = (_ image:UIImage?) ->Void
 typealias CDCameraTakeVideoComplete = (_ videoUrl:URL?) ->Void
-typealias CDCameraScanQRComplete = (_ QRUrl:URL?,_ recoverHandle:@escaping() -> Void) -> Void
+typealias CDCameraScanQRComplete = (_ content:String?,_ recoverHandle:@escaping() -> Void) -> Void
 typealias CDUpdateDelayComplete = (_ delay:Int,_ isEnd:Bool) ->Void
 
 class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate,UIGestureRecognizerDelegate {
@@ -161,11 +161,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
             }
         }
         let con = videoOutput.connection(with: .video)
-        if device.position == .front{
-            con?.isVideoMirrored = true;
-        }else{
-            con?.isVideoMirrored = false;
-        }
+        con?.isVideoMirrored = device.position == .front
     }
     //拍照
     func readyTakePhoto(){
@@ -229,11 +225,11 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
                 let codeObject = previewLayer.transformedMetadataObject(for: metaobject!) as! AVMetadataMachineReadableCodeObject
                 let string = codeObject.stringValue
                 qrView.frame = codeObject.bounds
-                if string!.count > 0 {
+                if !string!.isEmpty && string != nil {
 
                     //扫描到二维码后取消输出，避免扫描不停的回调
                     captureSession.removeOutput(metadataOutput)
-                    scanRQComplete(URL(string: string!),{
+                    scanRQComplete(string,{
                         //处理完成后重新添加
                         self.captureSession.addOutput(self.metadataOutput)
                     })
@@ -415,8 +411,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         }catch{
 
         }
-        if #available(iOS 11, *) {
-            device.flashMode = model
+        if #available(iOS 10, *) {
+//            device.flashMode = model
         } else {
             device.flashMode = model
         }

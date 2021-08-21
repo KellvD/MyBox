@@ -54,7 +54,7 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         
         let startX:CGFloat = orientation == .leftUp ? 10 : frame.width - tableBgViewWidth - 10
         let bgImageName = orientation == .leftUp ? "leftUp":"rightUp"
-        let bgImage = LoadImage(imageName: bgImageName, type: "png")!
+        let bgImage = LoadImage(bgImageName)!
         
         tableBgView = UIImageView(frame: CGRect(x: startX, y: tableBgViewY - (tableViewHeight + 12.0), width: tableBgViewWidth, height: tableViewHeight + 12.0))
         tableBgView.isUserInteractionEnabled = true
@@ -128,7 +128,7 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         let title = _cellTitleArr[indexPath.row]
         let imageName = _cellImageArr[indexPath.row]
         titleV.text = title
-        imageV.image = LoadImage(imageName: imageName, type: "png")
+        imageV.image = LoadImage(imageName)
         lineView.isHidden = indexPath.row == _cellImageArr.count-1;
 
         return cell

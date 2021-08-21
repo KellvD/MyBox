@@ -8,12 +8,15 @@
 
 import UIKit
 
-typealias CDTapRQHandle = (_ message:String) -> Void
+typealias CDLongTapHandle = (_ message:String) -> Void
+//typealias CDSingleTapHandle = () -> Void
+
 class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
 
     private var imageView:UIImageView!
     private var imageViewFrame:CGRect!
-    var tapQRHandle:CDTapRQHandle!
+    public var longTapHandle:CDLongTapHandle!
+    public var singleTapHandle:CDSingleTapHandle!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,15 +26,12 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         self.showsHorizontalScrollIndicator = false
         imageView = UIImageView(frame: self.bounds)
         imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .cyan
         self.addSubview(imageView)
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapAction))
-        singleTap.numberOfTapsRequired = 1
-        addGestureRecognizer(singleTap)
 
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapAction(tap:)))
         doubleTap.numberOfTapsRequired = 2
         addGestureRecognizer(doubleTap)
-        singleTap.require(toFail: doubleTap)
         
         let longTap = UILongPressGestureRecognizer(target: self, action: #selector(longTapAction(tap:)))
         imageView.addGestureRecognizer(longTap)
@@ -46,25 +46,24 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
     @objc func longTapAction(tap:UILongPressGestureRecognizer){
         if tap.state == .began {
             let image = imageView.image
-            let msg = image!.qrMessage()
-            print(msg)
-            if msg.count > 0 {
-                tapQRHandle(msg)
-                
+            let msg = image!.qrMessage
+            guard ((msg?.isEmpty) == nil) else {
+                longTapHandle(msg!)
+                return
             }
+            
         }
         
     }
-    @objc func singleTapAction() {
-        NotificationCenter.default.post(name: .BarsHiddenOrNot, object: nil)
-    }
+
 
     @objc func doubleTapAction(tap:UITapGestureRecognizer) {
         zoomtoLocation(location: tap.location(in: self))
     }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        if !isZoomed() && !(imageViewFrame?.equalTo(imageView.frame))! {
+        if !isZoomed() && imageViewFrame?.equalTo(imageView.frame) != nil{
             imageView.frame = imageViewFrame
         }
     }
@@ -108,7 +107,7 @@ class CDImageScrollView: UIScrollView,UIScrollViewDelegate {
         imageView?.frame = imageViewFrame
         imageViewFrame = imageView?.frame
         if gifData.length > 0 {
-            let type:SDImageFormat = UIImage.getImageFormat(imageData:gifData)
+            let type:SDImageFormat = imageFormat(imageData:gifData)
             if type == .GIF {
                 imageView?.image = UIImage.gif(data: gifData as Data)
             } else {

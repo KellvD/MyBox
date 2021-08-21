@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol CDEditorsViewDelegate {
+@objc protocol CDEditorsViewDelegate :NSObjectProtocol {
     @objc optional func onSelectEditorWith(model:CDEditorsModel)->Void
 }
 

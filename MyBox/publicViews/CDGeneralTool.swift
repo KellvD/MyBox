@@ -32,14 +32,13 @@ class CDGeneralTool: NSObject {
     
     class func unArchiveZipToDirectory(zip:String,desDirectory:String,paaword:String?) -> NSError?{
         if zip.hasSuffix(".rar") {
-            
             do {
                 let archive = try URKArchive(path: zip, password: (paaword ?? nil)!)
 //                let fileArr = try archive.listFileInfo()
 //                archive.extractData(fromFile: fileArr[0])
                 try archive.extractFiles(to: desDirectory, overwrite: false)
-            } catch let error as NSError {
-                return error
+            } catch  {
+                return error as NSError
             }
         } else if zip.hasSuffix(".zip") {
             do {

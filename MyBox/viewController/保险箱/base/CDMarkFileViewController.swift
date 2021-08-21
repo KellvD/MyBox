@@ -26,29 +26,24 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let seprtorViewFirst = UIView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 15))
-        seprtorViewFirst.backgroundColor = SeparatorGrayColor
-        view.addSubview(seprtorViewFirst)
-
-        noteTextView = UITextView(frame: CGRect(x: 5, y: 15, width: CDSCREEN_WIDTH - 10, height: 150))
+        self.view.backgroundColor = .baseBgColor
+        noteTextView = UITextView(frame: CGRect(x: 5, y: 15, width: CDSCREEN_WIDTH - 10, height: 150),placeHolder: LocalizedString("Please enter %@ content...", self.title!))
         view.addSubview(noteTextView)
         noteTextView.delegate = self
+        noteTextView.addRadius(corners: .allCorners, size: CGSize(width: 4, height: 4))
         noteTextView.font = TextMidFont
         noteTextView.text = oldContent
 
         noteTextView.becomeFirstResponder()
-        let seprtorViewLast = UIView(frame: CGRect(x: 0, y: noteTextView.frame.maxY, width: CDSCREEN_WIDTH, height: 1))
-        seprtorViewLast.backgroundColor = SeparatorGrayColor
-        view.addSubview(seprtorViewLast)
 
         let infoLength = oldContent.getLength(needTrimSpaceCheck: true)
-        remainNumberLabel = UILabel(frame: CGRect(x: 0, y: noteTextView.frame.maxY, width: CDSCREEN_WIDTH, height: 20));
+        remainNumberLabel = UILabel(frame: CGRect(x: 5, y: noteTextView.frame.maxY, width: CDSCREEN_WIDTH-10, height: 20));
         remainNumberLabel.text = "\(infoLength)/\(maxTextCount)"
         remainNumberLabel.textAlignment = .right
         remainNumberLabel.textColor = CustomBlueColor
         view.addSubview(remainNumberLabel)
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "确定", style: .plain, target: self, action: #selector(onSureBtnClick))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: LocalizedString("sure"), style: .plain, target: self, action: #selector(onSureBtnClick))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
     }
@@ -56,10 +51,11 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
     @objc func onSureBtnClick(){
         var tmpStr = noteTextView.text
         let len = tmpStr?.getLength(needTrimSpaceCheck: true)
-
-
         if len! > maxTextCount {
-            CDHUDManager.shared.showText(text: "输入字符长度不能超过\(maxTextCount)个字符")
+            CDHUDManager.shared.showText(LocalizedString("The input character length cannot exceed %@ characters", "\(maxTextCount)"))
+            return
+        }else if len == 0{
+            CDHUDManager.shared.showText(LocalizedString("Nothing has been entered"))
             return
         }
         remainNumberLabel.text = "\(len ?? 0)/\(maxTextCount)"
@@ -67,23 +63,22 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         if markType  == .fileName || markType  == .folderName{
             tmpStr = noteTextView.text.removeSpaceAndNewline()
             if oldContent.count == 0{
-                CDHUDManager.shared.showText(text: "文件名不能为空")
+                CDHUDManager.shared.showText(LocalizedString("File name cannot be empty"))
                 return
             }
 
             if(oldContent.matches(pattern: symbolExpression) ||
                 oldContent.isContainsEmoji()){
-                let alert = UIAlertController(title: nil, message: "名称中不能包含表情及字符", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: nil))
+                let alert = UIAlertController(title: nil, message: LocalizedString("The name cannot contain emoticons and characters"), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: LocalizedString("Understood"), style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }
         }
         markHandle(tmpStr)
         self.navigationController?.popViewController(animated: true)
-
-
     }
+    
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.count > 0 {
             let markedRange = textView.markedTextRange;
@@ -91,12 +86,17 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
                 markedRange!.isEmpty{
                 let tmpStr = textView.text
                 let len = tmpStr!.getLength(needTrimSpaceCheck: true)
+                
                 remainNumberLabel.text = "\(len)/\(maxTextCount)"
-
             }
         }
-
     }
-
-
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.text.count >= maxTextCount {
+            textView.text = String(textView.text.prefix(maxTextCount))
+            return false
+        }
+        return true
+    }
 }

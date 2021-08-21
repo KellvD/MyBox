@@ -22,7 +22,7 @@ class CDCircleProcess: UIView {
         self.backgroundColor = .clear
         
         let imageView = UIImageView(frame:CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        imageView.image = UIImage(named: "record_timeProgressBG@2x")
+        imageView.image = UIImage(named: "record_timeProgressBG")
         self.addSubview(imageView)
         
         self.textLabel = UILabel(frame: CGRect(x: (frame.width - 90)/2, y: (frame.height - 50)/2, width: 90.0, height: 50.0))

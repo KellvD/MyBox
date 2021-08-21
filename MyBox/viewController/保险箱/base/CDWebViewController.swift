@@ -34,7 +34,6 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
         webView.navigationDelegate = self
         //允许左滑返回上一级
         webView.allowsBackForwardNavigationGestures = true
-        
         //进度条
         //监听网页加载进度
         webView.addObserver(self, forKeyPath: "estimatedProcess", options: .new, context: nil)
@@ -46,7 +45,6 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if (keyPath == "estimatedProcess") {
-            print("网页加载进度 = %f",webView.estimatedProgress)
             processView.progress = Float(webView.estimatedProgress)
             if webView.estimatedProgress >= 1.0 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -75,7 +73,6 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
     }
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         let url = navigationResponse.response.url
-        print("当前跳转的地址：%s",url?.absoluteString)
         decisionHandler(.allow)
     }
     

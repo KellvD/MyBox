@@ -36,4 +36,4 @@ let musicPopShare = "分享"
 let musicPopCollection = "添加至歌单"
 let musicPopEditClass = "编辑歌单"
 let musicPopEditSort = "更改排序"
-let musicPopDelete = "删除"
+let musicPopDelete = LocalizedString("delete")

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CDCameraBottomBarDelegate {
+protocol CDCameraBottomBarDelegate:NSObjectProtocol  {
     func onTakePhoto()
     func onCameraTurnAround()
     func onCanclePhoto()
@@ -41,7 +41,7 @@ class CDCameraBottomBar: UIView {
         self.addSubview(takeButton)
 
 
-        let width = (frame.height-30)/2
+//        let width = (frame.height-30)/2
 //        figBtn = UIButton(type: .custom)
 //        figBtn.frame = CGRect(x: frame.width - 48 - 15, y: 10, width: width, height: width)
 //        figBtn.layer.cornerRadius = width/2
@@ -58,7 +58,7 @@ class CDCameraBottomBar: UIView {
         cancle = UIButton(type: .custom)
         cancle.frame = CGRect(x: 15, y: frame.height - 48 - 15, width: 48, height: 48)
 
-        cancle.setTitle("取消", for: .normal)
+        cancle.setTitle(LocalizedString("cancel"), for: .normal)
         cancle.addTarget(self, action: #selector(onCameraCancleClick), for: .touchUpInside)
         self.addSubview(cancle)
 

@@ -34,6 +34,6 @@ class CDClassCell: UICollectionViewCell {
     func onUpdateClassInfo(classInfo:CDMusicClassInfo) {
 
         titleL.text = classInfo.className
-        imageV.image = LoadImage(imageName: classInfo.classAvatar, type: "png")
+        imageV.image = LoadImage(classInfo.classAvatar)
     }
 }

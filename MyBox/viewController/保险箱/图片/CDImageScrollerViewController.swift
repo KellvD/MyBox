@@ -9,84 +9,103 @@
 import UIKit
 let PADDING = 10
 
-class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource {
+class CDImageScrollerViewController: CDBaseAllViewController,
+                                     UICollectionViewDelegate,
+                                     UICollectionViewDataSource{
     
     public var inputArr:[CDSafeFileInfo] = [] //所有照片文件
     public var currentIndex:Int!   //当前索引位置
     
-    private var toolBar:CDToolBar!
     private var indexLabel:UILabel!
     private var collectionView:UICollectionView!
-
+    private var isHiddenBottom:Bool! = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController!.navigationBar.isTranslucent = true
+
+
     }
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if toolBar.isHidden {
-            onBarsHiddenOrNot()
-        }
+        super.viewWillDisappear(animated)
+        self.navigationController!.navigationBar.isTranslucent = false
     }
+    
+    override var prefersStatusBarHidden: Bool{
+        return isHiddenBottom
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false;
         let fileInfo = inputArr[currentIndex]
         self.title = fileInfo.fileName
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width:CDSCREEN_WIDTH + 40, height: CDSCREEN_HEIGTH)
+        layout.itemSize = CGSize(width:CDSCREEN_WIDTH , height: CDSCREEN_HEIGTH)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         layout.scrollDirection = .horizontal
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: -(StatusHeight + 44.0), width: CDSCREEN_WIDTH + 40, height: CDSCREEN_HEIGTH), collectionViewLayout: layout)
-        collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageScrollerr")
+        
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH), collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = UIColor.black
+        collectionView.backgroundColor = .black
         collectionView.isPagingEnabled = true
-        view.addSubview(collectionView!)
-        collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
+        view.addSubview(collectionView)
+        collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageScrollerr")
+        collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)
 
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage(imageName: "fileDetail", type: "png"), style: .plain, target: self, action: #selector(detailBtnClicked))
+       
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage("fileDetail"), style: .plain, target: self, action: #selector(detailBtnClicked))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
-        indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: CDViewHeight - 48 - 40, width: 50, height: 30))
+        self.view.addSubview(self.toolBar)
+        self.toolBar.loveItem.setImage(LoadImage(fileInfo.grade == .lovely ? "menu_love_press" : "menu_love_normal"), for: .normal)
+        
+        
+        indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: self.toolBar.minY - 40, width: 50, height: 30))
         indexLabel.textAlignment = .center
         indexLabel.textColor = UIColor.lightGray
         indexLabel.font = TextMidFont
         indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
         indexLabel.backgroundColor = UIColor.clear
         self.view.addSubview(indexLabel)
-
-        self.toolBar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .ImageFolder, superVC: self)
-        self.view.addSubview(self.toolBar)
-        self.toolBar.loveItem.setImage(LoadImage(imageName: fileInfo.grade == .lovely ? "love_press" : "love_normal", type: "png"), for: .normal)
-
-        
-        registerNotification()
+        let videoTap = UITapGestureRecognizer(target: self, action: #selector(onBarsHiddenOrNot))
+        self.view.addGestureRecognizer(videoTap)
     }
+    
+    lazy var toolBar: CDToolBar = {
+        let bar = CDToolBar(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .ImageScrollerTools, superVC: self)
+        return bar
+    }()
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return inputArr.count
     }
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageScrollerr", for: indexPath) as! CDImageCell
         let tmpFile:CDSafeFileInfo = inputArr[indexPath.item]
         cell.setScrollerImageData(fileInfo: tmpFile)
-        cell.tapQRHandle = {(massage) -> Void in
+        cell.longTapHandle = {(massage) -> Void in
             self.tapQR(message: massage)
             
         }
+
         return cell
     }
 
+ 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let firstIndexPath = collectionView.indexPathsForVisibleItems.first
         
         let page = firstIndexPath!.item
         let fileinfo = inputArr[page]
         DispatchQueue.main.async {
-            self.toolBar.loveItem.setImage(LoadImage(imageName: fileinfo.grade == .lovely ? "love_press" : "love_normal", type: "png"), for: .normal)
+            self.toolBar.loveItem.setImage(LoadImage(fileinfo.grade == .lovely ? "menu_love_press" : "menu_love_normal"), for: .normal)
             self.toolBar.editItem.isEnabled = !(fileinfo.fileType == .GifType)
         }
 
@@ -103,7 +122,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
             webVC.url = URL(string: message)!
             self.navigationController?.pushViewController(webVC, animated: true)
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
         
     }
@@ -115,10 +134,10 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         self.navigationController?.pushViewController(fileDetail, animated: true)
     }
     //MARK:分享
-    @objc func shareItemClick()
+    @objc func shareBarItemClick()
     {
         let fileInfo = inputArr[currentIndex]
-        let imagePath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+        let imagePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
         let url = URL(fileURLWithPath: imagePath)
         presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
@@ -129,38 +148,38 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
         let fileInfo = inputArr[currentIndex]
         if fileInfo.grade == .normal {
             fileInfo.grade = .lovely
-            self.toolBar.loveItem.setImage(LoadImage(imageName: "love_press", type: "png"), for: .normal)
+            self.toolBar.loveItem.setImage(LoadImage("menu_love_press"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
         }else{
             fileInfo.grade = .normal
-            self.toolBar.loveItem.setImage(LoadImage(imageName: "love_normal", type: "png"), for: .normal)
+            self.toolBar.loveItem.setImage(LoadImage("menu_love_normal"), for: .normal)
             CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
         }
     }
     
     //MARK:删除
-    @objc func deleteItemItemClick()
+    @objc func deleteBarItemClick()
     {
         let fileInfo = inputArr[currentIndex]
-        let sheet = UIAlertController(title: nil, message: "删除照片", preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "确定", style: .destructive, handler: { (action) in
-            let thumbPath = String.thumpImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+        let sheet = UIAlertController(title: nil, message: LocalizedString("Delete Photo"), preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .destructive, handler: { (action) in
+            let thumbPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
             DeleteFile(filePath: thumbPath)
-            //删除加密大图
-            let defaultPath = String.ImagePath().appendingPathComponent(str: fileInfo.filePath.lastPathComponent())
+            let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
             DeleteFile(filePath: defaultPath)
             CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {
-                CDHUDManager.shared.showComplete(text: "删除完成！")
+                CDHUDManager.shared.showComplete(LocalizedString("Delete complete"))
                 self.collectionView.reloadData()
             }
 
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
 
     }
+    
     @objc func editItemClick(){
         let editVC = CDImageEditViewController()
         editVC.imageInfo = inputArr[currentIndex]
@@ -171,28 +190,21 @@ class CDImageScrollerViewController: CDBaseAllViewController,UIImagePickerContro
 
     //MARK:NotificationCenter
     @objc func onBarsHiddenOrNot(){
-
-        if self.toolBar.isHidden {
-            self.toolBar.isHidden = false
-            self.navigationController?.navigationBar.isHidden = false
-        }else{
-            self.toolBar.isHidden = true
-            self.navigationController?.navigationBar.isHidden = true
+        self.isHiddenBottom = !self.isHiddenBottom
+        var rect = self.toolBar.frame
+        UIView.animate(withDuration: 0.25) {
+            rect.origin.y = self.isHiddenBottom ? CDSCREEN_HEIGTH : (CDSCREEN_HEIGTH - BottomBarHeight)
+            self.toolBar.frame = rect
         }
+        
+        self.navigationController?.setNavigationBarHidden(self.isHiddenBottom, animated: true)
+        
+
     }
 
 
-    func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(onBarsHiddenOrNot), name: .BarsHiddenOrNot, object: nil)
-    }
-    func removeNotification() {
-        NotificationCenter.default.removeObserver(self, name: .BarsHiddenOrNot, object: nil)
-    }
-
-    deinit {
-        removeNotification()
-    }
-
+    
+    
 
 
 

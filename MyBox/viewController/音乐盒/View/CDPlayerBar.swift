@@ -47,9 +47,9 @@ class CDPlayerBar: UIView,CDMusicPlayDelegate {
         playBtn = UIButton(type: .custom)
         playBtn.frame = CGRect(x: frame.width - 20 * 2 - 35 * 3 - 15, y: 25, width: 35, height: 35)
         if CDMusicManager.shareInstance().player.isPlaying{
-            playBtn.setImage(LoadImage(imageName: "bar_stop", type: "png"), for: .normal)
+            playBtn.setImage(LoadImage("bar_stop"), for: .normal)
         }else{
-            playBtn.setImage(LoadImage(imageName: "bar_play", type: "png"), for: .normal)
+            playBtn.setImage(LoadImage("bar_play"), for: .normal)
 
         }
         playBtn.addTarget(self, action: #selector(playBtnClick(sender:)), for: .touchUpInside)
@@ -57,14 +57,14 @@ class CDPlayerBar: UIView,CDMusicPlayDelegate {
 
         let nextBtn = UIButton(type: .custom)
         nextBtn.frame = CGRect(x: frame.width - 20 - 35 * 2 - 15, y: 25, width: 35, height: 35)
-        nextBtn.setImage(LoadImage(imageName: "下一首播放", type: "png"), for: .normal)
+        nextBtn.setImage(LoadImage("下一首播放"), for: .normal)
         nextBtn.addTarget(self, action: #selector(onNextPlayClick), for: .touchUpInside)
         self.addSubview(nextBtn)
 
         let listBtn = UIButton(type: .custom)
         listBtn.frame = CGRect(x: frame.width - 35 - 15, y: 25, width: 35, height: 35)
         listBtn.addTarget(self, action: #selector(onPopListBtnClick), for: .touchUpInside)
-        listBtn.setImage(LoadImage(imageName: "bar_list", type: "png"), for: .normal)
+        listBtn.setImage(LoadImage("bar_list"), for: .normal)
         self.addSubview(listBtn)
 
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPopPlayViewController)))
@@ -84,11 +84,11 @@ class CDPlayerBar: UIView,CDMusicPlayDelegate {
 //        let status = CDConfigFile.getBoolValueFromConfigWith(key: CD_MusicPlayerStatus)
 
         if player!.isPlaying {
-            playBtn.setBackgroundImage(LoadImage(imageName: "bar_stop", type: "png"), for: .normal)
+            playBtn.setBackgroundImage(LoadImage("bar_stop"), for: .normal)
             player!.pause()
 
         }else{
-            playBtn.setBackgroundImage(LoadImage(imageName: "bar_play", type: "png"), for: .normal)
+            playBtn.setBackgroundImage(LoadImage("bar_play"), for: .normal)
             player!.play()
         }
     }

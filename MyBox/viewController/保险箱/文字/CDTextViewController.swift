@@ -49,7 +49,6 @@ QLPreviewControllerDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "文本文件"
         isNeedReloadData = true
         currentFolderId = gFolderInfo.folderId;
 
@@ -72,18 +71,18 @@ QLPreviewControllerDataSource{
         
         self.backBtn = UIButton(type: .custom)
         self.backBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        self.backBtn.setTitle("返回", for: .normal)
+        self.backBtn.setTitle(LocalizedString("back"), for: .normal)
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
         
-        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .TextFolder, superVC: self)
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .TextTools, superVC: self)
         self.view.addSubview(self.toolbar)
         hiddenDirNavBar()
         
     }
     
     private func refreshData(superId:Int) {
-        toolbar.enableReloadBar(isSelected: false)
+        toolbar.enableReloadBar(isEnable: false)
         textTD = CDSqlManager.shared.queryAllContentFromFolder(folderId: superId)
         tablebview.reloadData()
     }
@@ -110,7 +109,7 @@ QLPreviewControllerDataSource{
         batchBtn.isSelected = isSelected
         if (batchBtn.isSelected) { //点了批量操作
             //1.返回按钮变全选
-            self.backBtn.setTitle("全选", for: .normal)
+            self.backBtn.setTitle(LocalizedString("select all"), for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             //所有文件，文件夹设置未选状态
             textTD.filesArr.forEach { (tmpFile) in
@@ -122,7 +121,7 @@ QLPreviewControllerDataSource{
             toolbar.hiddenReloadBar(isMulit: true)
         }else{
             //1.返回变全选
-            self.backBtn.setTitle("返回", for: .normal)
+            self.backBtn.setTitle(LocalizedString("back"), for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             textTD.filesArr.forEach { (tmpFile) in
@@ -140,7 +139,7 @@ QLPreviewControllerDataSource{
     //返回
     @objc private func backBtnClick() -> Void {
         if batchBtn.isSelected {
-            if (self.backBtn.currentTitle == "全选") { //全选
+            if (self.backBtn.currentTitle == LocalizedString("select all")) { //全选
                 textTD.filesArr.forEach { (tmpFile) in
                      tmpFile.isSelected = .CDTrue
                  }
@@ -167,18 +166,18 @@ QLPreviewControllerDataSource{
     }
     
     private func refreshUI(){
-        toolbar.enableReloadBar(isSelected: selectFileCount + selectFolderCount > 0)
+        toolbar.enableReloadBar(isEnable: selectFileCount + selectFolderCount > 0)
         toolbar.moveItem.isEnabled = selectFileCount > 0 && selectFolderCount < 1
         toolbar.shareItem.isEnabled = selectFileCount > 0 && selectFolderCount < 1
         if selectFileCount == textTD.filesArr.count &&
             selectFolderCount == textTD.foldersArr.count &&
             (textTD.filesArr.count > 0 ||
             textTD.foldersArr.count > 0){
-            self.backBtn.setTitle("全不选", for: .normal)
+            self.backBtn.setTitle(LocalizedString("unselect all"), for: .normal)
             backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
             backBtn.contentHorizontalAlignment = .left
         }else{
-            backBtn.setTitle("全选", for: .normal)
+            backBtn.setTitle(LocalizedString("select all"), for: .normal)
         }
         tablebview.reloadData()
     }
@@ -237,7 +236,6 @@ QLPreviewControllerDataSource{
         isNeedReloadData = true
         handelSelectedArr()
         let folderList = CDFolderListViewController()
-        folderList.title = "文件夹列表"
         folderList.selectedArr = selectedFileArr
         folderList.folderType = .TextFolder
         folderList.folderId = gFolderInfo.folderId
@@ -248,12 +246,12 @@ QLPreviewControllerDataSource{
     @objc func deleteBarItemClick(){
         handelSelectedArr()
         let total = selectedFileArr.count + selectedFolderArr.count
-        let btnTitle = total > 1 ? "删除\(total)个文件" : "删除文件"
+        let btnTitle = total > 1 ? LocalizedString("Delete%@ files","\(total)"): LocalizedString("Delete File")
         
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shared.showWait(text: "删除中...")
+                CDHUDManager.shared.showWait(LocalizedString("deleting..."))
             }
             
             DispatchQueue.global().async {
@@ -292,11 +290,11 @@ QLPreviewControllerDataSource{
                 DispatchQueue.main.async {
                     self.batchHandleFiles(isSelected: false)
                     CDHUDManager.shared.hideWait()
-                    CDHUDManager.shared.showText(text: "文件删除完成")
+                    CDHUDManager.shared.showText(LocalizedString("Delete complete"))
                 }
             }
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
     }
     
@@ -325,13 +323,16 @@ QLPreviewControllerDataSource{
         self.navigationController?.pushViewController(textVC, animated: true)
         
     }
+    
     //MARK:UITableViewDelegate
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 0.01
@@ -343,11 +344,11 @@ QLPreviewControllerDataSource{
             }
         }
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = SeparatorGrayColor
-        return view
+        return nil
     }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.01
     }
@@ -359,6 +360,7 @@ QLPreviewControllerDataSource{
         }
         
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellId = "textCellId"
@@ -516,7 +518,7 @@ QLPreviewControllerDataSource{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if indexPath.section == 0 {
             let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
+            let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
                 let folderDVC = CDFolderDetailViewController()
                 folderDVC.folderInfo = folder
                 self.navigationController?.pushViewController(folderDVC, animated: true)
@@ -524,7 +526,7 @@ QLPreviewControllerDataSource{
             return [detail]
         }else{
             let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
+            let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
                 let fileDVC = CDFileDetailViewController()
                 fileDVC.fileInfo = fileInfo
                 self.navigationController?.pushViewController(fileDVC, animated: true)
@@ -545,12 +547,12 @@ QLPreviewControllerDataSource{
             
             detail.image = UIImage(named: "fileDetail")
             
-            let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+            let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
                 folder.isSelected = .CDTrue
                 self.deleteBarItemClick()
             }
             delete.backgroundColor = .red
-            delete.image = LoadImage(imageName: "delete-white", type: "png")
+            delete.image = LoadImage("delete-white")
             let action = UISwipeActionsConfiguration(actions: [delete,detail])
             return action
         }else{
@@ -562,12 +564,12 @@ QLPreviewControllerDataSource{
             }
             detail.image = UIImage(named: "fileDetail")
             
-            let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+            let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
                 fileInfo.isSelected = .CDTrue
                 self.deleteBarItemClick()
             }
             delete.backgroundColor = .red
-            delete.image = LoadImage(imageName: "delete-white", type: "png")
+            delete.image = LoadImage("delete-white")
             let action = UISwipeActionsConfiguration(actions: [delete,detail])
             return action
         }
@@ -575,15 +577,6 @@ QLPreviewControllerDataSource{
     
     
     func unArchiveZip(fileInfo:CDSafeFileInfo){
-        let zipPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-        //取压缩文件的目录
-        var desDirPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath.removeSuffix())
-        var isDir:ObjCBool = true
-        if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
-            if isDir.boolValue {
-                desDirPath = desDirPath + GetTimeFormat(GetTimestamp())
-            }
-        }
         //获取解压文件夹中所有子文件，文件夹保存
         func getAllContentsOfDirectory(dirPath:String,superId:Int){
             //先保存文件夹，再取子文件保存，子文件夹重复操作
@@ -598,7 +591,7 @@ QLPreviewControllerDataSource{
                     }
                 }else{
                     CDHUDManager.shared.hideWait()
-                    CDHUDManager.shared.showText(text: "解压完成")
+                    CDHUDManager.shared.showText(LocalizedString("Unzip complete"))
                     self.refreshData(superId: self.currentFolderId)
                 }
             }
@@ -606,30 +599,43 @@ QLPreviewControllerDataSource{
         
         //解压
         func unArchiveZipToDirectory(password:String?){
-            CDHUDManager.shared.showWait(text: "解压中...")
+            CDHUDManager.shared.showWait(LocalizedString("Unzipping..."))
             let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: password)
             if error == nil {
                 getAllContentsOfDirectory(dirPath: desDirPath, superId: self.currentFolderId)
             }else{
                 CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showText(text: "解压失败:" + error!.localizedDescription)
+                CDHUDManager.shared.showText(LocalizedString("解压失败:%@",error!.localizedDescription))
             }
         }
         
+        let zipPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
+        //取压缩文件的目录
+        var desDirPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath.removeSuffix())
+        var isDir:ObjCBool = true
+        if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
+            if isDir.boolValue {
+                desDirPath = desDirPath + " (\(GetTimeFormat(GetTimestamp())))"
+            }
+        }
+
         //判断压缩包是否加密
         if  CDGeneralTool.checkPasswordIsProtectedZip(zipFile: zipPath){
-            let alert = UIAlertController(title: "本压缩包为加密压缩包", message: "请输入解压密码", preferredStyle: .alert)
+            let alert = UIAlertController(title: LocalizedString("Encrypted Zip"), message: LocalizedString("Please enter the decompression password"), preferredStyle: .alert)
             var tmpTextFiled:UITextField!
             alert.addTextField { (textFiled) in tmpTextFiled = textFiled }
-            alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+            alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
                 let password = tmpTextFiled.text ?? fileInfo.fileName
                 unArchiveZipToDirectory(password: password)
             }))
-            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
+            alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
             present(alert, animated: true, completion: nil)
         }else{
             unArchiveZipToDirectory(password: nil)
         }
+        
+        
+        
     }
     
     //保存文件夹,并返回该文件夹的FolderId,作为保存子文件的folderId、文件夹的superId
@@ -637,26 +643,26 @@ QLPreviewControllerDataSource{
         let nowTime = GetTimestamp()
         let createtime:Int = nowTime;
         let folderInfo = CDSafeFolder()
-        folderInfo.folderName = path.getFileNameFromPath().removingPercentEncoding()
+        folderInfo.folderName = path.lastPathComponent
         folderInfo.folderType = .TextFolder
         folderInfo.isLock = LockOn
         folderInfo.fakeType = .visible
-        folderInfo.createTime = Int(createtime)
-        folderInfo.modifyTime = Int(createtime)
-        folderInfo.accessTime = Int(createtime)
+        folderInfo.createTime = createtime
+        folderInfo.modifyTime = createtime
+        folderInfo.accessTime = createtime
         folderInfo.userId = CDUserId()
         folderInfo.superId = superId;
-        folderInfo.folderPath = path.relativePath()
+        folderInfo.folderPath = path.relativePath
         let folderId = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
         
         Return(folderId)
     }
+    
     func saveSubFiles(path:String,superId:Int) {
         let fileInfo = CDSafeFileInfo()
-        var fileName = path.getFileNameFromPath()
-        fileName = fileName.removingPercentEncoding()
-        let suffix = path.getSuffix()
-        fileInfo.fileType = suffix.getFileTypeFromSuffix()
+        let fileName = path.fileName
+        let suffix = path.suffix
+        fileInfo.fileType = suffix.fileType
         fileInfo.fileSize = GetFileSize(filePath: path)
         
         fileInfo.folderId = superId
@@ -665,7 +671,7 @@ QLPreviewControllerDataSource{
         fileInfo.createTime =  GetTimestamp()
         fileInfo.modifyTime = GetTimestamp()
         fileInfo.accessTime = GetTimestamp()
-        fileInfo.filePath = path.relativePath()
+        fileInfo.filePath = path.relativePath
         fileInfo.folderType = .TextFolder
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }

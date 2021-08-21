@@ -10,31 +10,27 @@ import UIKit
 import Foundation
 import CoreGraphics.CGImage
 import Photos
+import CoreLocation
 
-
-class CDSignalTon: NSObject {
+class CDSignalTon: NSObject,CLLocationManagerDelegate {
 
     var basePwd = String() //
     var userId:Int = 0
     var loginType:CDLoginType!
     var touchIDSwitch:Bool = false //touch ID开关
     var fakeSwitch:Bool = false  //访客开关
-    var darkSwitch:Bool = false  //暗黑模式
     var isViewDisappearStopRecording = false
-    var videoAssetArr:[CDPHAsset] = []
     var tmpDict = NSMutableDictionary()
     var customPickerView:UIViewController! //记录present的页面，程序进入后台时dismiss掉
     var dirNavArr = NSMutableArray()
     var waterBean:CDWaterBean!
     var tab:CDTabBarViewController!
-    
+    var locationManager:CLLocationManager!
     
     static let shared = CDSignalTon()
     private override init() {
         super.init()
-        if isFirstInstall() {//已经登录了
-            basePwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: userId)
-        }else{
+        if isFirstInstall() {//首次登陆需要创建文件夹等等
             //写入文件
             userId = FIRSTUSERID
             CDConfigFile.setIntValueToConfigWith(key: .userId, intValue: userId)
@@ -50,7 +46,8 @@ class CDSignalTon: NSObject {
             CDWaterBean.setWaterConfig(isOn: false, text: GetAppName())
             
             CDConfigFile.setOjectToConfigWith(key: .firstInstall, value: "YES")
-            
+        }else{
+            basePwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: userId)
         }
         
         loginType = .real
@@ -59,13 +56,24 @@ class CDSignalTon: NSObject {
         touchIDSwitch = CDConfigFile.getBoolValueFromConfigWith(key: .touchIdSwi)
         
         waterBean = CDWaterBean()
+        NotificationCenter.default.addObserver(self, selector: #selector(onObserverTheme), name: NSNotification.Name(rawValue: "changeAppTheme"), object: nil)
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            
+            locationManager.requestWhenInUseAuthorization()
+        }
+        locationManager.startUpdatingLocation()
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+      
+    }
     /**
     添加沙盒文件夹
     */
     func addDefaultSafeFolder() -> Void {
-        let nameArr:[String] = ["图片文件", "音频文件","视频文件","文本文件"]
+        let nameArr:[String] = [LocalizedString("Photo"), LocalizedString("Audio"),LocalizedString("Video"),LocalizedString("Text")]
         let pathArr:[String] = [String.ImagePath(),String.AudioPath(),String.VideoPath(),String.OtherPath()]
         for i in 0..<nameArr.count {
             let nowTime = GetTimestamp()
@@ -78,7 +86,7 @@ class CDSignalTon: NSObject {
             folderInfo.createTime = Int(createtime)
             folderInfo.modifyTime = Int(createtime)
             folderInfo.accessTime = Int(createtime)
-            folderInfo.folderPath = pathArr[i].relativePath()
+            folderInfo.folderPath = pathArr[i].relativePath
             folderInfo.userId = CDUserId()
             folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
             _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
@@ -121,16 +129,15 @@ class CDSignalTon: NSObject {
     */
     func saveSafeFileInfo(fileUrl:URL,folderId:Int,subFolderType:NSFolderType,isFromDocment:Bool){
         let tmpFilePath = isFromDocment ? fileUrl.absoluteString : fileUrl.path
-        let fileName = tmpFilePath.getFileNameFromPath().removingPercentEncoding()
-        let suffix = tmpFilePath.getSuffix()
+        let fileName = tmpFilePath.fileName
+        let suffix = tmpFilePath.suffix
         var contentData = Data()
         //保存数据到临时data
         do {
             try contentData = Data(contentsOf: fileUrl)
         } catch  {
-           return
+            return
         }
-        
         if contentData.count <= 0 {
             print("saveSafeFileInfo Fail :Content is nil")
             return;
@@ -140,7 +147,7 @@ class CDSignalTon: NSObject {
             try! FileManager.default.removeItem(atPath: tmpFilePath)
         }
         
-        let fileType = suffix.getFileTypeFromSuffix()
+        let fileType = suffix.fileType
         let currentTime = GetTimestamp()
         let fileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
@@ -154,72 +161,37 @@ class CDSignalTon: NSObject {
         var filePath:String!
 
         if subFolderType == .ImageFolder{
-            
             filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-            do {
-                try contentData.write(to: URL(fileURLWithPath: filePath))
-            } catch  {
-                print("图片存储失败：%s",error.localizedDescription)
-                return
-            }
+            try! contentData.write(to: URL(fileURLWithPath: filePath))
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
             let image = UIImage(data: contentData)!
             let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
             let data = thumbImage.jpegData(compressionQuality: 1.0)
-            do {
-                try data?.write(to: URL(fileURLWithPath: thumbPath))
-            } catch  {
-                
-            }
-            
+            try! data?.write(to: URL(fileURLWithPath: thumbPath))
             fileInfo.fileWidth = Double(image.size.width)
             fileInfo.fileHeight = Double(image.size.height)
-            fileInfo.thumbImagePath = thumbPath.relativePath()
-            
+            fileInfo.thumbImagePath = thumbPath.relativePath
         }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
-            let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-            let urlAsset: AVURLAsset = AVURLAsset(url: fileUrl, options: opts)
-            let voiceTime = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
-            fileInfo.timeLength = voiceTime
             if subFolderType == .VideoFolder{
                 filePath = String.VideoPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                do {
-                    try contentData.write(to: URL(fileURLWithPath: filePath))
-                } catch  {
-                    print(error.localizedDescription)
-                    return
-                }
+                try! contentData.write(to: URL(fileURLWithPath: filePath))
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                let image = GetVideoPreviewImage(videoUrl: URL(fileURLWithPath: filePath))
+                let image = UIImage.previewImage(videoUrl: URL(fileURLWithPath: filePath))
                 let data = image.jpegData(compressionQuality: 1.0)
-                do {
-                    try data?.write(to: URL(fileURLWithPath: thumbPath))
-                } catch  {
-                    
-                }
-                fileInfo.thumbImagePath = thumbPath.relativePath()
+                try! data?.write(to: URL(fileURLWithPath: thumbPath))
+                fileInfo.thumbImagePath = thumbPath.relativePath
             }else{
                 filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                do {
-                    try contentData.write(to: URL(fileURLWithPath: filePath))
-                } catch  {
-                    print(error.localizedDescription)
-                    return
-                }
+                try! contentData.write(to: URL(fileURLWithPath: filePath))
             }
-            
+            fileInfo.timeLength = GetVideoLength(path: filePath)
         }else{
             filePath = String.OtherPath().appendingPathComponent(str: "\(fileName).\(suffix)")
-            do {
-                try contentData.write(to: URL(fileURLWithPath: filePath))
-            } catch  {
-                print("contentdata写入文件失败：%s" ,error.localizedDescription)
-                return
-            }
+            try! contentData.write(to: URL(fileURLWithPath: filePath))
         }
         let fileSize = GetFileSize(filePath: filePath)
         fileInfo.fileSize = fileSize
-        fileInfo.filePath = filePath.relativePath()
+        fileInfo.filePath = filePath.relativePath
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
     
@@ -229,8 +201,8 @@ class CDSignalTon: NSObject {
     func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
         let fileName = obj["fileName"] as! String
         let imageType = obj["imageType"] as! String
-        let suffix = fileName.getSuffix()
-        let fileType = suffix.getFileTypeFromSuffix()
+        let suffix = fileName.suffix
+        let fileType = suffix.fileType
         
         let time = GetTimestamp()
         let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
@@ -270,9 +242,9 @@ class CDSignalTon: NSObject {
         }
         let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
-        fileInfo.fileName = fileName
-        fileInfo.filePath = savePath.relativePath()
-        fileInfo.thumbImagePath = thumbPath.relativePath()
+        fileInfo.fileName = fileName.removeSuffix()
+        fileInfo.filePath = savePath.relativePath
+        fileInfo.thumbImagePath = thumbPath.relativePath
         fileInfo.fileSize = GetFileSize(filePath: savePath)
         fileInfo.fileWidth = Double(image.size.width)
         fileInfo.fileHeight = Double(image.size.height)
@@ -399,7 +371,7 @@ class CDSignalTon: NSObject {
             
         }
         
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH))
         imageView.alpha = 0.3
         imageView.image = drawWaterMark(frame: imageView.frame, text: text, color: textColor)
         imageView.isUserInteractionEnabled = false
@@ -449,7 +421,7 @@ class CDSignalTon: NSObject {
         var lastAsset:AVURLAsset!
         for index in 0..<appendFile.count {
             let tmpFile = appendFile[index]
-            let tmpPath = String.AudioPath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
+            let tmpPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
             let audioAsset = AVURLAsset(url: URL(fileURLWithPath: tmpPath))
             let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: 0)!
             let audioAssetTrack = audioAsset.tracks(withMediaType: .audio).first
@@ -481,14 +453,23 @@ class CDSignalTon: NSObject {
         })
     }
     
-    /**
-      批量删除
-     */
-    func batchDeleteFile(fileArr:[CDSafeFileInfo]){
-        fileArr.forEach { (tmpFile) in
-            
+    @objc func onObserverTheme(){
+        if GetAppThemeSwi() {
+            //跟随系统
+        }else{
+            let applicate = UIApplication.shared.delegate as! CDAppDelegate
+            if GetThemeMode() == .Nomal {
+                //普通模式
+                applicate.window?.backgroundColor = .lightGray
+            }else{
+                //深色模式
+                
+                applicate.window?.backgroundColor = .darkGray
+            }
         }
     }
+    
+    
     
 }
 

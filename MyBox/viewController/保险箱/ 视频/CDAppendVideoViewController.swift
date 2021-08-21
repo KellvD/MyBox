@@ -10,6 +10,7 @@ import UIKit
 
 class CDAppendVideoViewController: CDBaseAllViewController {
     public var composeHandle:CDComposeHandle!
+    var handle:((_ success:Bool) -> (Void))!
     override func viewDidLoad() {
         super.viewDidLoad()
 

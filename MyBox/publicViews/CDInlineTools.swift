@@ -11,11 +11,7 @@ import AVFoundation
 import Photos
 @inline(__always) func isFirstInstall() ->Bool{
     let flag = CDConfigFile.getValueFromConfigWith(key: .firstInstall)
-    if flag.isEmpty || flag == "NO"{
-        return false
-    } else {
-        return true
-    }
+    return flag != "YES"
 }
 
 /*
@@ -54,7 +50,6 @@ import Photos
     if manager.fileExists(atPath: folderPath, isDirectory: &isDir) {
         if isDir.boolValue {
             let fileArr = manager.subpaths(atPath: folderPath)!
-            
             fileArr.forEach { (path) in
                 let allPath = folderPath + "/" + path
                 fileSize = fileSize + GetFileSize(filePath: allPath)
@@ -67,20 +62,24 @@ import Photos
     
 }
 
-/*
-加载图片
-*/
-@inline(__always) func LoadImage(imageName:String,type:String) -> UIImage? {
-    var path = Bundle.main.path(forResource:imageName, ofType:type)
-    if path == nil{
-        let name = imageName + "@2x"
-        path = Bundle.main.path(forResource:name, ofType:type)
+
+/// 加载图片
+/// - Parameters:
+///   - imageName: 图片名称
+///   - type: 图片格式
+/// - Returns: 图片
+@inline(__always) func LoadImage(_ imageName:String) -> UIImage? {
+    if imageName.hasPrefix(String.RootPath()) { //判断是否是沙盒文件
+        let image = UIImage(contentsOfFile: imageName)
+        if image != nil {
+            return image
+        }else{
+            return UIImage(named:"图片加载失败");
+        }
     }
-    if path == nil{
-        return nil
-    }
-    let image = UIImage(contentsOfFile: path!)
-    return image!
+    
+    return UIImage(named: imageName )
+    
 }
 
 /*
@@ -92,7 +91,7 @@ import Photos
         do{
             try manager.removeItem(atPath: filePath)
         }catch{
-            
+            CDPrintManager.log("文件删除失败" + error.localizedDescription, type: .WarnLog)
         }
     }
 }
@@ -131,7 +130,7 @@ import Photos
 获取视频的长度
 */
 @inline(__always)func GetVideoLength(path:String)->Double{
-    let urlAsset = AVURLAsset(url: URL(fileURLWithPath: path))
+    let urlAsset = AVURLAsset(url: URL(fileURLWithPath: path), options: nil)
     let second = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
     return second
 }
@@ -159,7 +158,7 @@ import Photos
     case 4:
         sizeStr = String(format: "%.2lfT", sizef)
     default:
-        sizeStr = ""
+        break
     }
     return sizeStr
 }
@@ -181,27 +180,6 @@ import Photos
     let date = Date(timeIntervalSince1970: TimeInterval(timestamp/1000))
     let dateStr = formter.string(from: date)
     return dateStr
-}
-
-/*
-获取视频的首帧图片
-*/
-@inline(__always)func GetVideoPreviewImage(videoUrl:URL) -> UIImage {
-    let avAsset = AVAsset(url: videoUrl)
-    let generator = AVAssetImageGenerator(asset: avAsset)
-    generator.appliesPreferredTrackTransform = true
-    let time = CMTimeMakeWithSeconds(0.0, preferredTimescale: 600)
-    var actualTime:CMTime = CMTimeMake(value: 0, timescale: 0)
-    do {
-        let imageRef:CGImage = try generator.copyCGImage(at: time, actualTime: &actualTime)
-        let image = UIImage(cgImage: imageRef)
-
-        return image
-    } catch  {
-        print(error)
-        return LoadImage(imageName: "file_video_big", type: "png")!
-    }
-    
 }
 
 
@@ -311,21 +289,21 @@ import Photos
     var title:String!
     var message:String!
     if type == .library {
-        title = "相册被拒绝访问"
-        message = "请在”设置>隐私>照片>\(GetAppName())“，设置读取和写入"
+        title = LocalizedString("Album is denied access")
+        message = LocalizedString("Please go to \"Settings>Privacy>Photos>%@)\" to set read and write", GetAppName())
     } else if type == .camera {
-        title = "相机访问被拒绝"
-        message = "请在“设置>隐私>相机>\(GetAppName())”选项中，打开允许访问的开关"
+        title = LocalizedString("Camera access denied")
+        message = LocalizedString("Please turn on the switch to allow access in the \"Settings>Privacy>Camera>%@)\" option", GetAppName())
     } else if type == .micorphone {
-        title = "麦克风被拒绝访问"
-        message = "请在“设置>隐私>麦克风>\(GetAppName())”选项中，打开允许访问的开关"
+        title = LocalizedString("Microphone access denied")
+        message = LocalizedString("Please turn on the switch to allow access in the \"Settings>Privacy>Microphone>%@)\" option", GetAppName())
     } else if type == .location {
-        title = "地图定位被拒绝访问"
-        message = "请在“设置>隐私>定位服务>\(GetAppName())”选项中，选择使用权限"
+        title = LocalizedString("Map location access denied")
+        message = LocalizedString("Please select the usage permission in the \"Settings>Privacy>Location Services>%@)\" option", GetAppName())
     }
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "以后设置", style: .cancel, handler: nil))
-    alert.addAction(UIAlertAction(title: "前去设置", style: .default, handler: { (action) in
+    alert.addAction(UIAlertAction(title: LocalizedString("Set Up Later"), style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(title: LocalizedString("Go to Settings"), style: .default, handler: { (action) in
         var url = URL(string: "App-Prefs:root=Privacy")
         if #available(iOS 10.3, *) {
             url = URL(string: UIApplication.openSettingsURLString)
@@ -353,18 +331,61 @@ import Photos
     return statusHeight
 }
 
-
-@inline(__always)func UIColorFromRGB(_ red:CGFloat,_ green:CGFloat,_ blue:CGFloat) -> UIColor{
-    return UIColor(red:red/255.0, green:green/255.0,blue:blue/255.0,alpha:1.0)
+@inline(__always)func GetAppThemeSwi() ->Bool{
+    let theme = CDConfigFile.getBoolValueFromConfigWith(key: .darkSwi)
+    return theme
 }
 
-@inline(__always)func UIColorFromRGBA(_ red:CGFloat,_ green:CGFloat,_ blue:CGFloat,_ alpha:CGFloat) -> UIColor{
-    return UIColor(red:red/255.0, green:green/255.0,blue:blue/255.0,alpha:alpha)
+@inline(__always)func GetThemeMode() ->CDThemeMode{
+    let theme = CDConfigFile.getIntValueFromConfigWith(key: .themeMode)
+    return CDThemeMode(rawValue: max(0, theme))!
 }
 
-@inline(__always)func UIColorFromHex(hexNum:Int) -> UIColor{
-    return UIColor(red: CGFloat((hexNum & 0xFF0000) >> 16) / 255.0,
-                   green: CGFloat((hexNum & 0x00FF00) >> 8) / 255.0,
-                   blue: CGFloat((hexNum & 0x0000FF) >> 0) / 255.0,
-                   alpha: 1.0)
+//MARK:获取图片格式
+@inline(__always)func imageFormat(imageData:NSData) ->SDImageFormat{
+   var c: UInt8?
+   imageData.getBytes(&c, length: 1)
+
+   switch c {
+   case 0xff:
+       return SDImageFormat.JPEG
+   case 0x89:
+       return SDImageFormat.PNG;
+   case 0x47:
+       return SDImageFormat.GIF;
+   case 0x49,0x4D:
+       return SDImageFormat.TIFF;
+   case 0x52:
+       if imageData.length > 12{
+           let string = String(data: imageData.subdata(with: NSRange(location: 0, length: 12)), encoding: String.Encoding.ascii)!
+           if (string.hasPrefix("PIFF") &&
+               string.hasSuffix("WEBP")){
+               return SDImageFormat.WebP;
+           }
+       }
+   case 0x00:
+       if imageData.length > 12{
+           let string = String(data: imageData.subdata(with: NSRange(location: 4, length: 8)), encoding: String.Encoding.ascii)!
+           if (string == "ftypheic" ||
+               string == "WEBP" ||
+               string == "ftyphevc" ||
+               string == "ftyphevx"){
+               return SDImageFormat.HEIC;
+           }
+       }
+   default:
+       return SDImageFormat.Undefined;
+   }
+   return SDImageFormat.Undefined;
+}
+
+
+
+@inline(__always)func LocalizedString(_ key:String,_ comment:String) -> String{
+    return String(format: NSLocalizedString(key, comment:""), comment)
+}
+
+@inline(__always)func LocalizedString(_ key:String) -> String{
+    
+    return NSLocalizedString(key, comment: "")
 }

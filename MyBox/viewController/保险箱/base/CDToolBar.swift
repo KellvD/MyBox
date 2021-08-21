@@ -8,6 +8,14 @@
 
 import UIKit
 
+enum CDToolsType:Int {
+    case ImageTools
+    case VideoTools
+    case AudioTools
+    case TextTools
+    case ImageScrollerTools
+    case VideoScrollerTools
+}
 
 class CDToolBar: UIImageView {
 
@@ -23,129 +31,88 @@ class CDToolBar: UIImageView {
     var loveItem:UIButton!
     var editItem:UIButton!
     
-    var _foldertype:NSFolderType!
+    var gBarType:CDToolsType!
     var isPreviewMedia:Bool = false
+    var normalArr:[UIButton] = []
+    var editArr:[UIButton] = []
+    var target:CDBaseAllViewController!
     
-    init(frame: CGRect, foldertype: NSFolderType?, superVC: CDBaseAllViewController) {
+    init(frame:CGRect ,barType: CDToolsType, superVC: CDBaseAllViewController) {
         super.init(frame: frame)
-        
+        gBarType = barType
         isUserInteractionEnabled = true
         image = UIImage(named: "下导航-bg")
-        
+        target = superVC;
         //沙盒导入
-        documentItem = UIButton(type:.custom)
-        documentItem.frame = CGRect.zero
-        documentItem.setImage(UIImage(named: "addFile"), for: .normal)
-        documentItem.addTarget(superVC, action: #selector(documentItemClick), for: .touchUpInside)
-        addSubview(documentItem)
-        
+        documentItem = createButton(imageName: "menu_addFile", disabledImageName: nil, action: "documentItemClick")
+    
         //拍照
-        takeItem = UIButton(type:.custom)
-        takeItem.frame = CGRect.zero
-        takeItem.setImage(UIImage(named: "camera"), for: .normal)
-        takeItem.addTarget(superVC, action: #selector(takePhotoClick), for: .touchUpInside)
-        addSubview(takeItem)
+        takeItem = createButton(imageName: "menu_camera", disabledImageName: nil, action: "takePhotoClick")
+    
         
         //图库,录音，编辑文字
-        inputItem = UIButton(type:.custom)
-        inputItem.frame = CGRect.zero
-        if foldertype == .TextFolder {
-            inputItem.setImage(UIImage(named: "addText"), for: .normal)
-        } else if foldertype == .AudioFolder {
-            inputItem.setImage(UIImage(named: "record"), for: .normal)
-        }else{
-            inputItem.setImage(UIImage(named: "input"), for: .normal)
-        }
         
-        inputItem.addTarget(superVC, action: #selector(inputItemClick), for: .touchUpInside)
-        addSubview(inputItem)
+        var imageName = "menu_input"
+        if barType == .TextTools {
+            imageName = "menu_addText"
+        } else if barType == .AudioTools {
+            imageName = "menu_record"
+        }
+        inputItem = createButton(imageName: imageName, disabledImageName: nil, action: "inputItemClick")
         
         /*--------------------------批量按钮元素------------------------*/
         //分享
-        shareItem = UIButton(type:.custom)
-        shareItem.frame = CGRect.zero
-        shareItem.setImage(UIImage(named: "menu_forward"), for: .normal)
-        shareItem.addTarget(superVC, action: #selector(shareBarItemClick), for: .touchUpInside)
-        addSubview(shareItem)
+        shareItem = createButton(imageName: "menu_forward", disabledImageName: "menu_forward_grey", action: "shareBarItemClick")
+    
         //移动
-        moveItem = UIButton(type:.custom)
-        moveItem.frame = CGRect.zero
-        moveItem.setImage(UIImage(named: "menu_move"), for: .normal)
-        moveItem.setImage(UIImage(named: "menu_move_grey"), for: .disabled)
-        moveItem.addTarget(superVC, action: #selector(moveBarItemClick), for: .touchUpInside)
-        addSubview(moveItem)
-        
+        moveItem = createButton(imageName: "menu_move", disabledImageName: "menu_move_grey", action: "moveBarItemClick")
+
         //导出
-        outputItem = UIButton(type:.custom)
-        outputItem.frame = CGRect.zero
-        outputItem.setImage(UIImage(named: "output"), for: .normal)
-        outputItem.addTarget(superVC, action: #selector(outputBarItemClick), for: .touchUpInside)
-        addSubview(outputItem)
+        outputItem = createButton(imageName: "menu_output", disabledImageName: nil, action: "outputBarItemClick")
         
         //删除
-        deleteItem = UIButton(type:.custom)
-        deleteItem.frame = CGRect.zero
-        deleteItem.setImage(UIImage(named: "menu_delete_grey"), for: .disabled)
-        deleteItem.setImage(UIImage(named: "menu_delete"), for: .normal)
-        deleteItem.addTarget(superVC, action: #selector(deleteBarItemClick), for: .touchUpInside)
-        addSubview(deleteItem)
+        deleteItem = createButton(imageName: "menu_delete", disabledImageName: "menu_delete_grey", action: "deleteBarItemClick")
        
-        appendItem = UIButton(type:.custom)
-        appendItem.frame = CGRect.zero
-        appendItem.setImage(UIImage(named: "append_grey"), for: .disabled)
-        appendItem.setImage(UIImage(named: "append"), for: .normal)
-        appendItem.addTarget(superVC, action: #selector(appendItemClick), for: .touchUpInside)
-        addSubview(appendItem)
+        appendItem = createButton(imageName: "menu_append", disabledImageName: "menu_append_grey", action: "appendItemClick")
         
         //收藏
-        loveItem = UIButton(type:.custom)
-        loveItem.frame = CGRect.zero
-        loveItem.setImage(LoadImage(imageName: fileInfo.grade == .lovely ? "love_press":"love_normal", type: "png"), for: .normal)
-        loveItem.addTarget(self, action: #selector(loveItemClick), for: .touchUpInside)
-        addSubview(loveItem)
+        loveItem = createButton(imageName: "menu_love_normal", disabledImageName: nil, action: "loveItemClick")
         
         //编辑
-        editItem = UIButton(type:.custom)
-        editItem.frame = CGRect.zero
-        editItem.setImage(UIImage(named: "美图"), for: .normal)
-        editItem.addTarget(self, action: #selector(editItemClick), for: .touchUpInside)
-        addSubview(editItem)
+        editItem = createButton(imageName: "menu_meitu", disabledImageName: nil, action: "editItemClick")
               
-//        if foldertype == .ImageFolder || foldertype == .VideoFolder{
-//            space0 = (frame.width - 45*3)/4
-//            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
-//            takeItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
-//            inputItem.frame = CGRect(x: space0 * 3 + _width * 2, y: _Y, width: _width, height: _height)
-//        }else if foldertype == .AudioFolder || foldertype == .TextFolder{
-//            space0 = (frame.width - 45*2)/3
-//            documentItem.frame = CGRect(x: space0, y: _Y, width: _width, height: _height)
-//            inputItem.frame = CGRect(x: space0 * 2 + _width, y: _Y, width: _width, height: _height)
-
-//
-//        }
-//
         let _Y:CGFloat = 1.5
         let _width:CGFloat = 45.0
         let _height:CGFloat = 45.0
-        
-        var buttonArr:[UIButton] = []
-        if isPreviewMedia {
-            buttonArr = [shareItem,loveItem,editItem,deleteItem]
-        }else{
-            _foldertype = foldertype!
-            if foldertype! == .TextFolder { //分享，移动，删除
-                buttonArr = [shareItem,moveItem,deleteItem]
-            } else if foldertype! == .AudioFolder { //分享，移动，删除，拼接
-                buttonArr = [shareItem,moveItem,deleteItem,appendItem]
-            } else { //分享，移动，删除，拼接，导出
-                buttonArr = [shareItem,moveItem,outputItem,deleteItem,appendItem]
-            }
+        switch barType {
+        case .ImageTools,.VideoTools:
+            normalArr = [documentItem,takeItem,inputItem]
+            editArr = [shareItem,moveItem,outputItem,deleteItem,appendItem]
+            break
+        case .AudioTools:
+            normalArr = [documentItem,inputItem]
+            editArr = [shareItem,moveItem,deleteItem,appendItem] //分享，移动，删除，拼接，导出
+            break
+        case .TextTools:
+            normalArr = [documentItem,inputItem]
+            editArr = [shareItem,moveItem,deleteItem]//分享，移动，删除
+            break
+        case .ImageScrollerTools,.VideoScrollerTools:
+            normalArr = [shareItem,loveItem,editItem,deleteItem]
+            break
         }
-       
-        var space0:CGFloat = (frame.width - buttonArr.count * _width) / (buttonArr.count + 1);
-        for i in 0..<buttonArr.count {
-            let btn = buttonArr[i]
+        
+        let space0:CGFloat = (frame.width - CGFloat(editArr.count) * _width) / CGFloat(editArr.count + 1);
+        for i in 0..<editArr.count {
+            let btn = editArr[i]
             let _X = CGFloat(space0 * CGFloat(i + 1)) + _width * CGFloat(i)
+            btn.frame = CGRect(x: _X, y: _Y, width: _width, height: _height)
+        }
+        
+        let space1:CGFloat = (frame.width - CGFloat(normalArr.count) * _width) / CGFloat(normalArr.count + 1);
+        for i in 0..<normalArr.count {
+            let btn = normalArr[i]
+            let _X = CGFloat(space1 * CGFloat(i + 1)) + _width * CGFloat(i)
             btn.frame = CGRect(x: _X, y: _Y, width: _width, height: _height)
         }
         hiddenReloadBar(isMulit: false)
@@ -160,64 +127,56 @@ class CDToolBar: UIImageView {
 
         //批量按钮点击了，导入按钮（沙盒，拍照，录音等）隐藏，批量元素（分享，删除，拼接等）显示，置灰不可点
         //批量按钮取消了，导入按钮显示，批量元素隐藏
-        inputItem.isHidden = isMulit
-        documentItem.isHidden = isMulit
-        if _foldertype == .ImageFolder || _foldertype == .VideoFolder{
-            takeItem.isHidden = isMulit
-            
+        normalArr.forEach { (sender) in
+            sender.isHidden = isMulit
         }
-        shareItem.isHidden = !isMulit
-        moveItem.isHidden = !isMulit
-        outputItem.isHidden = !isMulit
-        deleteItem.isHidden = !isMulit
-        appendItem.isHidden = !isMulit
-
+        editArr.forEach { (sender) in
+            sender.isHidden = !isMulit
+        }
     }
     
     //选中了文件，批量按钮元素全部有效可点
-    func enableReloadBar(isSelected:Bool) {
-        deleteItem.isEnabled = isSelected
-        moveItem.isEnabled = isSelected
-        outputItem.isEnabled = isSelected
-        shareItem.isEnabled = isSelected
-        appendItem.isEnabled = isSelected
+    func enableReloadBar(isEnable:Bool) {
+        deleteItem.isEnabled = isEnable
+        moveItem.isEnabled = isEnable
+        outputItem.isEnabled = isEnable
+        shareItem.isEnabled = isEnable
+        appendItem.isEnabled = isEnable
     }
 
-
-    @objc func documentItemClick(){
-
-    }
-    @objc func takePhotoClick(){
-        
-    }
-    @objc func inputItemClick(){
-
-    }
-    @objc func shareBarItemClick(){
-
-    }
-    @objc func moveBarItemClick(){
-
-    }
-    @objc func outputBarItemClick(){
-
-    }
-    @objc func deleteBarItemClick(){
-
-    }
-    @objc func appendItemClick(){
-
-    }
     
-    @objc func addDirItemClick(){
+    func createButton(imageName:String?,disabledImageName:String?,action:String)->UIButton{
+        let button = UIButton(type:.custom)
+        button.frame = CGRect.zero
+        if disabledImageName != nil {
+            button.setImage(UIImage(named: disabledImageName!), for: .disabled)
+        }
+        button.setImage(UIImage(named: imageName!), for: .normal)
+        let selector = Selector(action)
+        button.addTarget(target, action: selector, for: .touchUpInside)
+        addSubview(button)
+        return button
+    }
 
-    }
+    @objc func documentItemClick(){}
     
-    @objc func loveItemClick(){
-        
-    }
+    @objc func takePhotoClick(){}
     
-    @objc func editItemClick(){
-        
-    }
+    @objc func inputItemClick(){}
+    
+    @objc func shareBarItemClick(){}
+    
+    @objc func moveBarItemClick(){}
+    
+    @objc func outputBarItemClick(){}
+    
+    @objc func deleteBarItemClick(){}
+    
+    @objc func appendItemClick(){}
+    
+    @objc func addDirItemClick(){}
+    
+    @objc func loveItemClick(){}
+    
+    @objc func editItemClick(){}
 }

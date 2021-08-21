@@ -12,6 +12,7 @@ enum CDConfigKey:String {
     case touchIdSwi = "touchIdSwi"
     case fakeSwi = "fakeSwi"
     case darkSwi = "darkSwi"
+    case themeMode = "themeMode"
     
     case userId = "userId"
     case firstInstall = "firstInstall"
@@ -26,6 +27,7 @@ enum CDConfigKey:String {
     case logName = "logName"
     
     case readerBg = "readerBg"
+    case initPwd = "initPwd"
    
 }
 
@@ -111,11 +113,7 @@ class CDConfigFile: NSObject {
     }
     class func getBoolValueFromConfigWith(key:CDConfigKey)->Bool{
         let valueC = getIntValueFromConfigWith(key: key)
-        if valueC == 1 {
-            return true
-        }else{
-            return false
-        }
+        return valueC == 1
     }
 
     class func clearConfigFile(){

@@ -51,14 +51,14 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
 
         backBtn = UIButton(type: .custom)
         backBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        backBtn.setTitle("返回", for: .normal)
+        backBtn.setTitle(LocalizedString("back"), for: .normal)
         backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
 
-        toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight-48, width: CDSCREEN_WIDTH, height: 48), foldertype: .AudioFolder, superVC: self)
+        toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .AudioTools, superVC: self)
         view.addSubview(self.toolbar)
 
-        playView = CDAudioPlayView(frame: CGRect(x: 0, y: CDViewHeight, width: CDSCREEN_WIDTH, height: 48))
+        playView = CDAudioPlayView(frame: CGRect(x: 0, y: CDViewHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight))
         playView.Adelegate = self
         view.addSubview(playView)
 
@@ -66,7 +66,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     }
     
     private func refreshData() {
-        toolbar.enableReloadBar(isSelected: false)
+        toolbar.enableReloadBar(isEnable: false)
         audioArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: gFolderInfo.folderId)
         tableblew.reloadData()
     }
@@ -89,7 +89,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         selectCount = 0
         batchBtn.isSelected = isSelected
         if (batchBtn.isSelected) { //点了选择操作
-            self.backBtn.setTitle("全选", for: .normal)
+            self.backBtn.setTitle(LocalizedString("select all"), for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: true)
             audioArr.forEach { (file) in
@@ -97,7 +97,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             }
         }else{
             //1.全选变返回
-            self.backBtn.setTitle("返回", for: .normal)
+            self.backBtn.setTitle(LocalizedString("back"), for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             audioArr.forEach { (tmpFile) in
@@ -110,7 +110,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     //返回
     @objc func backBtnClick(){
         if batchBtn.isSelected { //
-            if (self.backBtn.currentTitle == "全选") { //全选
+            if (self.backBtn.currentTitle == LocalizedString("select all")) { //全选
                 audioArr.forEach { (tmpFile) in
                     tmpFile.isSelected = .CDTrue
                 }
@@ -130,14 +130,14 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     }
     
     func refreshUI(){
-        toolbar.enableReloadBar(isSelected: selectCount > 0)
+        toolbar.enableReloadBar(isEnable: selectCount > 0)
         toolbar.appendItem.isEnabled = selectCount >= 2
         if selectCount == audioArr.count && audioArr.count > 0{
-            self.backBtn.setTitle("全不选", for: .normal)
+            self.backBtn.setTitle(LocalizedString("unselect all"), for: .normal)
             backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
             backBtn.contentHorizontalAlignment = .left
         }else{
-            backBtn.setTitle("全选", for: .normal)
+            backBtn.setTitle(LocalizedString("select all"), for: .normal)
         }
         tableblew.reloadData()
     }
@@ -170,7 +170,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         var shareArr:[NSObject] = []
         for index in 0..<self.selectedAudioArr.count{
             let file:CDSafeFileInfo = self.selectedAudioArr[index]
-            let videoPath = String.AudioPath().appendingPathComponent(str: file.filePath.lastPathComponent())
+            let videoPath = String.RootPath().appendingPathComponent(str: file.filePath)
             let url = URL(fileURLWithPath: videoPath)
             shareArr.append(url as NSObject)
         }
@@ -182,12 +182,12 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     //MARK:删除
     @objc func deleteBarItemClick(){
         handelSelectedArr()
-        let btnTitle = selectedAudioArr.count > 1 ? "删除\(selectedAudioArr.count)条语音":"删除本条语音"
+        let btnTitle = selectedAudioArr.count > 1 ? LocalizedString("Delete %@ audios", "\(selectedAudioArr.count)"):LocalizedString("Delete Audio")
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUDManager.shared.showWait(text: "删除中...")
+            CDHUDManager.shared.showWait(LocalizedString("deleting ..."))
             self.selectedAudioArr.forEach({ (tmpFile) in
-                let defaultPath = String.AudioPath().appendingPathComponent(str: tmpFile.filePath.lastPathComponent())
+                let defaultPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
                 DeleteFile(filePath: defaultPath)
                 CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                 let index = self.audioArr.firstIndex(of: tmpFile)
@@ -195,11 +195,11 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             })
             DispatchQueue.main.async {
                 CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showComplete(text: "删除完成！")
+                CDHUDManager.shared.showComplete(LocalizedString("Delete complete"))
                 self.banchHandleFiles(isSelected: false)
             }
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
         
     }
@@ -210,7 +210,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "合成选中的\(selectedAudioArr.count)条音频", style: .default, handler: {[unowned self] (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shared.showWait(text: "正在处理...")
+                CDHUDManager.shared.showWait(LocalizedString("Processing..."))
             }
             
             CDSignalTon.shared.appendAudio(folderId: self.gFolderInfo.folderId, appendFile: self.selectedAudioArr) {[unowned self] (success) in
@@ -218,14 +218,14 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
                     CDHUDManager.shared.hideWait()
                     self.refreshData()
                     if success{
-                        CDHUDManager.shared.showText(text: "合成成功")
+                        CDHUDManager.shared.showText("合成成功")
                     }else{
-                        CDHUDManager.shared.showText(text: "合成失败")
+                        CDHUDManager.shared.showText("合成失败")
                     }
                 }
             }
         }))
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
 
@@ -305,7 +305,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let tmpFile:CDSafeFileInfo = audioArr[indexPath.row]
-        let detail = UITableViewRowAction(style: .normal, title: "详情") { (action, index) in
+        let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
             let fileDVC = CDFileDetailViewController()
             fileDVC.fileInfo = tmpFile
             self.navigationController?.pushViewController(fileDVC, animated: true)
@@ -323,11 +323,11 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         }
         detail.image = UIImage(named: "fileDetail")
         //
-        let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+        let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
             tmpFile.isSelected = .CDTrue
             self.deleteBarItemClick()
         }
-        delete.image = LoadImage(imageName: "delete-white", type: "png")
+        delete.image = LoadImage("delete-white")
         delete.backgroundColor = .red
         let action = UISwipeActionsConfiguration(actions: [delete,detail])
         return action
@@ -336,7 +336,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
 
     //MARK:播放
     func selectAudioToPlay(file:CDSafeFileInfo) {
-        let decryPath = String.AudioPath().appendingPathComponent(str: file.filePath.lastPathComponent())
+        let decryPath = String.RootPath().appendingPathComponent(str: file.filePath)
         initPlayer(fiePath: decryPath)
 
 
@@ -351,7 +351,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             
             UIView.animate(withDuration: 0.25, animations: {
                 var rect = self.playView.frame
-                rect.origin.y = CDViewHeight - 48
+                rect.origin.y = CDViewHeight - BottomBarHeight
                 self.playView.frame = rect
             }, completion: { (flag) in
                 self.playView.createPlayer(audioPath: fiePath)
@@ -374,7 +374,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             
             UIView.animate(withDuration: 0.25, animations: {
                 var rect = self.toolbar.frame
-                rect.origin.y = CDViewHeight - 48
+                rect.origin.y = CDViewHeight - BottomBarHeight
                 self.toolbar.frame = rect
             }, completion: { (flag) in
                 self.curPlayCellPath = nil

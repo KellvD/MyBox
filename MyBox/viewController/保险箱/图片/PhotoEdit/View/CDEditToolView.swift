@@ -16,7 +16,7 @@ class CDEditToolView: UIView,CDEditorsViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
-        self.backgroundColor = .red
+        self.backgroundColor = .black
         
         
         itemsView = CDEditorsView(frame: CGRect(x: 0, y: 48, width: frame.width, height: 48))

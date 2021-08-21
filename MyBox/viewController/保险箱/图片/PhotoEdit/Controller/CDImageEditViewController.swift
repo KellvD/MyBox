@@ -35,8 +35,8 @@ class CDImageEditViewController:
 
     
         DispatchQueue.global().async {
-            let defaultPath = String.ImagePath().appendingPathComponent(str: self.imageInfo.filePath.lastPathComponent())
-            self.editImage = UIImage(contentsOfFile: defaultPath)!
+            let defaultPath = String.RootPath().appendingPathComponent(str: self.imageInfo.filePath)
+                self.editImage = UIImage(contentsOfFile: defaultPath)!
             let imageSize = self.editImage.size
             var isWidthLonger = true
             if Int(imageSize.width) > Int(imageSize.height){
@@ -97,8 +97,8 @@ class CDImageEditViewController:
         case .back:
             if CDEditManager.shareInstance().editStep == .DidEdit{
                 let alert = UIAlertController(title: nil, message: "当前图片已编辑，确认取消编辑么？", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+                alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
                     self.dismiss(animated: true, completion: nil)
                 }))
             }else{
@@ -126,6 +126,29 @@ class CDImageEditViewController:
     }
 
     func onSelectEditorWith(model: CDEditorsModel) {
-        print(model.title)
+        UIApplication.shared.isStatusBarHidden = true
+        switch model.type {
+        case .Text:
+            headerBar.isHidden = true;
+            textView.onPopTextMarkView()
+            
+            
+        default:
+            break
+        }
     }
+    
+    lazy var textView: CDWatermarkView = {
+        let textV = CDWatermarkView(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH))
+        textV.completeHandler = {(content) in
+            
+        }
+        textV.cancleHandler = {[weak self] in
+            
+            
+            self!.headerBar.isHidden = false
+        }
+        UIApplication.shared.keyWindow?.addSubview(textV)
+        return textV
+    }()
 }

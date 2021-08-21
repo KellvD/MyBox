@@ -119,7 +119,6 @@ class CDEditManager: NSObject {
         switch brightType {
         case .Bright: break
 
-        default: break
             
         }
     }

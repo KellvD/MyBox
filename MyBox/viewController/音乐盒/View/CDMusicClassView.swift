@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol CDMusicClassDelegate {
+@objc protocol CDMusicClassDelegate:NSObjectProtocol {
 
     @objc func onSelectedOneMusicClassWithClassInfo(classInfo:CDMusicClassInfo)
 }

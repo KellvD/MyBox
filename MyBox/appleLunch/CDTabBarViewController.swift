@@ -13,20 +13,21 @@ class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        addChildViewControll(vc: CDSafeViewController(), title: "魔方", imageName: "safe_normal", selectImageName: "safe_select")
-        addChildViewControll(vc: CDReaderListViewController(), title: "电子书", imageName: "reader_normal", selectImageName: "reader_select")
-        addChildViewControll(vc: CDMusicViewController(), title: "幻音", imageName: "music_normal", selectImageName: "music_select")
-        addChildViewControll(vc: CDMineViewController(), title: "我的", imageName: "mine_normal", selectImageName: "mine_select")
+        addChildViewControll(vc: CDSafeViewController(), title: LocalizedString("Box"), imageName: "safe_normal", selectImageName: "safe_select")
+        addChildViewControll(vc: CDReaderListViewController(), title: LocalizedString("Reader"), imageName: "reader_normal", selectImageName: "reader_select")
+        addChildViewControll(vc: CDMusicViewController(), title: LocalizedString("Music"), imageName: "music_normal", selectImageName: "music_select")
+        addChildViewControll(vc: CDMineViewController(), title: LocalizedString("Mine"), imageName: "mine_normal", selectImageName: "mine_select")
 
-        self.tabBar.backgroundImage = UIImage(named: "下导航-bg")
+//        self.tabBar.backgroundImage = UIImage(named: "下导航-bg")
+        self.tabBar.backgroundColor = .baseBgColor
         self.tabBarController?.selectedIndex = 0
     
     }
 
     private func addChildViewControll(vc:UIViewController,title:String,imageName:String,selectImageName:String){
         vc.title = title
-        vc.tabBarItem.image = LoadImage(imageName: imageName, type: "png")
-        vc.tabBarItem.selectedImage = LoadImage(imageName: selectImageName, type: "png")
+        vc.tabBarItem.image = LoadImage(imageName)
+        vc.tabBarItem.selectedImage = LoadImage(selectImageName)
         let naVC = CDNavigationController(rootViewController: vc)
         self.addChild(naVC)
         

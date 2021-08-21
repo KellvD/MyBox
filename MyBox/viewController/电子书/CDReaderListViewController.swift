@@ -66,7 +66,7 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
             cell.contentView.addSubview(detailLabel)
             
             let line = UIView(frame: CGRect(x: 5, y: 64, width: CDSCREEN_WIDTH-10, height: 1))
-            line.backgroundColor = SeparatorGrayColor
+            line.backgroundColor = .separatorColor
             line.tag = 104
             cell.contentView.addSubview(line)
         }
@@ -76,7 +76,7 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
         let line = cell.contentView.viewWithTag(104)
         
         let gfile = dataArr[indexPath.row]
-        headImage.image = LoadImage(imageName: "file_txt_big", type: "png")
+        headImage.image = LoadImage("file_txt_big")
         fileNameL.text = gfile.fileName
         detailLabel.text = "%43"
         line?.isHidden = indexPath.row == dataArr.count - 1
@@ -98,8 +98,8 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     @available(iOS, introduced: 8.0, deprecated: 13.0)
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let gfile = dataArr[indexPath.row]
-        let detail = UITableViewRowAction(style: .normal, title: "删除") { (action, index) in
+//        let gfile = dataArr[indexPath.row]
+        let detail = UITableViewRowAction(style: .normal, title: LocalizedString("delete")) { (action, index) in
             
         }
         return [detail]
@@ -107,9 +107,9 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     
     @available(iOS 11, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let gfile = dataArr[indexPath.row]
+//        let gfile = dataArr[indexPath.row]
         
-        let delete = UIContextualAction(style: .normal, title: "删除") { (action, view, handle) in
+        let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
         }
         delete.backgroundColor = .red
         let action = UISwipeActionsConfiguration(actions: [delete])

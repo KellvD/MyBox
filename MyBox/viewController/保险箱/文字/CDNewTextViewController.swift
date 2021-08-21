@@ -44,7 +44,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     @objc func saveBtnClick(sender:UIButton){
         let contentStr:String = textView.text.removeSpaceAndNewline()
         if contentStr.isEmpty{
-            CDHUDManager.shared.showText(text: "啥也没写呢")
+            CDHUDManager.shared.showText("尚未输入内容")
             return
         }
         sender.isUserInteractionEnabled = false

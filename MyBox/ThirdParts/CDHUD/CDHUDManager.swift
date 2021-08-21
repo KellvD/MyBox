@@ -56,7 +56,7 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         hud.hide(animated: true, afterDelay: HUD_DELAY)
     }
     
-    func showText(text:String){
+    func showText(_ text:String){
         let hud = MBProgressHUD.showAdded(to: getAppWindow(), animated: true)
         hud.mode = .text
         hud.margin = 10.0
@@ -70,7 +70,7 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         hud.hide(animated: true, afterDelay: HUD_DELAY)
     }
     
-    func showWait(text:String){
+    func showWait(_ text:String){
         if (HUD != nil) {
             HUD.removeFromSuperview()
             HUD.delegate = nil
@@ -82,6 +82,7 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         HUD.show(animated: true)
         HUD.superview?.bringSubviewToFront(HUD)
     }
+    
     func hideWait(){
         if HUD == nil {
             return
@@ -89,17 +90,17 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         HUD.hide(animated: true)
     }
     
-    func showComplete(text:String){
+    func showComplete(_ text:String){
         showComplete(text: text, imageName: "37x-Checkmark.png")
     }
     
-    func showFail(text:String){
+    func showFail(_ text:String){
         showComplete(text: text, imageName: "37x-Error.png")
     }
     
     
     
-    func showProgress(text:String){
+    func showProgress(_ text:String){
         
         bgView = UIView(frame: UIScreen.main.bounds)
         bgView.backgroundColor = UIColor(white: 0.333, alpha: 0.8)
@@ -129,10 +130,13 @@ class CDHUDManager: NSObject,MBProgressHUDDelegate {
         }
     }
     func hideProgress() {
-        bgView.removeFromSuperview()
-        bgView = nil
-        porgressLabel = nil
-        porgressView = nil
+        if bgView != nil {
+            bgView.removeFromSuperview()
+            bgView = nil
+            porgressLabel = nil
+            porgressView = nil
+        }
+       
     }
     
     func hudWasHidden(_ hud: MBProgressHUD) {

@@ -37,9 +37,9 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         if composeType == .Gif{
-            self.title = NSLocalizedString("合成GIF", comment: "")
+            self.title = LocalizedString("Composite GIF")
         }else{
-            self.title = NSLocalizedString("合成视频", comment: "")
+            self.title = LocalizedString("Composite Video")
         }
         
         fileLoadImage()
@@ -74,22 +74,22 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 
         cancleBtn = UIButton(type: .custom)
         cancleBtn.frame = CGRect(x: 15, y: 0, width: 45, height: 45)
-        cancleBtn.setImage(LoadImage(imageName: "chexiao", type: "png"), for: .normal)
-        cancleBtn.setImage(LoadImage(imageName: "chexiao-grey", type: "png"), for: .disabled)
+        cancleBtn.setImage(LoadImage("chexiao"), for: .normal)
+        cancleBtn.setImage(LoadImage("chexiao-grey"), for: .disabled)
         cancleBtn.addTarget(self, action: #selector(cancleBtnClick), for: .touchUpInside)
         bgView.addSubview(cancleBtn)
         cancleBtn.isEnabled = false
 
         composeBtn = UIButton(type: .custom)
         composeBtn.frame = CGRect(x: (CDSCREEN_WIDTH - 45)/2, y: 0, width: 45, height: 45)
-        composeBtn.setImage(LoadImage(imageName: "hecheng", type: "png"), for: .normal)
+        composeBtn.setImage(LoadImage("hecheng"), for: .normal)
         composeBtn.addTarget(self, action: #selector(composeBtnClick), for: .touchUpInside)
         bgView.addSubview(composeBtn)
 
         sureBtn = UIButton(type: .custom)
         sureBtn.frame = CGRect(x: CDSCREEN_WIDTH - 15 - 45, y: 0, width: 45, height: 45)
-        sureBtn.setImage(LoadImage(imageName: "sure", type: "png"), for: .normal)
-        sureBtn.setImage(LoadImage(imageName: "sure-grey", type: "png"), for: .disabled)
+        sureBtn.setImage(LoadImage("sure"), for: .normal)
+        sureBtn.setImage(LoadImage("sure-grey"), for: .disabled)
         sureBtn.setTitleColor(UIColor.black, for: .normal)
         sureBtn.addTarget(self, action: #selector(sureBtnClick), for: .touchUpInside)
         bgView.addSubview(sureBtn)
@@ -101,18 +101,10 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
             let fileInfo:CDSafeFileInfo = fileArr[i]
 
             let lPath = String.RootPath().appendingFormat("%@",fileInfo.thumbImagePath)
-            var lImgage:UIImage! = UIImage(contentsOfFile: lPath)
-            if lImgage == nil {
-                lImgage = LoadImage(imageName: "小图解密失败", type:"png")
-            }
-            thumpArr.append(lImgage)
-
-            let tmpPath = String.ImagePath().appendingFormat("/%@",fileInfo.filePath.lastPathComponent())
-            var mImgage:UIImage! = UIImage(contentsOfFile: tmpPath)
-            if mImgage == nil {
-                mImgage = LoadImage(imageName: "小图解密失败", type:"png")
-            }
-            imageArr.append(mImgage)
+            thumpArr.append(LoadImage(lPath)!)
+            
+            let tmpPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
+            imageArr.append(LoadImage(tmpPath)!)
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -152,12 +144,13 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
             collectionView.cancelInteractiveMovement()
         }
     }
+    
     @objc override func backButtonClick() {
         if isCompose{
-            let sheet = UIAlertController(title: nil, message: "是否确定放弃合成GIF操作？", preferredStyle: .alert)
-            sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in }))
+            let sheet = UIAlertController(title: nil, message: LocalizedString("Are you sure to abandon the GIF synthesis operation?"), preferredStyle: .alert)
+            sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
 
-            sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+            sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(sheet, animated: true, completion: nil)
@@ -168,11 +161,11 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     
     @objc func sureBtnClick(){
 
-        let sheet = UIAlertController(title: nil, message: "是否确认保存该gif吗？", preferredStyle: .alert)
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+        let sheet = UIAlertController(title: nil, message: LocalizedString("Are you sure to save this GIF?"), preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in
         }))
 
-        sheet.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
             if self.composeType == .Gif{
                 CDSignalTon.shared.saveSafeFileInfo(fileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
                 
@@ -211,28 +204,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         let delay = gifDelaySlider.value
         print(delay)
         gifPath = String.ImagePath().appendingPathComponent(str: String(format: "%lld.gif", nowTime))
-        let url:CFURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath! as CFString, CFURLPathStyle.cfurlposixPathStyle, false)
-        let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, imageArr.count, nil)
-
-        //每帧之间播放的时间间隔
-        let frameDic = ["kCGImagePropertyGIFDelayTime" : ["kCGImagePropertyGIFDelayTime":1]]
-        
-        let gifdic:NSMutableDictionary = NSMutableDictionary()
-        gifdic.setValue(NSNumber(value: true), forKey: "kCGImagePropertyGIFHasGlobalColorMap")
-        gifdic.setValue(kCGImagePropertyColorModelRGB, forKey: "kCGImagePropertyColorModel")
-        //颜色深度
-        gifdic.setValue(16, forKey: "kCGImagePropertyDepth")
-        //是否重复 0无限
-        gifdic.setValue(1, forKey: "kCGImagePropertyGIFLoopCount")
-
-        let gifproperty = ["kCGImagePropertyGIFDictionary" : gifdic]
-
-        for image in imageArr {
-
-            CGImageDestinationAddImage(destination!, image.cgImage!, frameDic as CFDictionary)
-        }
-        CGImageDestinationSetProperties(destination!, gifproperty as CFDictionary)
-        CGImageDestinationFinalize(destination!)
+        UIImage.composeGif(imageArr:imageArr , gifPath: &gifPath)
         if FileManager.default.fileExists(atPath: gifPath){
             let gifData = NSData(contentsOfFile: gifPath)!
             if gifData.length > 0{

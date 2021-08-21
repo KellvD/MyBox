@@ -10,7 +10,6 @@ import UIKit
 import SQLite
 
 private let sqlFileName = "CDSQL.db"
-
 private let db_id = Expression<Int>("id")
 private var db_folderName = Expression<String>("folderName")
 private var db_folderId = Expression<Int>("folderId")
@@ -88,8 +87,6 @@ class CDSqlManager: NSObject {
         }else{
             db = try! Connection(dbpath)
         }
-
-
     }
 
     func createTable() -> Void {
@@ -205,9 +202,7 @@ class CDSqlManager: NSObject {
         do{
             try db.run(
                 SafeFolder.addColumn(db_accessTime, defaultValue: 0)
-                
             )
-            
             CDPrint(item:"addUserInfo -->success")
         }catch{
             CDPrintManager.log("addUserIn -->error:\(error)", type: .ErrorLog)
@@ -263,7 +258,7 @@ extension CDSqlManager{
 
     public func queryUserRealKeyWithUserId(userId:Int) -> String{
 
-        var realKey:String!
+        var realKey:String? = ""
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
             for item in try db.prepare(sql.select(db_basePwd)) {
@@ -273,11 +268,11 @@ extension CDSqlManager{
         }catch{
             CDPrintManager.log("queryUserRealKeyWithUserId -->error:\(error)", type: .ErrorLog)
         }
-        return realKey
+        return realKey!
     }
     public func queryUserFakeKeyWithUserId(userId:Int) -> String{
 
-        var fakeKey:String!
+        var fakeKey:String? = ""
         do{
             let sql = UserInfo.filter(db_userId == CDUserId())
             for item in try db.prepare(sql.select(db_fakePwd)) {
@@ -287,7 +282,7 @@ extension CDSqlManager{
         }catch{
             CDPrintManager.log("queryUserFakeKeyWithUserId-->error:\(error)", type: .ErrorLog)
         }
-        return fakeKey
+        return fakeKey!
     }
 
     public func updateUserRealPwdWith(pwd:String) {
@@ -707,7 +702,18 @@ extension CDSqlManager{
         }
         return totalCount
     }
-
+    
+    public func queryOneFolderSubFolderCount(folderId:Int) ->Int{
+        var totalCount = 0
+        do{
+            let sql = SafeFolder.filter(db_superId == folderId)
+            totalCount = try db.scalar(sql.count)
+        }catch{
+            CDPrintManager.log("queryOneFolderSubFolderCount-->error:\(error)", type: .ErrorLog)
+        }
+        return totalCount
+    }
+    
     public func queryMaxSafeFolderId()->Int{
 
         var maxFolderId = 0
@@ -749,6 +755,8 @@ extension CDSqlManager{
         }
         return totalArr
     }
+    
+    
     /*
      更新文件夹名称（更新修改时间）
      */

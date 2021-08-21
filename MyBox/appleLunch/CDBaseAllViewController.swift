@@ -11,6 +11,7 @@ import AVFoundation
 
 extension CDBaseAllViewController {
     public typealias CDDocumentPickerCompleteHandler = (_ success:Bool) -> Void
+    public typealias CDComposeHandle = (_ success:Bool) -> (Void) //合成视频，GIf,拼接视频
 }
 class CDBaseAllViewController:
 UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
@@ -25,16 +26,29 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = .baseBgColor
         self.popBtn = UIButton(type: .custom)
         self.popBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
-        self.popBtn.setImage(LoadImage(imageName: "back_normal", type: "png"), for: .normal)
-        self.popBtn.setImage(LoadImage(imageName: "back_pressed", type: "png"), for: .selected)
+        self.popBtn.setImage(LoadImage("back_normal"), for: .normal)
+        self.popBtn.setImage(LoadImage("back_pressed"), for: .selected)
         self.popBtn.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.popBtn)
+        
     }
-
+    
+    override func viewWillLayoutSubviews() {
+        if #available(iOS 12.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark{
+                print("暗黑模式")
+            }else{
+                //
+                print("正常模式")
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+        
     @objc func backButtonClick() -> Void {
         self.navigationController?.popViewController(animated: true)
     }
@@ -47,16 +61,14 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     }
     
     func presentDocumentPicker(documentTypes:[String]) {
-        if #available(iOS 8, *) {
-            let documentPicker = UIDocumentPickerViewController(documentTypes: documentTypes, in: .open)
-            documentPicker.delegate = self
-            documentPicker.modalPresentationStyle = .fullScreen
-            if #available(iOS 11, *) {
-                documentPicker.allowsMultipleSelection = true
-            }
-            CDSignalTon.shared.customPickerView = documentPicker
-            self.present(documentPicker, animated: true, completion: nil)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: documentTypes, in: .open)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .fullScreen
+        if #available(iOS 11, *) {
+            documentPicker.allowsMultipleSelection = true
         }
+        CDSignalTon.shared.customPickerView = documentPicker
+        self.present(documentPicker, animated: true, completion: nil)
     }
     
     //MARK:UIDocumentPickerDelegate
@@ -73,17 +85,19 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                     let fileUrlAuthozied = subUrl.startAccessingSecurityScopedResource()
                     if fileUrlAuthozied {
                         let fileCoordinator = NSFileCoordinator()
-                        fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) { (newUrl) in
+                        
+                        fileCoordinator.coordinate(readingItemAt: subUrl, options: [], error: nil) {[unowned self] (newUrl) in
                             do {
                                 let fileSize = try Data(contentsOf: newUrl).count
                                 if fileSize > CDDeviceTools.getDiskSpace().free {
                                     DispatchQueue.main.async {
                                         self.alertSpaceWarn(alertType: .AlertDocumentType)
                                         CDHUDManager.shared.hideProgress()
+                                        
                                         return
                                     }
                                 }else{
-                                    CDSignalTon.shared.saveSafeFileInfo(tmpFileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType)
+                                    CDSignalTon.shared.saveSafeFileInfo(fileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType,isFromDocment: true)
                                     tmpUrlArr.removeFirst()
                                     handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
                                 }
@@ -103,9 +117,9 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                     DispatchQueue.main.async {
                         CDHUDManager.shared.hideProgress()
                         if errorArr.count == 0{
-                            CDHUDManager.shared.showComplete(text: "导入完成")
+                            CDHUDManager.shared.showComplete(LocalizedString("import complete"))
                         }else{
-                            CDHUDManager.shared.showComplete(text: "部分文件导入失败，详情见日志")
+                            CDHUDManager.shared.showComplete(LocalizedString("some files failed to import"))
                         }
                         
                         self.processHandle?(true)
@@ -116,7 +130,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
             
         }
         handleAllDocumentPickerFiles(urlArr: urls)
-        CDHUDManager.shared.showProgress(text: "开始导入！")
+        CDHUDManager.shared.showProgress(LocalizedString("start import"))
     }
 
     
@@ -129,18 +143,18 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                 Complete(error)
             }
         }
-        
+    
         self.present(activityVC, animated: true, completion: nil)
     }
     
     func alertSpaceWarn(alertType:DiskSpaceAlertType) {
         let message:String = alertType.rawValue
 
-        let alert = UIAlertController(title: "警告", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: LocalizedString("warning"), message: message, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: "否", style: .cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: LocalizedString("NO"), style: .cancel, handler: { (action) in
         }))
-        alert.addAction(UIAlertAction(title: "是", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: LocalizedString("yes"), style: .default, handler: { (action) in
 
         }))
         self.present(alert, animated: true, completion: nil)

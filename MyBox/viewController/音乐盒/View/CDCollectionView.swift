@@ -93,14 +93,14 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
         let Width = (createClassBG.frame.width / 2 - 15) / 2
         let cancleBtn = UIButton(type: .custom)
         cancleBtn.frame = CGRect(x: createClassBG.frame.width/2 + 5, y: createClassBG.frame.height-45, width: Width, height: 30)
-        cancleBtn.setTitle("取消", for: .normal)
+        cancleBtn.setTitle(LocalizedString("cancel"), for: .normal)
         cancleBtn.setTitleColor(UIColor.black, for: .normal)
         cancleBtn.addTarget(self, action: #selector(cancleCreateView), for: .touchUpInside)
         createClassBG.addSubview(cancleBtn)
 
         let sureBtn = UIButton(type: .custom)
         sureBtn.frame = CGRect(x: cancleBtn.frame.maxX + 5, y: cancleBtn.frame.minY, width: Width, height: 30)
-        sureBtn.setTitle("确定", for: .normal)
+        sureBtn.setTitle(LocalizedString("sure"), for: .normal)
         sureBtn.setTitleColor(UIColor.black, for: .normal)
         sureBtn.addTarget(self, action: #selector(sureCreateView), for: .touchUpInside)
         createClassBG.addSubview(sureBtn)
@@ -158,13 +158,13 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
             countL.isHidden = true
             titleV.frame = CGRect(x: imageV.frame.maxX+15, y: 17, width: CDSCREEN_WIDTH - imageV.frame.maxX, height: 30)
             titleV.text = "创建歌单"
-            imageV.image = LoadImage(imageName: "创建歌单", type: "png")
+            imageV.image = LoadImage("创建歌单")
         }else{
             countL.isHidden = false
             titleV.frame = CGRect(x: imageV.frame.maxX+15, y: 5, width: 200, height: 30)
             let classInfo = classArr[indexPath.row-1]
             titleV.text = classInfo.className
-            imageV.image = LoadImage(imageName: classInfo.classAvatar, type: "png")
+            imageV.image = LoadImage(classInfo.classAvatar)
             countL.text = "\(classArr.count) 首"
 
         }
@@ -210,14 +210,14 @@ class CDCollectionView: UIView,UITableViewDelegate,UITableViewDataSource,UITextF
         let className = textField.text!
 
         if className.isEmpty {
-            CDHUDManager.shared.showText(text: "请输入歌单名")
+            CDHUDManager.shared.showText("请输入歌单名")
             return
         }
         let classInfo = CDMusicClassInfo()
         classInfo.className = className
         classInfo.classCreateTime = GetTimestamp()
         CDSqlManager.shared.addOneMusicClassInfoWith(classInfo: classInfo)
-        CDHUDManager.shared.showText(text: "创建成功")
+        CDHUDManager.shared.showText("创建成功")
 
         classArr = CDSqlManager.shared.queryAllMusicClass()
         tableView.reloadData()

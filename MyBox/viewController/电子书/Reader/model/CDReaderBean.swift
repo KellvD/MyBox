@@ -9,10 +9,10 @@
 import UIKit
 import CoreText
 
-let TopSpacing:CGFloat = 40.0
-let BottomSpacing:CGFloat = 40.0
-let LeftSpacing:CGFloat = 20.0
-let RightSpacing:CGFloat =  20.0
+ let TopSpacing:CGFloat = 40.0
+ let BottomSpacing:CGFloat = 40.0
+ let LeftSpacing:CGFloat = 20.0
+ let RightSpacing:CGFloat =  20.0
 //let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
 //let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
 //let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
