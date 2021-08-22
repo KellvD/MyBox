@@ -16,6 +16,7 @@ class CDAttendanceDetailViewController: CDBaseAllViewController,UITableViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         tableblew = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-48), style: .plain)
         tableblew.delegate = self
         tableblew.dataSource = self
