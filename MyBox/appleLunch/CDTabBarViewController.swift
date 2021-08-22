@@ -15,7 +15,7 @@ class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
         self.delegate = self
         addChildViewControll(vc: CDSafeViewController(), title: LocalizedString("Box"), imageName: "safe_normal", selectImageName: "safe_select")
         addChildViewControll(vc: CDReaderListViewController(), title: LocalizedString("Reader"), imageName: "reader_normal", selectImageName: "reader_select")
-        addChildViewControll(vc: CDMusicViewController(), title: LocalizedString("Music"), imageName: "music_normal", selectImageName: "music_select")
+        addChildViewControll(vc: CDAttendanceViewController(), title: LocalizedString("Attendance"), imageName: "music_normal", selectImageName: "music_select")
         addChildViewControll(vc: CDMineViewController(), title: LocalizedString("Mine"), imageName: "mine_normal", selectImageName: "mine_select")
 
 //        self.tabBar.backgroundImage = UIImage(named: "下导航-bg")

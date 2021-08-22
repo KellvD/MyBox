@@ -1,14 +1,14 @@
 //
-//  CDModifyClassViewController.swift
-//  MyRule
+//  CDAttendanceViewController.swift
+//  MyBox
 //
-//  Created by changdong on 2019/4/21.
-//  Copyright © 2019 changdong. All rights reserved.
+//  Created by changdong on 2021/8/21.
+//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
 //
 
 import UIKit
 
-class CDModifyClassViewController: CDBaseAllViewController {
+class CDAttendanceViewController: CDBaseAllViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
