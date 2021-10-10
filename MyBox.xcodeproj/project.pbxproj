@@ -124,7 +124,6 @@
 		EF29E38E2712DA5A0041092B /* EditorToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3272712DA590041092B /* EditorToolView.swift */; };
 		EF29E38F2712DA5A0041092B /* EditorStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3282712DA590041092B /* EditorStickerView.swift */; };
 		EF29E3902712DA5A0041092B /* EditorStickerTrashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3292712DA590041092B /* EditorStickerTrashView.swift */; };
-		EF29E3922712DB260041092B /* CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E3912712DB260041092B /* CDMediaEditor.framework */; };
 		EF29E3942712DB470041092B /* CDAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3932712DB470041092B /* CDAudioManager.swift */; };
 		EF29E3972712DB700041092B /* developLog.md in Resources */ = {isa = PBXBuildFile; fileRef = EF29E3962712DB700041092B /* developLog.md */; };
 		EF29E39A2712DBA00041092B /* CDQrPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3982712DBA00041092B /* CDQrPopView.swift */; };
@@ -551,7 +550,6 @@
 		EF29E3272712DA590041092B /* EditorToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorToolView.swift; sourceTree = "<group>"; };
 		EF29E3282712DA590041092B /* EditorStickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerView.swift; sourceTree = "<group>"; };
 		EF29E3292712DA590041092B /* EditorStickerTrashView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerTrashView.swift; sourceTree = "<group>"; };
-		EF29E3912712DB260041092B /* CDMediaEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CDMediaEditor.framework; sourceTree = "<group>"; };
 		EF29E3932712DB470041092B /* CDAudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioManager.swift; sourceTree = "<group>"; };
 		EF29E3952712DB700041092B /* MyBox.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
 		EF29E3962712DB700041092B /* developLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = developLog.md; sourceTree = "<group>"; };
@@ -793,7 +791,6 @@
 				EF91AFF226D0A1AB00A6943F /* MJRefresh.framework in Frameworks */,
 				735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */,
 				EF29E2AC2712DA480041092B /* CDMediaEditor.framework in Frameworks */,
-				EF29E3922712DB260041092B /* CDMediaEditor.framework in Frameworks */,
 				EF91AFF026D0A1AB00A6943F /* UnrarKit.framework in Frameworks */,
 				735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */,
 				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
@@ -1595,7 +1592,6 @@
 				EFF78A202713111E00DF0315 /* MBProgressHUD.framework */,
 				EF29E3CC2712E7AC0041092B /* SnapKit.framework */,
 				EF29E3CD2712E7AC0041092B /* SQLite.framework */,
-				EF29E3912712DB260041092B /* CDMediaEditor.framework */,
 				EF91AEE226D0A1AB00A6943F /* ZipArchive.framework */,
 				EF91AEE326D0A1AB00A6943F /* UnrarKit.framework */,
 				EF91AEE426D0A1AB00A6943F /* RxRelay.framework */,
