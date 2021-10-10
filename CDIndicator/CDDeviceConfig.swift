@@ -2,8 +2,8 @@
 //  CDDeviceConfig.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/12/2.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/12/2.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import Foundation

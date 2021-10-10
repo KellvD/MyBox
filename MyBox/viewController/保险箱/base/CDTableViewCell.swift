@@ -29,28 +29,28 @@ class CDFileTableViewCell: UITableViewCell {
 
         let view = UIView()
         self.selectedBackgroundView = view
-        self.selectedBackgroundView?.backgroundColor = LightBlueColor
+        self.selectedBackgroundView?.backgroundColor = .cellSelectColor
 
         headImage = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
         self.contentView.addSubview(headImage)
 
         fileNameL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: 10, width: CDSCREEN_WIDTH-75, height: 25))
-        fileNameL.textColor = TextBlackColor
-        fileNameL.font = TextMidFont
+        fileNameL.textColor = .textBlack
+        fileNameL.font = .mid
         fileNameL.lineBreakMode = .byTruncatingMiddle
         fileNameL.textAlignment = .left
         self.contentView.addSubview(fileNameL)
 
         fileCreateTimeL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: fileNameL.frame.maxY, width: 150, height: 25))
-        fileCreateTimeL.textColor = TextGrayColor
+        fileCreateTimeL.textColor = .textGray
         fileCreateTimeL.textAlignment = .left
-        fileCreateTimeL.font = TextSmallFont
+        fileCreateTimeL.font = .small
         self.contentView.addSubview(fileCreateTimeL)
 
         audioLengthL = UILabel(frame:CGRect(x: CDSCREEN_WIDTH-95, y: fileNameL.frame.maxY, width: 80, height: 30))
         audioLengthL.textAlignment = .center
-        audioLengthL.textColor = TextGrayColor
-        audioLengthL.font = TextSmallFont
+        audioLengthL.textColor = .textGray
+        audioLengthL.font = .small
         audioLengthL.textAlignment = .right
         self.contentView.addSubview(audioLengthL)
         audioLengthL.isHidden = true
@@ -90,7 +90,7 @@ class CDFileTableViewCell: UITableViewCell {
         if fileInfo.fileType == .AudioType {
 //            audioLengthL.frame = frame
             audioLengthL.isHidden = false
-            audioLengthL.text = GetMMSSFromSS(second: fileInfo.timeLength)
+            audioLengthL.text = GetMMSSFromSS(timeLength: fileInfo.timeLength)
         }
     }
     
@@ -132,7 +132,7 @@ class CDFolderTableViewCell: UITableViewCell {
         }
 
         titleLabel = UILabel()
-        titleLabel.textColor = TextBlackColor
+        titleLabel.textColor = .textBlack
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(headImageView.snp.right).offset(15.0)

@@ -2,8 +2,8 @@
 //  CDFontView.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/9.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/9.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -13,7 +13,7 @@ class CDFontView: UIView,UIPickerViewDelegate,UIPickerViewDataSource {
     private var fontView:UIPickerView!    
     override init(frame:CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = BaseBackGroundColor
+        self.backgroundColor = .baseBgColor
         fontView = UIPickerView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 48))
         fontView.delegate = self
         fontView.dataSource = self
@@ -22,7 +22,7 @@ class CDFontView: UIView,UIPickerViewDelegate,UIPickerViewDataSource {
         fontView.selectRow(10, inComponent: 1, animated: false)
         
         let button = UIButton(type: .custom)
-        button.setTitle(LocalizedString("sure"), for: .normal)
+        button.setTitle("确定".localize, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(onHandleFontConfig(sender:)), for: .touchUpInside)
         button.layer.cornerRadius = 10

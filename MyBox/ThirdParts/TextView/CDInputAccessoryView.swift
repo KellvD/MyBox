@@ -2,8 +2,8 @@
 //  CDInputAccessoryView.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/9.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/9.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ UICollectionViewDataSource {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = BaseBackGroundColor
+        self.backgroundColor = .baseBgColor
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:frame.height , height: frame.height)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -27,7 +27,7 @@ UICollectionViewDataSource {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = BaseBackGroundColor
+        collectionView.backgroundColor = .baseBgColor
         self.addSubview(collectionView!)
     }
     

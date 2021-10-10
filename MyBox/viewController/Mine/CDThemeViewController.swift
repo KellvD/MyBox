@@ -2,8 +2,8 @@
 //  CDThemeViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2021/2/4.
-//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2021/2/4.
+//  Copyright © 2018 changdong. All rights reserved.
 //
 
 import UIKit
@@ -27,9 +27,9 @@ class CDThemeViewController: CDBaseAllViewController, UITableViewDelegate, UITab
     
     lazy var optionArr: [[String]] = {
         if #available(iOS 13.0, *){
-            return [[LocalizedString("Follow the system")],[LocalizedString("Normal Mode"),LocalizedString("Dark Mode")]]
+            return [["跟随系统" .localize],["普通模式".localize,"暗黑模式" .localize]]
         }
-        return [[LocalizedString("Normal Mode"),LocalizedString("Dark Mode")]]
+        return [["普通模式".localize,"暗黑模式" .localize]]
     }()
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,9 +57,9 @@ class CDThemeViewController: CDBaseAllViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headView = UIView()
         let label = UILabel(frame: CGRect(x: 15, y: 10, width: 100, height: 20))
-        label.textColor = TextLightGrayColor
-        label.font = TextSmallFont
-        label.text = LocalizedString("Manual selection")
+        label.textColor = .textGray
+        label.font = .small
+        label.text = "手动选择".localize
         headView .addSubview(label)
         return section == 0 ? nil : headView
     }
@@ -77,8 +77,8 @@ class CDThemeViewController: CDBaseAllViewController, UITableViewDelegate, UITab
                 cell = CDSwitchCell(style: .default, reuseIdentifier: cellId)
             }
             cell.valueLabelIsAtBottom()
-            cell.titleLabel.text = LocalizedString("Follow the system")
-            cell.valueLabel.text = LocalizedString("After it is turned on, dark mode will be turned on or off following the system")
+            cell.titleLabel.text = "跟随系统" .localize
+            cell.valueLabel.text = "开启后，将跟随系统打开或关闭深色模式".localize
             
             cell.swi.isHidden = false
             cell.swi.isOn = GetAppThemeSwi()
@@ -97,7 +97,7 @@ class CDThemeViewController: CDBaseAllViewController, UITableViewDelegate, UITab
             if cell == nil {
                 cell = CDSwitchCell(style: .default, reuseIdentifier: cellId)
             }
-            cell.titleLabel.text = indexPath.row == 0 ? LocalizedString("Normal Mode") : LocalizedString("Dark Mode")
+            cell.titleLabel.text = indexPath.row == 0 ? "普通模式".localize : "暗黑模式".localize
             cell.isHidden = GetAppThemeSwi()
             cell.accessoryType = GetThemeMode().rawValue == indexPath.row ? .checkmark : .none
             cell.separatorLineIsHidden = indexPath.row == 1

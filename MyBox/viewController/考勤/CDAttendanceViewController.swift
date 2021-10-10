@@ -3,7 +3,7 @@
 //  MyBox
 //
 //  Created by changdong on 2021/8/21.
-//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Copyright © 2018 changdong. All rights reserved.
 //
 
 import UIKit
@@ -12,19 +12,34 @@ class CDAttendanceViewController: CDBaseAllViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addSubview(self.tipsView)
+        self.view.addSubview(self.dayView)
+        self.view.addSubview(self.monthView)
 
-        // Do any additional setup after loading the view.
+       
     }
+    @objc func onSelectedAttendance(){
+        
+    }
+
+    lazy var tipsView: CDTipsView = {
+        let tipV = CDTipsView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 48), tips: ["本日打卡","本月打卡"])
+        tipV.selectedHandle = {(tip) in
+            
+        }
+        return tipV
+    }()
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    lazy var dayView: CDDayAttendanceView = {
+        let dayV = CDDayAttendanceView(frame: CGRect(x: 0, y: self.tipsView.maxY, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH - self.tipsView.maxY))
+        
+        return dayV
+    }()
+    
+    lazy var monthView: CDMonthAttendanceView = {
+        let monthV = CDMonthAttendanceView(frame: CGRect(x: 0, y: self.tipsView.maxY, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH - self.tipsView.maxY))
+        monthV.isHidden = true
+        return monthV
+    }()
+    
 }

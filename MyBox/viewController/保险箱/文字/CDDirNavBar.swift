@@ -28,7 +28,7 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         collectionView.backgroundColor = .white
         self.addSubview(collectionView)
         let line = UIView(frame: CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1))
-        line.backgroundColor = TextLightGrayColor
+        line.backgroundColor = .textGray
         self.addSubview(line)
     }
 
@@ -56,11 +56,11 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         if indexPath.item ==  CDSignalTon.shared.dirNavArr.count - 1{
             cell.titleLabel.text = titleName
             cell.bottomLine.isHidden = false
-            cell.titleLabel.textColor = CustomBlueColor
+            cell.titleLabel.textColor = .customBlue
         }else{
             cell.titleLabel.text = titleName + " > "
             cell.bottomLine.isHidden = true
-            cell.titleLabel.textColor = TextLightGrayColor
+            cell.titleLabel.textColor = .textGray
         }
         var frame = cell.titleLabel.frame
         frame.size.width = cell.frame.width
@@ -74,7 +74,7 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         let titleName = folder.folderName
-        let width:CGFloat = (titleName + " > ").labelWidth(height: 40, font: TextMidFont)
+        let width:CGFloat = (titleName + " > ").labelWidth(height: 40, font: .mid)
         return CGSize(width: width, height: 40)
     }
     
@@ -102,7 +102,7 @@ class CDDirListBarCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         titleLabel = UILabel(frame: CGRect(x: 0, y: 2, width: frame.width, height: 40))
-        titleLabel.font = TextMidFont
+        titleLabel.font = .mid
         titleLabel.textAlignment = .center
         self.addSubview(titleLabel)
         

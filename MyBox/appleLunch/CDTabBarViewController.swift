@@ -13,10 +13,10 @@ class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        addChildViewControll(vc: CDSafeViewController(), title: LocalizedString("Box"), imageName: "safe_normal", selectImageName: "safe_select")
-        addChildViewControll(vc: CDReaderListViewController(), title: LocalizedString("Reader"), imageName: "reader_normal", selectImageName: "reader_select")
-        addChildViewControll(vc: CDAttendanceViewController(), title: LocalizedString("Attendance"), imageName: "music_normal", selectImageName: "music_select")
-        addChildViewControll(vc: CDMineViewController(), title: LocalizedString("Mine"), imageName: "mine_normal", selectImageName: "mine_select")
+        addChildViewControll(vc: CDSafeViewController(), title: "墨方城".localize, imageName: "safe_normal", selectImageName: "safe_select")
+        addChildViewControll(vc: CDReaderListViewController(), title: "凌烟阁".localize, imageName: "reader_normal", selectImageName: "reader_select")
+        addChildViewControll(vc: CDAttendanceViewController(), title: "考勤".localize, imageName: "music_normal", selectImageName: "music_select")
+        addChildViewControll(vc: CDMineViewController(), title: "起之".localize, imageName: "mine_normal", selectImageName: "mine_select")
 
 //        self.tabBar.backgroundImage = UIImage(named: "下导航-bg")
         self.tabBar.backgroundColor = .baseBgColor
@@ -28,6 +28,7 @@ class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
         vc.title = title
         vc.tabBarItem.image = LoadImage(imageName)
         vc.tabBarItem.selectedImage = LoadImage(selectImageName)
+        
         let naVC = CDNavigationController(rootViewController: vc)
         self.addChild(naVC)
         

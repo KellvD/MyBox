@@ -2,8 +2,8 @@
 //  CDTextStyleView.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/9.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/9.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -20,7 +20,7 @@ class CDInputView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = BaseBackGroundColor
+        self.backgroundColor = .baseBgColor
         
         let cancle = UIButton(type: .custom)
         cancle.setImage(UIImage(named: "cancle"), for: .normal)

@@ -9,20 +9,50 @@
 import UIKit
 import Photos
 
-class CDAlbumPickViewController: UITableViewController {
+
+class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObserver {
+    
+    
     private var ablumList:[CDAlbum] = []
     private var folderId = Int()
     var isSelectedVideo:Bool!
     weak var assetDelegate:CDAssetSelectedDelagete!
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if #available(iOS 14, *) {
+            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+            if status == .limited {
+                PHPhotoLibrary.shared().unregisterChangeObserver(self)
+            }
+            
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
         self.navigationController!.navigationBar.topItem?.title = ""
         let cancle = UIBarButtonItem(barButtonSystemItem: .cancel, target: assetDelegate, action: #selector(cancleMediaPicker))
         self.navigationItem.rightBarButtonItem = cancle
-        self.loadAllAlbum()
-
+        
+        if #available(iOS 14, *) {
+            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+            if status == .limited {
+                self.loadAllAlbum()
+                PHPhotoLibrary.shared().register(self)
+                return
+            }
+            
+        }
+        loadAllAlbum()
+    }
+    
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.async {
+            self.loadAllAlbum()
+        }
+        
     }
 
     @objc func cancleMediaPicker(){}

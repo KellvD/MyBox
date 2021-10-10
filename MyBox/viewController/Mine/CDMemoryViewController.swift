@@ -2,7 +2,7 @@
 //  CDMemoryViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
@@ -50,7 +50,7 @@ class CDMemoryViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = BaseBackGroundColor
+        view.backgroundColor = .baseBgColor
         return view
     }
     
@@ -58,8 +58,8 @@ class CDMemoryViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
         let view = UIView()
         let label = UILabel(frame: CGRect(x: 15, y: 18, width: 150, height: 30))
         label.text = optionArr[section]
-        label.font = TextMidSmallFont
-        label.textColor = TextDarkBlackColor
+        label.font = .midSmall
+        label.textColor = .textBlack
         view.addSubview(label)
         return view
     }

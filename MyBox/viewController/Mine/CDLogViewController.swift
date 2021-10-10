@@ -15,7 +15,7 @@ class CDLogViewController: CDBaseAllViewController {
     var isSet:Bool! //true 设置 //false 预览
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = LocalizedString("Log Settings")
+        self.title = "日志设置".localize
         self.view.backgroundColor = .baseBgColor
         if !isSet {
             readLog()
@@ -26,7 +26,7 @@ class CDLogViewController: CDBaseAllViewController {
         let logName = CDLogBean.logName.removeSuffix()
         let logFolder = CDLogBean.logFolder
         
-        let logoLevelLabel = createLabel(text: LocalizedString("Log Level"), frame: CGRect(x: 10, y: 30, width: 90, height: 28))
+        let logoLevelLabel = createLabel(text: "日志等级:".localize, frame: CGRect(x: 10, y: 30, width: 90, height: 28))
         segView = UISegmentedControl(items: ["Debug","Info","Error","Warn","All"])
         segView.frame = CGRect(x: logoLevelLabel.frame.maxX + 10, y: logoLevelLabel.frame.minY-4, width: CDSCREEN_WIDTH - 10 - logoLevelLabel.frame.maxX - 10, height: 36)
         segView.tintColor = .black
@@ -39,25 +39,24 @@ class CDLogViewController: CDBaseAllViewController {
         self.view.addSubview(segView)
         
         //
-        let logoPathLabel = createLabel(text: LocalizedString("Log Directory"), frame: CGRect(x: 10, y: 30 * 2 + 28, width: 90, height: 28))
+        let logoPathLabel = createLabel(text: "日志目录:".localize, frame: CGRect(x: 10, y: 30 * 2 + 28, width: 90, height: 28))
         logoPathField = UITextField(frame: CGRect(x: logoPathLabel.frame.maxX + 10, y: logoPathLabel.frame.minY-4, width: CDSCREEN_WIDTH - 10 - logoPathLabel.frame.maxX - 10, height: 36))
-        logoPathField.placeholder = LocalizedString("Input the log path")
-        logoPathField.borderStyle = .roundedRect
+        logoPathField.placeholder = "请输入日志路径".localize
         logoPathLabel.lineBreakMode = .byTruncatingMiddle
         logoPathField.text = logFolder
         self.view.addSubview(logoPathField)
         
         //
-        let logoNameLabel = createLabel(text: LocalizedString("Log name"), frame: CGRect(x: 10, y: 30 * 3 + 28 * 2, width: 90, height: 28))
+        let logoNameLabel = createLabel(text: "日志名称".localize, frame: CGRect(x: 10, y: 30 * 3 + 28 * 2, width: 90, height: 28))
         logoNameField = UITextField(frame: CGRect(x: logoNameLabel.frame.maxX + 10, y: logoNameLabel.frame.minY-4, width: CDSCREEN_WIDTH - 10 - logoNameLabel.frame.maxX - 10, height: 36))
-        logoNameField.placeholder = LocalizedString("Input the log name")
+        logoNameField.placeholder = "请输入日志名称".localize
         logoNameField.borderStyle = .roundedRect
         logoNameField.text = logName
         self.view.addSubview(logoNameField)
         
         let sureButton = UIButton(type: .custom)
         sureButton.frame = CGRect(x: 10, y: logoNameLabel.frame.maxY + 30, width: CDSCREEN_WIDTH - 20, height: 48)
-        sureButton.setTitle(LocalizedString("sure"), for: .normal)
+        sureButton.setTitle("确定".localize, for: .normal)
         sureButton.setBackgroundImage(UIImage(named: "上导航栏-背景"), for: .normal)
         sureButton.layer.cornerRadius = 4.0
         sureButton.clipsToBounds = true
@@ -75,10 +74,10 @@ class CDLogViewController: CDBaseAllViewController {
     
     private func readLog(){
         self.title = CDLogBean.logName
-        var content  = LocalizedString("The current content is not viewable")
+        var content  = "当前内容不可查看".localize
         do {
             content = try String(contentsOfFile: CDLogBean.logPath)
-            content = content.isEmpty ? LocalizedString("No log record yet") : content
+            content = content.isEmpty ? "暂无日志记录".localize : content
         } catch  {
             CDPrintManager.log("日志文件读取失败error:\(error.localizedDescription)", type: .ErrorLog)
         }
@@ -90,8 +89,8 @@ class CDLogViewController: CDBaseAllViewController {
     private func createLabel(text:String,frame:CGRect) ->UILabel{
         let label = UILabel(frame: frame)
         label.text = text
-        label.textColor = TextBlackColor
-        label.font = TextMidFont
+        label.textColor = .textBlack
+        label.font = .mid
         self.view.addSubview(label)
         return label
     }
@@ -100,10 +99,10 @@ class CDLogViewController: CDBaseAllViewController {
         let path = logoPathField.text!
         var name = logoNameField.text!
         if path.isEmpty {
-            CDHUDManager.shared.showText(LocalizedString("Log path cannot be empty"))
+            CDHUDManager.shared.showText("暂无日志记录".localize)
             return
         } else if logoNameField.text!.isEmpty {
-            CDHUDManager.shared.showText(LocalizedString("Log name cannot be empty"))
+            CDHUDManager.shared.showText("日志名称不能为空".localize)
         }
         if !name.hasSuffix(".log") {
             name.append(".log")

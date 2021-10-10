@@ -22,7 +22,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = LocalizedString("Folder List")
+        self.title = "文件夹列表".localize
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
@@ -77,10 +77,10 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let folder:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
-        let alert = UIAlertController(title: LocalizedString("prompt"), message: LocalizedString("Are you sure to move into this folder?"), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in}))
-        alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
-            CDHUDManager.shared.showWait(LocalizedString("Processing..."))
+        let alert = UIAlertController(title: "提示", message: "您确定移入该文件夹吗？", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (action) in}))
+        alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (action) in
+            CDHUDManager.shared.showWait("正在处理中...".localize)
             DispatchQueue.global().async {
                 if folder.folderId > 0 && self.selectedArr.count > 0 {
                     for index in 0..<self.selectedArr.count{
@@ -90,7 +90,7 @@ class CDFolderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
                     }
                     DispatchQueue.main.async {
                         CDHUDManager.shared.hideWait()
-                        CDHUDManager.shared.showText(LocalizedString("move in completed"))
+                        CDHUDManager.shared.showText("移入完成".localize)
                         self.moveHandle!(true)
                         self.navigationController?.popViewController(animated: true)
                     }

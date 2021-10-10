@@ -187,7 +187,7 @@ extension UIImage{
         self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         var textAttributes:[NSAttributedString.Key:Any] = [:]
         textAttributes[.foregroundColor] = color
-        textAttributes[.font] = UIFont20
+        textAttributes[.font] = UIFont.large
         
         content.AsNSString().draw(in: frame, withAttributes: textAttributes)
         let image = UIGraphicsGetImageFromCurrentImageContext()
@@ -205,27 +205,30 @@ extension UIImage{
     /// - Parameters:
     ///   - imageArr: 图片数组
     ///   - gifPath: GIF路径
-    static func composeGif(imageArr:Array<UIImage>,gifPath: inout String){
-        let url:CFURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath as CFString, CFURLPathStyle.cfurlposixPathStyle, false)
-        let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, imageArr.count, nil)
+    static func composeGif(imageArr:Array<UIImage>, delay:Double, gifPath: inout String){
+//        let url:CFURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath as CFString, CFURLPathStyle.cfurlposixPathStyle, false)
+        let destination = CGImageDestinationCreateWithURL(gifPath.url as CFURL, kUTTypeGIF, imageArr.count, nil)
 
-        //每帧之间播放的时间间隔
-        let delayDic = [kCGImagePropertyGIFUnclampedDelayTime:1]
-        let frameDic = [kCGImagePropertyGIFUnclampedDelayTime : delayDic]
+
         
-        let gifdic:NSMutableDictionary = NSMutableDictionary()
-        gifdic.setValue(NSNumber(value: true), forKey: kCGImagePropertyGIFHasGlobalColorMap as String)
-        gifdic.setValue(kCGImagePropertyColorModelRGB, forKey: kCGImagePropertyColorModel as String)
-        //颜色深度
-        gifdic.setValue(16, forKey: kCGImagePropertyDepth as String)
-        //是否重复 0无限
-        gifdic.setValue(0, forKey: kCGImagePropertyGIFLoopCount as String)
-        let gifproperty = [kCGImagePropertyGIFDictionary : gifdic]
+        let gifProperty = [
+            kCGImagePropertyGIFDictionary : [
+                kCGImagePropertyGIFHasGlobalColorMap: true,
+                kCGImagePropertyColorModel: kCGImagePropertyColorModelRGB,
+                kCGImagePropertyDepth: 8,
+                kCGImagePropertyGIFLoopCount: 0
+            ]
+        ]
+        CGImageDestinationSetProperties(destination!, gifProperty as CFDictionary)
         for image in imageArr {
-
+            //每帧之间播放的时间间隔
+            let frameDic = [
+                kCGImagePropertyGIFDictionary : [
+                    kCGImagePropertyGIFDelayTime : delay
+                ]
+            ]
             CGImageDestinationAddImage(destination!, image.cgImage!, frameDic as CFDictionary)
         }
-        CGImageDestinationSetProperties(destination!, gifproperty as CFDictionary)
         CGImageDestinationFinalize(destination!)
     }
     
@@ -246,5 +249,26 @@ extension UIImage{
         }
         
     }
+    
+    /// 生成马赛克图片
+    func mosaicImage(level: CGFloat) -> UIImage? {
+        let screenScale = level / max(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        let scale = self.size.width * screenScale
+        guard let image = self.cgImage else {
+            return nil
+        }
+        // 输入
+        let input = CIImage(cgImage: image)
+        // 输出
+        let output = input.applyingFilter("CIPixellate", parameters: [kCIInputScaleKey: scale])
+
+        // 渲染图片
+        guard let cgimage = CIContext(options: nil).createCGImage(output, from: input.extent) else {
+            return nil
+        }
+        return UIImage(cgImage: cgimage)
+
+    }
+
 
 }

@@ -13,18 +13,61 @@ extension String{
     /*
     字符串的MD5算法
     */
-   var md5:String{
-        var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
-        if let data = data(using: .utf8) {
-            data.withUnsafeBytes { (bytes:UnsafePointer<UInt8>) -> Void in
-                CC_MD5(bytes,CC_LONG(data.count),&digest)
+    var md5:String{
+        get{
+            var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+            if let data = data(using: .utf8) {
+                data.withUnsafeBytes { (bytes:UnsafePointer<UInt8>) -> Void in
+                    CC_MD5(bytes,CC_LONG(data.count),&digest)
+                }
             }
+            var digestHex = ""
+            for index in 0..<Int(CC_MD5_DIGEST_LENGTH) {
+                digestHex += String(format: "%02x", digest[index])
+            }
+            return digestHex
         }
-        var digestHex = ""
-        for index in 0..<Int(CC_MD5_DIGEST_LENGTH) {
-            digestHex += String(format: "%02x", digest[index])
+    }
+    /// 国际化
+    var localize:String{
+        get{
+            return NSLocalizedString(self, comment: "")
         }
-        return digestHex
+    }
+    ///根据图片名生成图片
+    var image:UIImage{
+        return LoadImage(self)!
+    }
+    
+    ///截取字符串
+    func subString(with range:NSRange)->String{
+        return self.AsNSString().substring(with: range)
+    }
+    func subString(location:Int,length:Int)->String{
+        return subString(with: NSRange(location: location, length: length))
+    }
+    func subString(to index:Int)->String{
+        return self.AsNSString().substring(to: index)
+    }
+    func subString(from index:Int)->String{
+        return self.AsNSString().substring(from: index)
+    }
+    
+    
+    /*
+    获取32位随机数
+    */
+    static var random:String {
+        get{
+            let NUMBER_OF_CHARS: Int = 32
+            let random_str_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            var ranStr = ""
+            for _ in 0..<NUMBER_OF_CHARS {
+                let index = Int(arc4random_uniform(UInt32(random_str_characters.count)))
+                ranStr.append(random_str_characters[random_str_characters.index(random_str_characters.startIndex, offsetBy: index)])
+            }
+            return ranStr
+        }
     }
     
     /*

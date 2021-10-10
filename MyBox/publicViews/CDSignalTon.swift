@@ -64,6 +64,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
         }
         locationManager.startUpdatingLocation()
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -73,10 +74,10 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     添加沙盒文件夹
     */
     func addDefaultSafeFolder() -> Void {
-        let nameArr:[String] = [LocalizedString("Photo"), LocalizedString("Audio"),LocalizedString("Video"),LocalizedString("Text")]
+        let nameArr:[String] = ["图片文件".localize, "音频文件".localize,"视频文件".localize,"文本文件".localize]
         let pathArr:[String] = [String.ImagePath(),String.AudioPath(),String.VideoPath(),String.OtherPath()]
         for i in 0..<nameArr.count {
-            let nowTime = GetTimestamp()
+            let nowTime = GetTimestamp(nil)
             let createtime:Int = nowTime;
             let folderInfo = CDSafeFolder()
             folderInfo.folderName = nameArr[i]
@@ -111,7 +112,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         let titleArr:[String] = Array(arrayLiteral: "最喜欢", "最近播放","乐库")
         let imageArr:[String] = Array(arrayLiteral: "music_love", "music_recent","music_list")
         for i in 0..<titleArr.count {
-            let nowTime = GetTimestamp()
+            let nowTime = GetTimestamp(nil)
             let createtime:Int = nowTime;
             let classInfo = CDMusicClassInfo()
             classInfo.className = titleArr[i]
@@ -127,7 +128,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     /**
     保存文件
     */
-    func saveSafeFileInfo(fileUrl:URL,folderId:Int,subFolderType:NSFolderType,isFromDocment:Bool){
+    func saveFileWithUrl(fileUrl:URL,folderId:Int,subFolderType:NSFolderType,isFromDocment:Bool){
         let tmpFilePath = isFromDocment ? fileUrl.absoluteString : fileUrl.path
         let fileName = tmpFilePath.fileName
         let suffix = tmpFilePath.suffix
@@ -139,7 +140,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             return
         }
         if contentData.count <= 0 {
-            print("saveSafeFileInfo Fail :Content is nil")
+            print("saveFileWithUrl Fail :Content is nil")
             return;
         }
         //拍照，合成Gif等操作将文件预先保存在本地，在此处将文件读到data临时存放，删除原本地文件，统一在下面按照格式化路径入库
@@ -148,12 +149,12 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         }
         
         let fileType = suffix.fileType
-        let currentTime = GetTimestamp()
+        let currentTime = GetTimestamp(nil)
         let fileInfo = CDSafeFileInfo()
         fileInfo.folderId = folderId
         fileInfo.userId = CDUserId()
         fileInfo.fileName = fileName
-        fileInfo.createTime = currentTime
+        fileInfo.importTime = currentTime
         fileInfo.modifyTime = currentTime
         fileInfo.accessTime = currentTime
         fileInfo.fileType = fileType
@@ -162,35 +163,36 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
 
         if subFolderType == .ImageFolder{
             filePath = String.ImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-            try! contentData.write(to: URL(fileURLWithPath: filePath))
+            try! contentData.write(to: filePath.url)
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
             let image = UIImage(data: contentData)!
             let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
             let data = thumbImage.jpegData(compressionQuality: 1.0)
-            try! data?.write(to: URL(fileURLWithPath: thumbPath))
+            try! data?.write(to: thumbPath.url)
             fileInfo.fileWidth = Double(image.size.width)
             fileInfo.fileHeight = Double(image.size.height)
             fileInfo.thumbImagePath = thumbPath.relativePath
         }else if subFolderType == .AudioFolder || subFolderType == .VideoFolder{
             if subFolderType == .VideoFolder{
                 filePath = String.VideoPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                try! contentData.write(to: URL(fileURLWithPath: filePath))
+                try! contentData.write(to: filePath.url)
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
-                let image = UIImage.previewImage(videoUrl: URL(fileURLWithPath: filePath))
+                let image = UIImage.previewImage(videoUrl: filePath.url)
                 let data = image.jpegData(compressionQuality: 1.0)
-                try! data?.write(to: URL(fileURLWithPath: thumbPath))
+                try! data?.write(to: thumbPath.url)
                 fileInfo.thumbImagePath = thumbPath.relativePath
             }else{
                 filePath = String.AudioPath().appendingPathComponent(str: "\(currentTime).\(suffix)")
-                try! contentData.write(to: URL(fileURLWithPath: filePath))
+                try! contentData.write(to: filePath.url)
             }
             fileInfo.timeLength = GetVideoLength(path: filePath)
         }else{
             filePath = String.OtherPath().appendingPathComponent(str: "\(fileName).\(suffix)")
-            try! contentData.write(to: URL(fileURLWithPath: filePath))
+            try! contentData.write(to: filePath.url)
         }
-        let fileSize = GetFileSize(filePath: filePath)
-        fileInfo.fileSize = fileSize
+        let fileAttribute = filePath.fileAttribute
+        fileInfo.fileSize = fileAttribute.fileSize
+        fileInfo.createTime = fileAttribute.createTime
         fileInfo.filePath = filePath.relativePath
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
     }
@@ -201,12 +203,14 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
         let fileName = obj["fileName"] as! String
         let imageType = obj["imageType"] as! String
+        let createTime = obj["createTime"] as! Int
+        let location = obj["location"] as! CLLocation
         let suffix = fileName.suffix
         let fileType = suffix.fileType
         
-        let time = GetTimestamp()
-        let savePath = String.ImagePath().appendingPathComponent(str: "\(time).\(suffix)")
-        let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(time).\(suffix)")
+        let importTime = GetTimestamp(nil)
+        let savePath = String.ImagePath().appendingPathComponent(str: "\(importTime).\(suffix)")
+        let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(importTime).\(suffix)")
         
 //        var photo:PHLivePhoto!
         var image:UIImage
@@ -214,7 +218,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             let data = obj["file"] as! Data
             image = UIImage(data: data)!
             do{
-                try data.write(to: URL(fileURLWithPath: savePath))
+                try data.write(to: savePath.url)
             }catch{
                 return
             }
@@ -224,7 +228,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             let smallImage = image.compress(maxWidth: 1280)
             do{
                 let imageData = smallImage.jpegData(compressionQuality: 0.5)
-                try imageData?.write(to: URL(fileURLWithPath: savePath))
+                try imageData?.write(to: savePath.url)
             }catch{
                 return
             }
@@ -236,7 +240,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
         let tmpData = thumbImage.jpegData(compressionQuality: 1.0)! as Data
         do {
-            try tmpData.write(to: URL(fileURLWithPath: thumbPath))
+            try tmpData.write(to: thumbPath.url)
         } catch  {
             return
         }
@@ -245,16 +249,23 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         fileInfo.fileName = fileName.removeSuffix()
         fileInfo.filePath = savePath.relativePath
         fileInfo.thumbImagePath = thumbPath.relativePath
-        fileInfo.fileSize = GetFileSize(filePath: savePath)
+        let fileAttribute = savePath.fileAttribute
+        fileInfo.fileSize = fileAttribute.fileSize
         fileInfo.fileWidth = Double(image.size.width)
         fileInfo.fileHeight = Double(image.size.height)
-        fileInfo.createTime = Int(time)
-        fileInfo.modifyTime = Int(time)
-        fileInfo.accessTime = Int(time)
+        fileInfo.createTime = createTime
+        fileInfo.importTime = importTime
+        fileInfo.modifyTime = importTime
+        fileInfo.accessTime = importTime
         fileInfo.fileType = fileType
+        
         fileInfo.userId = CDUserId()
         fileInfo.folderType = .ImageFolder
-        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+        CDLocationManager.shared.reverseGeocode(oTocation: location) { locationStr in
+            fileInfo.createLocation = locationStr
+            CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+        }
+        
     }
 
     /**
@@ -263,7 +274,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     @objc func getVideoAllFrame(videoPath:String) -> [UIImage]{
         var imageArr:[UIImage] = []
 
-        let url = URL(fileURLWithPath: videoPath)
+        let url = videoPath.url
         let asset = AVURLAsset(url: url)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
@@ -379,42 +390,42 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         return imageView
     }
     
-    /**
-     音频文件获取音频信息
-    */
-    func getMusicInfoFromMusicFile(filePath:String)-> MusicInfo{
-        let url = URL(fileURLWithPath: filePath)
-        let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
-        let urlAsset: AVURLAsset = AVURLAsset(url: url, options: opts)
-        let time = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
-
-        var musicInfo = MusicInfo()
-        musicInfo.length = time
-        for format:AVMetadataFormat in urlAsset.availableMetadataFormats {
-            for metadata:AVMetadataItem in urlAsset.metadata(forFormat: format){
-                let key = metadata.commonKey?.rawValue
-//                if key == "title"{ //歌名
-//                    musicInfo.musicName = metadata.value as! String
+//    /**
+//     音频文件获取音频信息
+//    */
+//    func getMusicInfoFromMusicFile(filePath:String)-> MusicInfo{
+//        let url = filePath.url
+//        let opts = [AVURLAssetPreferPreciseDurationAndTimingKey : NSNumber(value: false)]
+//        let urlAsset: AVURLAsset = AVURLAsset(url: url, options: opts)
+//        let time = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
+//
+//        var musicInfo = MusicInfo()
+//        musicInfo.length = time
+//        for format:AVMetadataFormat in urlAsset.availableMetadataFormats {
+//            for metadata:AVMetadataItem in urlAsset.metadata(forFormat: format){
+//                let key = metadata.commonKey?.rawValue
+////                if key == "title"{ //歌名
+////                    musicInfo.musicName = metadata.value as! String
+////                }
+////                else if key == "albumName"{ //专辑
+////                    musicInfo.albumName = metadata.value as! String
+////                }else
+//                if key == "artist"{   //歌手
+//                    musicInfo.artist = (metadata.value as! String)
+//                }else if key == "artwork"{  //图片
+//                    musicInfo.image = UIImage(data: metadata.value as! Data)!
 //                }
-//                else if key == "albumName"{ //专辑
-//                    musicInfo.albumName = metadata.value as! String
-//                }else
-                if key == "artist"{   //歌手
-                    musicInfo.artist = (metadata.value as! String)
-                }else if key == "artwork"{  //图片
-                    musicInfo.image = UIImage(data: metadata.value as! Data)!
-                }
-
-            }
-        }
-        return musicInfo
-    }
+//
+//            }
+//        }
+//        return musicInfo
+//    }
 
     /**
      音频拼接
     */
     func appendAudio(folderId:Int,appendFile:[CDSafeFileInfo],Complete:@escaping(_ success:Bool)->Void){
-        let nowTime = GetTimestamp()
+        let nowTime = GetTimestamp(nil)
         //导出路径
         let composePath = String.AudioPath().appendingPathComponent(str: "\(nowTime).m4a")
         let composition = AVMutableComposition()
@@ -422,7 +433,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         for index in 0..<appendFile.count {
             let tmpFile = appendFile[index]
             let tmpPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
-            let audioAsset = AVURLAsset(url: URL(fileURLWithPath: tmpPath))
+            let audioAsset = AVURLAsset(url: tmpPath.url)
             let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: 0)!
             let audioAssetTrack = audioAsset.tracks(withMediaType: .audio).first
         
@@ -440,12 +451,12 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             
         }
         let session = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A)
-        session?.outputURL = URL(fileURLWithPath: composePath)
+        session?.outputURL = composePath.url
         session?.outputFileType = .m4a
         session?.shouldOptimizeForNetworkUse = true //优化网络
         session?.exportAsynchronously(completionHandler: {
             if session?.status == AVAssetExportSession.Status.completed{
-                self.saveSafeFileInfo(fileUrl: URL(fileURLWithPath: composePath), folderId: folderId, subFolderType: .AudioFolder,isFromDocment: false)
+                self.saveFileWithUrl(fileUrl: composePath.url, folderId: folderId, subFolderType: .AudioFolder,isFromDocment: false)
                 Complete(true)
             }else{
                 Complete(false)

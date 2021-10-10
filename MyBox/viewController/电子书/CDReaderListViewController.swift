@@ -44,24 +44,24 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ReadCellIde")
             let view = UIView()
             cell.selectedBackgroundView = view
-            cell.selectedBackgroundView?.backgroundColor = LightBlueColor
+            cell.selectedBackgroundView?.backgroundColor = .cellSelectColor
    
             let headImage = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
             headImage.tag = 101
             cell.contentView.addSubview(headImage)
 
             let fileNameL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: 10, width: CDSCREEN_WIDTH-75, height: 25))
-            fileNameL.textColor = TextBlackColor
-            fileNameL.font = TextMidFont
+            fileNameL.textColor = .textBlack
+            fileNameL.font = .mid
             fileNameL.lineBreakMode = .byTruncatingMiddle
             fileNameL.textAlignment = .left
             fileNameL.tag = 102
             cell.contentView.addSubview(fileNameL)
 
             let detailLabel = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: fileNameL.frame.maxY, width: 150, height: 25))
-            detailLabel.textColor = TextGrayColor
+            detailLabel.textColor = .textGray
             detailLabel.textAlignment = .left
-            detailLabel.font = TextSmallFont
+            detailLabel.font = .small
             detailLabel.tag = 103
             cell.contentView.addSubview(detailLabel)
             
@@ -99,7 +99,7 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
 //        let gfile = dataArr[indexPath.row]
-        let detail = UITableViewRowAction(style: .normal, title: LocalizedString("delete")) { (action, index) in
+        let detail = UITableViewRowAction(style: .normal, title: "删除".localize) { (action, index) in
             
         }
         return [detail]
@@ -109,7 +109,7 @@ class CDReaderListViewController: CDBaseAllViewController,UITableViewDelegate,UI
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //        let gfile = dataArr[indexPath.row]
         
-        let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
+        let delete = UIContextualAction(style: .normal, title: "删除".localize) { (action, view, handle) in
         }
         delete.backgroundColor = .red
         let action = UISwipeActionsConfiguration(actions: [delete])

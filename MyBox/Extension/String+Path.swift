@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 extension String{
     /**
@@ -134,6 +135,25 @@ extension String{
         return string
     }
     
+    /**
+    删除文件
+    */
+    func delete(){
+        let manager = FileManager.default
+        if manager.fileExists(atPath: self) {
+            do{
+                if self.hasPrefix(String.RootPath()) {
+                    try manager.removeItem(atPath: self)
+                }else{
+                    let path = String.RootPath().appendingPathComponent(str: self)
+                    try manager.removeItem(atPath: path)
+                }
+                
+            }catch{
+                CDPrintManager.log("文件删除失败" + error.localizedDescription, type: .WarnLog)
+            }
+        }
+    }
     //相对路径
     var relativePath:String{
         get{
@@ -163,17 +183,62 @@ extension String{
             return fileName
         }
     }
-     
+    
+    /**
+    拼接文件完整路径
+    */
+    var rootPath:String{
+        get{
+            if !self.hasPrefix(String.RootPath()) {
+                return String.RootPath().appendingPathComponent(str: self)
+            }
+            return self
+        }
+    }
+    
+    
+    /**
+    路径转URL
+    */
+    var url:URL{
+        get{
+            return URL(fileURLWithPath: self)
+        }
+    }
     /**
      获取文件后缀
     */
     var suffix:String {
+        
         get{
             let string = self.AsNSString().pathExtension
             return string
         }
         
     }
+    /**
+     文件信息
+    */
+    var fileAttribute:(fileSize:Int,createTime:Int) {
+        get{
+            var fileSize:Int = 0
+            var createTime:Int = 0
+            if FileManager.default.fileExists(atPath: self) {
+                do{
+                    let attr = try FileManager.default.attributesOfItem(atPath: self)
+                    fileSize = attr[FileAttributeKey.size] as! Int
+                    let creationDate = attr[FileAttributeKey.creationDate] as!Date
+                    createTime = Int(creationDate.timeIntervalSince1970 * 1000)
+                    
+                }catch{
+                    
+                }
+            }
+            return (fileSize,createTime)
+        }
+        
+    }
+    
     
     var removePercentEncoding:String {
         get{
@@ -181,46 +246,45 @@ extension String{
             return string!
         }
     }
-    
+    /*
+    获取视频的长度
+    */
+    var duration:Double{
+        get{
+            if self.fileType == .AudioType || self.fileType == .VideoType {
+                let urlAsset = AVURLAsset(url: URL(fileURLWithPath: self), options: nil)
+                let second = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
+                return second
+            }else{
+                print("文件非音视频格式")
+                return 0
+            }
+        }
+    }
     /**
     根据文件后缀判断文件类型
     */
     var fileType:NSFileType{
         let tmp = self.uppercased()
-        if tmp == "PDF" || tmp == "PDFX" {
+        if ["PDF","PDFX","PPT","PPTX","KEY"].contains(tmp){
             return .PdfType
-        } else if tmp == "PPT" || tmp == "PPTX" || tmp == "KEY" {
-            return .PptType
-        } else if tmp == "DOC" || tmp == "DOCX" || tmp == "DOCUMENT" || tmp == "PAGES" {
+        }else if ["DOC","DOCX","DOCUMENT","PAGES"].contains(tmp) {
             return .DocType
         }else if tmp == "TXT" {
             return .TxtType
-        } else if tmp == "XLS" || tmp == "XLSX" || tmp == "NUMBERS" {
+        } else if ["XLS","XLSX","NUMBERS"].contains(tmp) {
             return .ExclType
         } else if tmp == "RTF" {
             return .RtfType
         } else if tmp == "GIF" {
             return .GifType
-        }else if tmp == "PNG" ||
-            tmp == "JPG" || tmp == "TIF" || tmp == "JPEG" ||
-            tmp == "BMP" || tmp == "PCD" || tmp == "MAC" ||
-            tmp == "PCX" || tmp == "DXF" || tmp == "CDR" {
+        }else if ["PNG","JPG","HEIC","JPEG","BMP","TIF","PCD","MAC","PCX","DXF","CDR"].contains(tmp) {
             return .ImageType
-        }else if tmp == "MP3" ||
-            tmp == "WAV" || tmp == "CAF" || tmp == "CDA" || tmp == "MID" ||
-            tmp == "RAM" || tmp == "RMX" || tmp == "VQF" || tmp == "AIFF" ||
-            tmp == "SND" || tmp == "SVX" || tmp == "VOC" || tmp == "AMR" ||
-            tmp == "M4A" || tmp == "M4R" || tmp == "M4V" || tmp == "AAC"{
+        }else if ["MP3","WAV","VOC","M4A","M4R","M4V","AAC","CAF","CDA","MID","RAM","RMX","VQF","AIFF","SND","SVX","AMR"].contains(tmp){
         return .AudioType
-        }else if tmp == "MOV" || tmp == "MP4" || tmp == "AVI" ||
-            tmp == "MPG" || tmp == "M2V" || tmp == "VOB" ||
-            tmp == "ASF" || tmp == "WMF" || tmp == "RMVB" ||
-            tmp == "RM" || tmp == "DIVX" || tmp == "MKV" {
+        }else if ["MOV","MP4","AVI","MPG","M2V","VOB","ASF","WMF","RMVB","RM","DIVX","MKV"].contains(tmp) {
             return .VideoType
-        }else if tmp == "ZIP" || tmp == "RAR" || tmp == "7-ZIP" ||
-            tmp == "ACE" || tmp == "ARJ" || tmp == "BV2" || tmp == "CAD" ||
-            tmp == "GZIP" || tmp == "ISO" || tmp == "JAR" || tmp == "LZH" ||
-            tmp == "TAR" || tmp == "UUE" || tmp == "XZ" {
+        }else if ["ZIP","RAR","7-ZIP","ACE","ARJ","BV2","CAD","GZIP","ISO","JAR","LZH","TAR","UUE","XZ"].contains(tmp) {
             return .ZipType
         } else {
             return .OtherType

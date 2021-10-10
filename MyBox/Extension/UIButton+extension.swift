@@ -2,8 +2,8 @@
 //  UIButton+extension.swift
 //  CDLog
 //
-//  Created by changdong cwx889303 on 2020/11/23.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/11/23.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -61,5 +61,11 @@ extension UIButton{
         
         self.imageEdgeInsets = imageEdge
         self.titleEdgeInsets = labelEdge
+    }
+    
+    func setTitleSpace(title:String,space:CGFloat){
+        let attr = NSMutableAttributedString(string: title)
+        attr.addAttribute(.kern, value: space, range: NSRange(location: 0, length: title.count))
+        self.setAttributedTitle(attr, for: .normal)
     }
 }

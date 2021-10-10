@@ -58,7 +58,7 @@ class CDToolBar: UIImageView {
         } else if barType == .AudioTools {
             imageName = "menu_record"
         }
-        inputItem = createButton(imageName: imageName, disabledImageName: nil, action: "inputItemClick")
+        inputItem = createButton(imageName: imageName, disabledImageName: nil, action: "importItemClick")
         
         /*--------------------------批量按钮元素------------------------*/
         //分享
@@ -162,7 +162,7 @@ class CDToolBar: UIImageView {
     
     @objc func takePhotoClick(){}
     
-    @objc func inputItemClick(){}
+    @objc func importItemClick(){}
     
     @objc func shareBarItemClick(){}
     

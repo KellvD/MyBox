@@ -2,7 +2,7 @@
 //  CDPrivacyViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
@@ -91,7 +91,7 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
             let setPwdVC = CDSetPwdViewController()
             setPwdVC.isFake = false
             setPwdVC.isModify = !CDSignalTon.shared.basePwd.isEmpty
-            setPwdVC.title = CDSignalTon.shared.basePwd.isEmpty ? LocalizedString("Set password") : LocalizedString("Modify Password")
+            setPwdVC.title = CDSignalTon.shared.basePwd.isEmpty ? "设置密码".localize : "修改密码".localize
             self.navigationController?.pushViewController(setPwdVC, animated: true)
         }else if option == .FakeSet {
             if CDSignalTon.shared.fakeSwitch {
@@ -99,7 +99,7 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
                 let setPwdVC = CDSetPwdViewController()
                 setPwdVC.isFake = true
                 setPwdVC.isModify = !fakePwd.isEmpty
-                setPwdVC.title = fakePwd.isEmpty ? LocalizedString("Set Guest Password") : LocalizedString("Modify Guest Password")
+                setPwdVC.title = fakePwd.isEmpty ? "设置访客密码".localize : "修改访客密码".localize
                 self.navigationController?.pushViewController(setPwdVC, animated: true)
                 
             }
@@ -123,7 +123,7 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
                     CDPrintManager.log("指纹密码打开", type: .InfoLog)
                 } else {
                     DispatchQueue.main.async {
-                        CDHUDManager.shared.showText(LocalizedString("Fingerprint off or not support"))
+                        CDHUDManager.shared.showText("您的设备没有开启指纹或者您的设备不支持指纹功能".localize)
                         CDSignalTon.shared.touchIDSwitch = false
                     }
                     
@@ -146,11 +146,11 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
             CDPrintManager.log("访客模式打开", type: .InfoLog)
         }else{
 
-            let alert = UIAlertController(title: nil, message: LocalizedString("Turn off guest mode"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (param:UIAlertAction) in
+            let alert = UIAlertController(title: nil, message: "关闭访客模式".localize, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (param:UIAlertAction) in
                swi.isOn = true
             }))
-            alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (param:UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (param:UIAlertAction) in
                 CDSqlManager.shared.updateUserFakePwdWith(pwd: "")
                 CDSignalTon.shared.fakeSwitch = false
                 CDConfigFile.setBoolValueToConfigWith(key: .fakeSwi, boolValue: false)
@@ -164,7 +164,7 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
         let lol = LAContext()
         var error:NSError? = nil
         if lol.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            lol.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: LocalizedString("Unlock")) { (success, error) in
+            lol.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "解锁".localize) { (success, error) in
                 block(success,error)
             }
         } else {
@@ -181,10 +181,10 @@ class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITabl
         }else{
 
             let alert = UIAlertController(title: nil, message: "确定关闭日志？", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (param:UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (param:UIAlertAction) in
                 swi.isOn = true
             }))
-            alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (param:UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (param:UIAlertAction) in
                 CDLogBean.closeLogConfig()
                 self.tableView.reloadRows(at: [IndexPath(item: 0, section: 0)], with: .none)
             }))

@@ -14,6 +14,8 @@ class CDAssetTon: NSObject {
     var mediaType:CDMediaType!
     static let shared = CDAssetTon()
 
+
+    
     //MARK:获取图片列表
     func getAllAlbums(WithFinished Finished: @escaping ([CDAlbum]) -> Void) {
 
@@ -69,6 +71,7 @@ class CDAssetTon: NSObject {
         }
         return title
     }
+    
     func getVideoFromAsset(withAsset asset: PHAsset, Handle:@escaping(String?) ->Void) {
 
         if asset.mediaType == .video {
@@ -98,7 +101,7 @@ class CDAssetTon: NSObject {
         let preaets = AVAssetExportSession.exportPresets(compatibleWith: videoAsset)
         if preaets.contains(AVAssetExportPresetHighestQuality) {
             let session:AVAssetExportSession = AVAssetExportSession.init(asset: videoAsset, presetName: AVAssetExportPreset640x480)!
-            let time = GetTimestamp()
+            let time = GetTimestamp(nil)
             let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
             let tmpVideo = (docPath as NSString).appendingPathComponent("/tmpVideo")
             if !FileManager.default.fileExists(atPath: tmpVideo) {
@@ -379,6 +382,7 @@ class CDAssetTon: NSObject {
         option.resizeMode = .none
         option.deliveryMode = .opportunistic
         PHImageManager().requestImage(for: asset, targetSize: CGSize(width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH), contentMode: .default, options: option) { (image, info) in
+            
             Result(image)
         }
         

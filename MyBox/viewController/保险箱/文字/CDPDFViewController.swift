@@ -17,7 +17,7 @@ class CDPDFViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.addSubview(pdfView)
-        let pdfDoc = PDFDocument(url: URL(fileURLWithPath: filePath))
+        let pdfDoc = PDFDocument(url: filePath.url)
         pdfView.document = pdfDoc
     
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ddeko))

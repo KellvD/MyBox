@@ -20,6 +20,7 @@ let DelayKey = "delayKey"
 
 typealias CDCameraTakePhotoComplete = (_ image:UIImage?) ->Void
 typealias CDCameraTakeVideoComplete = (_ videoUrl:URL?) ->Void
+
 typealias CDCameraScanQRComplete = (_ content:String?,_ recoverHandle:@escaping() -> Void) -> Void
 typealias CDUpdateDelayComplete = (_ delay:Int,_ isEnd:Bool) ->Void
 
@@ -197,9 +198,9 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     }
     //录制视频
     func startTakeVideo(){
-        let time = GetTimestamp()
+        let time = GetTimestamp(nil)
         let videoPath = String.VideoPath().appendingPathComponent(str: "\(time).mp4")
-        let url = URL(fileURLWithPath: videoPath)
+        let url = videoPath.url
        
         let conn = videoOutput.connection(with: .video)
         if conn?.isActive ?? false{
@@ -213,6 +214,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     func stopTakeVideo(){
         isVideoRecording = false
         videoOutput.stopRecording()
+        
     }
     
     
@@ -403,6 +405,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     }
     
     func turnaHDR(model:Int){
+        
     }
     
     func trunFlash(model:AVCaptureDevice.FlashMode){
@@ -441,6 +444,7 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
         }
         _timer.fire()
     }
+    
     func closeTimer() {
         if _timer != nil {
             _timer.invalidate()

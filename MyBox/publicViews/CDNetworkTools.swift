@@ -2,8 +2,8 @@
 //  CDNetworkTools.swift
 //  HttpDemo
 //
-//  Created by changdong cwx889303 on 2020/8/21.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/8/21.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -74,7 +74,7 @@ class CDNetworkTools: NSObject,URLSessionDelegate {
         request.timeoutInterval = REQUESTTIMEOUT
         
 //        request.httpBody = try! JSONSerialization.data(withJSONObject: param, options: .fragmentsAllowed)
-        let fileData = try! Data(contentsOf: URL(fileURLWithPath: filepPath))
+        let fileData = try! Data(contentsOf: filepPath.url)
         let task:URLSessionDataTask = self.session.uploadTask(with: request, from: fileData , completionHandler: { (data, response, error) in
             self.parseHttpResponse(data: data, response: response, error: error, completionHandle: completionHandle)
         })

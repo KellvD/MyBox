@@ -8,7 +8,11 @@
 
 import UIKit
 import AVFoundation
+import CDMediaEditor
 typealias CDPreviewDoneHandle = (_ success:Bool) -> Void
+typealias CDPreviewEditPhotoComplete = (_ image:UIImage?) ->Void
+typealias CDPreviewEditVideoComplete = (_ videoUrl:URL?) ->Void
+
 class CDPreviewTakerViewController: UIViewController {
     private var preview:UIImageView!
     private var playerLayer:AVPlayerLayer!
@@ -19,40 +23,47 @@ class CDPreviewTakerViewController: UIViewController {
     var isVideo:Bool = false
     var origialImage:UIImage!
     var previewHandle:CDPreviewDoneHandle!
+    var previewEditPhotoHandle:CDPreviewEditPhotoComplete!
+    var previewEditVideoHandle:CDPreviewEditVideoComplete!
+    var cameraVC:CDCameraViewController!
+    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //顶部工具栏
-        let naviBar = UIImageView(frame: CGRect(x: 0, y: StatusHeight, width: CDSCREEN_WIDTH, height: 48))
+        let naviBar = UIImageView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 44 + NavigationHeight))
         naviBar.isUserInteractionEnabled = true
         naviBar.backgroundColor = .white
         self.view.addSubview(naviBar)
         
         //返回按钮
         let backBtn = UIButton(type: .custom)
-        backBtn.frame = CGRect(x: 0, y: 1.5, width: 45, height: 45)
+        backBtn.frame = CGRect(x: 0, y: NavigationHeight + 1.5, width: 45, height: 45)
         backBtn.setImage(LoadImage("back_blue"), for: .normal)
         backBtn.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         naviBar.addSubview(backBtn)
         
         let timeLabel = UILabel(frame: CGRect(x: CDSCREEN_WIDTH/2 - 75, y: 6, width: 150, height: 36))
-        timeLabel.text = "今天" + timestampTurnString(timestamp: GetTimestamp())
+        timeLabel.text = "今天" + timestampTurnString(timestamp: GetTimestamp(nil))
         timeLabel.textAlignment = .center
-        timeLabel.textColor = TextLightBlackColor
-        timeLabel.font = TextMidSmallFont
+        timeLabel.textColor = .textLightBlack
+        timeLabel.font = .midSmall
         naviBar.addSubview(timeLabel)
         
         //底部工具栏
-        let toolBar = UIImageView(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH-48, width: CDSCREEN_WIDTH, height: 48))
+        let toolBar = UIImageView(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight))
         toolBar.isUserInteractionEnabled = true
         toolBar.image = UIImage(named: "下导航-bg")
         self.view.addSubview(toolBar)
         
         let edit = UIButton(type: .custom)
-        edit.frame = CGRect(x: 15, y: 1.5, width: 45, height: 45)
+        edit.frame = CGRect(x: 15, y: 5, width: 45, height: 45)
         edit.setTitle("编辑", for:.normal)
-        edit.setTitleColor(CustomBlueColor, for: .normal)
+        edit.setTitleColor(.customBlue, for: .normal)
         edit.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         toolBar.addSubview(edit)
         
@@ -63,14 +74,14 @@ class CDPreviewTakerViewController: UIViewController {
         toolBar.addSubview(playBtn)
         
         let saveBtn = UIButton(type: .custom)
-        saveBtn.frame = CGRect(x: CDSCREEN_WIDTH - 60, y: 1.5, width: 45, height: 45)
+        saveBtn.frame = CGRect(x: CDSCREEN_WIDTH - 60, y: 5, width: 45, height: 45)
         saveBtn.setTitle("保存", for:.normal)
-        saveBtn.setTitleColor(CustomBlueColor, for: .normal)
+        saveBtn.setTitleColor(.customBlue, for: .normal)
         saveBtn.addTarget(self, action: #selector(makeSureSaveTaker), for: .touchUpInside)
         toolBar.addSubview(saveBtn)
         
         //预览界面
-        preview = UIImageView(frame: CGRect(x: 0, y: naviBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH - naviBar.frame.maxY - toolBar.frame.height))
+        preview = UIImageView(frame: CGRect(x: 0, y: naviBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH - naviBar.frame.height - toolBar.frame.height))
         self.view.addSubview(preview)
         
         if isVideo {
@@ -98,28 +109,36 @@ class CDPreviewTakerViewController: UIViewController {
             previewHandle(true)
         }else{
             self.dismiss(animated: false, completion: nil)
-
             previewHandle(true)
             
         }
         
     }
     
-//    @objc private func outputPhotoComplete(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
-//
-//    }
-    
-    
     @objc func editClick(){
-        
+        if isVideo {
+            let config = VideoEditorConfiguration()
+            let videoEditVC = EditorController(videoURL: videoUrl!, config: config)
+            videoEditVC.modalPresentationStyle = .fullScreen
+            videoEditVC.videoEditorDelegate = self
+            present(videoEditVC, animated: true, completion: nil)
+        }else{
+            let photoConfig = PhotoEditorConfiguration()
+            let vc = EditorController.init(image: origialImage!, config: photoConfig)
+            vc.photoEditorDelegate = self
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true, completion: nil)
+        }
+//
     }
+    
     @objc func playVideoClick(){
         if player == nil {
             initPlayer()
         }else if player.timeControlStatus == .playing {
             //正在播放就暂停
             player.pause()
-            playBtn.setImage(LoadImage("audioplay"), for: .normal)
+            playBtn.setImage(LoadImage("menu_audioplay"), for: .normal)
 
         }else if player.timeControlStatus == .paused {
             //暂停了就播放
@@ -145,6 +164,7 @@ class CDPreviewTakerViewController: UIViewController {
         preview.layer.addSublayer(playerLayer)
         player.play()
     }
+    
     func distoryPlayer() {
         if player != nil {
             player.pause()
@@ -159,7 +179,7 @@ class CDPreviewTakerViewController: UIViewController {
     }
 
     @objc func playerItemDidFinish(){
-        playBtn.setImage(LoadImage("audioplay"), for: .normal)
+        playBtn.setImage(LoadImage("menu_audioplay"), for: .normal)
         player.pause()
         player.currentItem?.seek(to: CMTime.zero, completionHandler: nil)
     }
@@ -176,3 +196,20 @@ class CDPreviewTakerViewController: UIViewController {
 
 
 
+extension CDPreviewTakerViewController:VideoEditorViewControllerDelegate,PhotoEditorViewControllerDelegate{
+    func videoEditorViewController(_ videoEditorViewController: VideoEditorViewController, didFinish result: VideoEditResult){
+        self.dismiss(animated: false, completion: {
+            self.previewEditVideoHandle(result.editedURL)
+        })
+
+        
+    }
+    
+    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, didFinish result: PhotoEditResult) {
+        self.dismiss(animated: false, completion: {
+            self.previewEditPhotoHandle(result.editedImage)
+        })
+        
+        
+    }
+}

@@ -37,7 +37,7 @@ class CDImageCell: UICollectionViewCell {
     private lazy var tipLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: frame.height - 20, width: frame.width - 5, height: 20))
         label.textAlignment = .right
-        label.font = TextSmallFont
+        label.font = .small
         label.textColor = .white
         self.contentView.addSubview(label)
         return label
@@ -73,7 +73,7 @@ class CDImageCell: UICollectionViewCell {
         
         self.selectedView.isHidden = !isMutilEdit
         self.selectedView.image = LoadImage(fileInfo.isSelected == .CDTrue ? "selected" : "no_selected")
-        self.tipLabel.text = GetMMSSFromSS(second: fileInfo.timeLength)
+        self.tipLabel.text = GetMMSSFromSS(timeLength: fileInfo.timeLength)
         
         let tmpPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
         let mImgage:UIImage! = LoadImage(tmpPath)

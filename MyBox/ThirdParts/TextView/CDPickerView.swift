@@ -2,8 +2,8 @@
 //  CDColorPicker.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/10.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/10.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -23,7 +23,7 @@ UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = BaseBackGroundColor
+        self.backgroundColor = .baseBgColor
         let layout = UICollectionViewFlowLayout()
         
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height -  48), collectionViewLayout: layout)
@@ -31,11 +31,11 @@ UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = BaseBackGroundColor
+        collectionView.backgroundColor = .baseBgColor
         self.addSubview(collectionView!)
         
         let button = UIButton(type: .custom)
-        button.setTitle(LocalizedString("sure"), for: .normal)
+        button.setTitle("确定".localize, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(onDismissView), for: .touchUpInside)
         button.layer.cornerRadius = 10
@@ -87,7 +87,7 @@ UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
         }else{
             cell.contentView.layer.borderWidth = 0
         }
-        cell.contentView.backgroundColor = BaseBackGroundColor
+        cell.contentView.backgroundColor = .baseBgColor
         
         
         

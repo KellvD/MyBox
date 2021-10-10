@@ -20,9 +20,134 @@
 		7366B27624920460001C7884 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B27524920460001C7884 /* CoreMedia.framework */; };
 		7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B2772492046C001C7884 /* CoreVideo.framework */; };
 		7366B27A2492047A001C7884 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7366B2792492047A001C7884 /* QuartzCore.framework */; };
-		EF52D43F25859D2200E52674 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EF52D43E25859D2200E52674 /* SnapKit */; };
-		EF52D4422585A3E300E52674 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = EF52D4412585A3E300E52674 /* SQLite */; };
-		EF52D45B2585A52200E52674 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = EF52D45A2585A52200E52674 /* MBProgressHUD */; };
+		EF29E2AC2712DA480041092B /* CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E2A52712DA480041092B /* CDMediaEditor.framework */; };
+		EF29E2AD2712DA480041092B /* CDMediaEditor.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E2A52712DA480041092B /* CDMediaEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF29E32A2712DA590041092B /* Core+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B32712DA580041092B /* Core+Bundle.swift */; };
+		EF29E32B2712DA590041092B /* Core+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B42712DA580041092B /* Core+UIFont.swift */; };
+		EF29E32C2712DA590041092B /* Core+PHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B52712DA580041092B /* Core+PHAsset.swift */; };
+		EF29E32D2712DA590041092B /* Core+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B62712DA580041092B /* Core+Data.swift */; };
+		EF29E32E2712DA590041092B /* Core+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B72712DA580041092B /* Core+UIImage.swift */; };
+		EF29E32F2712DA590041092B /* Core+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B82712DA580041092B /* Core+Dictionary.swift */; };
+		EF29E3302712DA590041092B /* Core+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B92712DA580041092B /* Core+String.swift */; };
+		EF29E3312712DA590041092B /* Core+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BA2712DA580041092B /* Core+URL.swift */; };
+		EF29E3322712DA590041092B /* Core+PHAssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BB2712DA580041092B /* Core+PHAssetCollection.swift */; };
+		EF29E3332712DA590041092B /* Core+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BC2712DA580041092B /* Core+UIImageView.swift */; };
+		EF29E3342712DA590041092B /* Core+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BD2712DA580041092B /* Core+UIView.swift */; };
+		EF29E3352712DA590041092B /* Core+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BE2712DA580041092B /* Core+UIDevice.swift */; };
+		EF29E3362712DA590041092B /* Core+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2BF2712DA580041092B /* Core+CALayer.swift */; };
+		EF29E3372712DA590041092B /* Core+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C02712DA580041092B /* Core+UIColor.swift */; };
+		EF29E3382712DA590041092B /* Core+DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C12712DA580041092B /* Core+DispatchQueue.swift */; };
+		EF29E3392712DA590041092B /* AssetManager+VideoURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C32712DA580041092B /* AssetManager+VideoURL.swift */; };
+		EF29E33A2712DA5A0041092B /* AssetManager+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C42712DA580041092B /* AssetManager+Image.swift */; };
+		EF29E33B2712DA5A0041092B /* PhotoManager+Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C52712DA580041092B /* PhotoManager+Audio.swift */; };
+		EF29E33C2712DA5A0041092B /* AssetManager+AVAssetExportSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C62712DA580041092B /* AssetManager+AVAssetExportSession.swift */; };
+		EF29E33D2712DA5A0041092B /* AssetManager+LivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C72712DA580041092B /* AssetManager+LivePhoto.swift */; };
+		EF29E33E2712DA5A0041092B /* AssetManager+AssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C82712DA580041092B /* AssetManager+AssetCollection.swift */; };
+		EF29E33F2712DA5A0041092B /* AssetManager+ImageURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2C92712DA580041092B /* AssetManager+ImageURL.swift */; };
+		EF29E3402712DA5A0041092B /* AssetManager+LivePhotoURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CA2712DA580041092B /* AssetManager+LivePhotoURL.swift */; };
+		EF29E3412712DA5A0041092B /* AssetManager+AVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CB2712DA580041092B /* AssetManager+AVAsset.swift */; };
+		EF29E3422712DA5A0041092B /* PhotoManager+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CC2712DA580041092B /* PhotoManager+Download.swift */; };
+		EF29E3432712DA5A0041092B /* PhotoTools+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CD2712DA580041092B /* PhotoTools+File.swift */; };
+		EF29E3442712DA5A0041092B /* AssetManager+ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CE2712DA580041092B /* AssetManager+ImageData.swift */; };
+		EF29E3452712DA5A0041092B /* AssetManager+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2CF2712DA580041092B /* AssetManager+Authorization.swift */; };
+		EF29E3462712DA5A0041092B /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D02712DA580041092B /* AssetManager.swift */; };
+		EF29E3472712DA5A0041092B /* PhotoTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D12712DA580041092B /* PhotoTools.swift */; };
+		EF29E3482712DA5A0041092B /* AssetManager+Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D22712DA580041092B /* AssetManager+Asset.swift */; };
+		EF29E3492712DA5A0041092B /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D32712DA580041092B /* PhotoManager.swift */; };
+		EF29E34A2712DA5A0041092B /* PhotoManager+Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D42712DA580041092B /* PhotoManager+Language.swift */; };
+		EF29E34B2712DA5A0041092B /* BaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D62712DA580041092B /* BaseConfiguration.swift */; };
+		EF29E34C2712DA5A0041092B /* SelectBoxConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D72712DA580041092B /* SelectBoxConfiguration.swift */; };
+		EF29E34D2712DA5A0041092B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2D92712DA580041092B /* BaseViewController.swift */; };
+		EF29E34E2712DA5A0041092B /* HXPHPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2DA2712DA580041092B /* HXPHPicker.swift */; };
+		EF29E34F2712DA5A0041092B /* PhotoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2DC2712DA580041092B /* PhotoError.swift */; };
+		EF29E3502712DA5A0041092B /* AppearanceStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2DD2712DA580041092B /* AppearanceStyle.swift */; };
+		EF29E3512712DA5A0041092B /* CustomLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2DE2712DA580041092B /* CustomLanguage.swift */; };
+		EF29E3522712DA5A0041092B /* PhotoPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2DF2712DA580041092B /* PhotoPanGestureRecognizer.swift */; };
+		EF29E3532712DA5A0041092B /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E02712DA580041092B /* LanguageType.swift */; };
+		EF29E3542712DA5A0041092B /* LivePhotoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E12712DA580041092B /* LivePhotoError.swift */; };
+		EF29E3552712DA5A0041092B /* ImageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E22712DA580041092B /* ImageContentType.swift */; };
+		EF29E3562712DA5A0041092B /* ProgressImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E42712DA580041092B /* ProgressImageView.swift */; };
+		EF29E3572712DA5A0041092B /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E52712DA580041092B /* VideoPlayerView.swift */; };
+		EF29E3582712DA5A0041092B /* SelectBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E62712DA580041092B /* SelectBoxView.swift */; };
+		EF29E3592712DA5A0041092B /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2E72712DA580041092B /* ProgressHUD.swift */; };
+		EF29E35A2712DA5A0041092B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E2E92712DA580041092B /* Kingfisher.framework */; platformFilter = ios; };
+		EF29E35C2712DA5A0041092B /* HXPHPicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF29E2EC2712DA590041092B /* HXPHPicker.bundle */; };
+		EF29E35D2712DA5A0041092B /* Editor+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2EF2712DA590041092B /* Editor+UIImage.swift */; };
+		EF29E35E2712DA5A0041092B /* Editor+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F12712DA590041092B /* Editor+UIImageView.swift */; };
+		EF29E35F2712DA5A0041092B /* Editor+PhotoTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F22712DA590041092B /* Editor+PhotoTools.swift */; };
+		EF29E3602712DA5A0041092B /* PhotoEditorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F42712DA590041092B /* PhotoEditorConfiguration.swift */; };
+		EF29E3612712DA5A0041092B /* VideoEditorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F52712DA590041092B /* VideoEditorConfiguration.swift */; };
+		EF29E3622712DA5A0041092B /* CropConfirmViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F62712DA590041092B /* CropConfirmViewConfiguration.swift */; };
+		EF29E3632712DA5A0041092B /* VideoCroppingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F72712DA590041092B /* VideoCroppingConfiguration.swift */; };
+		EF29E3642712DA5A0041092B /* PhotoCroppingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F82712DA590041092B /* PhotoCroppingConfiguration.swift */; };
+		EF29E3652712DA5A0041092B /* EditorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2F92712DA590041092B /* EditorConfiguration.swift */; };
+		EF29E3662712DA5A0041092B /* EditorToolViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2FA2712DA590041092B /* EditorToolViewConfiguration.swift */; };
+		EF29E3672712DA5A0041092B /* PhotoEditResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2FB2712DA590041092B /* PhotoEditResult.swift */; };
+		EF29E3682712DA5A0041092B /* VideoEditResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2FC2712DA590041092B /* VideoEditResult.swift */; };
+		EF29E3692712DA5A0041092B /* EditorStickerTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2FE2712DA590041092B /* EditorStickerTextViewController.swift */; };
+		EF29E36A2712DA5A0041092B /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2FF2712DA590041092B /* EditorController.swift */; };
+		EF29E36B2712DA5A0041092B /* VideoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3002712DA590041092B /* VideoEditorViewController.swift */; };
+		EF29E36C2712DA5A0041092B /* PhotoEditorViewController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3012712DA590041092B /* PhotoEditorViewController+Animation.swift */; };
+		EF29E36D2712DA5A0041092B /* PhotoEditorViewController+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3022712DA590041092B /* PhotoEditorViewController+Request.swift */; };
+		EF29E36E2712DA5A0041092B /* PhotoEditorViewController+Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3032712DA590041092B /* PhotoEditorViewController+Export.swift */; };
+		EF29E36F2712DA5A0041092B /* PhotoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3042712DA590041092B /* PhotoEditorViewController.swift */; };
+		EF29E3702712DA5A0041092B /* EditorChartlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3062712DA590041092B /* EditorChartlet.swift */; };
+		EF29E3712712DA5A0041092B /* PhotoEditorCropToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3072712DA590041092B /* PhotoEditorCropToolModel.swift */; };
+		EF29E3722712DA5A0041092B /* EditorToolOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3082712DA590041092B /* EditorToolOptions.swift */; };
+		EF29E3732712DA5A0041092B /* VideoEditorMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3092712DA590041092B /* VideoEditorMusic.swift */; };
+		EF29E3742712DA5A0041092B /* PhotoEditorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E30A2712DA590041092B /* PhotoEditorFilter.swift */; };
+		EF29E3752712DA5A0041092B /* EditorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E30B2712DA590041092B /* EditorType.swift */; };
+		EF29E3762712DA5A0041092B /* VideoEditorMusicAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E30E2712DA590041092B /* VideoEditorMusicAnimationView.swift */; };
+		EF29E3772712DA5A0041092B /* VideoEditorSearchMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E30F2712DA590041092B /* VideoEditorSearchMusicView.swift */; };
+		EF29E3782712DA5A0041092B /* VideoEditorMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3102712DA590041092B /* VideoEditorMusicView.swift */; };
+		EF29E3792712DA5A0041092B /* VideoEditorCropViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3112712DA590041092B /* VideoEditorCropViewCell.swift */; };
+		EF29E37A2712DA5A0041092B /* VideoEditorPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3122712DA590041092B /* VideoEditorPlayerView.swift */; };
+		EF29E37B2712DA5A0041092B /* VideoEditorFrameMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3132712DA590041092B /* VideoEditorFrameMaskView.swift */; };
+		EF29E37C2712DA5A0041092B /* VideoEditorCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3142712DA590041092B /* VideoEditorCropView.swift */; };
+		EF29E37D2712DA5A0041092B /* EditorChartletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3152712DA590041092B /* EditorChartletView.swift */; };
+		EF29E37E2712DA5A0041092B /* EditorStickerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3162712DA590041092B /* EditorStickerContentView.swift */; };
+		EF29E37F2712DA5A0041092B /* EditorCropConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3172712DA590041092B /* EditorCropConfirmView.swift */; };
+		EF29E3802712DA5A0041092B /* EditorToolViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3182712DA590041092B /* EditorToolViewCell.swift */; };
+		EF29E3812712DA5A0041092B /* EditorStickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3192712DA590041092B /* EditorStickerItemView.swift */; };
+		EF29E3822712DA5A0041092B /* EditorStickerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E31A2712DA590041092B /* EditorStickerTextView.swift */; };
+		EF29E3832712DA5A0041092B /* PhotoEditorBrushColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E31C2712DA590041092B /* PhotoEditorBrushColorView.swift */; };
+		EF29E3842712DA5A0041092B /* PhotoEditorMosaicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E31D2712DA590041092B /* PhotoEditorMosaicView.swift */; };
+		EF29E3852712DA5A0041092B /* PhotoEditorDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E31E2712DA590041092B /* PhotoEditorDrawView.swift */; };
+		EF29E3862712DA5A0041092B /* PhotoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E31F2712DA590041092B /* PhotoEditorView.swift */; };
+		EF29E3872712DA5A0041092B /* EditorImageResizerControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3202712DA590041092B /* EditorImageResizerControlView.swift */; };
+		EF29E3882712DA5A0041092B /* PhotoEditorCropToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3212712DA590041092B /* PhotoEditorCropToolView.swift */; };
+		EF29E3892712DA5A0041092B /* EditorImageResizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3222712DA590041092B /* EditorImageResizerView.swift */; };
+		EF29E38A2712DA5A0041092B /* PhotoEditorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3232712DA590041092B /* PhotoEditorContentView.swift */; };
+		EF29E38B2712DA5A0041092B /* PhotoEditorMosaicToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3242712DA590041092B /* PhotoEditorMosaicToolView.swift */; };
+		EF29E38C2712DA5A0041092B /* PhotoEditorFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3252712DA590041092B /* PhotoEditorFilterView.swift */; };
+		EF29E38D2712DA5A0041092B /* EditorImageResizerMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3262712DA590041092B /* EditorImageResizerMaskView.swift */; };
+		EF29E38E2712DA5A0041092B /* EditorToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3272712DA590041092B /* EditorToolView.swift */; };
+		EF29E38F2712DA5A0041092B /* EditorStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3282712DA590041092B /* EditorStickerView.swift */; };
+		EF29E3902712DA5A0041092B /* EditorStickerTrashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3292712DA590041092B /* EditorStickerTrashView.swift */; };
+		EF29E3922712DB260041092B /* CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E3912712DB260041092B /* CDMediaEditor.framework */; };
+		EF29E3942712DB470041092B /* CDAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3932712DB470041092B /* CDAudioManager.swift */; };
+		EF29E3972712DB700041092B /* developLog.md in Resources */ = {isa = PBXBuildFile; fileRef = EF29E3962712DB700041092B /* developLog.md */; };
+		EF29E39A2712DBA00041092B /* CDQrPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3982712DBA00041092B /* CDQrPopView.swift */; };
+		EF29E39B2712DBA00041092B /* CDCameraConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3992712DBA00041092B /* CDCameraConfig.swift */; };
+		EF29E3A32712DBB80041092B /* CDSqlManager+CDSafeFileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39C2712DBB70041092B /* CDSqlManager+CDSafeFileInfo.swift */; };
+		EF29E3A42712DBB80041092B /* CDSqlManager+CDSafeFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39D2712DBB70041092B /* CDSqlManager+CDSafeFolder.swift */; };
+		EF29E3A52712DBB80041092B /* CDSqlManager+CDUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39E2712DBB80041092B /* CDSqlManager+CDUserInfo.swift */; };
+		EF29E3A62712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39F2712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift */; };
+		EF29E3A72712DBB80041092B /* CDSqlDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3A02712DBB80041092B /* CDSqlDefines.swift */; };
+		EF29E3A82712DBB80041092B /* CDSqlManager+CDMusicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3A12712DBB80041092B /* CDSqlManager+CDMusicInfo.swift */; };
+		EF29E3A92712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3A22712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift */; };
+		EF29E3AD2712DBEA0041092B /* CDDayAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3AA2712DBEA0041092B /* CDDayAttendanceView.swift */; };
+		EF29E3AE2712DBEA0041092B /* CDMonthAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3AB2712DBEA0041092B /* CDMonthAttendanceView.swift */; };
+		EF29E3AF2712DBEA0041092B /* CDTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3AC2712DBEA0041092B /* CDTipsView.swift */; };
+		EF29E3B32712DC0C0041092B /* CDRippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3B02712DC0C0041092B /* CDRippleView.swift */; };
+		EF29E3B42712DC0C0041092B /* CDAudioPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3B12712DC0C0041092B /* CDAudioPlayViewController.swift */; };
+		EF29E3B52712DC0C0041092B /* CDMarqueeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3B22712DC0C0041092B /* CDMarqueeView.swift */; };
+		EF29E3C42712DC440041092B /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF29E3BA2712DC430041092B /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF29E3CA2712DC930041092B /* CDShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3C92712DC930041092B /* CDShareViewController.swift */; };
+		EF29E3CE2712E7AC0041092B /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E3CC2712E7AC0041092B /* SnapKit.framework */; };
+		EF29E3CF2712E7AC0041092B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E3CD2712E7AC0041092B /* SQLite.framework */; };
+		EF29E3D02712E7C30041092B /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E3CC2712E7AC0041092B /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF29E3D12712E7C30041092B /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E3CD2712E7AC0041092B /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF91AEEE26D0A1AB00A6943F /* CDFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADA826D0A1AA00A6943F /* CDFontView.swift */; };
 		EF91AEEF26D0A1AB00A6943F /* CDTextViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADA926D0A1AA00A6943F /* CDTextViewConfig.swift */; };
 		EF91AEF026D0A1AB00A6943F /* CDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADAA26D0A1AA00A6943F /* CDTextView.swift */; };
@@ -73,7 +198,6 @@
 		EF91AF1D26D0A1AB00A6943F /* cameraSwitch.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADDD26D0A1AA00A6943F /* cameraSwitch.png */; };
 		EF91AF1E26D0A1AB00A6943F /* back_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADDE26D0A1AA00A6943F /* back_blue@2x.png */; };
 		EF91AF1F26D0A1AB00A6943F /* flash_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADDF26D0A1AA00A6943F /* flash_on@2x.png */; };
-		EF91AF2026D0A1AB00A6943F /* meiyan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADE026D0A1AA00A6943F /* meiyan.png */; };
 		EF91AF2126D0A1AB00A6943F /* retake@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADE126D0A1AA00A6943F /* retake@2x.png */; };
 		EF91AF2226D0A1AB00A6943F /* flash_auto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADE226D0A1AA00A6943F /* flash_auto@2x.png */; };
 		EF91AF2326D0A1AB00A6943F /* delay_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADE326D0A1AA00A6943F /* delay_off@2x.png */; };
@@ -122,7 +246,6 @@
 		EF91AF7A26D0A1AB00A6943F /* 字体 (1).png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5126D0A1AA00A6943F /* 字体 (1).png */; };
 		EF91AF7B26D0A1AB00A6943F /* 右箭头-白@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5226D0A1AA00A6943F /* 右箭头-白@2x.png */; };
 		EF91AF7C26D0A1AB00A6943F /* 右箭头-黑@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5326D0A1AA00A6943F /* 右箭头-黑@2x.png */; };
-		EF91AF7D26D0A1AB00A6943F /* CDPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE5426D0A1AA00A6943F /* CDPuzzleViewController.swift */; };
 		EF91AF7E26D0A1AB00A6943F /* 左箭头-黑@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5526D0A1AA00A6943F /* 左箭头-黑@2x.png */; };
 		EF91AF7F26D0A1AB00A6943F /* 左箭头-白@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5626D0A1AA00A6943F /* 左箭头-白@2x.png */; };
 		EF91AF8026D0A1AB00A6943F /* 字体-黑-小@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AE5726D0A1AA00A6943F /* 字体-黑-小@2x.png */; };
@@ -148,7 +271,6 @@
 		EF91AF9426D0A1AB00A6943F /* CDLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE6E26D0A1AA00A6943F /* CDLogViewController.swift */; };
 		EF91AF9526D0A1AB00A6943F /* CDMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE6F26D0A1AA00A6943F /* CDMemoryViewController.swift */; };
 		EF91AF9626D0A1AB00A6943F /* CDDeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7026D0A1AA00A6943F /* CDDeviceInfoViewController.swift */; };
-		EF91AF9726D0A1AB00A6943F /* CDAudioPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7326D0A1AA00A6943F /* CDAudioPlayView.swift */; };
 		EF91AF9826D0A1AB00A6943F /* CDAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7426D0A1AA00A6943F /* CDAudioViewController.swift */; };
 		EF91AF9926D0A1AB00A6943F /* CDAudioRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7526D0A1AA00A6943F /* CDAudioRecordViewController.swift */; };
 		EF91AF9A26D0A1AB00A6943F /* CDPDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7726D0A1AA00A6943F /* CDPDFViewController.swift */; };
@@ -167,7 +289,6 @@
 		EF91AFA726D0A1AB00A6943F /* CDFileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8526D0A1AA00A6943F /* CDFileDetailViewController.swift */; };
 		EF91AFA826D0A1AB00A6943F /* CDNewFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8626D0A1AA00A6943F /* CDNewFolderViewController.swift */; };
 		EF91AFA926D0A1AB00A6943F /* CDVideoScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8826D0A1AA00A6943F /* CDVideoScrollerViewController.swift */; };
-		EF91AFAA26D0A1AB00A6943F /* CDSegmentVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8926D0A1AA00A6943F /* CDSegmentVideoViewController.swift */; };
 		EF91AFAB26D0A1AB00A6943F /* CDVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8A26D0A1AA00A6943F /* CDVideoViewController.swift */; };
 		EF91AFAC26D0A1AB00A6943F /* CDVideoScrollerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8B26D0A1AA00A6943F /* CDVideoScrollerCell.swift */; };
 		EF91AFAD26D0A1AB00A6943F /* CDAppendVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8C26D0A1AA00A6943F /* CDAppendVideoViewController.swift */; };
@@ -175,53 +296,6 @@
 		EF91AFAF26D0A1AB00A6943F /* CDImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8F26D0A1AA00A6943F /* CDImageScrollView.swift */; };
 		EF91AFB026D0A1AB00A6943F /* CDImageScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9026D0A1AA00A6943F /* CDImageScrollerViewController.swift */; };
 		EF91AFB126D0A1AB00A6943F /* CDImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9126D0A1AA00A6943F /* CDImageCell.swift */; };
-		EF91AFB226D0A1AB00A6943F /* CDMosaicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9326D0A1AA00A6943F /* CDMosaicView.swift */; };
-		EF91AFB326D0A1AB00A6943F /* CDMosaicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9526D0A1AA00A6943F /* CDMosaicViewController.swift */; };
-		EF91AFB426D0A1AB00A6943F /* PECropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9826D0A1AA00A6943F /* PECropView.swift */; };
-		EF91AFB526D0A1AB00A6943F /* PECropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9926D0A1AA00A6943F /* PECropRectView.swift */; };
-		EF91AFB626D0A1AB00A6943F /* CDPhotoChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9A26D0A1AA00A6943F /* CDPhotoChooseView.swift */; };
-		EF91AFB726D0A1AB00A6943F /* CDCorpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9B26D0A1AA00A6943F /* CDCorpViewController.swift */; };
-		EF91AFB826D0A1AB00A6943F /* CDCropToolsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9C26D0A1AA00A6943F /* CDCropToolsBar.swift */; };
-		EF91AFB926D0A1AB00A6943F /* CDCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9D26D0A1AA00A6943F /* CDCropView.swift */; };
-		EF91AFBA26D0A1AB00A6943F /* CDBrightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE9E26D0A1AA00A6943F /* CDBrightView.swift */; };
-		EF91AFBB26D0A1AB00A6943F /* 裁剪@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA026D0A1AA00A6943F /* 裁剪@2x.png */; };
-		EF91AFBC26D0A1AB00A6943F /* 顺时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA126D0A1AA00A6943F /* 顺时针旋转@2x.png */; };
-		EF91AFBD26D0A1AB00A6943F /* 曝光度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA226D0A1AA00A6943F /* 曝光度@2x.png */; };
-		EF91AFBE26D0A1AB00A6943F /* 滤镜@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA326D0A1AA00A6943F /* 滤镜@2x.png */; };
-		EF91AFBF26D0A1AB00A6943F /* 水印@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA426D0A1AA00A6943F /* 水印@2x.png */; };
-		EF91AFC026D0A1AB00A6943F /* backward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA526D0A1AA00A6943F /* backward_disable@2x.png */; };
-		EF91AFC126D0A1AB00A6943F /* 水平镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA626D0A1AA00A6943F /* 水平镜像@2x.png */; };
-		EF91AFC226D0A1AB00A6943F /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA726D0A1AA00A6943F /* forward@2x.png */; };
-		EF91AFC326D0A1AB00A6943F /* backward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA826D0A1AA00A6943F /* backward@2x.png */; };
-		EF91AFC426D0A1AB00A6943F /* 马赛克@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEA926D0A1AA00A6943F /* 马赛克@2x.png */; };
-		EF91AFC526D0A1AB00A6943F /* 逆时针旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAA26D0A1AA00A6943F /* 逆时针旋转@2x.png */; };
-		EF91AFC626D0A1AB00A6943F /* 白色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAB26D0A1AA00A6943F /* 白色暗角@2x.png */; };
-		EF91AFC726D0A1AB00A6943F /* 色相@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAC26D0A1AA00A6943F /* 色相@2x.png */; };
-		EF91AFC826D0A1AB00A6943F /* 锐度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAD26D0A1AA00A6943F /* 锐度@2x.png */; };
-		EF91AFC926D0A1AB00A6943F /* 对比度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAE26D0A1AA00A6943F /* 对比度@2x.png */; };
-		EF91AFCA26D0A1AB00A6943F /* 色温@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEAF26D0A1AA00A6943F /* 色温@2x.png */; };
-		EF91AFCB26D0A1AB00A6943F /* 垂直镜像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB026D0A1AA00A6943F /* 垂直镜像@2x.png */; };
-		EF91AFCC26D0A1AB00A6943F /* 黑色暗角@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB126D0A1AA00A6943F /* 黑色暗角@2x.png */; };
-		EF91AFCD26D0A1AB00A6943F /* 文字@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB226D0A1AA00A6943F /* 文字@2x.png */; };
-		EF91AFCE26D0A1AB00A6943F /* forward_disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB326D0A1AA00A6943F /* forward_disable@2x.png */; };
-		EF91AFCF26D0A1AB00A6943F /* 饱和度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB426D0A1AA00A6943F /* 饱和度@2x.png */; };
-		EF91AFD026D0A1AB00A6943F /* 亮度@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB526D0A1AA00A6943F /* 亮度@2x.png */; };
-		EF91AFD126D0A1AB00A6943F /* 旋转@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91AEB626D0A1AA00A6943F /* 旋转@2x.png */; };
-		EF91AFD226D0A1AB00A6943F /* CDRotateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEB726D0A1AA00A6943F /* CDRotateView.swift */; };
-		EF91AFD326D0A1AB00A6943F /* CDImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEB926D0A1AA00A6943F /* CDImageEditViewController.swift */; };
-		EF91AFD426D0A1AB00A6943F /* CDWaterMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEBB26D0A1AA00A6943F /* CDWaterMarkViewController.swift */; };
-		EF91AFD526D0A1AB00A6943F /* CDWaterMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEBC26D0A1AA00A6943F /* CDWaterMarkView.swift */; };
-		EF91AFD626D0A1AB00A6943F /* CDEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEBE26D0A1AA00A6943F /* CDEdit.swift */; };
-		EF91AFD726D0A1AB00A6943F /* CDEditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEBF26D0A1AA00A6943F /* CDEditManager.swift */; };
-		EF91AFD826D0A1AB00A6943F /* CDPhotoEditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC026D0A1AA00A6943F /* CDPhotoEditTextView.swift */; };
-		EF91AFD926D0A1AB00A6943F /* CDEditToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC226D0A1AA00A6943F /* CDEditToolView.swift */; };
-		EF91AFDA26D0A1AB00A6943F /* CDNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC326D0A1AA00A6943F /* CDNavigationBar.swift */; };
-		EF91AFDB26D0A1AB00A6943F /* CDPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC426D0A1AA00A6943F /* CDPhotoView.swift */; };
-		EF91AFDC26D0A1AB00A6943F /* CDColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC526D0A1AA00A6943F /* CDColorPicker.swift */; };
-		EF91AFDD26D0A1AB00A6943F /* CDEditorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC626D0A1AA00A6943F /* CDEditorsView.swift */; };
-		EF91AFDE26D0A1AB00A6943F /* CDWatermarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC726D0A1AA00A6943F /* CDWatermarkView.swift */; };
-		EF91AFDF26D0A1AB00A6943F /* CDImageEditModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC826D0A1AA00A6943F /* CDImageEditModels.swift */; };
-		EF91AFE026D0A1AB00A6943F /* CDFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEC926D0A1AA00A6943F /* CDFilterView.swift */; };
 		EF91AFE126D0A1AB00A6943F /* CDComposeGifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AECA26D0A1AA00A6943F /* CDComposeGifViewController.swift */; };
 		EF91AFE226D0A1AB00A6943F /* CDComposeVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AECB26D0A1AA00A6943F /* CDComposeVideoViewController.swift */; };
 		EF91AFE326D0A1AB00A6943F /* CDImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AECC26D0A1AA00A6943F /* CDImageViewController.swift */; };
@@ -238,7 +312,6 @@
 		EF91AFF026D0A1AB00A6943F /* UnrarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE326D0A1AB00A6943F /* UnrarKit.framework */; };
 		EF91AFF126D0A1AB00A6943F /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE426D0A1AB00A6943F /* RxRelay.framework */; };
 		EF91AFF226D0A1AB00A6943F /* MJRefresh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE526D0A1AB00A6943F /* MJRefresh.framework */; };
-		EF91AFF326D0A1AB00A6943F /* CDMediaPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE626D0A1AB00A6943F /* CDMediaPicker.framework */; };
 		EF91AFF426D0A1AB00A6943F /* CDIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE726D0A1AB00A6943F /* CDIndicator.framework */; };
 		EF91AFF626D0A1AB00A6943F /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEE926D0A1AB00A6943F /* GPUImage.framework */; };
 		EF91AFF826D0A1AB00A6943F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91AEEB26D0A1AB00A6943F /* RxCocoa.framework */; };
@@ -273,10 +346,27 @@
 		EF91B08926D0D67300A6943F /* RxCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF91AEEB26D0A1AB00A6943F /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF91B08A26D0D67300A6943F /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF91AEEC26D0A1AB00A6943F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF91B08E26D0E80B00A6943F /* CDAttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91B08D26D0E80B00A6943F /* CDAttendanceViewController.swift */; };
-		EF91B09026D0F79200A6943F /* CDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91B08F26D0F79200A6943F /* CDViewController.swift */; };
+		EFF78A212713111E00DF0315 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF78A202713111E00DF0315 /* MBProgressHUD.framework */; };
+		EFF78A222713113100DF0315 /* MBProgressHUD.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EFF78A202713111E00DF0315 /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFF78A242713115800DF0315 /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E2E92712DA580041092B /* Kingfisher.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFF78A252713118C00DF0315 /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E2E92712DA580041092B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EF29E2AA2712DA480041092B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 73550FDD2457C0AB009B7599 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF29E2A42712DA480041092B;
+			remoteInfo = CDMediaEditor;
+		};
+		EF29E3C22712DC440041092B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 73550FDD2457C0AB009B7599 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF29E3B92712DC430041092B;
+			remoteInfo = Share;
+		};
 		EF91B00526D0A1C500A6943F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 73550FDD2457C0AB009B7599 /* Project object */;
@@ -300,6 +390,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				EF29E3C42712DC440041092B /* Share.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +401,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EFF78A252713118C00DF0315 /* Kingfisher.framework in CopyFiles */,
+				EFF78A222713113100DF0315 /* MBProgressHUD.framework in CopyFiles */,
+				EF29E3D02712E7C30041092B /* SnapKit.framework in CopyFiles */,
+				EF29E3D12712E7C30041092B /* SQLite.framework in CopyFiles */,
 				EF91B08226D0D67300A6943F /* ZipArchive.framework in CopyFiles */,
 				EF91B08326D0D67300A6943F /* UnrarKit.framework in CopyFiles */,
 				EF91B08426D0D67300A6943F /* RxRelay.framework in CopyFiles */,
@@ -319,6 +414,17 @@
 				EF91B08A26D0D67300A6943F /* RxSwift.framework in CopyFiles */,
 				EF91B01926D0A1DA00A6943F /* CDMediaPicker.framework in CopyFiles */,
 				EF91B00826D0A1C500A6943F /* CDIndicator.framework in CopyFiles */,
+				EF29E2AD2712DA480041092B /* CDMediaEditor.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFF78A232713114A00DF0315 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EFF78A242713115800DF0315 /* Kingfisher.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +447,136 @@
 		7366B27524920460001C7884 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		7366B2772492046C001C7884 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		7366B2792492047A001C7884 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		EF29E2A52712DA480041092B /* CDMediaEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CDMediaEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF29E2B32712DA580041092B /* Core+Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+Bundle.swift"; sourceTree = "<group>"; };
+		EF29E2B42712DA580041092B /* Core+UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIFont.swift"; sourceTree = "<group>"; };
+		EF29E2B52712DA580041092B /* Core+PHAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+PHAsset.swift"; sourceTree = "<group>"; };
+		EF29E2B62712DA580041092B /* Core+Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+Data.swift"; sourceTree = "<group>"; };
+		EF29E2B72712DA580041092B /* Core+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIImage.swift"; sourceTree = "<group>"; };
+		EF29E2B82712DA580041092B /* Core+Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+Dictionary.swift"; sourceTree = "<group>"; };
+		EF29E2B92712DA580041092B /* Core+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+String.swift"; sourceTree = "<group>"; };
+		EF29E2BA2712DA580041092B /* Core+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+URL.swift"; sourceTree = "<group>"; };
+		EF29E2BB2712DA580041092B /* Core+PHAssetCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+PHAssetCollection.swift"; sourceTree = "<group>"; };
+		EF29E2BC2712DA580041092B /* Core+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIImageView.swift"; sourceTree = "<group>"; };
+		EF29E2BD2712DA580041092B /* Core+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIView.swift"; sourceTree = "<group>"; };
+		EF29E2BE2712DA580041092B /* Core+UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIDevice.swift"; sourceTree = "<group>"; };
+		EF29E2BF2712DA580041092B /* Core+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+CALayer.swift"; sourceTree = "<group>"; };
+		EF29E2C02712DA580041092B /* Core+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+UIColor.swift"; sourceTree = "<group>"; };
+		EF29E2C12712DA580041092B /* Core+DispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Core+DispatchQueue.swift"; sourceTree = "<group>"; };
+		EF29E2C32712DA580041092B /* AssetManager+VideoURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+VideoURL.swift"; sourceTree = "<group>"; };
+		EF29E2C42712DA580041092B /* AssetManager+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+Image.swift"; sourceTree = "<group>"; };
+		EF29E2C52712DA580041092B /* PhotoManager+Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoManager+Audio.swift"; sourceTree = "<group>"; };
+		EF29E2C62712DA580041092B /* AssetManager+AVAssetExportSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+AVAssetExportSession.swift"; sourceTree = "<group>"; };
+		EF29E2C72712DA580041092B /* AssetManager+LivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+LivePhoto.swift"; sourceTree = "<group>"; };
+		EF29E2C82712DA580041092B /* AssetManager+AssetCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+AssetCollection.swift"; sourceTree = "<group>"; };
+		EF29E2C92712DA580041092B /* AssetManager+ImageURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+ImageURL.swift"; sourceTree = "<group>"; };
+		EF29E2CA2712DA580041092B /* AssetManager+LivePhotoURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+LivePhotoURL.swift"; sourceTree = "<group>"; };
+		EF29E2CB2712DA580041092B /* AssetManager+AVAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+AVAsset.swift"; sourceTree = "<group>"; };
+		EF29E2CC2712DA580041092B /* PhotoManager+Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoManager+Download.swift"; sourceTree = "<group>"; };
+		EF29E2CD2712DA580041092B /* PhotoTools+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoTools+File.swift"; sourceTree = "<group>"; };
+		EF29E2CE2712DA580041092B /* AssetManager+ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+ImageData.swift"; sourceTree = "<group>"; };
+		EF29E2CF2712DA580041092B /* AssetManager+Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+Authorization.swift"; sourceTree = "<group>"; };
+		EF29E2D02712DA580041092B /* AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
+		EF29E2D12712DA580041092B /* PhotoTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTools.swift; sourceTree = "<group>"; };
+		EF29E2D22712DA580041092B /* AssetManager+Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetManager+Asset.swift"; sourceTree = "<group>"; };
+		EF29E2D32712DA580041092B /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		EF29E2D42712DA580041092B /* PhotoManager+Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoManager+Language.swift"; sourceTree = "<group>"; };
+		EF29E2D62712DA580041092B /* BaseConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2D72712DA580041092B /* SelectBoxConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectBoxConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2D92712DA580041092B /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		EF29E2DA2712DA580041092B /* HXPHPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HXPHPicker.swift; sourceTree = "<group>"; };
+		EF29E2DC2712DA580041092B /* PhotoError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoError.swift; sourceTree = "<group>"; };
+		EF29E2DD2712DA580041092B /* AppearanceStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceStyle.swift; sourceTree = "<group>"; };
+		EF29E2DE2712DA580041092B /* CustomLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLanguage.swift; sourceTree = "<group>"; };
+		EF29E2DF2712DA580041092B /* PhotoPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPanGestureRecognizer.swift; sourceTree = "<group>"; };
+		EF29E2E02712DA580041092B /* LanguageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
+		EF29E2E12712DA580041092B /* LivePhotoError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoError.swift; sourceTree = "<group>"; };
+		EF29E2E22712DA580041092B /* ImageContentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageContentType.swift; sourceTree = "<group>"; };
+		EF29E2E42712DA580041092B /* ProgressImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressImageView.swift; sourceTree = "<group>"; };
+		EF29E2E52712DA580041092B /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		EF29E2E62712DA580041092B /* SelectBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectBoxView.swift; sourceTree = "<group>"; };
+		EF29E2E72712DA580041092B /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		EF29E2E92712DA580041092B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = "<group>"; };
+		EF29E2EA2712DA580041092B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../MyBox/CDMediaEditor/Info.plist; sourceTree = "<group>"; };
+		EF29E2EC2712DA590041092B /* HXPHPicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HXPHPicker.bundle; sourceTree = "<group>"; };
+		EF29E2EF2712DA590041092B /* Editor+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Editor+UIImage.swift"; sourceTree = "<group>"; };
+		EF29E2F12712DA590041092B /* Editor+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Editor+UIImageView.swift"; sourceTree = "<group>"; };
+		EF29E2F22712DA590041092B /* Editor+PhotoTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Editor+PhotoTools.swift"; sourceTree = "<group>"; };
+		EF29E2F42712DA590041092B /* PhotoEditorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2F52712DA590041092B /* VideoEditorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2F62712DA590041092B /* CropConfirmViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropConfirmViewConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2F72712DA590041092B /* VideoCroppingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCroppingConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2F82712DA590041092B /* PhotoCroppingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCroppingConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2F92712DA590041092B /* EditorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2FA2712DA590041092B /* EditorToolViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorToolViewConfiguration.swift; sourceTree = "<group>"; };
+		EF29E2FB2712DA590041092B /* PhotoEditResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditResult.swift; sourceTree = "<group>"; };
+		EF29E2FC2712DA590041092B /* VideoEditResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditResult.swift; sourceTree = "<group>"; };
+		EF29E2FE2712DA590041092B /* EditorStickerTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerTextViewController.swift; sourceTree = "<group>"; };
+		EF29E2FF2712DA590041092B /* EditorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
+		EF29E3002712DA590041092B /* VideoEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorViewController.swift; sourceTree = "<group>"; };
+		EF29E3012712DA590041092B /* PhotoEditorViewController+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditorViewController+Animation.swift"; sourceTree = "<group>"; };
+		EF29E3022712DA590041092B /* PhotoEditorViewController+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditorViewController+Request.swift"; sourceTree = "<group>"; };
+		EF29E3032712DA590041092B /* PhotoEditorViewController+Export.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditorViewController+Export.swift"; sourceTree = "<group>"; };
+		EF29E3042712DA590041092B /* PhotoEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorViewController.swift; sourceTree = "<group>"; };
+		EF29E3062712DA590041092B /* EditorChartlet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorChartlet.swift; sourceTree = "<group>"; };
+		EF29E3072712DA590041092B /* PhotoEditorCropToolModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorCropToolModel.swift; sourceTree = "<group>"; };
+		EF29E3082712DA590041092B /* EditorToolOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorToolOptions.swift; sourceTree = "<group>"; };
+		EF29E3092712DA590041092B /* VideoEditorMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorMusic.swift; sourceTree = "<group>"; };
+		EF29E30A2712DA590041092B /* PhotoEditorFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorFilter.swift; sourceTree = "<group>"; };
+		EF29E30B2712DA590041092B /* EditorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorType.swift; sourceTree = "<group>"; };
+		EF29E30E2712DA590041092B /* VideoEditorMusicAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorMusicAnimationView.swift; sourceTree = "<group>"; };
+		EF29E30F2712DA590041092B /* VideoEditorSearchMusicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorSearchMusicView.swift; sourceTree = "<group>"; };
+		EF29E3102712DA590041092B /* VideoEditorMusicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorMusicView.swift; sourceTree = "<group>"; };
+		EF29E3112712DA590041092B /* VideoEditorCropViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorCropViewCell.swift; sourceTree = "<group>"; };
+		EF29E3122712DA590041092B /* VideoEditorPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorPlayerView.swift; sourceTree = "<group>"; };
+		EF29E3132712DA590041092B /* VideoEditorFrameMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorFrameMaskView.swift; sourceTree = "<group>"; };
+		EF29E3142712DA590041092B /* VideoEditorCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorCropView.swift; sourceTree = "<group>"; };
+		EF29E3152712DA590041092B /* EditorChartletView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorChartletView.swift; sourceTree = "<group>"; };
+		EF29E3162712DA590041092B /* EditorStickerContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerContentView.swift; sourceTree = "<group>"; };
+		EF29E3172712DA590041092B /* EditorCropConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorCropConfirmView.swift; sourceTree = "<group>"; };
+		EF29E3182712DA590041092B /* EditorToolViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorToolViewCell.swift; sourceTree = "<group>"; };
+		EF29E3192712DA590041092B /* EditorStickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerItemView.swift; sourceTree = "<group>"; };
+		EF29E31A2712DA590041092B /* EditorStickerTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerTextView.swift; sourceTree = "<group>"; };
+		EF29E31C2712DA590041092B /* PhotoEditorBrushColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorBrushColorView.swift; sourceTree = "<group>"; };
+		EF29E31D2712DA590041092B /* PhotoEditorMosaicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorMosaicView.swift; sourceTree = "<group>"; };
+		EF29E31E2712DA590041092B /* PhotoEditorDrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorDrawView.swift; sourceTree = "<group>"; };
+		EF29E31F2712DA590041092B /* PhotoEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorView.swift; sourceTree = "<group>"; };
+		EF29E3202712DA590041092B /* EditorImageResizerControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorImageResizerControlView.swift; sourceTree = "<group>"; };
+		EF29E3212712DA590041092B /* PhotoEditorCropToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorCropToolView.swift; sourceTree = "<group>"; };
+		EF29E3222712DA590041092B /* EditorImageResizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorImageResizerView.swift; sourceTree = "<group>"; };
+		EF29E3232712DA590041092B /* PhotoEditorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorContentView.swift; sourceTree = "<group>"; };
+		EF29E3242712DA590041092B /* PhotoEditorMosaicToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorMosaicToolView.swift; sourceTree = "<group>"; };
+		EF29E3252712DA590041092B /* PhotoEditorFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorFilterView.swift; sourceTree = "<group>"; };
+		EF29E3262712DA590041092B /* EditorImageResizerMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorImageResizerMaskView.swift; sourceTree = "<group>"; };
+		EF29E3272712DA590041092B /* EditorToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorToolView.swift; sourceTree = "<group>"; };
+		EF29E3282712DA590041092B /* EditorStickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerView.swift; sourceTree = "<group>"; };
+		EF29E3292712DA590041092B /* EditorStickerTrashView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorStickerTrashView.swift; sourceTree = "<group>"; };
+		EF29E3912712DB260041092B /* CDMediaEditor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CDMediaEditor.framework; sourceTree = "<group>"; };
+		EF29E3932712DB470041092B /* CDAudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioManager.swift; sourceTree = "<group>"; };
+		EF29E3952712DB700041092B /* MyBox.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
+		EF29E3962712DB700041092B /* developLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = developLog.md; sourceTree = "<group>"; };
+		EF29E3982712DBA00041092B /* CDQrPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDQrPopView.swift; sourceTree = "<group>"; };
+		EF29E3992712DBA00041092B /* CDCameraConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraConfig.swift; sourceTree = "<group>"; };
+		EF29E39C2712DBB70041092B /* CDSqlManager+CDSafeFileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDSafeFileInfo.swift"; sourceTree = "<group>"; };
+		EF29E39D2712DBB70041092B /* CDSqlManager+CDSafeFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDSafeFolder.swift"; sourceTree = "<group>"; };
+		EF29E39E2712DBB80041092B /* CDSqlManager+CDUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDUserInfo.swift"; sourceTree = "<group>"; };
+		EF29E39F2712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDMusicClassInfo.swift"; sourceTree = "<group>"; };
+		EF29E3A02712DBB80041092B /* CDSqlDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSqlDefines.swift; sourceTree = "<group>"; };
+		EF29E3A12712DBB80041092B /* CDSqlManager+CDMusicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDMusicInfo.swift"; sourceTree = "<group>"; };
+		EF29E3A22712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDAttendanceInfo.swift"; sourceTree = "<group>"; };
+		EF29E3AA2712DBEA0041092B /* CDDayAttendanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDayAttendanceView.swift; sourceTree = "<group>"; };
+		EF29E3AB2712DBEA0041092B /* CDMonthAttendanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMonthAttendanceView.swift; sourceTree = "<group>"; };
+		EF29E3AC2712DBEA0041092B /* CDTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTipsView.swift; sourceTree = "<group>"; };
+		EF29E3B02712DC0C0041092B /* CDRippleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRippleView.swift; sourceTree = "<group>"; };
+		EF29E3B12712DC0C0041092B /* CDAudioPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioPlayViewController.swift; sourceTree = "<group>"; };
+		EF29E3B22712DC0C0041092B /* CDMarqueeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarqueeView.swift; sourceTree = "<group>"; };
+		EF29E3BA2712DC430041092B /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF29E3C12712DC440041092B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF29E3C82712DC930041092B /* Share.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
+		EF29E3C92712DC930041092B /* CDShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShareViewController.swift; sourceTree = "<group>"; };
+		EF29E3CB2712DFEE0041092B /* MyBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
+		EF29E3CC2712E7AC0041092B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SnapKit.framework; sourceTree = "<group>"; };
+		EF29E3CD2712E7AC0041092B /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQLite.framework; sourceTree = "<group>"; };
 		EF91ADA826D0A1AA00A6943F /* CDFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFontView.swift; sourceTree = "<group>"; };
 		EF91ADA926D0A1AA00A6943F /* CDTextViewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextViewConfig.swift; sourceTree = "<group>"; };
 		EF91ADAA26D0A1AA00A6943F /* CDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextView.swift; sourceTree = "<group>"; };
@@ -391,7 +627,6 @@
 		EF91ADDD26D0A1AA00A6943F /* cameraSwitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraSwitch.png; sourceTree = "<group>"; };
 		EF91ADDE26D0A1AA00A6943F /* back_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_blue@2x.png"; sourceTree = "<group>"; };
 		EF91ADDF26D0A1AA00A6943F /* flash_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_on@2x.png"; sourceTree = "<group>"; };
-		EF91ADE026D0A1AA00A6943F /* meiyan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meiyan.png; sourceTree = "<group>"; };
 		EF91ADE126D0A1AA00A6943F /* retake@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retake@2x.png"; sourceTree = "<group>"; };
 		EF91ADE226D0A1AA00A6943F /* flash_auto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_auto@2x.png"; sourceTree = "<group>"; };
 		EF91ADE326D0A1AA00A6943F /* delay_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delay_off@2x.png"; sourceTree = "<group>"; };
@@ -440,7 +675,6 @@
 		EF91AE5126D0A1AA00A6943F /* 字体 (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "字体 (1).png"; sourceTree = "<group>"; };
 		EF91AE5226D0A1AA00A6943F /* 右箭头-白@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "右箭头-白@2x.png"; sourceTree = "<group>"; };
 		EF91AE5326D0A1AA00A6943F /* 右箭头-黑@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "右箭头-黑@2x.png"; sourceTree = "<group>"; };
-		EF91AE5426D0A1AA00A6943F /* CDPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPuzzleViewController.swift; sourceTree = "<group>"; };
 		EF91AE5526D0A1AA00A6943F /* 左箭头-黑@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "左箭头-黑@2x.png"; sourceTree = "<group>"; };
 		EF91AE5626D0A1AA00A6943F /* 左箭头-白@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "左箭头-白@2x.png"; sourceTree = "<group>"; };
 		EF91AE5726D0A1AA00A6943F /* 字体-黑-小@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "字体-黑-小@2x.png"; sourceTree = "<group>"; };
@@ -466,7 +700,6 @@
 		EF91AE6E26D0A1AA00A6943F /* CDLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDLogViewController.swift; sourceTree = "<group>"; };
 		EF91AE6F26D0A1AA00A6943F /* CDMemoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMemoryViewController.swift; sourceTree = "<group>"; };
 		EF91AE7026D0A1AA00A6943F /* CDDeviceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDeviceInfoViewController.swift; sourceTree = "<group>"; };
-		EF91AE7326D0A1AA00A6943F /* CDAudioPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioPlayView.swift; sourceTree = "<group>"; };
 		EF91AE7426D0A1AA00A6943F /* CDAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioViewController.swift; sourceTree = "<group>"; };
 		EF91AE7526D0A1AA00A6943F /* CDAudioRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAudioRecordViewController.swift; sourceTree = "<group>"; };
 		EF91AE7726D0A1AA00A6943F /* CDPDFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPDFViewController.swift; sourceTree = "<group>"; };
@@ -485,7 +718,6 @@
 		EF91AE8526D0A1AA00A6943F /* CDFileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFileDetailViewController.swift; sourceTree = "<group>"; };
 		EF91AE8626D0A1AA00A6943F /* CDNewFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNewFolderViewController.swift; sourceTree = "<group>"; };
 		EF91AE8826D0A1AA00A6943F /* CDVideoScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoScrollerViewController.swift; sourceTree = "<group>"; };
-		EF91AE8926D0A1AA00A6943F /* CDSegmentVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSegmentVideoViewController.swift; sourceTree = "<group>"; };
 		EF91AE8A26D0A1AA00A6943F /* CDVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoViewController.swift; sourceTree = "<group>"; };
 		EF91AE8B26D0A1AA00A6943F /* CDVideoScrollerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVideoScrollerCell.swift; sourceTree = "<group>"; };
 		EF91AE8C26D0A1AA00A6943F /* CDAppendVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAppendVideoViewController.swift; sourceTree = "<group>"; };
@@ -493,53 +725,6 @@
 		EF91AE8F26D0A1AA00A6943F /* CDImageScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollView.swift; sourceTree = "<group>"; };
 		EF91AE9026D0A1AA00A6943F /* CDImageScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageScrollerViewController.swift; sourceTree = "<group>"; };
 		EF91AE9126D0A1AA00A6943F /* CDImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageCell.swift; sourceTree = "<group>"; };
-		EF91AE9326D0A1AA00A6943F /* CDMosaicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicView.swift; sourceTree = "<group>"; };
-		EF91AE9526D0A1AA00A6943F /* CDMosaicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMosaicViewController.swift; sourceTree = "<group>"; };
-		EF91AE9826D0A1AA00A6943F /* PECropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropView.swift; sourceTree = "<group>"; };
-		EF91AE9926D0A1AA00A6943F /* PECropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PECropRectView.swift; sourceTree = "<group>"; };
-		EF91AE9A26D0A1AA00A6943F /* CDPhotoChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoChooseView.swift; sourceTree = "<group>"; };
-		EF91AE9B26D0A1AA00A6943F /* CDCorpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCorpViewController.swift; sourceTree = "<group>"; };
-		EF91AE9C26D0A1AA00A6943F /* CDCropToolsBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropToolsBar.swift; sourceTree = "<group>"; };
-		EF91AE9D26D0A1AA00A6943F /* CDCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCropView.swift; sourceTree = "<group>"; };
-		EF91AE9E26D0A1AA00A6943F /* CDBrightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrightView.swift; sourceTree = "<group>"; };
-		EF91AEA026D0A1AA00A6943F /* 裁剪@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "裁剪@2x.png"; sourceTree = "<group>"; };
-		EF91AEA126D0A1AA00A6943F /* 顺时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "顺时针旋转@2x.png"; sourceTree = "<group>"; };
-		EF91AEA226D0A1AA00A6943F /* 曝光度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "曝光度@2x.png"; sourceTree = "<group>"; };
-		EF91AEA326D0A1AA00A6943F /* 滤镜@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "滤镜@2x.png"; sourceTree = "<group>"; };
-		EF91AEA426D0A1AA00A6943F /* 水印@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水印@2x.png"; sourceTree = "<group>"; };
-		EF91AEA526D0A1AA00A6943F /* backward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward_disable@2x.png"; sourceTree = "<group>"; };
-		EF91AEA626D0A1AA00A6943F /* 水平镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "水平镜像@2x.png"; sourceTree = "<group>"; };
-		EF91AEA726D0A1AA00A6943F /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
-		EF91AEA826D0A1AA00A6943F /* backward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backward@2x.png"; sourceTree = "<group>"; };
-		EF91AEA926D0A1AA00A6943F /* 马赛克@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马赛克@2x.png"; sourceTree = "<group>"; };
-		EF91AEAA26D0A1AA00A6943F /* 逆时针旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "逆时针旋转@2x.png"; sourceTree = "<group>"; };
-		EF91AEAB26D0A1AA00A6943F /* 白色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "白色暗角@2x.png"; sourceTree = "<group>"; };
-		EF91AEAC26D0A1AA00A6943F /* 色相@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色相@2x.png"; sourceTree = "<group>"; };
-		EF91AEAD26D0A1AA00A6943F /* 锐度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "锐度@2x.png"; sourceTree = "<group>"; };
-		EF91AEAE26D0A1AA00A6943F /* 对比度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "对比度@2x.png"; sourceTree = "<group>"; };
-		EF91AEAF26D0A1AA00A6943F /* 色温@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "色温@2x.png"; sourceTree = "<group>"; };
-		EF91AEB026D0A1AA00A6943F /* 垂直镜像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "垂直镜像@2x.png"; sourceTree = "<group>"; };
-		EF91AEB126D0A1AA00A6943F /* 黑色暗角@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "黑色暗角@2x.png"; sourceTree = "<group>"; };
-		EF91AEB226D0A1AA00A6943F /* 文字@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "文字@2x.png"; sourceTree = "<group>"; };
-		EF91AEB326D0A1AA00A6943F /* forward_disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward_disable@2x.png"; sourceTree = "<group>"; };
-		EF91AEB426D0A1AA00A6943F /* 饱和度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "饱和度@2x.png"; sourceTree = "<group>"; };
-		EF91AEB526D0A1AA00A6943F /* 亮度@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "亮度@2x.png"; sourceTree = "<group>"; };
-		EF91AEB626D0A1AA00A6943F /* 旋转@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "旋转@2x.png"; sourceTree = "<group>"; };
-		EF91AEB726D0A1AA00A6943F /* CDRotateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRotateView.swift; sourceTree = "<group>"; };
-		EF91AEB926D0A1AA00A6943F /* CDImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditViewController.swift; sourceTree = "<group>"; };
-		EF91AEBB26D0A1AA00A6943F /* CDWaterMarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkViewController.swift; sourceTree = "<group>"; };
-		EF91AEBC26D0A1AA00A6943F /* CDWaterMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWaterMarkView.swift; sourceTree = "<group>"; };
-		EF91AEBE26D0A1AA00A6943F /* CDEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEdit.swift; sourceTree = "<group>"; };
-		EF91AEBF26D0A1AA00A6943F /* CDEditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditManager.swift; sourceTree = "<group>"; };
-		EF91AEC026D0A1AA00A6943F /* CDPhotoEditTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoEditTextView.swift; sourceTree = "<group>"; };
-		EF91AEC226D0A1AA00A6943F /* CDEditToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditToolView.swift; sourceTree = "<group>"; };
-		EF91AEC326D0A1AA00A6943F /* CDNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNavigationBar.swift; sourceTree = "<group>"; };
-		EF91AEC426D0A1AA00A6943F /* CDPhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPhotoView.swift; sourceTree = "<group>"; };
-		EF91AEC526D0A1AA00A6943F /* CDColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDColorPicker.swift; sourceTree = "<group>"; };
-		EF91AEC626D0A1AA00A6943F /* CDEditorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEditorsView.swift; sourceTree = "<group>"; };
-		EF91AEC726D0A1AA00A6943F /* CDWatermarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWatermarkView.swift; sourceTree = "<group>"; };
-		EF91AEC826D0A1AA00A6943F /* CDImageEditModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageEditModels.swift; sourceTree = "<group>"; };
-		EF91AEC926D0A1AA00A6943F /* CDFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFilterView.swift; sourceTree = "<group>"; };
 		EF91AECA26D0A1AA00A6943F /* CDComposeGifViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDComposeGifViewController.swift; sourceTree = "<group>"; };
 		EF91AECB26D0A1AA00A6943F /* CDComposeVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDComposeVideoViewController.swift; sourceTree = "<group>"; };
 		EF91AECC26D0A1AA00A6943F /* CDImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDImageViewController.swift; sourceTree = "<group>"; };
@@ -560,7 +745,6 @@
 		EF91AEE326D0A1AB00A6943F /* UnrarKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnrarKit.framework; sourceTree = "<group>"; };
 		EF91AEE426D0A1AB00A6943F /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxRelay.framework; sourceTree = "<group>"; };
 		EF91AEE526D0A1AB00A6943F /* MJRefresh.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MJRefresh.framework; sourceTree = "<group>"; };
-		EF91AEE626D0A1AB00A6943F /* CDMediaPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CDMediaPicker.framework; sourceTree = "<group>"; };
 		EF91AEE726D0A1AB00A6943F /* CDIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CDIndicator.framework; sourceTree = "<group>"; };
 		EF91AEE926D0A1AB00A6943F /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GPUImage.framework; sourceTree = "<group>"; };
 		EF91AEEB26D0A1AB00A6943F /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = "<group>"; };
@@ -586,7 +770,7 @@
 		EF91B03C26D0A22B00A6943F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF91B03D26D0A22B00A6943F /* CDReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDReachability.swift; sourceTree = "<group>"; };
 		EF91B08D26D0E80B00A6943F /* CDAttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAttendanceViewController.swift; sourceTree = "<group>"; };
-		EF91B08F26D0F79200A6943F /* CDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDViewController.swift; sourceTree = "<group>"; };
+		EFF78A202713111E00DF0315 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MBProgressHUD.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -594,33 +778,49 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF52D4422585A3E300E52674 /* SQLite in Frameworks */,
+				EF29E3CE2712E7AC0041092B /* SnapKit.framework in Frameworks */,
 				EF91AFF426D0A1AB00A6943F /* CDIndicator.framework in Frameworks */,
 				EF91AFF926D0A1AB00A6943F /* RxSwift.framework in Frameworks */,
 				EF91AFF826D0A1AB00A6943F /* RxCocoa.framework in Frameworks */,
 				EF91B01826D0A1DA00A6943F /* CDMediaPicker.framework in Frameworks */,
 				735514B32457C220009B7599 /* VideoToolbox.framework in Frameworks */,
 				7366B27A2492047A001C7884 /* QuartzCore.framework in Frameworks */,
+				EF29E3CF2712E7AC0041092B /* SQLite.framework in Frameworks */,
+				EFF78A212713111E00DF0315 /* MBProgressHUD.framework in Frameworks */,
 				7366B27624920460001C7884 /* CoreMedia.framework in Frameworks */,
 				EF91AFF626D0A1AB00A6943F /* GPUImage.framework in Frameworks */,
 				735514A82457C1DD009B7599 /* CoreGraphics.framework in Frameworks */,
 				EF91AFF226D0A1AB00A6943F /* MJRefresh.framework in Frameworks */,
 				735514A62457C1D2009B7599 /* CoreAudio.framework in Frameworks */,
-				EF91AFF326D0A1AB00A6943F /* CDMediaPicker.framework in Frameworks */,
+				EF29E2AC2712DA480041092B /* CDMediaEditor.framework in Frameworks */,
+				EF29E3922712DB260041092B /* CDMediaEditor.framework in Frameworks */,
 				EF91AFF026D0A1AB00A6943F /* UnrarKit.framework in Frameworks */,
 				735514A42457C1C7009B7599 /* AVFoundation.framework in Frameworks */,
 				735514AD2457C1FF009B7599 /* LocalAuthentication.framework in Frameworks */,
 				735514B12457C216009B7599 /* Security.framework in Frameworks */,
 				735514AA2457C1E5009B7599 /* CoreServices.framework in Frameworks */,
 				EF91B00726D0A1C500A6943F /* CDIndicator.framework in Frameworks */,
-				EF52D45B2585A52200E52674 /* MBProgressHUD in Frameworks */,
 				735514AF2457C20D009B7599 /* Photos.framework in Frameworks */,
 				EF91AFEF26D0A1AB00A6943F /* ZipArchive.framework in Frameworks */,
 				731DF4F5245800080043E97F /* Foundation.framework in Frameworks */,
 				7366B27424920436001C7884 /* OpenGLES.framework in Frameworks */,
 				7366B2782492046C001C7884 /* CoreVideo.framework in Frameworks */,
-				EF52D43F25859D2200E52674 /* SnapKit in Frameworks */,
 				EF91AFF126D0A1AB00A6943F /* RxRelay.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E2A22712DA480041092B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF29E35A2712DA5A0041092B /* Kingfisher.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E3B72712DC430041092B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +849,8 @@
 				73550FE72457C0AB009B7599 /* MyBox */,
 				EF91B00126D0A1C500A6943F /* CDIndicator */,
 				EF91B01226D0A1DA00A6943F /* CDMediaPicker */,
+				EF29E2A62712DA480041092B /* CDMediaEditor */,
+				EF29E3BB2712DC430041092B /* Share */,
 				73550FE62457C0AB009B7599 /* Products */,
 				735514A22457C1C7009B7599 /* Frameworks */,
 			);
@@ -660,6 +862,8 @@
 				73550FE52457C0AB009B7599 /* MyBox.app */,
 				EF91B00026D0A1C500A6943F /* CDIndicator.framework */,
 				EF91B01126D0A1DA00A6943F /* CDMediaPicker.framework */,
+				EF29E2A52712DA480041092B /* CDMediaEditor.framework */,
+				EF29E3BA2712DC430041092B /* Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -667,6 +871,7 @@
 		73550FE72457C0AB009B7599 /* MyBox */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3CB2712DFEE0041092B /* MyBox.entitlements */,
 				EF91AEDB26D0A1AB00A6943F /* appleLunch */,
 				EF91AE1426D0A1AA00A6943F /* Extension */,
 				EF91AEE126D0A1AB00A6943F /* lib */,
@@ -698,6 +903,270 @@
 				735514A32457C1C7009B7599 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EF29E2A62712DA480041092B /* CDMediaEditor */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2B12712DA580041092B /* Core */,
+				EF29E2ED2712DA590041092B /* Editor */,
+				EF29E2EA2712DA580041092B /* Info.plist */,
+				EF29E2E82712DA580041092B /* lib */,
+				EF29E2EB2712DA590041092B /* Resources */,
+			);
+			path = CDMediaEditor;
+			sourceTree = "<group>";
+		};
+		EF29E2B12712DA580041092B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2B22712DA580041092B /* Extension */,
+				EF29E2C22712DA580041092B /* Util */,
+				EF29E2D52712DA580041092B /* Config */,
+				EF29E2D82712DA580041092B /* Controller */,
+				EF29E2DA2712DA580041092B /* HXPHPicker.swift */,
+				EF29E2DB2712DA580041092B /* Model */,
+				EF29E2E32712DA580041092B /* View */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EF29E2B22712DA580041092B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2B32712DA580041092B /* Core+Bundle.swift */,
+				EF29E2B42712DA580041092B /* Core+UIFont.swift */,
+				EF29E2B52712DA580041092B /* Core+PHAsset.swift */,
+				EF29E2B62712DA580041092B /* Core+Data.swift */,
+				EF29E2B72712DA580041092B /* Core+UIImage.swift */,
+				EF29E2B82712DA580041092B /* Core+Dictionary.swift */,
+				EF29E2B92712DA580041092B /* Core+String.swift */,
+				EF29E2BA2712DA580041092B /* Core+URL.swift */,
+				EF29E2BB2712DA580041092B /* Core+PHAssetCollection.swift */,
+				EF29E2BC2712DA580041092B /* Core+UIImageView.swift */,
+				EF29E2BD2712DA580041092B /* Core+UIView.swift */,
+				EF29E2BE2712DA580041092B /* Core+UIDevice.swift */,
+				EF29E2BF2712DA580041092B /* Core+CALayer.swift */,
+				EF29E2C02712DA580041092B /* Core+UIColor.swift */,
+				EF29E2C12712DA580041092B /* Core+DispatchQueue.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		EF29E2C22712DA580041092B /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2C32712DA580041092B /* AssetManager+VideoURL.swift */,
+				EF29E2C42712DA580041092B /* AssetManager+Image.swift */,
+				EF29E2C52712DA580041092B /* PhotoManager+Audio.swift */,
+				EF29E2C62712DA580041092B /* AssetManager+AVAssetExportSession.swift */,
+				EF29E2C72712DA580041092B /* AssetManager+LivePhoto.swift */,
+				EF29E2C82712DA580041092B /* AssetManager+AssetCollection.swift */,
+				EF29E2C92712DA580041092B /* AssetManager+ImageURL.swift */,
+				EF29E2CA2712DA580041092B /* AssetManager+LivePhotoURL.swift */,
+				EF29E2CB2712DA580041092B /* AssetManager+AVAsset.swift */,
+				EF29E2CC2712DA580041092B /* PhotoManager+Download.swift */,
+				EF29E2CD2712DA580041092B /* PhotoTools+File.swift */,
+				EF29E2CE2712DA580041092B /* AssetManager+ImageData.swift */,
+				EF29E2CF2712DA580041092B /* AssetManager+Authorization.swift */,
+				EF29E2D02712DA580041092B /* AssetManager.swift */,
+				EF29E2D12712DA580041092B /* PhotoTools.swift */,
+				EF29E2D22712DA580041092B /* AssetManager+Asset.swift */,
+				EF29E2D32712DA580041092B /* PhotoManager.swift */,
+				EF29E2D42712DA580041092B /* PhotoManager+Language.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		EF29E2D52712DA580041092B /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2D62712DA580041092B /* BaseConfiguration.swift */,
+				EF29E2D72712DA580041092B /* SelectBoxConfiguration.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		EF29E2D82712DA580041092B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2D92712DA580041092B /* BaseViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		EF29E2DB2712DA580041092B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2DC2712DA580041092B /* PhotoError.swift */,
+				EF29E2DD2712DA580041092B /* AppearanceStyle.swift */,
+				EF29E2DE2712DA580041092B /* CustomLanguage.swift */,
+				EF29E2DF2712DA580041092B /* PhotoPanGestureRecognizer.swift */,
+				EF29E2E02712DA580041092B /* LanguageType.swift */,
+				EF29E2E12712DA580041092B /* LivePhotoError.swift */,
+				EF29E2E22712DA580041092B /* ImageContentType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EF29E2E32712DA580041092B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2E42712DA580041092B /* ProgressImageView.swift */,
+				EF29E2E52712DA580041092B /* VideoPlayerView.swift */,
+				EF29E2E62712DA580041092B /* SelectBoxView.swift */,
+				EF29E2E72712DA580041092B /* ProgressHUD.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EF29E2E82712DA580041092B /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2E92712DA580041092B /* Kingfisher.framework */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		EF29E2EB2712DA590041092B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2EC2712DA590041092B /* HXPHPicker.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EF29E2ED2712DA590041092B /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2EE2712DA590041092B /* Extension */,
+				EF29E2F02712DA590041092B /* Util */,
+				EF29E2F32712DA590041092B /* Config */,
+				EF29E2FB2712DA590041092B /* PhotoEditResult.swift */,
+				EF29E2FC2712DA590041092B /* VideoEditResult.swift */,
+				EF29E2FD2712DA590041092B /* Controller */,
+				EF29E3052712DA590041092B /* Model */,
+				EF29E30C2712DA590041092B /* View */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
+		EF29E2EE2712DA590041092B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2EF2712DA590041092B /* Editor+UIImage.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		EF29E2F02712DA590041092B /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2F12712DA590041092B /* Editor+UIImageView.swift */,
+				EF29E2F22712DA590041092B /* Editor+PhotoTools.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		EF29E2F32712DA590041092B /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2F42712DA590041092B /* PhotoEditorConfiguration.swift */,
+				EF29E2F52712DA590041092B /* VideoEditorConfiguration.swift */,
+				EF29E2F62712DA590041092B /* CropConfirmViewConfiguration.swift */,
+				EF29E2F72712DA590041092B /* VideoCroppingConfiguration.swift */,
+				EF29E2F82712DA590041092B /* PhotoCroppingConfiguration.swift */,
+				EF29E2F92712DA590041092B /* EditorConfiguration.swift */,
+				EF29E2FA2712DA590041092B /* EditorToolViewConfiguration.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		EF29E2FD2712DA590041092B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E2FE2712DA590041092B /* EditorStickerTextViewController.swift */,
+				EF29E2FF2712DA590041092B /* EditorController.swift */,
+				EF29E3002712DA590041092B /* VideoEditorViewController.swift */,
+				EF29E3012712DA590041092B /* PhotoEditorViewController+Animation.swift */,
+				EF29E3022712DA590041092B /* PhotoEditorViewController+Request.swift */,
+				EF29E3032712DA590041092B /* PhotoEditorViewController+Export.swift */,
+				EF29E3042712DA590041092B /* PhotoEditorViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		EF29E3052712DA590041092B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E3062712DA590041092B /* EditorChartlet.swift */,
+				EF29E3072712DA590041092B /* PhotoEditorCropToolModel.swift */,
+				EF29E3082712DA590041092B /* EditorToolOptions.swift */,
+				EF29E3092712DA590041092B /* VideoEditorMusic.swift */,
+				EF29E30A2712DA590041092B /* PhotoEditorFilter.swift */,
+				EF29E30B2712DA590041092B /* EditorType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EF29E30C2712DA590041092B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E30D2712DA590041092B /* Video */,
+				EF29E3152712DA590041092B /* EditorChartletView.swift */,
+				EF29E3162712DA590041092B /* EditorStickerContentView.swift */,
+				EF29E3172712DA590041092B /* EditorCropConfirmView.swift */,
+				EF29E3182712DA590041092B /* EditorToolViewCell.swift */,
+				EF29E3192712DA590041092B /* EditorStickerItemView.swift */,
+				EF29E31A2712DA590041092B /* EditorStickerTextView.swift */,
+				EF29E31B2712DA590041092B /* Photo */,
+				EF29E3272712DA590041092B /* EditorToolView.swift */,
+				EF29E3282712DA590041092B /* EditorStickerView.swift */,
+				EF29E3292712DA590041092B /* EditorStickerTrashView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EF29E30D2712DA590041092B /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E30E2712DA590041092B /* VideoEditorMusicAnimationView.swift */,
+				EF29E30F2712DA590041092B /* VideoEditorSearchMusicView.swift */,
+				EF29E3102712DA590041092B /* VideoEditorMusicView.swift */,
+				EF29E3112712DA590041092B /* VideoEditorCropViewCell.swift */,
+				EF29E3122712DA590041092B /* VideoEditorPlayerView.swift */,
+				EF29E3132712DA590041092B /* VideoEditorFrameMaskView.swift */,
+				EF29E3142712DA590041092B /* VideoEditorCropView.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+		EF29E31B2712DA590041092B /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E31C2712DA590041092B /* PhotoEditorBrushColorView.swift */,
+				EF29E31D2712DA590041092B /* PhotoEditorMosaicView.swift */,
+				EF29E31E2712DA590041092B /* PhotoEditorDrawView.swift */,
+				EF29E31F2712DA590041092B /* PhotoEditorView.swift */,
+				EF29E3202712DA590041092B /* EditorImageResizerControlView.swift */,
+				EF29E3212712DA590041092B /* PhotoEditorCropToolView.swift */,
+				EF29E3222712DA590041092B /* EditorImageResizerView.swift */,
+				EF29E3232712DA590041092B /* PhotoEditorContentView.swift */,
+				EF29E3242712DA590041092B /* PhotoEditorMosaicToolView.swift */,
+				EF29E3252712DA590041092B /* PhotoEditorFilterView.swift */,
+				EF29E3262712DA590041092B /* EditorImageResizerMaskView.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		EF29E3BB2712DC430041092B /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				EF29E3C92712DC930041092B /* CDShareViewController.swift */,
+				EF29E3C82712DC930041092B /* Share.entitlements */,
+				EF29E3C12712DC440041092B /* Info.plist */,
+			);
+			path = Share;
 			sourceTree = "<group>";
 		};
 		EF91ADA626D0A1AA00A6943F /* ThirdParts */ = {
@@ -796,6 +1265,8 @@
 		EF91ADD526D0A1AA00A6943F /* CDCamera */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3992712DBA00041092B /* CDCameraConfig.swift */,
+				EF29E3982712DBA00041092B /* CDQrPopView.swift */,
 				EF91ADD626D0A1AA00A6943F /* CDPreviewTakerViewController.swift */,
 				EF91ADD726D0A1AA00A6943F /* CDCameraManger.swift */,
 				EF91ADD826D0A1AA00A6943F /* CDCameraViewController.swift */,
@@ -813,7 +1284,6 @@
 				EF91ADDD26D0A1AA00A6943F /* cameraSwitch.png */,
 				EF91ADDE26D0A1AA00A6943F /* back_blue@2x.png */,
 				EF91ADDF26D0A1AA00A6943F /* flash_on@2x.png */,
-				EF91ADE026D0A1AA00A6943F /* meiyan.png */,
 				EF91ADE126D0A1AA00A6943F /* retake@2x.png */,
 				EF91ADE226D0A1AA00A6943F /* flash_auto@2x.png */,
 				EF91ADE326D0A1AA00A6943F /* delay_off@2x.png */,
@@ -869,6 +1339,13 @@
 		EF91AE0026D0A1AA00A6943F /* sqlManger */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3A02712DBB80041092B /* CDSqlDefines.swift */,
+				EF29E3A22712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift */,
+				EF29E39F2712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift */,
+				EF29E3A12712DBB80041092B /* CDSqlManager+CDMusicInfo.swift */,
+				EF29E39C2712DBB70041092B /* CDSqlManager+CDSafeFileInfo.swift */,
+				EF29E39D2712DBB70041092B /* CDSqlManager+CDSafeFolder.swift */,
+				EF29E39E2712DBB80041092B /* CDSqlManager+CDUserInfo.swift */,
 				EF91AE0426D0A1AA00A6943F /* CDSqlModel.swift */,
 				EF91AE0526D0A1AA00A6943F /* CDSqlManager.swift */,
 			);
@@ -878,6 +1355,7 @@
 		EF91AE0826D0A1AA00A6943F /* publicViews */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3932712DB470041092B /* CDAudioManager.swift */,
 				EF91AE0926D0A1AA00A6943F /* CDLocationManager.swift */,
 				EF91AE0A26D0A1AA00A6943F /* CDInlineTools.swift */,
 				EF91AE0B26D0A1AA00A6943F /* CDNetworkTools.swift */,
@@ -950,7 +1428,6 @@
 				EF91AE5126D0A1AA00A6943F /* 字体 (1).png */,
 				EF91AE5226D0A1AA00A6943F /* 右箭头-白@2x.png */,
 				EF91AE5326D0A1AA00A6943F /* 右箭头-黑@2x.png */,
-				EF91AE5426D0A1AA00A6943F /* CDPuzzleViewController.swift */,
 				EF91AE5526D0A1AA00A6943F /* 左箭头-黑@2x.png */,
 				EF91AE5626D0A1AA00A6943F /* 左箭头-白@2x.png */,
 				EF91AE5726D0A1AA00A6943F /* 字体-黑-小@2x.png */,
@@ -1015,7 +1492,9 @@
 		EF91AE7226D0A1AA00A6943F /* 语音 */ = {
 			isa = PBXGroup;
 			children = (
-				EF91AE7326D0A1AA00A6943F /* CDAudioPlayView.swift */,
+				EF29E3B12712DC0C0041092B /* CDAudioPlayViewController.swift */,
+				EF29E3B22712DC0C0041092B /* CDMarqueeView.swift */,
+				EF29E3B02712DC0C0041092B /* CDRippleView.swift */,
 				EF91AE7426D0A1AA00A6943F /* CDAudioViewController.swift */,
 				EF91AE7526D0A1AA00A6943F /* CDAudioRecordViewController.swift */,
 			);
@@ -1055,7 +1534,6 @@
 			isa = PBXGroup;
 			children = (
 				EF91AE8826D0A1AA00A6943F /* CDVideoScrollerViewController.swift */,
-				EF91AE8926D0A1AA00A6943F /* CDSegmentVideoViewController.swift */,
 				EF91AE8A26D0A1AA00A6943F /* CDVideoViewController.swift */,
 				EF91AE8B26D0A1AA00A6943F /* CDVideoScrollerCell.swift */,
 				EF91AE8C26D0A1AA00A6943F /* CDAppendVideoViewController.swift */,
@@ -1070,130 +1548,11 @@
 				EF91AE8F26D0A1AA00A6943F /* CDImageScrollView.swift */,
 				EF91AE9026D0A1AA00A6943F /* CDImageScrollerViewController.swift */,
 				EF91AE9126D0A1AA00A6943F /* CDImageCell.swift */,
-				EF91AE9226D0A1AA00A6943F /* PhotoEdit */,
 				EF91AECA26D0A1AA00A6943F /* CDComposeGifViewController.swift */,
 				EF91AECB26D0A1AA00A6943F /* CDComposeVideoViewController.swift */,
 				EF91AECC26D0A1AA00A6943F /* CDImageViewController.swift */,
 			);
 			path = "图片";
-			sourceTree = "<group>";
-		};
-		EF91AE9226D0A1AA00A6943F /* PhotoEdit */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AE9326D0A1AA00A6943F /* CDMosaicView.swift */,
-				EF91AE9426D0A1AA00A6943F /* mosaic */,
-				EF91AE9626D0A1AA00A6943F /* Corp */,
-				EF91AE9D26D0A1AA00A6943F /* CDCropView.swift */,
-				EF91AE9E26D0A1AA00A6943F /* CDBrightView.swift */,
-				EF91AE9F26D0A1AA00A6943F /* images */,
-				EF91AEB726D0A1AA00A6943F /* CDRotateView.swift */,
-				EF91AEB826D0A1AA00A6943F /* Controller */,
-				EF91AEBA26D0A1AA00A6943F /* Watermark */,
-				EF91AEBD26D0A1AA00A6943F /* public */,
-				EF91AEBF26D0A1AA00A6943F /* CDEditManager.swift */,
-				EF91AEC026D0A1AA00A6943F /* CDPhotoEditTextView.swift */,
-				EF91AEC126D0A1AA00A6943F /* View */,
-				EF91AEC726D0A1AA00A6943F /* CDWatermarkView.swift */,
-				EF91AEC826D0A1AA00A6943F /* CDImageEditModels.swift */,
-				EF91AEC926D0A1AA00A6943F /* CDFilterView.swift */,
-			);
-			path = PhotoEdit;
-			sourceTree = "<group>";
-		};
-		EF91AE9426D0A1AA00A6943F /* mosaic */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AE9526D0A1AA00A6943F /* CDMosaicViewController.swift */,
-			);
-			path = mosaic;
-			sourceTree = "<group>";
-		};
-		EF91AE9626D0A1AA00A6943F /* Corp */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AE9726D0A1AA00A6943F /* CropEditor */,
-				EF91AE9A26D0A1AA00A6943F /* CDPhotoChooseView.swift */,
-				EF91AE9B26D0A1AA00A6943F /* CDCorpViewController.swift */,
-				EF91AE9C26D0A1AA00A6943F /* CDCropToolsBar.swift */,
-			);
-			path = Corp;
-			sourceTree = "<group>";
-		};
-		EF91AE9726D0A1AA00A6943F /* CropEditor */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AE9826D0A1AA00A6943F /* PECropView.swift */,
-				EF91AE9926D0A1AA00A6943F /* PECropRectView.swift */,
-			);
-			path = CropEditor;
-			sourceTree = "<group>";
-		};
-		EF91AE9F26D0A1AA00A6943F /* images */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AEA026D0A1AA00A6943F /* 裁剪@2x.png */,
-				EF91AEA126D0A1AA00A6943F /* 顺时针旋转@2x.png */,
-				EF91AEA226D0A1AA00A6943F /* 曝光度@2x.png */,
-				EF91AEA326D0A1AA00A6943F /* 滤镜@2x.png */,
-				EF91AEA426D0A1AA00A6943F /* 水印@2x.png */,
-				EF91AEA526D0A1AA00A6943F /* backward_disable@2x.png */,
-				EF91AEA626D0A1AA00A6943F /* 水平镜像@2x.png */,
-				EF91AEA726D0A1AA00A6943F /* forward@2x.png */,
-				EF91AEA826D0A1AA00A6943F /* backward@2x.png */,
-				EF91AEA926D0A1AA00A6943F /* 马赛克@2x.png */,
-				EF91AEAA26D0A1AA00A6943F /* 逆时针旋转@2x.png */,
-				EF91AEAB26D0A1AA00A6943F /* 白色暗角@2x.png */,
-				EF91AEAC26D0A1AA00A6943F /* 色相@2x.png */,
-				EF91AEAD26D0A1AA00A6943F /* 锐度@2x.png */,
-				EF91AEAE26D0A1AA00A6943F /* 对比度@2x.png */,
-				EF91AEAF26D0A1AA00A6943F /* 色温@2x.png */,
-				EF91AEB026D0A1AA00A6943F /* 垂直镜像@2x.png */,
-				EF91AEB126D0A1AA00A6943F /* 黑色暗角@2x.png */,
-				EF91AEB226D0A1AA00A6943F /* 文字@2x.png */,
-				EF91AEB326D0A1AA00A6943F /* forward_disable@2x.png */,
-				EF91AEB426D0A1AA00A6943F /* 饱和度@2x.png */,
-				EF91AEB526D0A1AA00A6943F /* 亮度@2x.png */,
-				EF91AEB626D0A1AA00A6943F /* 旋转@2x.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		EF91AEB826D0A1AA00A6943F /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AEB926D0A1AA00A6943F /* CDImageEditViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		EF91AEBA26D0A1AA00A6943F /* Watermark */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AEBB26D0A1AA00A6943F /* CDWaterMarkViewController.swift */,
-				EF91AEBC26D0A1AA00A6943F /* CDWaterMarkView.swift */,
-			);
-			path = Watermark;
-			sourceTree = "<group>";
-		};
-		EF91AEBD26D0A1AA00A6943F /* public */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AEBE26D0A1AA00A6943F /* CDEdit.swift */,
-			);
-			path = public;
-			sourceTree = "<group>";
-		};
-		EF91AEC126D0A1AA00A6943F /* View */ = {
-			isa = PBXGroup;
-			children = (
-				EF91AEC226D0A1AA00A6943F /* CDEditToolView.swift */,
-				EF91AEC326D0A1AA00A6943F /* CDNavigationBar.swift */,
-				EF91AEC426D0A1AA00A6943F /* CDPhotoView.swift */,
-				EF91AEC526D0A1AA00A6943F /* CDColorPicker.swift */,
-				EF91AEC626D0A1AA00A6943F /* CDEditorsView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		EF91AECD26D0A1AA00A6943F /* login */ = {
@@ -1208,6 +1567,8 @@
 		EF91AED026D0A1AA00A6943F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3962712DB700041092B /* developLog.md */,
+				EF29E3952712DB700041092B /* MyBox.entitlements */,
 				EF91AED126D0A1AB00A6943F /* Localizable.strings */,
 				EF91AED326D0A1AB00A6943F /* CDPrefixHeader.pch */,
 				EF91AED726D0A1AB00A6943F /* Assets.xcassets */,
@@ -1231,11 +1592,14 @@
 		EF91AEE126D0A1AB00A6943F /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				EFF78A202713111E00DF0315 /* MBProgressHUD.framework */,
+				EF29E3CC2712E7AC0041092B /* SnapKit.framework */,
+				EF29E3CD2712E7AC0041092B /* SQLite.framework */,
+				EF29E3912712DB260041092B /* CDMediaEditor.framework */,
 				EF91AEE226D0A1AB00A6943F /* ZipArchive.framework */,
 				EF91AEE326D0A1AB00A6943F /* UnrarKit.framework */,
 				EF91AEE426D0A1AB00A6943F /* RxRelay.framework */,
 				EF91AEE526D0A1AB00A6943F /* MJRefresh.framework */,
-				EF91AEE626D0A1AB00A6943F /* CDMediaPicker.framework */,
 				EF91AEE726D0A1AB00A6943F /* CDIndicator.framework */,
 				EF91AEE926D0A1AB00A6943F /* GPUImage.framework */,
 				EF91AEEB26D0A1AB00A6943F /* RxCocoa.framework */,
@@ -1287,8 +1651,10 @@
 		EF91B08C26D0E7CF00A6943F /* 考勤 */ = {
 			isa = PBXGroup;
 			children = (
+				EF29E3AA2712DBEA0041092B /* CDDayAttendanceView.swift */,
+				EF29E3AB2712DBEA0041092B /* CDMonthAttendanceView.swift */,
+				EF29E3AC2712DBEA0041092B /* CDTipsView.swift */,
 				EF91B08D26D0E80B00A6943F /* CDAttendanceViewController.swift */,
-				EF91B08F26D0F79200A6943F /* CDViewController.swift */,
 			);
 			path = "考勤";
 			sourceTree = "<group>";
@@ -1296,6 +1662,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		EF29E2A02712DA480041092B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EF91AFFB26D0A1C500A6943F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1328,16 +1701,51 @@
 			dependencies = (
 				EF91B00626D0A1C500A6943F /* PBXTargetDependency */,
 				EF91B01726D0A1DA00A6943F /* PBXTargetDependency */,
+				EF29E2AB2712DA480041092B /* PBXTargetDependency */,
+				EF29E3C32712DC440041092B /* PBXTargetDependency */,
 			);
 			name = MyBox;
 			packageProductDependencies = (
-				EF52D43E25859D2200E52674 /* SnapKit */,
-				EF52D4412585A3E300E52674 /* SQLite */,
-				EF52D45A2585A52200E52674 /* MBProgressHUD */,
 			);
 			productName = MyBox;
 			productReference = 73550FE52457C0AB009B7599 /* MyBox.app */;
 			productType = "com.apple.product-type.application";
+		};
+		EF29E2A42712DA480041092B /* CDMediaEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF29E2B02712DA480041092B /* Build configuration list for PBXNativeTarget "CDMediaEditor" */;
+			buildPhases = (
+				EF29E2A02712DA480041092B /* Headers */,
+				EF29E2A12712DA480041092B /* Sources */,
+				EF29E2A22712DA480041092B /* Frameworks */,
+				EF29E2A32712DA480041092B /* Resources */,
+				EFF78A232713114A00DF0315 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CDMediaEditor;
+			productName = CDMediaEditor;
+			productReference = EF29E2A52712DA480041092B /* CDMediaEditor.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EF29E3B92712DC430041092B /* Share */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF29E3C52712DC440041092B /* Build configuration list for PBXNativeTarget "Share" */;
+			buildPhases = (
+				EF29E3B62712DC430041092B /* Sources */,
+				EF29E3B72712DC430041092B /* Frameworks */,
+				EF29E3B82712DC430041092B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Share;
+			productName = Share;
+			productReference = EF29E3BA2712DC430041092B /* Share.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		EF91AFFF26D0A1C500A6943F /* CDIndicator */ = {
 			isa = PBXNativeTarget;
@@ -1381,13 +1789,20 @@
 		73550FDD2457C0AB009B7599 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "(c) Huawei Technologies Co., Ltd. 2012-2019.";
 				TargetAttributes = {
 					73550FE42457C0AB009B7599 = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
+					};
+					EF29E2A42712DA480041092B = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					EF29E3B92712DC430041092B = {
+						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1250;
 					};
 					EF91AFFF26D0A1C500A6943F = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -1411,9 +1826,6 @@
 			);
 			mainGroup = 73550FDC2457C0AB009B7599;
 			packageReferences = (
-				EF52D43D25859D2200E52674 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				EF52D4402585A3E300E52674 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
-				EF52D4592585A52200E52674 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
 			);
 			productRefGroup = 73550FE62457C0AB009B7599 /* Products */;
 			projectDirPath = "";
@@ -1422,6 +1834,8 @@
 				73550FE42457C0AB009B7599 /* MyBox */,
 				EF91AFFF26D0A1C500A6943F /* CDIndicator */,
 				EF91B01026D0A1DA00A6943F /* CDMediaPicker */,
+				EF29E2A42712DA480041092B /* CDMediaEditor */,
+				EF29E3B92712DC430041092B /* Share */,
 			);
 		};
 /* End PBXProject section */
@@ -1431,12 +1845,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF91AF2026D0A1AB00A6943F /* meiyan.png in Resources */,
 				EF91AF7A26D0A1AB00A6943F /* 字体 (1).png in Resources */,
 				EF91AF7826D0A1AB00A6943F /* slider-白@2x.png in Resources */,
-				EF91AFC526D0A1AB00A6943F /* 逆时针旋转@2x.png in Resources */,
 				EF91AF0126D0A1AB00A6943F /* cancle@2x.png in Resources */,
-				EF91AFC826D0A1AB00A6943F /* 锐度@2x.png in Resources */,
 				EF91AF2C26D0A1AB00A6943F /* 37x-Checkmark.png in Resources */,
 				EF91AF1D26D0A1AB00A6943F /* cameraSwitch.png in Resources */,
 				EF91AF0226D0A1AB00A6943F /* 图库@2x.png in Resources */,
@@ -1449,26 +1860,20 @@
 				EF91AF2F26D0A1AB00A6943F /* 37x-Error@2x.png in Resources */,
 				EF91AFE826D0A1AB00A6943F /* Assets.xcassets in Resources */,
 				EF91AF7926D0A1AB00A6943F /* 字体-白-小@2x.png in Resources */,
-				EF91AFC126D0A1AB00A6943F /* 水平镜像@2x.png in Resources */,
 				EF91AF2626D0A1AB00A6943F /* hdr_auto@2x.png in Resources */,
 				EF91AF0326D0A1AB00A6943F /* heading@2x.png in Resources */,
 				EF91AF1C26D0A1AB00A6943F /* delay_10@2x.png in Resources */,
 				EF91AF0926D0A1AB00A6943F /* 项目符号01@2x.png in Resources */,
 				EF91AF0726D0A1AB00A6943F /* italic@2x.png in Resources */,
-				EF91AFC226D0A1AB00A6943F /* forward@2x.png in Resources */,
 				EF91AF1A26D0A1AB00A6943F /* flash_off@2x.png in Resources */,
 				EF91AF2D26D0A1AB00A6943F /* 37x-Checkmark@2x.png in Resources */,
 				EF91AF1F26D0A1AB00A6943F /* flash_on@2x.png in Resources */,
-				EF91AFCE26D0A1AB00A6943F /* forward_disable@2x.png in Resources */,
 				EF91AF8026D0A1AB00A6943F /* 字体-黑-小@2x.png in Resources */,
-				EF91AFCA26D0A1AB00A6943F /* 色温@2x.png in Resources */,
 				EF91AF3326D0A1AB00A6943F /* record_timeProgressBG@2x.png in Resources */,
 				EF91AFE626D0A1AB00A6943F /* Localizable.strings in Resources */,
 				EF91AEF926D0A1AB00A6943F /* blod@2x.png in Resources */,
 				EF91AF1E26D0A1AB00A6943F /* back_blue@2x.png in Resources */,
-				EF91AFBF26D0A1AB00A6943F /* 水印@2x.png in Resources */,
 				EF91AF2226D0A1AB00A6943F /* flash_auto@2x.png in Resources */,
-				EF91AFC026D0A1AB00A6943F /* backward_disable@2x.png in Resources */,
 				EF91AF0026D0A1AB00A6943F /* 项目符号07@2x.png in Resources */,
 				EF91AEFB26D0A1AB00A6943F /* 项目符号00@2x.png in Resources */,
 				EF91AF7C26D0A1AB00A6943F /* 右箭头-黑@2x.png in Resources */,
@@ -1478,16 +1883,12 @@
 				EF91AF0426D0A1AB00A6943F /* 背@2x.png in Resources */,
 				EF91AF7E26D0A1AB00A6943F /* 左箭头-黑@2x.png in Resources */,
 				EF91AF8526D0A1AB00A6943F /* 字体-黑-大@2x.png in Resources */,
-				EF91AFC426D0A1AB00A6943F /* 马赛克@2x.png in Resources */,
 				EF91AF2826D0A1AB00A6943F /* frame.png in Resources */,
 				EF91AF1B26D0A1AB00A6943F /* takePhoto.png in Resources */,
 				EF91AF0626D0A1AB00A6943F /* 项目符号05@2x.png in Resources */,
 				EF91AF2926D0A1AB00A6943F /* hdr_off@2x.png in Resources */,
 				EF91AF2726D0A1AB00A6943F /* delay_on@2x.png in Resources */,
 				EF91AF0526D0A1AB00A6943F /* paragraphSymbol@2x.png in Resources */,
-				EF91AFCB26D0A1AB00A6943F /* 垂直镜像@2x.png in Resources */,
-				EF91AFC626D0A1AB00A6943F /* 白色暗角@2x.png in Resources */,
-				EF91AFC326D0A1AB00A6943F /* backward@2x.png in Resources */,
 				EF91AEF326D0A1AB00A6943F /* 样式@2x.png in Resources */,
 				EF91AF7726D0A1AB00A6943F /* slider-黑@2x.png in Resources */,
 				EF91AF2126D0A1AB00A6943F /* retake@2x.png in Resources */,
@@ -1498,25 +1899,30 @@
 				EF91AF0A26D0A1AB00A6943F /* 项目符号03@2x.png in Resources */,
 				EF91AEFE26D0A1AB00A6943F /* addIndents@2x.png in Resources */,
 				EF91AEFA26D0A1AB00A6943F /* 涂鸦@2x.png in Resources */,
-				EF91AFCC26D0A1AB00A6943F /* 黑色暗角@2x.png in Resources */,
-				EF91AFD026D0A1AB00A6943F /* 亮度@2x.png in Resources */,
-				EF91AFCD26D0A1AB00A6943F /* 文字@2x.png in Resources */,
 				EF91AF2326D0A1AB00A6943F /* delay_off@2x.png in Resources */,
+				EF29E3972712DB700041092B /* developLog.md in Resources */,
 				EF91AF8126D0A1AB00A6943F /* 目录-白@2x.png in Resources */,
-				EF91AFCF26D0A1AB00A6943F /* 饱和度@2x.png in Resources */,
-				EF91AFC926D0A1AB00A6943F /* 对比度@2x.png in Resources */,
-				EF91AFBE26D0A1AB00A6943F /* 滤镜@2x.png in Resources */,
 				EF91AF7B26D0A1AB00A6943F /* 右箭头-白@2x.png in Resources */,
 				EF91AF8426D0A1AB00A6943F /* 亮度-黑@2x.png in Resources */,
 				EF91AF7F26D0A1AB00A6943F /* 左箭头-白@2x.png in Resources */,
-				EF91AFBD26D0A1AB00A6943F /* 曝光度@2x.png in Resources */,
-				EF91AFD126D0A1AB00A6943F /* 旋转@2x.png in Resources */,
 				EF91AF2E26D0A1AB00A6943F /* 37x-Error.png in Resources */,
-				EF91AFBC26D0A1AB00A6943F /* 顺时针旋转@2x.png in Resources */,
-				EF91AFC726D0A1AB00A6943F /* 色相@2x.png in Resources */,
-				EF91AFBB26D0A1AB00A6943F /* 裁剪@2x.png in Resources */,
 				EF91AF2526D0A1AB00A6943F /* hdr_on@2x.png in Resources */,
 				EF91AEF426D0A1AB00A6943F /* fontColor@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E2A32712DA480041092B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF29E35C2712DA5A0041092B /* HXPHPicker.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E3B82712DC430041092B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1544,27 +1950,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF91AFED26D0A1AB00A6943F /* CDRootViewController.swift in Sources */,
+				EF29E3A72712DBB80041092B /* CDSqlDefines.swift in Sources */,
 				EF91AFA526D0A1AB00A6943F /* CDSideViewController.swift in Sources */,
 				EF91AFA326D0A1AB00A6943F /* CDToolBar.swift in Sources */,
+				EF29E3A52712DBB80041092B /* CDSqlManager+CDUserInfo.swift in Sources */,
+				EF29E3B42712DC0C0041092B /* CDAudioPlayViewController.swift in Sources */,
 				EF91AFB026D0A1AB00A6943F /* CDImageScrollerViewController.swift in Sources */,
 				EF91AF1926D0A1AB00A6943F /* CDCameraViewController.swift in Sources */,
-				EF91AFB626D0A1AB00A6943F /* CDPhotoChooseView.swift in Sources */,
 				EF91AEF026D0A1AB00A6943F /* CDTextView.swift in Sources */,
 				EF91AFA826D0A1AB00A6943F /* CDNewFolderViewController.swift in Sources */,
+				EF29E3A62712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift in Sources */,
 				EF91AF0B26D0A1AB00A6943F /* CDInputAccessoryView.swift in Sources */,
-				EF91AFE026D0A1AB00A6943F /* CDFilterView.swift in Sources */,
-				EF91AFD326D0A1AB00A6943F /* CDImageEditViewController.swift in Sources */,
+				EF29E39B2712DBA00041092B /* CDCameraConfig.swift in Sources */,
 				EF91AF1126D0A1AB00A6943F /* CDCameraBottomBar.swift in Sources */,
 				EF91AFEA26D0A1AB00A6943F /* CDBaseAllViewController.swift in Sources */,
-				EF91AFD226D0A1AB00A6943F /* CDRotateView.swift in Sources */,
 				EF91AF1526D0A1AB00A6943F /* ShineBarChart.swift in Sources */,
 				EF91AFEE26D0A1AB00A6943F /* CDNavigationController.swift in Sources */,
 				EF91AF9C26D0A1AB00A6943F /* CDTextMessageViewController.swift in Sources */,
 				EF91AF1426D0A1AB00A6943F /* ShineBaseChart.swift in Sources */,
 				EF91AFA726D0A1AB00A6943F /* CDFileDetailViewController.swift in Sources */,
-				EF91AFDB26D0A1AB00A6943F /* CDPhotoView.swift in Sources */,
-				EF91AF7D26D0A1AB00A6943F /* CDPuzzleViewController.swift in Sources */,
-				EF91AFAA26D0A1AB00A6943F /* CDSegmentVideoViewController.swift in Sources */,
+				EF29E3B52712DC0C0041092B /* CDMarqueeView.swift in Sources */,
 				EF91AFE226D0A1AB00A6943F /* CDComposeVideoViewController.swift in Sources */,
 				EF91AF3F26D0A1AB00A6943F /* CDContainerViewController.swift in Sources */,
 				EF91AF9826D0A1AB00A6943F /* CDAudioViewController.swift in Sources */,
@@ -1577,9 +1982,8 @@
 				EF91AF3226D0A1AB00A6943F /* CDCircleProcess.swift in Sources */,
 				EF91AF0D26D0A1AB00A6943F /* GPCameraManager.swift in Sources */,
 				EF91AF9626D0A1AB00A6943F /* CDDeviceInfoViewController.swift in Sources */,
-				EF91AFD726D0A1AB00A6943F /* CDEditManager.swift in Sources */,
-				EF91B09026D0F79200A6943F /* CDViewController.swift in Sources */,
-				EF91AF9726D0A1AB00A6943F /* CDAudioPlayView.swift in Sources */,
+				EF29E3942712DB470041092B /* CDAudioManager.swift in Sources */,
+				EF29E3A92712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift in Sources */,
 				EF91AFEB26D0A1AB00A6943F /* CDAppDelegate.swift in Sources */,
 				EF91AFAE26D0A1AB00A6943F /* CDVideoPlayerView.swift in Sources */,
 				EF91AF1826D0A1AB00A6943F /* CDCameraManger.swift in Sources */,
@@ -1587,14 +1991,13 @@
 				EF91AF9926D0A1AB00A6943F /* CDAudioRecordViewController.swift in Sources */,
 				EF91AF4226D0A1AB00A6943F /* CDSignalTon.swift in Sources */,
 				EF91AF4426D0A1AB00A6943F /* CDPrintManager.swift in Sources */,
-				EF91AFD626D0A1AB00A6943F /* CDEdit.swift in Sources */,
 				EF91AFB126D0A1AB00A6943F /* CDImageCell.swift in Sources */,
 				EF91AF9526D0A1AB00A6943F /* CDMemoryViewController.swift in Sources */,
 				EF91AF8B26D0A1AB00A6943F /* CDReaderUtilites.swift in Sources */,
 				EF91AF4D26D0A1AB00A6943F /* UITextView+extension.swift in Sources */,
+				EF29E39A2712DBA00041092B /* CDQrPopView.swift in Sources */,
 				EF91AF1726D0A1AB00A6943F /* CDPreviewTakerViewController.swift in Sources */,
 				EF91AF4026D0A1AB00A6943F /* CDEmojiHandle.swift in Sources */,
-				EF91AFDE26D0A1AB00A6943F /* CDWatermarkView.swift in Sources */,
 				EF91AFA426D0A1AB00A6943F /* CDFolderListViewController.swift in Sources */,
 				EF91AF3B26D0A1AB00A6943F /* CDLocationManager.swift in Sources */,
 				EF91AF0F26D0A1AB00A6943F /* CDCameraPreview.swift in Sources */,
@@ -1603,7 +2006,6 @@
 				EF91AF1326D0A1AB00A6943F /* ShineLineChart.swift in Sources */,
 				EF91AF4526D0A1AB00A6943F /* CDMediaSlider.swift in Sources */,
 				EF91AF9B26D0A1AB00A6943F /* CDNewTextViewController.swift in Sources */,
-				EF91AFDF26D0A1AB00A6943F /* CDImageEditModels.swift in Sources */,
 				EF91AEEF26D0A1AB00A6943F /* CDTextViewConfig.swift in Sources */,
 				EF91AF9D26D0A1AB00A6943F /* CDTextViewController.swift in Sources */,
 				EF91AF9A26D0A1AB00A6943F /* CDPDFViewController.swift in Sources */,
@@ -1612,6 +2014,7 @@
 				EF91AFA026D0A1AB00A6943F /* CDMarkFileViewController.swift in Sources */,
 				EF91AF8A26D0A1AB00A6943F /* CDReaderBean.swift in Sources */,
 				EF91AFE526D0A1AB00A6943F /* CDFaceLockViewController.swift in Sources */,
+				EF29E3AE2712DBEA0041092B /* CDMonthAttendanceView.swift in Sources */,
 				EF91AFA926D0A1AB00A6943F /* CDVideoScrollerViewController.swift in Sources */,
 				EF91AF0C26D0A1AB00A6943F /* CDPickerView.swift in Sources */,
 				EF91AF1026D0A1AB00A6943F /* GPUCameraViewController.swift in Sources */,
@@ -1619,57 +2022,163 @@
 				EF91AF8C26D0A1AB00A6943F /* CDReaderManager.swift in Sources */,
 				EF91AF2A26D0A1AB00A6943F /* CDHUDManager.swift in Sources */,
 				EF91AEF126D0A1AB00A6943F /* CDInputView.swift in Sources */,
-				EF91AFB426D0A1AB00A6943F /* PECropView.swift in Sources */,
 				EF91AF3026D0A1AB00A6943F /* CDConfigFile.swift in Sources */,
 				EF91AF4B26D0A1AB00A6943F /* String+extension.swift in Sources */,
 				EF91AFAC26D0A1AB00A6943F /* CDVideoScrollerCell.swift in Sources */,
-				EF91AFB926D0A1AB00A6943F /* CDCropView.swift in Sources */,
 				EF91B08E26D0E80B00A6943F /* CDAttendanceViewController.swift in Sources */,
-				EF91AFB226D0A1AB00A6943F /* CDMosaicView.swift in Sources */,
 				EF91AFAB26D0A1AB00A6943F /* CDVideoViewController.swift in Sources */,
-				EF91AFB726D0A1AB00A6943F /* CDCorpViewController.swift in Sources */,
-				EF91AFDC26D0A1AB00A6943F /* CDColorPicker.swift in Sources */,
 				EF91AF4126D0A1AB00A6943F /* CDGeneralTool.swift in Sources */,
-				EF91AFD826D0A1AB00A6943F /* CDPhotoEditTextView.swift in Sources */,
 				EF91AF3D26D0A1AB00A6943F /* CDNetworkTools.swift in Sources */,
 				EF91AF3726D0A1AB00A6943F /* CDSqlModel.swift in Sources */,
 				EF91AF3E26D0A1AB00A6943F /* CDCustomDefines.swift in Sources */,
 				EF91AFAD26D0A1AB00A6943F /* CDAppendVideoViewController.swift in Sources */,
-				EF91AFB526D0A1AB00A6943F /* PECropRectView.swift in Sources */,
 				EF91AF3C26D0A1AB00A6943F /* CDInlineTools.swift in Sources */,
 				EF91AF9026D0A1AB00A6943F /* CDSwitchCell.swift in Sources */,
 				EF91AFE126D0A1AB00A6943F /* CDComposeGifViewController.swift in Sources */,
-				EF91AFDD26D0A1AB00A6943F /* CDEditorsView.swift in Sources */,
+				EF29E3B32712DC0C0041092B /* CDRippleView.swift in Sources */,
 				EF91AFEC26D0A1AB00A6943F /* CDTabBarViewController.swift in Sources */,
 				EF91AF4626D0A1AB00A6943F /* UIFont+extension.swift in Sources */,
 				EF91AF8F26D0A1AB00A6943F /* CDOptionViewController.swift in Sources */,
 				EF91AF9126D0A1AB00A6943F /* CDMapViewController.swift in Sources */,
 				EF91AEEE26D0A1AB00A6943F /* CDFontView.swift in Sources */,
+				EF29E3A42712DBB80041092B /* CDSqlManager+CDSafeFolder.swift in Sources */,
+				EF29E3AF2712DBEA0041092B /* CDTipsView.swift in Sources */,
 				EF91AF2B26D0A1AB00A6943F /* CDPopMenuView.swift in Sources */,
 				EF91AF3826D0A1AB00A6943F /* CDSqlManager.swift in Sources */,
 				EF91AF0E26D0A1AB00A6943F /* CDCameraTopBar.swift in Sources */,
-				EF91AFD526D0A1AB00A6943F /* CDWaterMarkView.swift in Sources */,
+				EF29E3A32712DBB80041092B /* CDSqlManager+CDSafeFileInfo.swift in Sources */,
+				EF29E3A82712DBB80041092B /* CDSqlManager+CDMusicInfo.swift in Sources */,
+				EF29E3AD2712DBEA0041092B /* CDDayAttendanceView.swift in Sources */,
 				EF91AFAF26D0A1AB00A6943F /* CDImageScrollView.swift in Sources */,
 				EF91AF9E26D0A1AB00A6943F /* CDDirNavBar.swift in Sources */,
 				EF91AF8D26D0A1AB00A6943F /* CDReaderListViewController.swift in Sources */,
 				EF91AFA226D0A1AB00A6943F /* CDTableViewCell.swift in Sources */,
 				EF91AF4326D0A1AB00A6943F /* CDDeviceTools.swift in Sources */,
 				EF91AF9226D0A1AB00A6943F /* CDThemeViewController.swift in Sources */,
-				EF91AFD926D0A1AB00A6943F /* CDEditToolView.swift in Sources */,
 				EF91AF9F26D0A1AB00A6943F /* CDSafeViewController.swift in Sources */,
 				EF91AF8626D0A1AB00A6943F /* CDReaderViewController.swift in Sources */,
 				EF91AF9426D0A1AB00A6943F /* CDLogViewController.swift in Sources */,
-				EF91AFBA26D0A1AB00A6943F /* CDBrightView.swift in Sources */,
 				EF91AF8E26D0A1AB00A6943F /* CDMineViewController.swift in Sources */,
-				EF91AFD426D0A1AB00A6943F /* CDWaterMarkViewController.swift in Sources */,
 				EF91AF4826D0A1AB00A6943F /* UIButton+extension.swift in Sources */,
-				EF91AFB326D0A1AB00A6943F /* CDMosaicViewController.swift in Sources */,
 				EF91AFA626D0A1AB00A6943F /* CDWebViewController.swift in Sources */,
 				EF91AF9326D0A1AB00A6943F /* CDSetPwdViewController.swift in Sources */,
 				EF91AFA126D0A1AB00A6943F /* CDFolderDetailViewController.swift in Sources */,
-				EF91AFB826D0A1AB00A6943F /* CDCropToolsBar.swift in Sources */,
-				EF91AFDA26D0A1AB00A6943F /* CDNavigationBar.swift in Sources */,
 				EF91AF4926D0A1AB00A6943F /* UIImage+extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E2A12712DA480041092B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF29E3482712DA5A0041092B /* AssetManager+Asset.swift in Sources */,
+				EF29E37C2712DA5A0041092B /* VideoEditorCropView.swift in Sources */,
+				EF29E3312712DA590041092B /* Core+URL.swift in Sources */,
+				EF29E3592712DA5A0041092B /* ProgressHUD.swift in Sources */,
+				EF29E33A2712DA5A0041092B /* AssetManager+Image.swift in Sources */,
+				EF29E3412712DA5A0041092B /* AssetManager+AVAsset.swift in Sources */,
+				EF29E3892712DA5A0041092B /* EditorImageResizerView.swift in Sources */,
+				EF29E32D2712DA590041092B /* Core+Data.swift in Sources */,
+				EF29E38C2712DA5A0041092B /* PhotoEditorFilterView.swift in Sources */,
+				EF29E3872712DA5A0041092B /* EditorImageResizerControlView.swift in Sources */,
+				EF29E36E2712DA5A0041092B /* PhotoEditorViewController+Export.swift in Sources */,
+				EF29E3822712DA5A0041092B /* EditorStickerTextView.swift in Sources */,
+				EF29E3612712DA5A0041092B /* VideoEditorConfiguration.swift in Sources */,
+				EF29E3552712DA5A0041092B /* ImageContentType.swift in Sources */,
+				EF29E36D2712DA5A0041092B /* PhotoEditorViewController+Request.swift in Sources */,
+				EF29E38B2712DA5A0041092B /* PhotoEditorMosaicToolView.swift in Sources */,
+				EF29E3802712DA5A0041092B /* EditorToolViewCell.swift in Sources */,
+				EF29E34D2712DA5A0041092B /* BaseViewController.swift in Sources */,
+				EF29E34C2712DA5A0041092B /* SelectBoxConfiguration.swift in Sources */,
+				EF29E37F2712DA5A0041092B /* EditorCropConfirmView.swift in Sources */,
+				EF29E34F2712DA5A0041092B /* PhotoError.swift in Sources */,
+				EF29E3502712DA5A0041092B /* AppearanceStyle.swift in Sources */,
+				EF29E3662712DA5A0041092B /* EditorToolViewConfiguration.swift in Sources */,
+				EF29E38D2712DA5A0041092B /* EditorImageResizerMaskView.swift in Sources */,
+				EF29E33D2712DA5A0041092B /* AssetManager+LivePhoto.swift in Sources */,
+				EF29E37D2712DA5A0041092B /* EditorChartletView.swift in Sources */,
+				EF29E32C2712DA590041092B /* Core+PHAsset.swift in Sources */,
+				EF29E32F2712DA590041092B /* Core+Dictionary.swift in Sources */,
+				EF29E3352712DA590041092B /* Core+UIDevice.swift in Sources */,
+				EF29E33C2712DA5A0041092B /* AssetManager+AVAssetExportSession.swift in Sources */,
+				EF29E3362712DA590041092B /* Core+CALayer.swift in Sources */,
+				EF29E34B2712DA5A0041092B /* BaseConfiguration.swift in Sources */,
+				EF29E3792712DA5A0041092B /* VideoEditorCropViewCell.swift in Sources */,
+				EF29E3562712DA5A0041092B /* ProgressImageView.swift in Sources */,
+				EF29E3522712DA5A0041092B /* PhotoPanGestureRecognizer.swift in Sources */,
+				EF29E36A2712DA5A0041092B /* EditorController.swift in Sources */,
+				EF29E3582712DA5A0041092B /* SelectBoxView.swift in Sources */,
+				EF29E37E2712DA5A0041092B /* EditorStickerContentView.swift in Sources */,
+				EF29E33B2712DA5A0041092B /* PhotoManager+Audio.swift in Sources */,
+				EF29E36B2712DA5A0041092B /* VideoEditorViewController.swift in Sources */,
+				EF29E3682712DA5A0041092B /* VideoEditResult.swift in Sources */,
+				EF29E3392712DA590041092B /* AssetManager+VideoURL.swift in Sources */,
+				EF29E3542712DA5A0041092B /* LivePhotoError.swift in Sources */,
+				EF29E3432712DA5A0041092B /* PhotoTools+File.swift in Sources */,
+				EF29E3672712DA5A0041092B /* PhotoEditResult.swift in Sources */,
+				EF29E3442712DA5A0041092B /* AssetManager+ImageData.swift in Sources */,
+				EF29E3852712DA5A0041092B /* PhotoEditorDrawView.swift in Sources */,
+				EF29E35F2712DA5A0041092B /* Editor+PhotoTools.swift in Sources */,
+				EF29E3782712DA5A0041092B /* VideoEditorMusicView.swift in Sources */,
+				EF29E32A2712DA590041092B /* Core+Bundle.swift in Sources */,
+				EF29E3342712DA590041092B /* Core+UIView.swift in Sources */,
+				EF29E38E2712DA5A0041092B /* EditorToolView.swift in Sources */,
+				EF29E3642712DA5A0041092B /* PhotoCroppingConfiguration.swift in Sources */,
+				EF29E3512712DA5A0041092B /* CustomLanguage.swift in Sources */,
+				EF29E38F2712DA5A0041092B /* EditorStickerView.swift in Sources */,
+				EF29E3632712DA5A0041092B /* VideoCroppingConfiguration.swift in Sources */,
+				EF29E3372712DA590041092B /* Core+UIColor.swift in Sources */,
+				EF29E3492712DA5A0041092B /* PhotoManager.swift in Sources */,
+				EF29E36F2712DA5A0041092B /* PhotoEditorViewController.swift in Sources */,
+				EF29E35E2712DA5A0041092B /* Editor+UIImageView.swift in Sources */,
+				EF29E33F2712DA5A0041092B /* AssetManager+ImageURL.swift in Sources */,
+				EF29E35D2712DA5A0041092B /* Editor+UIImage.swift in Sources */,
+				EF29E3842712DA5A0041092B /* PhotoEditorMosaicView.swift in Sources */,
+				EF29E3382712DA590041092B /* Core+DispatchQueue.swift in Sources */,
+				EF29E3902712DA5A0041092B /* EditorStickerTrashView.swift in Sources */,
+				EF29E3462712DA5A0041092B /* AssetManager.swift in Sources */,
+				EF29E37A2712DA5A0041092B /* VideoEditorPlayerView.swift in Sources */,
+				EF29E3322712DA590041092B /* Core+PHAssetCollection.swift in Sources */,
+				EF29E3602712DA5A0041092B /* PhotoEditorConfiguration.swift in Sources */,
+				EF29E34E2712DA5A0041092B /* HXPHPicker.swift in Sources */,
+				EF29E3712712DA5A0041092B /* PhotoEditorCropToolModel.swift in Sources */,
+				EF29E3772712DA5A0041092B /* VideoEditorSearchMusicView.swift in Sources */,
+				EF29E3532712DA5A0041092B /* LanguageType.swift in Sources */,
+				EF29E3722712DA5A0041092B /* EditorToolOptions.swift in Sources */,
+				EF29E34A2712DA5A0041092B /* PhotoManager+Language.swift in Sources */,
+				EF29E3752712DA5A0041092B /* EditorType.swift in Sources */,
+				EF29E3702712DA5A0041092B /* EditorChartlet.swift in Sources */,
+				EF29E3652712DA5A0041092B /* EditorConfiguration.swift in Sources */,
+				EF29E3742712DA5A0041092B /* PhotoEditorFilter.swift in Sources */,
+				EF29E3402712DA5A0041092B /* AssetManager+LivePhotoURL.swift in Sources */,
+				EF29E3762712DA5A0041092B /* VideoEditorMusicAnimationView.swift in Sources */,
+				EF29E32B2712DA590041092B /* Core+UIFont.swift in Sources */,
+				EF29E3862712DA5A0041092B /* PhotoEditorView.swift in Sources */,
+				EF29E3302712DA590041092B /* Core+String.swift in Sources */,
+				EF29E3472712DA5A0041092B /* PhotoTools.swift in Sources */,
+				EF29E33E2712DA5A0041092B /* AssetManager+AssetCollection.swift in Sources */,
+				EF29E3622712DA5A0041092B /* CropConfirmViewConfiguration.swift in Sources */,
+				EF29E3452712DA5A0041092B /* AssetManager+Authorization.swift in Sources */,
+				EF29E37B2712DA5A0041092B /* VideoEditorFrameMaskView.swift in Sources */,
+				EF29E3812712DA5A0041092B /* EditorStickerItemView.swift in Sources */,
+				EF29E3692712DA5A0041092B /* EditorStickerTextViewController.swift in Sources */,
+				EF29E32E2712DA590041092B /* Core+UIImage.swift in Sources */,
+				EF29E38A2712DA5A0041092B /* PhotoEditorContentView.swift in Sources */,
+				EF29E3332712DA590041092B /* Core+UIImageView.swift in Sources */,
+				EF29E3832712DA5A0041092B /* PhotoEditorBrushColorView.swift in Sources */,
+				EF29E3422712DA5A0041092B /* PhotoManager+Download.swift in Sources */,
+				EF29E3572712DA5A0041092B /* VideoPlayerView.swift in Sources */,
+				EF29E3732712DA5A0041092B /* VideoEditorMusic.swift in Sources */,
+				EF29E3882712DA5A0041092B /* PhotoEditorCropToolView.swift in Sources */,
+				EF29E36C2712DA5A0041092B /* PhotoEditorViewController+Animation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF29E3B62712DC430041092B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF29E3CA2712DC930041092B /* CDShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1704,6 +2213,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EF29E2AB2712DA480041092B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF29E2A42712DA480041092B /* CDMediaEditor */;
+			targetProxy = EF29E2AA2712DA480041092B /* PBXContainerItemProxy */;
+		};
+		EF29E3C32712DC440041092B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF29E3B92712DC430041092B /* Share */;
+			targetProxy = EF29E3C22712DC440041092B /* PBXContainerItemProxy */;
+		};
 		EF91B00626D0A1C500A6943F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EF91AFFF26D0A1C500A6943F /* CDIndicator */;
@@ -1782,7 +2301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1838,7 +2357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1854,6 +2373,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QDPCHHH5GJ;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1864,7 +2385,7 @@
 				GCC_PREFIX_HEADER = "/Users/hw_lwx/Desktop/MyBox_master/MyBox/Supporting Files/CDPrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MyBox/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1872,10 +2393,11 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = changdong.MyBox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1885,6 +2407,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QDPCHHH5GJ;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1895,7 +2418,7 @@
 				GCC_PREFIX_HEADER = "/Users/hw_lwx/Desktop/MyBox_master/MyBox/Supporting Files/CDPrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MyBox/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1905,7 +2428,118 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		EF29E2AE2712DA480041092B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CDMediaEditor/lib",
+				);
+				INFOPLIST_FILE = CDMediaEditor/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = changdong.CDMediaEditor;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EF29E2AF2712DA480041092B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CDMediaEditor/lib",
+				);
+				INFOPLIST_FILE = CDMediaEditor/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = changdong.CDMediaEditor;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EF29E3C62712DC440041092B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				INFOPLIST_FILE = Share/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = changdong.MyBox.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EF29E3C72712DC440041092B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				INFOPLIST_FILE = Share/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = changdong.MyBox.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1923,7 +2557,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CDIndicator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1935,7 +2569,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1955,7 +2589,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CDIndicator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1966,7 +2600,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1986,7 +2620,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CDMediaPicker/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1998,7 +2632,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2018,7 +2652,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CDMediaPicker/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2029,7 +2663,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2056,6 +2690,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		EF29E2B02712DA480041092B /* Build configuration list for PBXNativeTarget "CDMediaEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF29E2AE2712DA480041092B /* Debug */,
+				EF29E2AF2712DA480041092B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF29E3C52712DC440041092B /* Build configuration list for PBXNativeTarget "Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF29E3C62712DC440041092B /* Debug */,
+				EF29E3C72712DC440041092B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EF91B00926D0A1C500A6943F /* Build configuration list for PBXNativeTarget "CDIndicator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2075,51 +2727,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		EF52D43D25859D2200E52674 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
-			};
-		};
-		EF52D4402585A3E300E52674 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.12.2;
-			};
-		};
-		EF52D4592585A52200E52674 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jdg/MBProgressHUD.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		EF52D43E25859D2200E52674 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF52D43D25859D2200E52674 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		EF52D4412585A3E300E52674 /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF52D4402585A3E300E52674 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
-			productName = SQLite;
-		};
-		EF52D45A2585A52200E52674 /* MBProgressHUD */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF52D4592585A52200E52674 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
-			productName = MBProgressHUD;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 73550FDD2457C0AB009B7599 /* Project object */;
 }

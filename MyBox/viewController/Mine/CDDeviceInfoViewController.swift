@@ -2,8 +2,8 @@
 //  CDDeviceInfoViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/12/9.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/12/9.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -26,11 +26,12 @@ class CDDeviceInfoViewController: CDBaseAllViewController,UITableViewDelegate,UI
     }
     func initOptionValue(){
         optionTitleArr.removeAll()
-        optionTitleArr = [[LocalizedString("Name"),LocalizedString("Software Version"),LocalizedString("Model Name"),LocalizedString("UUID")],
-                          [LocalizedString("Run Time"),LocalizedString("Battery Power"),LocalizedString("Low Power Mode"),LocalizedString("CPU"),LocalizedString("RAM")],
-                          [LocalizedString("Network"),LocalizedString("Carrier"),LocalizedString("IP")],[LocalizedString("Capacity"),LocalizedString("Available")]]
-        
-        CDHUDManager.shared.showWait(LocalizedString("checking... "))
+        optionTitleArr = [["名称","软件版本","型号名称","UUID"],
+                          ["运行时长","电池电量","省电模式","CPU","RAM"],
+                          ["网络","运营商","IP"],
+                          ["总容量","可用容量"]]
+
+        CDHUDManager.shared.showWait("检测中...".localize)
         CDDeviceIndicatorAPI.share.startCheckDeviceInfo(indicatorArr: optionTitleArr) { (dict) in
             CDHUDManager.shared.hideWait()
             self.optionValue = dict
@@ -81,10 +82,10 @@ class CDDeviceInfoViewController: CDBaseAllViewController,UITableViewDelegate,UI
         cell.selectionStyle = .none
         let optionTitle = optionTitleArr[indexPath.section][indexPath.row]
         var value = self.optionValue[optionTitle] ?? ""
-        if (optionTitle == LocalizedString("UUID") || optionTitle == LocalizedString("IP")) && CDSignalTon.shared.loginType == .fake  {
+        if (optionTitle == "UUID".localize || optionTitle == "IP".localize) && CDSignalTon.shared.loginType == .fake  {
             value = "******"
         }
-        cell.titleLabel.text = optionTitle
+        cell.titleLabel.text = optionTitle.localize
         cell.valueLabel.text = value
         cell.valueLabel.isHidden = false
         

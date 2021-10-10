@@ -24,7 +24,7 @@ class CDVideoScrollerCell: UICollectionViewCell {
 
         videoSizeL = UILabel(frame: CGRect(x: videoView.frame.width-100, y: 5, width: 85, height: 20))
         videoSizeL.textAlignment = .right
-        videoSizeL.font = TextSmallFont
+        videoSizeL.font = .small
         videoSizeL.textColor = UIColor.white
         videoView.addSubview(videoSizeL)
         videoSizeL.isHidden = true

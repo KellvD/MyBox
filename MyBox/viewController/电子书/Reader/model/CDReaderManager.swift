@@ -21,7 +21,7 @@ class CDReaderManager: NSObject {
     }
     
     func laodFile(filePath:String){
-        readModel = CDReaderModel.getLocalModel(url: URL(fileURLWithPath: filePath))
+        readModel = CDReaderModel.getLocalModel(url: filePath.url)
     }
     
     func parserContent(content:String,bounds:CGRect) -> CTFrame{

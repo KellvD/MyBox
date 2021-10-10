@@ -22,13 +22,11 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         let _ = CDSqlManager.shared
         let _ = CDSignalTon.shared
         let _ = CDLocationManager.shared
-        let _ = CDMusicManager.shareInstance()
-        let _ = CDEditManager.shareInstance()
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = .baseBgColor
         
-        let rootVC = CDRootViewController()
+//        let rootVC = CDRootViewController()
         self.window?.rootViewController = CDTabBarViewController()
         if CDSignalTon.shared.waterBean.isOn {
             CDSignalTon.shared.addWartMarkToWindow(appWindow: window!)
@@ -75,7 +73,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
             defaultView = UIView.init()
         }
         defaultImageView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
-        defaultImageView.backgroundColor = CustomBlueColor
+        defaultImageView.backgroundColor = .customBlue
         defaultView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
         defaultView.addSubview(defaultImageView)
 

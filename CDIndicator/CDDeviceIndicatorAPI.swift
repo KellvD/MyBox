@@ -2,8 +2,8 @@
 //  CDDeviceAPI.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/12/2.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/12/2.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import Foundation
@@ -49,9 +49,13 @@ public class CDDeviceIndicatorAPI: NSObject {
                     "网络":"getNetWorkName",
                     "运营商":"getNetworkCarrier",
                     "IP":"getIP",
+                    "RAM":"",
                     "总容量":"getTotalDiskSize",
                     "可用容量":"getAvailableDiskSize",
                     "UUID":"getUUID"]
+//        ["phoneName","modelVersion","modelName","powerOnTime",
+//        "powerRate","poweraSaveModel","cpuState","cpuCount","memoryRate","netWorkName",
+//        "networkCarrier","ip","totalDiskSize","availableDiskSize","uuid"]
         return dict
     }()
     

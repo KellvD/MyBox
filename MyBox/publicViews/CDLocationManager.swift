@@ -2,7 +2,7 @@
 //  CDLocationManager.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
@@ -44,6 +44,28 @@ class CDLocationManager: NSObject,CLLocationManagerDelegate {
                     self.cityName = place.locality!
                 })
             }
+        }
+    }
+    
+    
+    public func reverseGeocode(oTocation: CLLocation,complete:@escaping (_ street:String)->Void){
+        var tLocation = oTocation
+        if tLocation.coordinate.latitude == -1 && tLocation.coordinate.longitude == -1 {
+//            tLocation = location
+            complete("西安市未央区")
+            return
+        }
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(tLocation, preferredLocale: nil) { marks, error in
+            let mark = marks![0]
+//            let addressDic = mark.addressDictionary
+//            let country = mark.country
+//            let province = mark.administrativeArea
+//            let city = mark.locality
+//            let area = mark.subLocality
+//            let street = mark.thoroughfare
+            complete(mark.name!)
+            
         }
     }
 }

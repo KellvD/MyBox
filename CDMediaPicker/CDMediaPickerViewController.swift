@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+
 @objc public protocol CDMediaPickerDelegate :NSObjectProtocol{
     @objc optional func onMediaPickerDidFinished(picker:CDMediaPickerViewController,data:Dictionary<String, Any>,index:Int,totalCount:Int)
     @objc optional func onMediaPickerDidCancle(picker:CDMediaPickerViewController)
@@ -52,6 +54,8 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
                 autoreleasepool {
                     let tmpAsset:CDPHAsset = phAssets[i]
                     //Live图片本地暂无法保存
+                    let createTime = Int(tmpAsset.asset.creationDate!.timeIntervalSince1970 * 1000)
+                    let location = tmpAsset.asset.location ?? CLLocation(latitude: -1, longitude: -1)
                     if tmpAsset.format == .Live {
 //                        CDAssetTon.shared.getLivePhotoFromAsset(asset: tmpAsset.asset, targetSize: CGSize.zero) { (livePhoto, info) in
 //                            if livePhoto != nil{
@@ -61,7 +65,11 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
 //                        }
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
                             if image != nil{
-                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":image!,"imageType":"normal"]
+                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,
+                                                        "file":image!,
+                                                        "imageType":"normal",
+                                                        "createTime":createTime,
+                                                        "location":location]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
                                 
                             }
@@ -69,14 +77,22 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
                     }else if tmpAsset.format == .Gif {
                         CDAssetTon.shared.getImageDataFromAsset(asset: tmpAsset.asset) { (data, info) in
                             if data != nil{
-                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":data!,"imageType":"gif"]
+                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,
+                                                        "file":data!,
+                                                        "imageType":"gif",
+                                                        "createTime":createTime,
+                                                        "location":location]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
                             }
                         }
                     }else{
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
                             if image != nil{
-                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,"file":image!,"imageType":"normal"]
+                                let dic:[String:Any] = ["fileName":tmpAsset.fileName!,
+                                                        "file":image!,
+                                                        "imageType":"normal",
+                                                        "createTime":createTime,
+                                                        "location":location]
                                 self.pickerDelegate.onMediaPickerDidFinished!(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
                                 
                             }

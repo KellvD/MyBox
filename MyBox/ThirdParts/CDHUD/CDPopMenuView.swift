@@ -105,21 +105,21 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
             cell = UITableViewCell(style: .default, reuseIdentifier: "CDPopMenuViewIdentify")
             let view = UIView()
             cell.selectedBackgroundView = view
-            cell.selectedBackgroundView?.backgroundColor = LightBlueColor
+            cell.selectedBackgroundView?.backgroundColor = .cellSelectColor
 
             let imageV = UIImageView(frame: CGRect(x: 15, y: 9, width: 30, height: 30))
             imageV.tag = 101
             cell.addSubview(imageV)
 
             let titleL = UILabel(frame: CGRect(x: imageV.frame.maxX+15, y: 9, width: 200, height: 30))
-            titleL.textColor = TextBlackColor
-            titleL.font = TextMidFont
+            titleL.textColor = .textBlack
+            titleL.font = .mid
             titleL.tag = 102
             cell.addSubview(titleL)
 
             let sperateLine = UIView(frame: CGRect(x: titleL.frame.minX, y: 47, width: CDSCREEN_WIDTH - titleL.frame.minX, height: 1))
             sperateLine.tag = 103
-            sperateLine.backgroundColor = SeparatorLightGrayColor
+            sperateLine.backgroundColor = .separatorColor
             cell.addSubview(sperateLine)
         }
         let titleV = cell.viewWithTag(102) as! UILabel
@@ -141,24 +141,19 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
     }
 
     func showPopView(){
-        var rect = self.tableBgView.frame
-        if rect.origin.y == tableBgViewY{
-            
+        if self.tableBgView.minY == tableBgViewY{
             dismissPopView()
         }else{
             UIView.animate(withDuration: 0.25, animations: {
                 self.isHidden = false
-                rect.origin.y = tableBgViewY
-                self.tableBgView.frame = rect
+                self.tableBgView.minY = tableBgViewY
             }) { (finished) in}
         }
     }
     @objc func dismissPopView(){
         
-        var rect = self.tableBgView.frame
         UIView.animate(withDuration: 0.25, animations: {
-            rect.origin.y = tableBgViewY - rect.size.height
-            self.tableBgView.frame = rect
+            self.tableBgView.minY = tableBgViewY - self.tableBgView.height
         }) { (finished) in
             self.isHidden = true
         }

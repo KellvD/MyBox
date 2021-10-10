@@ -58,7 +58,7 @@ class CDCameraBottomBar: UIView {
         cancle = UIButton(type: .custom)
         cancle.frame = CGRect(x: 15, y: frame.height - 48 - 15, width: 48, height: 48)
 
-        cancle.setTitle(LocalizedString("cancel"), for: .normal)
+        cancle.setTitle("取消".localize, for: .normal)
         cancle.addTarget(self, action: #selector(onCameraCancleClick), for: .touchUpInside)
         self.addSubview(cancle)
 

@@ -55,7 +55,7 @@ class CDCircleProcess: UIView {
         self.layer.addSublayer(shapLayer!)
         shapLayer.fillColor = UIColor.clear.cgColor
         shapLayer.backgroundColor = UIColor.clear.cgColor
-        shapLayer.strokeColor = CustomBlueColor.cgColor
+        shapLayer.strokeColor = UIColor.customBlue.cgColor
         shapLayer.opacity = 1.0
         shapLayer.lineCap = .round
         shapLayer.lineWidth = CGFloat(circleWidth)

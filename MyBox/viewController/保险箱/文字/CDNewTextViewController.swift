@@ -11,32 +11,32 @@ import UIKit
 
 class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
-    var textView:CDTextView!
-    var menuView:UIToolbar!
+    private var textView:CDTextView!
+    private var menuView:UIToolbar!
     var folderId = 0
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.title = "新文本"
+        
+        self.title = "新文本".localize
         self.view.backgroundColor = UIColor.white
         let doneBtn = UIButton(type: .custom)
         doneBtn.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
-        doneBtn.setTitle("保存", for: .normal)
+        doneBtn.setTitle("保存".localize, for: .normal)
         doneBtn.addTarget(self, action: #selector(saveBtnClick), for: .touchUpInside)
         doneBtn.setTitleColor(UIColor.white, for: .normal)
         doneBtn.contentHorizontalAlignment = .right
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneBtn)
 
         textView = CDTextView(frame: CGRect(x: 10, y: 0, width: CDSCREEN_WIDTH - 20, height: CDViewHeight), subViewController: self)
-        
+
         textView.becomeFirstResponder()
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notic:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notic:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notic:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-
+        CDPrintManager.log("已经进入newtext", type: .InfoLog)
     }
 
 
@@ -44,7 +44,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     @objc func saveBtnClick(sender:UIButton){
         let contentStr:String = textView.text.removeSpaceAndNewline()
         if contentStr.isEmpty{
-            CDHUDManager.shared.showText("尚未输入内容")
+            CDHUDManager.shared.showText("尚未输入内容".localize)
             return
         }
         sender.isUserInteractionEnabled = false
@@ -56,9 +56,10 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         fileInfo.folderId = folderId
         fileInfo.fileName = fileName
         fileInfo.fileText = contentStr
-        fileInfo.createTime = GetTimestamp()
-        fileInfo.modifyTime = GetTimestamp()
-        fileInfo.accessTime = GetTimestamp()
+        fileInfo.importTime = GetTimestamp(nil)
+        fileInfo.createTime = GetTimestamp(nil)
+        fileInfo.modifyTime = GetTimestamp(nil)
+        fileInfo.accessTime = GetTimestamp(nil)
         fileInfo.folderType = .TextFolder
         fileInfo.fileType = NSFileType.PlainTextType
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
@@ -74,8 +75,8 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
             let pasteBtn = UIButton(type: .custom)
             pasteBtn.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
-            pasteBtn.setTitle("粘贴", for: .normal)
-            pasteBtn.setTitleColor(CustomBlueColor, for: .normal)
+            pasteBtn.setTitle("粘贴".localize, for: .normal)
+            pasteBtn.setTitleColor(.customBlue, for: .normal)
             pasteBtn.addTarget(self, action: #selector(readFromPasteboard), for: .touchUpInside)
             pasteBtn.setTitleColor(UIColor.white, for: .normal)
             pasteBtn.contentHorizontalAlignment = .right
@@ -85,8 +86,8 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
             let doneBtn = UIButton(type: .custom)
             doneBtn.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
-            doneBtn.setTitle("完成", for: .normal)
-            doneBtn.setTitleColor(CustomBlueColor, for: .normal)
+            doneBtn.setTitle("完成".localize, for: .normal)
+            doneBtn.setTitleColor(.customBlue, for: .normal)
             doneBtn.addTarget(self, action: #selector(disKeyBoard), for: .touchUpInside)
             doneBtn.setTitleColor(UIColor.white, for: .normal)
             doneBtn.contentHorizontalAlignment = .right
@@ -118,8 +119,6 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
 
 
     }
-
-
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)

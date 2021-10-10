@@ -2,7 +2,7 @@
 //  CDMapViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 

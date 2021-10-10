@@ -15,6 +15,7 @@ import Foundation
 let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
 let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
 let bottomSafeHeight:CGFloat = (iPhoneX || iPhone12) ? 34.0 : 0.0
+let topSafeHeight:CGFloat = (iPhoneX || iPhone12) ? GetStatusHeight() : 0.0
 let StatusHeight = GetStatusHeight()
 let NavigationHeight:CGFloat = 44.0
 let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
@@ -36,26 +37,6 @@ let thumpImageWidth = (CDSCREEN_WIDTH-6.0)/4.0
 let thumpImageHeight = (CDSCREEN_WIDTH-6.0)/4.0
 
 
-//颜色的定义
-let CustomBlueColor = UIColor(red: 39/255, green: 162/255.0, blue: 242/255.0, alpha: 1.0)
-let TextDarkBlackColor  = UIColor(red:26/255.0, green:26/255.0,blue:26/255.0,alpha:1.0)
-let TextBlackColor     =  UIColor(red:61/255.0, green:81/255.0,blue:97/255.0,alpha:1.0)
-let TextLightBlackColor = UIColor(red:154/255.0, green:154/255.0,blue:154/255.0,alpha:1.0)
-let TextLightBlueColor  = UIColor(red:39/255.0,green:162/255.0,blue:242/255.0,alpha:1.0) //27a2f2
-let TextLightGrayColor =   UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,alpha:1.0)//#9a9a9a
-
-let SeparatorLightGrayColor =  UIColor(red:153/255.0,green:153/255.0,blue:153/255.0,alpha:1.0)//#999999
-
-
-let TextGrayColor    =    UIColor(red:141/255.0,green:151/255.0,blue:167/255.0,alpha:1.0)
-
-let LightBlueColor   =    UIColor(red:213/255.0,green:230/255.0,blue:244/255.0,alpha:1.0)
-let NavigationColor   =    UIColor(red:0/255.0,green:95/255.0,blue:187/255.0,alpha:1.0)
-let BaseBackGroundColor   =    UIColor(red:247/255.0,green:247/255.0,blue:247/255.0,alpha:1.0)
-
-let CustomPinkColor   =   UIColor(red:255/255.0,green:73/255.0,blue:0/255.0,alpha:1.0)
-let ProgressViewBgColor = UIColor(red:0, green:104/255.0,blue:183/255.0,alpha:0.3)
-
 let FIRSTUSERID = 100001 //数据库ID，扩展多账户模式
 let waterMarkTag = 98764
 let ROOTSUPERID = -1
@@ -73,10 +54,6 @@ let CELL_HEIGHT:CGFloat = 48.0
 let EmojiRegularExpression = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5 ]+\\]"
 let symbolExpression = "[`~!@#$%^&*+=|{}':',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}‘；：”“’。，、？|]"
 
-let UIFont20 = UIFont.systemFont(ofSize: 20)
-let TextMidFont =  UIFont.systemFont(ofSize: 17)
-let TextSmallFont =  UIFont.systemFont(ofSize: 12)
-let TextMidSmallFont = UIFont.systemFont(ofSize: 15)
 
 enum NSFolderType:Int {
     case ImageFolder = 0
@@ -102,19 +79,7 @@ enum NSFileType:Int {
     case LiveType = 12
     case OtherType = 13
 }
-enum CDBrightType:Int {
-    case Bright = 0
-}
-enum CDEditorsType:Int {
-    case Crop = 0 //剪裁
-    case Text = 1//文字
-    case Graffiti = 2
-    case Rotate = 3 //旋转
-    case Mosaic = 4//马赛克
-    case Watermark = 5 //水印
-    case Filter = 6 //滤镜
-    case Bright = 7 //亮度
-}
+
 //登录模式
 enum CDLoginType:Int{
     case real = 1   // 超级用户模式
@@ -193,3 +158,5 @@ enum CDThemeMode :Int{
 let NotInitPwd = -1;
 let HasInitPwd = 0;
 let DelayInitPwd = 1;
+
+

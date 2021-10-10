@@ -32,13 +32,13 @@ class CDCameraTopBar: UIView {
     init(frame:CGRect,isVideo:Bool) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.black
+        let Y = topSafeHeight
         if !isVideo{
-            
             let T = getFunctionBtnImageName()
             
             //闪光灯
             let flashBtn = UIButton(type: .custom)
-            flashBtn.frame = CGRect(x: 15, y: 4, width: gwidth, height: gwidth);
+            flashBtn.frame = CGRect(x: 15, y: Y, width: gwidth, height: gwidth);
             flashBtn.tag = CDCameraSetType.flash.rawValue
             flashBtn.setImage(UIImage(named: T[0]), for: .normal)
             flashBtn.addTarget(self, action: #selector(functionBtnClick(sender:)), for: .touchUpInside)
@@ -47,7 +47,7 @@ class CDCameraTopBar: UIView {
             
             //Hdr
             let hdrBtn = UIButton(type: .custom)
-            hdrBtn.frame = CGRect(x: 15 + gwidth + space, y: 4, width: gwidth, height: gwidth);
+            hdrBtn.frame = CGRect(x: 15 + gwidth + space, y: Y, width: gwidth, height: gwidth);
             hdrBtn.tag = CDCameraSetType.hdr.rawValue
             hdrBtn.setImage(UIImage(named: T[1]), for: .normal)
             hdrBtn.addTarget(self, action: #selector(functionBtnClick(sender:)), for: .touchUpInside)
@@ -55,7 +55,7 @@ class CDCameraTopBar: UIView {
             funcBtnArr.append(hdrBtn)
             //延时
             let delayBtn = UIButton(type: .custom)
-            delayBtn.frame = CGRect(x: 15 + gwidth * 2 + space * 2, y: 4, width: gwidth, height: gwidth);
+            delayBtn.frame = CGRect(x: 15 + gwidth * 2 + space * 2, y: Y, width: gwidth, height: gwidth);
             delayBtn.tag = CDCameraSetType.delay.rawValue
             delayBtn.setImage(UIImage(named: T[2]), for: .normal)
             delayBtn.addTarget(self, action: #selector(functionBtnClick(sender:)), for: .touchUpInside)
@@ -64,7 +64,7 @@ class CDCameraTopBar: UIView {
             
             
             let firstBtn = UIButton(type: .custom)
-            firstBtn.frame = CGRect(x: flashBtn.frame.maxX + space, y: 4, width: gwidth, height: gwidth);
+            firstBtn.frame = CGRect(x: flashBtn.frame.maxX + space, y: Y, width: gwidth, height: gwidth);
             firstBtn.addTarget(self, action: #selector(optionItemClick(sender:)), for: .touchUpInside)
             firstBtn.isHidden = true
             firstBtn.tag = 200
@@ -73,7 +73,7 @@ class CDCameraTopBar: UIView {
             optionBtnArr.append(firstBtn)
             
             let secondBtn = UIButton(type: .custom)
-            secondBtn.frame = CGRect(x: firstBtn.frame.maxX + space, y: 4, width: gwidth, height: gwidth);
+            secondBtn.frame = CGRect(x: firstBtn.frame.maxX + space, y: Y, width: gwidth, height: gwidth);
             secondBtn.addTarget(self, action: #selector(optionItemClick(sender:)), for: .touchUpInside)
             secondBtn.isHidden = true
             secondBtn.tag = 201
@@ -82,7 +82,7 @@ class CDCameraTopBar: UIView {
             optionBtnArr.append(secondBtn)
             
             let thirdBtn = UIButton(type: .custom)
-            thirdBtn.frame = CGRect(x: secondBtn.frame.maxX + space, y: 4, width: gwidth, height: gwidth);
+            thirdBtn.frame = CGRect(x: secondBtn.frame.maxX + space, y: Y, width: gwidth, height: gwidth);
             thirdBtn.addTarget(self, action: #selector(optionItemClick(sender:)), for: .touchUpInside)
             thirdBtn.isHidden = true
             thirdBtn.tag = 202
@@ -91,9 +91,9 @@ class CDCameraTopBar: UIView {
             optionBtnArr.append(thirdBtn)
             
         }else{
-            timeLabel = UILabel(frame: CGRect(x: frame.width/2 - 100, y: 4, width: 200 , height: 40))
+            timeLabel = UILabel(frame: CGRect(x: frame.width/2 - 100, y: Y, width: 200 , height: 40))
             timeLabel?.textColor = UIColor.white
-            timeLabel?.font = TextMidFont
+            timeLabel?.font = .mid
             timeLabel?.text = "00:00:00"
             timeLabel?.textAlignment = .center
             self.addSubview(timeLabel!)

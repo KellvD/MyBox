@@ -2,8 +2,8 @@
 //  CDVideoPlayerView.swift
 //  MyBox
 //
-//  Created by cwx889303 on 2021/8/12.
-//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2021/8/12.
+//  Copyright © 2018 changdong. All rights reserved.
 //
 
 import UIKit
@@ -14,8 +14,6 @@ class CDVideoPlayerView: UIView {
 
     private var playButton:UIButton!
     private var videoTap:UITapGestureRecognizer!
-    private var isPlaying = false
-    private var gvideoPath:String!
     private var coveryView:UIImageView!
     private var gprocessHandle:CDVideoPlayerProgressHandle!
     var player: AVPlayer!
@@ -34,22 +32,18 @@ class CDVideoPlayerView: UIView {
         self.addSubview(playButton)
         
         
-        videoTap = UITapGestureRecognizer(target: self, action: #selector(onCanclePlay))
+        videoTap = UITapGestureRecognizer(target: self, action: #selector(onPlayPause))
         self.addGestureRecognizer(videoTap)
         videoTap.isEnabled = false
 
               
-        NotificationCenter.default.addObserver(self, selector: #selector(onCanclePlay), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onPlayFinished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
     }
 
-    var videoPath: String {
-        get {
-            return gvideoPath
-        }
-        set {
-            gvideoPath = newValue
-            let mImgage:UIImage! = UIImage.previewImage(videoUrl: URL(fileURLWithPath: gvideoPath))
+    var videoPath: String! {
+        didSet {
+            let mImgage:UIImage! = UIImage.previewImage(videoUrl: videoPath.url)
             
             let itemH = (mImgage.size.height * frame.width)/mImgage.size.width
             coveryView.frame = CGRect(x: 0, y: (frame.height - itemH)/2, width: frame.width, height: itemH)
@@ -79,7 +73,7 @@ class CDVideoPlayerView: UIView {
     }
 
     private func createPlayer() {
-        let urlAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: nil)
+        let urlAsset = AVURLAsset(url: videoPath.url, options: nil)
         let playerItem = AVPlayerItem(asset: urlAsset)
         let session = AVAudioSession.sharedInstance()
         try! session.setCategory(.playAndRecord, options: .defaultToSpeaker)
@@ -94,13 +88,25 @@ class CDVideoPlayerView: UIView {
     }
     
     @objc private func onHandleVideoPlay(){
-        
-        self.continuePlay()
+        if self.player == nil{
+            createPlayer()
+        }
+        playContinue()
+    }
+    @objc func onPlayFinished(){
+        setPlayerTime(currentTime: 0)
     }
     
-    
-    @objc private func onCanclePlay(){
-        self.pause()
+    @objc private func onPlayPause(){
+        if player == nil {
+            return
+        }
+        
+        if player.timeControlStatus == .playing  {
+            self.videoTap.isEnabled = false
+            self.playButton.isHidden = false
+            self.player.pause()
+        }
     }
     
     
@@ -113,32 +119,27 @@ class CDVideoPlayerView: UIView {
         player.currentItem?.cancelPendingSeeks()
         player.currentItem?.asset.cancelLoading()
         player.replaceCurrentItem(with: nil)
-        
+        player = nil
         playerLayer.removeFromSuperlayer()
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-//        print("play delloc ok")
+        self.videoTap.isEnabled = false
+        self.playButton.isHidden = false
+        
     }
     
-    public func pause(){
-        if self.isPlaying {
-            self.videoTap.isEnabled = false
-            self.playButton.isHidden = false
-            self.player.pause()
-            self.isPlaying = false
-        }
-    }
-    
-    public func continuePlay(){
-        if !self.isPlaying {
+    public func playContinue(){
+        if player.timeControlStatus != .playing{
             self.videoTap.isEnabled = true
             self.playButton.isHidden = true
             self.player.play()
-            self.isPlaying = true
         }
+        
+        
     }
     
     public func setPlayerTime(currentTime:Double){
-        self.pause()
+        
+        onPlayPause()
         let seekTime = CMTimeMake(value: Int64(currentTime), timescale: 1)
         self.player.seek(to: seekTime)
 

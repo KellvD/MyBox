@@ -2,8 +2,8 @@
 //  CDImageCustom.swift
 //  CDImagePicker
 //
-//  Created by changdong cwx889303 on 2021/2/8.
-//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2021/2/8.
+//  Copyright © 2018 changdong. All rights reserved.
 //
 
 import Foundation
@@ -65,8 +65,13 @@ enum CDSelected_Status:String {
     return format
 }
 
-@inline(__always)func GetTimestamp() -> Int{
-    let nowTime = NSDate.init().timeIntervalSince1970 * 1000
+@inline(__always)func GetTimestamp(_ time:String?) -> Int{
+    var date = Date()
+    if time != nil {
+        let datter = DateFormatter()
+        date = datter.date(from: time!)!
+    }
+    let nowTime = date.timeIntervalSince1970 * 1000
     return Int(nowTime)
 }
 

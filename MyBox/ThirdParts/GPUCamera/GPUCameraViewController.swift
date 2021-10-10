@@ -42,7 +42,7 @@ class GPUCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCame
                 previewVC.isVideo = false
                 previewVC.previewHandle = {(success) in
                     if success {
-                        let dic:[String:Any] = ["fileName":"\(GetTimestamp()).png","file":image!]
+                        let dic:[String:Any] = ["fileName":"\(GetTimestamp(nil)).png","file":image!]
                         self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
                     } else {
                         self.cameraManger.reloadLayer()

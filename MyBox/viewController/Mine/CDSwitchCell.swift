@@ -2,7 +2,7 @@
 //  CDSwitchCell.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
@@ -21,11 +21,11 @@ class CDSwitchCell: UITableViewCell {
         
         let view = UIView()
         self.selectedBackgroundView = view
-        self.selectedBackgroundView?.backgroundColor = LightBlueColor
+        self.selectedBackgroundView?.backgroundColor = .cellSelectColor
         
         titleLabel = UILabel()
-        titleLabel.textColor = TextBlackColor
-        titleLabel.font = TextMidFont
+        titleLabel.textColor = .textBlack
+        titleLabel.font = .mid
         titleLabel.textAlignment = .left
         self.contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
@@ -46,8 +46,8 @@ class CDSwitchCell: UITableViewCell {
         }
         
         valueLabel = UILabel()
-        valueLabel.font = TextMidFont
-        valueLabel.textColor = TextLightBlackColor
+        valueLabel.font = .mid
+        valueLabel.textColor = .textLightBlack
         valueLabel.textAlignment = .right
         valueLabel.lineBreakMode = .byTruncatingMiddle
         valueLabel.numberOfLines = 0
@@ -85,7 +85,7 @@ class CDSwitchCell: UITableViewCell {
             make.left.equalToSuperview().offset(15.0)
             make.top.equalTo(titleLabel.snp.bottom)
         }
-        valueLabel.font = TextSmallFont
+        valueLabel.font = .small
         valueLabel.textAlignment = .left
     }
 

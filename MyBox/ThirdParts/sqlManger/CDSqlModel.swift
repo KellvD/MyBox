@@ -39,15 +39,17 @@ class CDSafeFileInfo: NSObject {
     var fileWidth = Double()
     var fileHeight = Double()
     var timeLength = Double()
-    var createTime = Int() //创建时间
+    var createTime = Int() //创建时间 相册，沙盒导入文件的创建时间
     var modifyTime = Int() //修改时间
     var accessTime = Int() //访问时间
+    var importTime = Int() //导入时间
     var fileType:NSFileType!
     var fileName = String()
     var fileText = String()
     var thumbImagePath = String()
     var filePath = String()
     var markInfo = String()
+    var createLocation = String()
     var userId = Int()
     var grade:NSFileGrade!
     var isSelected:CDSelectedStatus!
@@ -74,4 +76,15 @@ class CDMusicClassInfo: NSObject {
     var classAvatar = String()
     var userId = Int()
     var classCreateTime = Int()
+}
+
+class CDAttendanceInfo:NSObject{
+    var attendanceId = Int() //日程Id
+    var year = Int() //事件拆分年 不入库
+    var month = Int() //事件拆分月 不入库
+    var day = Int() //事件拆分日 不入库
+    var time = Int() //年月日时分
+    var title = String()
+    var type = Int()
+    var statue = Int()
 }

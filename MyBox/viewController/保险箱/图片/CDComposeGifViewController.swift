@@ -37,9 +37,9 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         if composeType == .Gif{
-            self.title = LocalizedString("Composite GIF")
+            self.title = "合成GIF".localize
         }else{
-            self.title = LocalizedString("Composite Video")
+            self.title = "合成视频".localize
         }
         
         fileLoadImage()
@@ -63,7 +63,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         self.view.addSubview(preview)
         preview.isHidden = true
 
-        gifDelaySlider = CDGifDelayView(frame: CGRect(x: 0, y: CDViewHeight - 48 * 2, width: CDSCREEN_WIDTH, height: 48))
+        gifDelaySlider = CDGifDelayView(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight))
         self.view.addSubview(gifDelaySlider)
         
         
@@ -115,7 +115,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gifImageCellIdrr", for: indexPath) as! CDImageCell
         let image:UIImage = thumpArr[indexPath.item]
         cell.backgroundView?.layer.borderWidth = 1
-        cell.backgroundView?.layer.borderColor = TextLightBlackColor.cgColor
+        cell.backgroundView?.layer.borderColor = UIColor.textLightBlack.cgColor
         cell.backgroundView = UIImageView(image: image)
         return cell
     }
@@ -147,10 +147,10 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     
     @objc override func backButtonClick() {
         if isCompose{
-            let sheet = UIAlertController(title: nil, message: LocalizedString("Are you sure to abandon the GIF synthesis operation?"), preferredStyle: .alert)
-            sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
+            let sheet = UIAlertController(title: nil, message:"是否确定放弃合成GIF操作？".localize, preferredStyle: .alert)
+            sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (action) in }))
 
-            sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
+            sheet.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (action) in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(sheet, animated: true, completion: nil)
@@ -161,14 +161,13 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     
     @objc func sureBtnClick(){
 
-        let sheet = UIAlertController(title: nil, message: LocalizedString("Are you sure to save this GIF?"), preferredStyle: .alert)
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in
+        let sheet = UIAlertController(title: nil, message: "是否确认保存该GIF吗？".localize, preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (action) in
         }))
 
-        sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (action) in
             if self.composeType == .Gif{
-                CDSignalTon.shared.saveSafeFileInfo(fileUrl:URL(fileURLWithPath: self.gifPath) , folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
-                
+                CDSignalTon.shared.saveFileWithUrl(fileUrl:self.gifPath.url, folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
                 self.composeHandle!(true)
             }else{
                 
@@ -200,11 +199,11 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
     }
     
     private func onComposeGif(){
-        nowTime = GetTimestamp()
+        nowTime = GetTimestamp(nil)
         let delay = gifDelaySlider.value
         print(delay)
         gifPath = String.ImagePath().appendingPathComponent(str: String(format: "%lld.gif", nowTime))
-        UIImage.composeGif(imageArr:imageArr , gifPath: &gifPath)
+        UIImage.composeGif(imageArr: imageArr, delay: Double(delay), gifPath: &gifPath)
         if FileManager.default.fileExists(atPath: gifPath){
             let gifData = NSData(contentsOfFile: gifPath)!
             if gifData.length > 0{
@@ -229,7 +228,7 @@ class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelega
 //        let size = CGSize(width: 320, height: 480)
 ////        unlink([videoPath.utf8])
 //        do {
-//            let write = try AVAssetWriter(url: URL(fileURLWithPath: videoPath), fileType: .mov)
+//            let write = try AVAssetWriter(url: videoPath.url, fileType: .mov)
 //            let input = AVAssetWriterInput(mediaType: .video, outputSettings: ["AVVideoWidthKey":size.width,"AVVideoHeightKey":size.height,"AVVideoCodecType" :AVVideoCodecType.h264])
 //            var frmae = 0
 //            if write.canAdd(input) {
@@ -302,10 +301,10 @@ class CDGifDelayView: UIView {
         self.addSubview(gifDelaySlider)
         
         
-        sliderLabel = UILabel(frame: CGRect(x: gifDelaySlider.frame.maxX + 15, y: 10, width: 40, height: 28))
-        sliderLabel.textColor = TextGrayColor
+        sliderLabel = UILabel(frame: CGRect(x: gifDelaySlider.frame.maxX, y: 8, width: 40, height: 28))
+        sliderLabel.textColor = .textGray
         sliderLabel.backgroundColor = UIColor.clear
-        sliderLabel.font = TextSmallFont
+        sliderLabel.font = .small
         sliderLabel.text = "\(gifDelaySlider.value)"
         sliderLabel.textAlignment = .center
         self.addSubview(sliderLabel)

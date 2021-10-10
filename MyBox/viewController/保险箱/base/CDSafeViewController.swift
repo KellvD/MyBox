@@ -40,17 +40,17 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 //        let pwdFlag = CDConfigFile.getIntValueFromConfigWith(key: .initPwd);
 //        if pwdFlag == NotInitPwd{
 //
-//            let alert = UIAlertController(title: LocalizedString("prompt"), message: LocalizedString("To protect the security of the files in the app, please set a password to open the app"), preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: LocalizedString("Set up now"), style: .default, handler: {[unowned self] (action) in
+//            let alert = UIAlertController(title: "提示", message: "为保护应用内文件的安全性，请设置打开APP的密码", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "立即设置", style: .default, handler: {[unowned self] (action) in
 //                let setPwdVC = CDSetPwdViewController()
 //                setPwdVC.isFake = false
 //                setPwdVC.isModify = !CDSignalTon.shared.basePwd.isEmpty
-//                setPwdVC.title = LocalizedString("Set password")
+//                setPwdVC.title = "设置密码".localize
 //                setPwdVC.hidesBottomBarWhenPushed = true
 //                self.navigationController?.pushViewController(setPwdVC, animated: true)
 //                CDConfigFile.setIntValueToConfigWith(key: .initPwd, intValue: DelayInitPwd);
 //            }))
-//            alert.addAction(UIAlertAction(title: LocalizedString("Set Up Later"), style: .cancel, handler: { (action) in
+//            alert.addAction(UIAlertAction(title: "稍后设置", style: .cancel, handler: { (action) in
 //                CDConfigFile.setIntValueToConfigWith(key: .initPwd, intValue: DelayInitPwd);
 //            }))
 //            
@@ -120,26 +120,26 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if (folderInfo.folderType == .ImageFolder){
             let imageVC = CDImageViewController()
             imageVC.folderInfo = folderInfo
-            imageVC.title = LocalizedString("Photo")
+            imageVC.title = "图片文件".localize
             imageVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(imageVC, animated: true)
 
         }else if (folderInfo.folderType == .AudioFolder){
             let audioVC = CDAudioViewController()
-            audioVC.title = LocalizedString("Audio")
+            audioVC.title = "音频文件".localize
             audioVC.gFolderInfo = folderInfo
             audioVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(audioVC, animated: true)
         }else if (folderInfo.folderType == .VideoFolder){
             let videoVC = CDVideoViewController()
             videoVC.folderInfo = folderInfo
-            videoVC.title = LocalizedString("Video")
+            videoVC.title = "视频文件".localize
             videoVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(videoVC, animated: true)
         }else if (folderInfo.folderType == .TextFolder){
             let textVC = CDTextViewController()
             textVC.gFolderInfo = folderInfo
-            textVC.title = LocalizedString("Text")
+            textVC.title = "文本文件".localize
             textVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(textVC, animated: true)
         }
@@ -149,7 +149,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     @available(iOS, introduced: 8.0, deprecated: 13.0)
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let folderInfo:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
-        let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
+        let detail = UITableViewRowAction(style: .normal, title: "详情".localize) { (action, index) in
             let folderDVC = CDFolderDetailViewController()
             folderDVC.folderInfo = folderInfo
             folderDVC.hidesBottomBarWhenPushed = true
@@ -157,7 +157,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }
         detail.backgroundColor = UIColor.blue
         if folderInfo.isLock == LockOn  {
-            let delete = UITableViewRowAction(style: .normal, title: LocalizedString(LocalizedString("delete"))) { (action, index) in
+            let delete = UITableViewRowAction(style: .normal, title: "删除".localize) { (action, index) in
                 CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
                 self.folderArr = CDSqlManager.shared.queryDefaultAllFolder()
                 tableView.reloadData()
@@ -172,7 +172,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     @available(iOS 11, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let folderInfo:CDSafeFolder = self.folderArr[indexPath.section][indexPath.row]
-        let detail = UIContextualAction(style: .normal, title: LocalizedString("Details")) { (action, view, handle) in
+        let detail = UIContextualAction(style: .normal, title: "详情".localize) { (action, view, handle) in
             let folderDVC = CDFolderDetailViewController()
             folderDVC.folderInfo = folderInfo
             folderDVC.hidesBottomBarWhenPushed = true
@@ -180,7 +180,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }
         detail.image = UIImage(named: "fileDetail")
         if folderInfo.isLock == LockOn  {
-            let delete = UIContextualAction(style: .normal, title: LocalizedString(LocalizedString("delete"))) { (action, view, handle) in
+            let delete = UIContextualAction(style: .normal, title: "删除".localize) { (action, view, handle) in
                 CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
                 self.folderArr = CDSqlManager.shared.queryDefaultAllFolder()
                 tableView.reloadData()

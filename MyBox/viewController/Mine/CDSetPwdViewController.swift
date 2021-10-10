@@ -24,7 +24,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
             oldPwdTextFiled.backgroundColor = UIColor.white
             oldPwdTextFiled.contentVerticalAlignment = .center
             oldPwdTextFiled.isSecureTextEntry = true
-            oldPwdTextFiled.placeholder = LocalizedString("Input the old password")
+            oldPwdTextFiled.placeholder = "请输入旧密码".localize
             view.addSubview(oldPwdTextFiled)
             oldPwdTextFiled.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 48))
             oldPwdTextFiled.leftViewMode = .always
@@ -35,7 +35,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         newPwdTextFiled.backgroundColor = UIColor.white
         newPwdTextFiled.contentVerticalAlignment = .center
         newPwdTextFiled.isSecureTextEntry = true
-        newPwdTextFiled.placeholder = LocalizedString("Input a new password, 6-12 digits and characters")
+        newPwdTextFiled.placeholder = "请输入新密码，6-12位数字和字符".localize
         view.addSubview(newPwdTextFiled)
         newPwdTextFiled.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 48))
         newPwdTextFiled.leftViewMode = .always
@@ -43,7 +43,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         confirmPwdTextFiled = UITextField(frame: CGRect(x: 0, y: newPwdTextFiled.frame.maxY+1, width: CDSCREEN_WIDTH, height: 48))
         confirmPwdTextFiled.backgroundColor = UIColor.white
         confirmPwdTextFiled.isSecureTextEntry = true
-        confirmPwdTextFiled.placeholder = LocalizedString("Input the password again")
+        confirmPwdTextFiled.placeholder = "请再次输入密码".localize
         view.addSubview(confirmPwdTextFiled)
         confirmPwdTextFiled.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 48))
         confirmPwdTextFiled.leftViewMode = .always
@@ -58,7 +58,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         button.setBackgroundImage(UIImage(named: "上导航栏-背景"), for: .normal)
         button.layer.cornerRadius = 4.0
         button.clipsToBounds = true
-        button.setTitle(LocalizedString("sure"), for: .normal)
+        button.setTitle("确定".localize, for: .normal)
         button.addTarget(self, action: #selector(onLoadPassWordClick), for: .touchUpInside)
         bottomView.addSubview(button)
         
@@ -66,8 +66,9 @@ class CDSetPwdViewController: CDBaseAllViewController {
         let tipLabel = UILabel(frame: CGRect(x: 15.0, y: bottomView.height - 15.0 - 80.0, width: bottomView.width - 15.0 * 2, height: 80.0))
         tipLabel.textColor = .baseBgColor
         tipLabel.numberOfLines = 0
-        tipLabel.font = TextSmallFont
-        tipLabel.text = isFake ? LocalizedString("Guest password can restrict third parties to view allowed file information. You can set whether to allow changed files to be viewed by third parties in file details and folder details."):LocalizedString("Set a password to protect your private files. You need to enter a password when logging in to prevent third parties from opening this application and viewing your data files.")
+        tipLabel.font = .small
+        tipLabel.text = isFake ? "访客密码是可限制第三方查看允许的文件资料，可在文件详情，文件夹详情中设置是否允许改文件被第三方查看。".localize :
+            "设置密码可保护您的私有文件，登录时需输入密码，防止第三方打开本应用，车看你的资料文件".localize
         bottomView.addSubview(tipLabel)
     }
 
@@ -78,15 +79,15 @@ class CDSetPwdViewController: CDBaseAllViewController {
         let confirmPwdStr = confirmPwdTextFiled.text
 
         if isModify && oldStr.isEmpty{
-            CDHUDManager.shared.showText(LocalizedString("Please enter the original password"))
+            CDHUDManager.shared.showText("请输入原始密码".localize)
         }else if pwdStr.isEmpty{
-            CDHUDManager.shared.showText(LocalizedString("Please enter a new password"))
+            CDHUDManager.shared.showText("请输入新密码".localize)
             return
         }else if pwdStr.count<6 || pwdStr.count>12{
-            CDHUDManager.shared.showText(LocalizedString("The password length does not match, 6-12 digits!"))
+            CDHUDManager.shared.showText("密码长度不符，6-12位!".localize)
             return
         }else if pwdStr != confirmPwdStr{
-            CDHUDManager.shared.showText(LocalizedString("The two passwords are inconsistent, please reenter"))
+            CDHUDManager.shared.showText("两次密码不一致,请重新输入".localize)
             return
         }
 
@@ -96,7 +97,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
                 let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
                 if fakePwd != oldStr.md5 {
                     //验证错误，重新输入
-                    CDHUDManager.shared.showText(LocalizedString("The original guest password is wrong, please reenter"))
+                    CDHUDManager.shared.showText("原始访客密码错误，请重新输入".localize)
                     return
                 }
                 //验证通过，保存
@@ -104,12 +105,12 @@ class CDSetPwdViewController: CDBaseAllViewController {
             }else{
                 let realPwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
                 if realPwd != pwdStr.md5 {
-                    CDHUDManager.shared.showText(LocalizedString("The original guest password is wrong, please reenter"))
+                    CDHUDManager.shared.showText("原始访客密码错误，请重新输入".localize)
                     return
                 }
                 CDSqlManager.shared.updateUserRealPwdWith(pwd: pwdStr.md5)
             }
-            CDHUDManager.shared.showComplete(LocalizedString("Password reset complete"))
+            CDHUDManager.shared.showComplete("密码修改成功".localize)
             CDPrintManager.log("密码修改成功", type: .InfoLog)
         }else{
             if !isFake {
@@ -121,7 +122,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
                 CDSqlManager.shared.updateUserFakePwdWith(pwd: pwdStr.md5)
                 CDPrintManager.log("访客密码设置成功", type: .InfoLog)
             }
-            CDHUDManager.shared.showComplete(LocalizedString("Password set complete"))
+            CDHUDManager.shared.showComplete("密码设置成功".localize)
             CDConfigFile.setIntValueToConfigWith(key: .initPwd, intValue: HasInitPwd)
             
         }

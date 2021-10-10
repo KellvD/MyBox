@@ -32,7 +32,13 @@ class CDMineViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     }
 
     lazy var optionArr: [[String]] = {
-        let arr:[[String]] = [[LocalizedString("About")],[LocalizedString("Storage")],[LocalizedString("Privacy")],[LocalizedString("Watermark")],[LocalizedString("Theme")],[LocalizedString("Log")],[LocalizedString("Sport")]]
+        let arr:[[String]] = [["设备详情".localize],
+                              ["文件存储".localize],
+                              ["隐私".localize],
+                              ["水印模式".localize],
+                              ["主题模式".localize],
+                              ["日志".localize],
+                              ["运动".localize]]
         return arr
     }()
     
@@ -73,10 +79,10 @@ class CDMineViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }
         let option = optionArr[indexPath.section][indexPath.row]
         cell.titleLabel.text = option
-        cell.swi.isHidden = option != LocalizedString("Watermark")
-        cell.accessoryType = option != LocalizedString("Watermark") ? .disclosureIndicator : .none
-        cell.selectionStyle =  option != LocalizedString("Watermark") ? .default : .none
-        if option == LocalizedString("Watermark") {
+        cell.swi.isHidden = option != "水印模式".localize
+        cell.accessoryType = option != "水印模式".localize ? .disclosureIndicator : .none
+        cell.selectionStyle =  option != "水印模式".localize ? .default : .none
+        if option == "水印模式".localize {
             cell.swi.isOn = CDSignalTon.shared.waterBean.isOn
             cell.swiBlock = {(swi) in
                 self.onWaterSwitchClick(swi: swi)
@@ -91,40 +97,40 @@ class CDMineViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         tableView.deselectRow(at: indexPath, animated: true)
         let option = optionArr[indexPath.section][indexPath.row]
         switch option {
-        case LocalizedString("About"):
+        case "设备详情".localize:
             let device = CDDeviceInfoViewController()
             device.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(device, animated: true)
             
-        case LocalizedString("Storage"):
+        case "文件存储".localize:
             let mem  = CDMemoryViewController()
             mem.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(mem, animated: true)
-        case LocalizedString("Privacy"):
+        case "隐私".localize:
             let privacy = CDOptionViewController()
             privacy.hidesBottomBarWhenPushed = true
-            privacy.title = LocalizedString("Privacy")
+            privacy.title = "隐私".localize
             privacy.optionArr = [.ChangePwd,.TouchID,.FakeSet]
             self.navigationController?.pushViewController(privacy, animated: true)
             
-        case LocalizedString("Watermark"):
+        case "水印模式".localize:
             if CDSignalTon.shared.waterBean.isOn {
                 self.pushSetWatermaek()
             }
-        case LocalizedString("Log"):
+        case "日志".localize:
             let logVC = CDOptionViewController()
             logVC.hidesBottomBarWhenPushed = true
-            logVC.title = LocalizedString("Log")
+            logVC.title = "日志".localize
             logVC.optionArr = [.LogSet,.LogPreview]
             self.navigationController?.pushViewController(logVC, animated: true)
-        case LocalizedString("Sport"):
+        case "运动":
             let mapVC = CDMapViewController()
             mapVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(mapVC, animated: true)
-        case LocalizedString("Theme"):
+        case "主题模式".localize:
             let themeVC = CDThemeViewController()
             themeVC.hidesBottomBarWhenPushed = true
-            themeVC.title = LocalizedString("Theme")
+            themeVC.title = "主题模式".localize
             self.navigationController?.pushViewController(themeVC, animated: true)
         default:
             break
@@ -135,7 +141,7 @@ class CDMineViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
     private func pushSetWatermaek(){
         let water = CDMarkFileViewController()
         water.hidesBottomBarWhenPushed = true
-        water.title = LocalizedString("Watermark")
+        water.title = "水印模式".localize
         water.maxTextCount = CDMaxWatermarkLength
         water.oldContent = CDSignalTon.shared.waterBean.text
         water.markType = .waterInfo
@@ -153,16 +159,16 @@ class CDMineViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         if swi.isOn {
             self.pushSetWatermaek()
         }else{
-            let alert = UIAlertController(title: nil, message: LocalizedString("Are you sure to turn off the watermark?"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (param:UIAlertAction) in
+            let alert = UIAlertController(title: nil, message:"确定关闭水印？".localize, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (param:UIAlertAction) in
                 swi.isOn = true
             }))
-            alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (param:UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (param:UIAlertAction) in
                 let myDelegate = UIApplication.shared.delegate as! CDAppDelegate
                 CDSignalTon.shared.removeWaterMarkFromWindow(window: myDelegate.window!)
                 CDWaterBean.setWaterConfig(isOn: false, text: GetAppName())
                 CDSignalTon.shared.waterBean = CDWaterBean()
-                let wartSet = [LocalizedString("Watermark")]
+                let wartSet = ["水印模式".localize]
                 let index = self.optionArr.firstIndex(of: wartSet)!
                 let waterPath = IndexPath(row: 0, section: index)
                 self.tableview.reloadRows(at: [waterPath], with: .none)

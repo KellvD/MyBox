@@ -2,8 +2,8 @@
 //  CDTextView.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/9.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/9.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -22,10 +22,10 @@ class CDTextView: UITextView,CDInputViewDelegate {
         
         CDTextViewConfig.share.superVC = subViewController
         CDTextViewConfig.share.textView = self
-        self.inputAccessoryView = CDTextViewConfig.share.accessoryView
+//        self.inputAccessoryView = CDTextViewConfig.share.accessoryView
         self.layoutManager.allowsNonContiguousLayout = false
 
-        CDTextViewConfig.share.updateTextView()
+//        CDTextViewConfig.share.updateTextView()
         subViewController.view.addSubview(self)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         

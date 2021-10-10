@@ -28,7 +28,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             let footView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: CDSCREEN_WIDTH, height: 100.0))
             footView.backgroundColor = UIColor.clear
 
-            let button = UIButton(frame: CGRect(x: 30, y: 30, width: CDSCREEN_WIDTH-60, height: 48), text: LocalizedString("delete"), textColor: .white, imageNormal: nil, target: self, function: #selector(delectFolderClick), supView: footView)
+            let button = UIButton(frame: CGRect(x: 30, y: 30, width: CDSCREEN_WIDTH-60, height: 48), text: "删除", textColor: .white, imageNormal: nil, target: self, function: #selector(delectFolderClick), supView: footView)
             button.backgroundColor = .red
             button.layer.cornerRadius = 4.0
             footView.addSubview(button)
@@ -37,9 +37,9 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     }
     
     lazy var optionTitleArr: [[String]] = {
-        var arr = [[LocalizedString("Name")],[LocalizedString("Created time"),LocalizedString("Modified Time")],[LocalizedString("Number of files"),LocalizedString("Length")],[LocalizedString("Visitors are not visible")]]
+        var arr = [["名称"],["创建时间","修改时间"],["文件数量","大小"],["访客不可见"]]
         if CDSignalTon.shared.loginType == .fake {
-            arr = [[LocalizedString("Name")],[LocalizedString("Created time"),LocalizedString("Modified Time")],[LocalizedString("Number of files"),LocalizedString("Length")]]
+            arr = [["名称"],["创建时间","修改时间"],["文件数量","大小"]]
         }
         return arr
     }()
@@ -105,11 +105,11 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         cell.titleLabel.text = optionTitle
         cell.valueLabel.text = optionValueArr[indexPath.section][indexPath.row]
         cell.valueLabel.isHidden = false
-        cell.swi.isHidden = optionTitle != LocalizedString("Visitors are not visible")
-        cell.accessoryType = (optionTitle == LocalizedString("Name") && folderInfo.isLock == LockOn) ? .disclosureIndicator : .none
-        cell.selectionStyle = (optionTitle == LocalizedString("Name") && folderInfo.isLock == LockOn) ? .default : .none
+        cell.swi.isHidden = optionTitle != "访客不可见".localize
+        cell.accessoryType = (optionTitle == "名称".localize && folderInfo.isLock == LockOn) ? .disclosureIndicator : .none
+        cell.selectionStyle = (optionTitle == "名称".localize && folderInfo.isLock == LockOn) ? .default : .none
 
-        if optionTitle == LocalizedString("Visitors are not visible") {
+        if optionTitle == "访客不可见".localize {
             cell.swi.isOn = CDSignalTon.shared.fakeSwitch
             cell.swiBlock = {(swi) in
                 self.chnageFakeModel(swi: swi)
@@ -122,9 +122,9 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let optionTitle = optionTitleArr[indexPath.section][indexPath.row]
-        if optionTitle == LocalizedString("Name") && folderInfo.isLock == LockOn {
+        if optionTitle == "名称" && folderInfo.isLock == LockOn {
             let markVC = CDMarkFileViewController()
-            markVC.title = LocalizedString("Renamed")
+            markVC.title = "重命名"
             markVC.maxTextCount = 60
             markVC.oldContent = folderInfo.folderName
             markVC.markType = .folderName
@@ -134,7 +134,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
                 self!.folderInfo.folderName = newContent!
                 self!.initOptionValue()
                 self!.tableView.reloadData()
-                CDHUDManager.shared.showComplete(LocalizedString("Remarks complete"))
+                CDHUDManager.shared.showComplete("备注成功！")
             }
             self.navigationController?.pushViewController(markVC, animated: true)
         }
@@ -144,11 +144,11 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     @objc func chnageFakeModel(swi:UISwitch){
 
         if swi.isOn{
-            CDHUDManager.shared.showText(LocalizedString("Not visible to visitors"))
+            CDHUDManager.shared.showText("访客可见模式关闭".localize)
             CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
             CDPrintManager.log("访客可见模式关闭", type: .InfoLog)
         }else{
-             CDHUDManager.shared.showText(LocalizedString("Visible to visitors"))
+            CDHUDManager.shared.showText("访客可见模式打开".localize)
             CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .visible, folderId: folderInfo.folderId)
             CDPrintManager.log("访客可见模式打开", type: .InfoLog)
         }
@@ -163,10 +163,10 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         for fileInfo in allFileArr {
             if fileInfo.folderType == .ImageFolder || fileInfo.folderType == .VideoFolder {
                 let thumpPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
-                DeleteFile(filePath: thumpPath)
+                thumpPath.delete()
             }
             let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-            DeleteFile(filePath: defaultPath)
+            defaultPath.delete()
             CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
         }
 

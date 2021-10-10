@@ -35,7 +35,7 @@ class CDLogBean: NSObject {
        
         get {
             let name = CDConfigFile.getValueFromConfigWith(key: .logName)
-            return name == "" ? "log \(GetTimeFormat(GetTimestamp())).log" : name
+            return name == "" ? "log \(GetTimeFormat(GetTimestamp(nil))).log" : name
         }
     }
     

@@ -56,7 +56,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
         self.backBtn = UIButton(type: .custom)
         self.backBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        self.backBtn.setTitle(LocalizedString("back"), for: .normal)
+        self.backBtn.setTitle("返回".localize, for: .normal)
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
         
@@ -73,11 +73,11 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         selectCount = 0
         batchBtn.isSelected = isBatch
         if (batchBtn.isSelected) { //点了批量操作
-            backBtn.setTitle(LocalizedString("select all"), for: .normal)
+            backBtn.setTitle("全选".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: true)
         } else {
-            backBtn.setTitle(LocalizedString("back"), for: .normal)
+            backBtn.setTitle("返回".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             videoArr.forEach { (tmpFile) in
@@ -92,7 +92,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     @objc func backBtnClick() -> Void {
         if batchBtn.isSelected { //
             selectedVideoArr.removeAll()
-            if (self.backBtn.currentTitle == LocalizedString("select all")) { //全选
+            if (self.backBtn.currentTitle == "全选".localize) { //全选
                 videoArr.forEach { (file) in
                     file.isSelected = .CDTrue
                 }
@@ -117,9 +117,9 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         if selectCount == videoArr.count && videoArr.count > 0{
             backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
             backBtn.contentHorizontalAlignment = .left
-            backBtn.setTitle(LocalizedString("unselect all"), for: .normal)
+            backBtn.setTitle("全不选".localize, for: .normal)
         }else{
-            backBtn.setTitle(LocalizedString("select all"), for: .normal)
+            backBtn.setTitle("全选".localize, for: .normal)
         }
         collectionView.reloadData()
     }
@@ -144,7 +144,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         for index in 0..<self.selectedVideoArr.count{
             let file:CDSafeFileInfo = self.selectedVideoArr[index]
             let videoPath = String.RootPath().appendingPathComponent(str: file.filePath)
-            let url = URL(fileURLWithPath: videoPath)
+            let url = videoPath.url
             shareArr.append(url as NSObject)
         }
         
@@ -172,11 +172,11 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     //MARK:导出
     @objc func outputBarItemClick(){
         handelSelectedArr()
-        let alert = UIAlertController(title: nil, message: LocalizedString("Are you sure you export the selected photo to the system album?"), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
-        alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
+        let alert = UIAlertController(title: nil, message: "您确定要导出选中的图片到系统相册？".localize, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (action) in }))
+        alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (action) in
             DispatchQueue.main.async  {
-                CDHUDManager.shared.showWait(LocalizedString("Processing..."))
+                CDHUDManager.shared.showWait("正在处理中...".localize)
                 self.outputVideoArr = self.selectedVideoArr
                 self.outputVideoToLocal()
                 
@@ -197,7 +197,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 }else{
                     let filsC:CDSafeFileInfo = outputVideoArr[0];
                     let thumpVideoPath = String.RootPath().appendingPathComponent(str: filsC.thumbImagePath)
-                    DeleteFile(filePath: thumpVideoPath)
+                    thumpVideoPath.delete()
                     outputVideoArr.remove(at: 0)
                     outputVideoToLocal()
                 }
@@ -205,7 +205,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             }
         }else{
             CDHUDManager.shared.hideWait()
-            CDHUDManager.shared.showComplete(LocalizedString("Export complete"))
+            CDHUDManager.shared.showComplete("导出完成！".localize)
             self.refreshData()
             self.batchHandleFiles(isBatch: false)
         }
@@ -220,17 +220,17 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     //MARK:删除
     @objc func deleteBarItemClick(){
         handelSelectedArr()
-        let btnTitle = selectedVideoArr.count > 1 ? LocalizedString("Delete %@ videos","\(selectedVideoArr.count)") : LocalizedString("Delete video")
+        let btnTitle = selectedVideoArr.count > 1 ? String(format: "删除%d条视频".localize, selectedVideoArr.count) : "删除视频".localize
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
-            CDHUDManager.shared.showWait(LocalizedString("Processing..."))
+            CDHUDManager.shared.showWait("正在处理中...".localize)
             DispatchQueue.global().async {
                 
                 self.selectedVideoArr.forEach { (tmpFile) in
                     let thumbPath = String.RootPath().appendingPathComponent(str: tmpFile.thumbImagePath)
-                    DeleteFile(filePath: thumbPath)
+                    thumbPath.delete()
                     let defaultPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
-                    DeleteFile(filePath: defaultPath)
+                    defaultPath.delete()
                     CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                 
                     //删除元数据数组
@@ -239,13 +239,13 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 }
                 DispatchQueue.main.async {
                     CDHUDManager.shared.hideWait()
-                    CDHUDManager.shared.showComplete(LocalizedString("Delete complete"))
+                    CDHUDManager.shared.showComplete("删除完成".localize)
                     self.batchHandleFiles(isBatch: false)
                 }
             }
             
         }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
 
@@ -254,7 +254,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         handelSelectedArr()
         
         let sheet = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: LocalizedString("Stitched Video"), style: .destructive, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: "拼接视频".localize, style: .destructive, handler: { (action) in
             let appendVC = CDAppendVideoViewController()
 //            appendVC.fileArr = self.selectedImageArr
 //            appendVC.folderId = self.folderInfo.folderId
@@ -271,7 +271,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             self.navigationController?.pushViewController(appendVC, animated: true)
             
         }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
     
@@ -295,7 +295,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
     }
     //MARK:导入
-    @objc func inputItemClick() -> Void {
+    @objc func importItemClick() -> Void {
         checkPermission(type: . library) { (isAllow) in
             if isAllow {
                 DispatchQueue.main.async {
@@ -361,6 +361,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             let scrollerVC = CDVideoScrollerViewController()
             scrollerVC.fileArr = videoArr
             scrollerVC.currentIndex = indexPath.item
+            scrollerVC.folderId = folderInfo.folderId
             self.navigationController?.pushViewController(scrollerVC, animated: true)
         }
     }
@@ -371,7 +372,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
         let tmpUrl = data["fileURL"] as! URL
         
-        CDSignalTon.shared.saveSafeFileInfo(fileUrl: tmpUrl, folderId: folderInfo
+        CDSignalTon.shared.saveFileWithUrl(fileUrl: tmpUrl, folderId: folderInfo
             .folderId, subFolderType: .VideoFolder,isFromDocment: false)
         func pickOver(){
             CDSignalTon.shared.customPickerView = nil
@@ -382,16 +383,16 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             //只有一个，不加载进度条
             if 1 == totalCount  {
                 pickOver()
-                CDHUDManager.shared.showComplete(LocalizedString("Export complete"))
+                CDHUDManager.shared.showComplete("导入完成！".localize)
             } else {
                 if index == 1 { //第一个出现进度条
-                    CDHUDManager.shared.showProgress(LocalizedString("Start importing" ))
+                    CDHUDManager.shared.showProgress("开始导入...".localize)
                     CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
                 } else if index == totalCount {
                     
                     CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
                     CDHUDManager.shared.hideProgress()
-                    CDHUDManager.shared.showComplete(LocalizedString("Export complete"))
+                    CDHUDManager.shared.showComplete("导入完成！".localize)
                     pickOver()
                 }else{
                     CDHUDManager.shared.updateProgress(num: Float(index)/Float(totalCount), text: "第\(index)个 共\(totalCount)个")
@@ -408,12 +409,12 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, obj: Dictionary<String, Any>) {
+    func onCameraTakeVideoDidFinshed(cameraVC: CDCameraViewController, obj: CDCameraVideoConfig) {
         isNeedReloadData = true
-        let videoUrl = obj["fileURL"] as! URL
-        CDSignalTon.shared.saveSafeFileInfo(fileUrl: videoUrl, folderId: folderInfo.folderId, subFolderType: .VideoFolder,isFromDocment: false)
+        let videoUrl = obj.fileUrl
+        CDSignalTon.shared.saveFileWithUrl(fileUrl: videoUrl, folderId: folderInfo.folderId, subFolderType: .VideoFolder,isFromDocment: false)
         CDSignalTon.shared.customPickerView = nil
-        cameraVC.dismiss(animated: true, completion: nil)
+//        cameraVC.dismiss(animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

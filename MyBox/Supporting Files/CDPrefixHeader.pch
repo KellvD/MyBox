@@ -9,5 +9,5 @@
 #ifndef CDPrefixHeader_pch
 #define CDPrefixHeader_pch
 
-@import Masonry
+@import LFFilterSuiteHeader
 #endif /* CDPrefixHeader_pch */

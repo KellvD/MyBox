@@ -8,11 +8,13 @@
 
 import UIKit
 import MediaPlayer
-class CDVideoScrollerViewController: CDBaseAllViewController,
-                                     UICollectionViewDelegate,
-                                     UICollectionViewDataSource {
+import CDMediaEditor
+
+
+class CDVideoScrollerViewController: CDBaseAllViewController{
     public var fileArr:[CDSafeFileInfo] = []
     public var currentIndex:Int!
+    public var folderId:Int!
     
     private var collectionView:UICollectionView!
     private var toolBar:CDToolBar!
@@ -65,7 +67,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController,
         indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: self.toolBar.minY - 40, width: 50, height: 30))
         indexLabel.textAlignment = .center
         indexLabel.textColor = UIColor.lightGray
-        indexLabel.font = TextMidFont
+        indexLabel.font = .mid
         indexLabel.text = String(format: "%d/%d", currentIndex+1,fileArr.count)
         indexLabel.backgroundColor = UIColor.clear
         self.view.addSubview(indexLabel)
@@ -73,6 +75,120 @@ class CDVideoScrollerViewController: CDBaseAllViewController,
         self.view.addGestureRecognizer(videoTap)
     }
     
+   
+    
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        //暂停上次播放的
+//        print("滚动前--")
+//        
+//        stopCurrentPlayCell()
+//    }
+    
+    
+    @objc func detailBtnClicked(){
+        let fileInfo = fileArr[currentIndex]
+        let fileDetail = CDFileDetailViewController()
+        fileDetail.fileInfo = fileInfo
+        self.navigationController?.pushViewController(fileDetail, animated: true)
+    }
+    
+    //MARK:分享
+    @objc func shareItemClick(){
+        let fileInfo = fileArr[currentIndex]
+        let videoPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
+        let url = videoPath.url
+        presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
+    }
+    
+    //MARK:收藏
+    @objc func loveItemClick(){
+        let fileInfo = fileArr[currentIndex]
+
+        if fileInfo.grade == .normal {
+            fileInfo.grade = .lovely
+            self.toolBar.loveItem.setImage(LoadImage("menu_love_press"), for: .normal)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
+        }else{
+            fileInfo.grade = .normal
+            self.toolBar.loveItem.setImage(LoadImage("menu_love_normal"), for: .normal)
+            CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
+        }
+
+        self.fileArr[currentIndex] = fileInfo
+    }
+    
+    @objc func editItemClick(){
+        let fileInfo = fileArr[currentIndex]
+        let videoUrl = String.RootPath().appendingPathComponent(str: fileInfo.filePath).url
+        let config = VideoEditorConfiguration()
+        let videoEditVC = EditorController(videoURL: videoUrl, config: config)
+        videoEditVC.modalPresentationStyle = .fullScreen
+        videoEditVC.videoEditorDelegate = self
+        present(videoEditVC, animated: true, completion: nil)
+        
+
+    }
+    //MARK:删除
+    @objc func deleteBarItemClick()
+    {
+        let fileInfo = fileArr[currentIndex]
+
+        let sheet = UIAlertController(title: nil, message: "删除照片".localize, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "确定".localize, style: .destructive, handler: { (action) in
+           
+            let thumbPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
+            thumbPath.delete()
+            //删除加密大图
+            let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
+            defaultPath.delete()
+            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
+
+            DispatchQueue.main.async {
+                CDHUDManager.shared.hideWait()
+                CDHUDManager.shared.showText("删除完成".localize)
+
+            }
+
+        }))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
+        self.present(sheet, animated: true, completion: nil)
+
+    }
+    
+    @objc func shareBarItemClick(){
+        let fileInfo = fileArr[currentIndex]
+        let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
+        let url = defaultPath.url
+        presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
+    }
+    
+
+    func stopCurrentPlayCell(){
+        let indexPath = IndexPath(item: self.currentIndex, section: 0)
+        let cell:CDVideoScrollerCell = self.collectionView.cellForItem(at: indexPath) as! CDVideoScrollerCell
+        cell.stopPlayer()
+
+
+    }
+    
+    //MARK:NotificationCenter
+    @objc func onBarsHiddenOrNot(){
+        self.isHiddenBottom = !self.isHiddenBottom
+        UIView.animate(withDuration: 0.25) {
+            self.toolBar.minY = self.isHiddenBottom ? CDSCREEN_HEIGTH : (CDSCREEN_HEIGTH - BottomBarHeight)
+        }
+        
+        self.navigationController?.setNavigationBarHidden(self.isHiddenBottom, animated: true)
+    }
+    
+    
+    
+    
+}
+
+
+extension CDVideoScrollerViewController:UICollectionViewDelegate,
+                                        UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fileArr.count
     }
@@ -100,99 +216,26 @@ class CDVideoScrollerViewController: CDBaseAllViewController,
         
 
     }
-    
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        //暂停上次播放的
-//        print("滚动前--")
-//        
-//        stopCurrentPlayCell()
-//    }
-    
-    
-    @objc func detailBtnClicked(){
-        let fileInfo = fileArr[currentIndex]
-        let fileDetail = CDFileDetailViewController()
-        fileDetail.fileInfo = fileInfo
-        self.navigationController?.pushViewController(fileDetail, animated: true)
-    }
-    
-    //MARK:分享
-    @objc func shareItemClick(){
-        let fileInfo = fileArr[currentIndex]
-        let videoPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-        let url = URL(fileURLWithPath: videoPath)
-        presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
-    }
-    
-    //MARK:收藏
-    @objc func loveItemClick(){
-        let fileInfo = fileArr[currentIndex]
-
-        if fileInfo.grade == .normal {
-            fileInfo.grade = .lovely
-            self.toolBar.loveItem.setImage(LoadImage("menu_love_press"), for: .normal)
-            CDSqlManager.shared.updateOneSafeFileGrade(grade: .lovely, fileId: fileInfo.fileId)
-        }else{
-            fileInfo.grade = .normal
-            self.toolBar.loveItem.setImage(LoadImage("menu_love_normal"), for: .normal)
-            CDSqlManager.shared.updateOneSafeFileGrade(grade: .normal, fileId: fileInfo.fileId)
-        }
-
-        self.fileArr[currentIndex] = fileInfo
-    }
-    
-    @objc func editItemClick(){
-        let fileInfo = fileArr[currentIndex]
-        let segmentVC = CDSegmentVideoViewController()
-        segmentVC.videoInfo = fileInfo
-        self.navigationController?.pushViewController(segmentVC, animated: true)
-
-    }
-    //MARK:删除
-    @objc func deleteBarItemClick()
-    {
-        let fileInfo = fileArr[currentIndex]
-
-        let sheet = UIAlertController(title: nil, message: LocalizedString("delete photo"), preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .destructive, handler: { (action) in
-           
-            let thumbPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
-            DeleteFile(filePath: thumbPath)
-            //删除加密大图
-            let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-            DeleteFile(filePath: defaultPath)
-            CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
-
-            DispatchQueue.main.async {
-                CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showText(LocalizedString("Delete complete"))
-
-            }
-
-        }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
-        self.present(sheet, animated: true, completion: nil)
-
-    }
-
-    func stopCurrentPlayCell(){
-        let indexPath = IndexPath(item: self.currentIndex, section: 0)
-        let cell:CDVideoScrollerCell = self.collectionView.cellForItem(at: indexPath) as! CDVideoScrollerCell
-        cell.stopPlayer()
-
-
-    }
-    
-    //MARK:NotificationCenter
-    @objc func onBarsHiddenOrNot(){
-        self.isHiddenBottom = !self.isHiddenBottom
-        var rect = self.toolBar.frame
-        UIView.animate(withDuration: 0.25) {
-            rect.origin.y = self.isHiddenBottom ? CDSCREEN_HEIGTH : (CDSCREEN_HEIGTH - BottomBarHeight)
-            self.toolBar.frame = rect
-        }
-        
-        self.navigationController?.setNavigationBarHidden(self.isHiddenBottom, animated: true)
-    }
-    
 }
+
+extension CDVideoScrollerViewController:VideoEditorViewControllerDelegate{
+    func videoEditorViewController(_ videoEditorViewController: VideoEditorViewController, didFinish result: VideoEditResult){
+        CDHUDManager.shared.showComplete("剪辑完成")
+        CDSignalTon.shared.saveFileWithUrl(fileUrl: result.editedURL, folderId: folderId, subFolderType: .VideoFolder,isFromDocment: false)
+    }
+    
+    
+    func videoEditorViewController(_ videoEditorViewController: VideoEditorViewController, loadMusic completionHandler: @escaping ([VideoEditorMusicInfo]) -> Void) -> Bool {
+        let audioArr = CDSqlManager.shared.queryAllFile(fileType: .AudioType)
+        var musicArr:[VideoEditorMusicInfo] = []
+        for audio in audioArr {
+            let pathUrl = audio.filePath.rootPath.url
+            let music = VideoEditorMusicInfo(audioURL: pathUrl, lrc: "")
+            musicArr.append(music)
+        }
+        completionHandler(musicArr)
+        return true
+    }
+}
+
+

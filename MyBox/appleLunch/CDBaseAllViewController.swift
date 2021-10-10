@@ -39,10 +39,9 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     override func viewWillLayoutSubviews() {
         if #available(iOS 12.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark{
-                print("暗黑模式")
             }else{
                 //
-                print("正常模式")
+
             }
         } else {
             // Fallback on earlier versions
@@ -97,7 +96,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                                         return
                                     }
                                 }else{
-                                    CDSignalTon.shared.saveSafeFileInfo(fileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType,isFromDocment: true)
+                                    CDSignalTon.shared.saveFileWithUrl(fileUrl: newUrl, folderId: self.subFolderId, subFolderType: self.subFolderType,isFromDocment: true)
                                     tmpUrlArr.removeFirst()
                                     handleAllDocumentPickerFiles(urlArr: tmpUrlArr)
                                 }
@@ -117,9 +116,9 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                     DispatchQueue.main.async {
                         CDHUDManager.shared.hideProgress()
                         if errorArr.count == 0{
-                            CDHUDManager.shared.showComplete(LocalizedString("import complete"))
+                            CDHUDManager.shared.showComplete("导入完成".localize)
                         }else{
-                            CDHUDManager.shared.showComplete(LocalizedString("some files failed to import"))
+                            CDHUDManager.shared.showComplete("部分文件导入失败".localize)
                         }
                         
                         self.processHandle?(true)
@@ -130,7 +129,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
             
         }
         handleAllDocumentPickerFiles(urlArr: urls)
-        CDHUDManager.shared.showProgress(LocalizedString("start import"))
+        CDHUDManager.shared.showProgress("开始导入".localize)
     }
 
     
@@ -150,11 +149,11 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     func alertSpaceWarn(alertType:DiskSpaceAlertType) {
         let message:String = alertType.rawValue
 
-        let alert = UIAlertController(title: LocalizedString("warning"), message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "警告".localize, message: message, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: LocalizedString("NO"), style: .cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "否".localize, style: .cancel, handler: { (action) in
         }))
-        alert.addAction(UIAlertAction(title: LocalizedString("yes"), style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "是".localize, style: .default, handler: { (action) in
 
         }))
         self.present(alert, animated: true, completion: nil)

@@ -7,14 +7,13 @@
 //
 
 import UIKit
-let PADDING = 10
+import CDMediaEditor
 
-class CDImageScrollerViewController: CDBaseAllViewController,
-                                     UICollectionViewDelegate,
-                                     UICollectionViewDataSource{
+class CDImageScrollerViewController: CDBaseAllViewController {
     
     public var inputArr:[CDSafeFileInfo] = [] //所有照片文件
     public var currentIndex:Int!   //当前索引位置
+    public var folderId:Int!
     
     private var indexLabel:UILabel!
     private var collectionView:UICollectionView!
@@ -37,7 +36,12 @@ class CDImageScrollerViewController: CDBaseAllViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false;
+        if #available(iOS 10, *) {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }else{
+            
+        }
+        
         let fileInfo = inputArr[currentIndex]
         self.title = fileInfo.fileName
         let layout = UICollectionViewFlowLayout()
@@ -55,7 +59,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,
         view.addSubview(collectionView)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageScrollerr")
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)
-
+//        collectionView.contentInsetAdjustmentBehavior = false
        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage("fileDetail"), style: .plain, target: self, action: #selector(detailBtnClicked))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
@@ -67,7 +71,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,
         indexLabel = UILabel(frame: CGRect(x: (CDSCREEN_WIDTH - 50)/2, y: self.toolBar.minY - 40, width: 50, height: 30))
         indexLabel.textAlignment = .center
         indexLabel.textColor = UIColor.lightGray
-        indexLabel.font = TextMidFont
+        indexLabel.font = .mid
         indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
         indexLabel.backgroundColor = UIColor.clear
         self.view.addSubview(indexLabel)
@@ -80,40 +84,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,
         return bar
     }()
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inputArr.count
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageScrollerr", for: indexPath) as! CDImageCell
-        let tmpFile:CDSafeFileInfo = inputArr[indexPath.item]
-        cell.setScrollerImageData(fileInfo: tmpFile)
-        cell.longTapHandle = {(massage) -> Void in
-            self.tapQR(message: massage)
-            
-        }
-
-        return cell
-    }
-
- 
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let firstIndexPath = collectionView.indexPathsForVisibleItems.first
-        
-        let page = firstIndexPath!.item
-        let fileinfo = inputArr[page]
-        DispatchQueue.main.async {
-            self.toolBar.loveItem.setImage(LoadImage(fileinfo.grade == .lovely ? "menu_love_press" : "menu_love_normal"), for: .normal)
-            self.toolBar.editItem.isEnabled = !(fileinfo.fileType == .GifType)
-        }
-
-        self.title = fileinfo.fileName
-        currentIndex = page
-        indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
-    }
-    
+   
     
     func tapQR(message:String){
         let sheet = UIAlertController(title: "", message: "二维码", preferredStyle: .actionSheet)
@@ -122,7 +93,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,
             webVC.url = URL(string: message)!
             self.navigationController?.pushViewController(webVC, animated: true)
         }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
         
     }
@@ -138,7 +109,7 @@ class CDImageScrollerViewController: CDBaseAllViewController,
     {
         let fileInfo = inputArr[currentIndex]
         let imagePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-        let url = URL(fileURLWithPath: imagePath)
+        let url = imagePath.url
         presentShareActivityWith(dataArr: [url as NSObject]) { (error) in}
     }
     
@@ -161,30 +132,33 @@ class CDImageScrollerViewController: CDBaseAllViewController,
     @objc func deleteBarItemClick()
     {
         let fileInfo = inputArr[currentIndex]
-        let sheet = UIAlertController(title: nil, message: LocalizedString("Delete Photo"), preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: LocalizedString("sure"), style: .destructive, handler: { (action) in
+        let sheet = UIAlertController(title: nil, message: "删除照片".localize, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "确定".localize, style: .destructive, handler: { (action) in
             let thumbPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)
-            DeleteFile(filePath: thumbPath)
+            thumbPath.delete()
             let defaultPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-            DeleteFile(filePath: defaultPath)
+            defaultPath.delete()
             CDSqlManager.shared.deleteOneSafeFile(fileId: fileInfo.fileId)
             self.inputArr.remove(at: self.currentIndex!)
             DispatchQueue.main.async {
-                CDHUDManager.shared.showComplete(LocalizedString("Delete complete"))
+                CDHUDManager.shared.showComplete("删除完成".localize)
                 self.collectionView.reloadData()
             }
 
         }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
 
     }
     
     @objc func editItemClick(){
-        let editVC = CDImageEditViewController()
-        editVC.imageInfo = inputArr[currentIndex]
-        editVC.modalPresentationStyle = .fullScreen
-        self.present(editVC, animated: true, completion: nil)
+        let fileInfo = inputArr[currentIndex]
+        let image = UIImage(contentsOfFile: String.RootPath().appendingPathComponent(str: fileInfo.filePath))
+        let photoConfig = PhotoEditorConfiguration()
+        let vc = EditorController.init(image: image!, config: photoConfig)
+        vc.photoEditorDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
 
@@ -202,10 +176,51 @@ class CDImageScrollerViewController: CDBaseAllViewController,
 
     }
 
+}
 
+
+extension CDImageScrollerViewController:UICollectionViewDelegate,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return inputArr.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageScrollerr", for: indexPath) as! CDImageCell
+        let tmpFile:CDSafeFileInfo = inputArr[indexPath.item]
+        cell.setScrollerImageData(fileInfo: tmpFile)
+        cell.longTapHandle = {(massage) -> Void in
+            self.tapQR(message: massage)
+        }
+        return cell
+    }
+
+ 
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let firstIndexPath = collectionView.indexPathsForVisibleItems.first
+        
+        let page = firstIndexPath!.item
+        let fileinfo = inputArr[page]
+        DispatchQueue.main.async {
+            self.toolBar.loveItem.setImage(LoadImage(fileinfo.grade == .lovely ? "menu_love_press" : "menu_love_normal"), for: .normal)
+            self.toolBar.editItem.isEnabled = !(fileinfo.fileType == .GifType)
+        }
+
+        self.title = fileinfo.fileName
+        currentIndex = page
+        indexLabel.text = String(format: "%d/%d", currentIndex+1,inputArr.count)
+    }
+    
+}
+
+extension CDImageScrollerViewController:PhotoEditorViewControllerDelegate{
+    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, didFinish result: PhotoEditResult) {
+        
+        CDSignalTon.shared.saveFileWithUrl(fileUrl:result.editedImageURL, folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
+    }
+    
+//    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, loadTitleChartlet response: @escaping EditorTitleChartletResponse) {
+//        
+//    }
     
     
-
-
-
 }

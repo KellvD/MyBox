@@ -2,8 +2,8 @@
 //  CDRootViewController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2021/2/26.
-//  Copyright © 2021 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2021/2/26.
+//  Copyright © 2021 changdong. All rights reserved.
 //
 
 import UIKit
@@ -60,7 +60,7 @@ class CDRootViewController: UIViewController,UIScrollViewDelegate {
     }
 
     let enterBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 4.0 * CDSCREEN_WIDTH - 15.0 - 75.0, y: CDSCREEN_HEIGTH - 15.0 - 30, width: 75.0, height: 30.0), text: LocalizedString("Jump"), textColor: .red, target: self, function: #selector(onEnterBoxView))
+        let btn = UIButton(frame: CGRect(x: 4.0 * CDSCREEN_WIDTH - 15.0 - 75.0, y: CDSCREEN_HEIGTH - 15.0 - 30, width: 75.0, height: 30.0), text: "跳过".localize, textColor: .red, target: self, function: #selector(onEnterBoxView))
         btn.layer.borderWidth = 2.0
         btn.layer.borderColor = UIColor.gray.cgColor
         btn.layer.cornerRadius = 4.0

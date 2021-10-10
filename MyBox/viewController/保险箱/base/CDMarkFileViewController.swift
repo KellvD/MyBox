@@ -27,11 +27,11 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         super.viewDidLoad()
 
         self.view.backgroundColor = .baseBgColor
-        noteTextView = UITextView(frame: CGRect(x: 5, y: 15, width: CDSCREEN_WIDTH - 10, height: 150),placeHolder: LocalizedString("Please enter %@ content...", self.title!))
+        noteTextView = UITextView(frame: CGRect(x: 5, y: 15, width: CDSCREEN_WIDTH - 10, height: 150),placeHolder: String(format: "请输入%@内容...".localize, self.title!))
         view.addSubview(noteTextView)
         noteTextView.delegate = self
         noteTextView.addRadius(corners: .allCorners, size: CGSize(width: 4, height: 4))
-        noteTextView.font = TextMidFont
+        noteTextView.font = .mid
         noteTextView.text = oldContent
 
         noteTextView.becomeFirstResponder()
@@ -40,10 +40,10 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         remainNumberLabel = UILabel(frame: CGRect(x: 5, y: noteTextView.frame.maxY, width: CDSCREEN_WIDTH-10, height: 20));
         remainNumberLabel.text = "\(infoLength)/\(maxTextCount)"
         remainNumberLabel.textAlignment = .right
-        remainNumberLabel.textColor = CustomBlueColor
+        remainNumberLabel.textColor = .customBlue
         view.addSubview(remainNumberLabel)
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: LocalizedString("sure"), style: .plain, target: self, action: #selector(onSureBtnClick))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "确定".localize, style: .plain, target: self, action: #selector(onSureBtnClick))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
     }
@@ -52,10 +52,10 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         var tmpStr = noteTextView.text
         let len = tmpStr?.getLength(needTrimSpaceCheck: true)
         if len! > maxTextCount {
-            CDHUDManager.shared.showText(LocalizedString("The input character length cannot exceed %@ characters", "\(maxTextCount)"))
+            CDHUDManager.shared.showText(String(format: "输入字符长度不能超过%d个字符".localize, "\(maxTextCount)"))
             return
         }else if len == 0{
-            CDHUDManager.shared.showText(LocalizedString("Nothing has been entered"))
+            CDHUDManager.shared.showText("尚未输入内容".localize)
             return
         }
         remainNumberLabel.text = "\(len ?? 0)/\(maxTextCount)"
@@ -63,14 +63,14 @@ class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
         if markType  == .fileName || markType  == .folderName{
             tmpStr = noteTextView.text.removeSpaceAndNewline()
             if oldContent.count == 0{
-                CDHUDManager.shared.showText(LocalizedString("File name cannot be empty"))
+                CDHUDManager.shared.showText("文件名不能为空".localize)
                 return
             }
 
             if(oldContent.matches(pattern: symbolExpression) ||
                 oldContent.isContainsEmoji()){
-                let alert = UIAlertController(title: nil, message: LocalizedString("The name cannot contain emoticons and characters"), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: LocalizedString("Understood"), style: .cancel, handler: nil))
+                let alert = UIAlertController(title: nil, message: "名称中不能包含表情及字符".localize, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "知道了".localize, style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 return
             }

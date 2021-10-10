@@ -8,17 +8,23 @@
 
 import UIKit
 import AVFoundation
+import CoreLocation
+import CDMediaEditor
+public protocol CDCameraViewControllerDelegate:NSObjectProtocol  {
+    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraPhotoConfig)
+    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraVideoConfig)
+}
 
-@objc protocol CDCameraViewControllerDelegate:NSObjectProtocol  {
-
-    @objc optional func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:Dictionary<String,Any>)
+public extension CDCameraViewControllerDelegate {
+    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraPhotoConfig){}
+    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraVideoConfig){}
 }
 
 @objc protocol CDScanQRDelegate:NSObjectProtocol  {
 
     @objc optional func onScanQRDidFinshed(cameraVC:CDCameraViewController,obj:String)
 }
-class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCameraTopBarDelete{
+open class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCameraTopBarDelete{
     
 
     var delegate:CDCameraViewControllerDelegate!
@@ -30,22 +36,25 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
     var QRBorderView:UIImageView! //扫描二维码识别边框
     var qrPopView:CDQrPopView!  //扫描二维码弹出内容框
     
-    override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
     }
-    override var prefersStatusBarHidden: Bool{
+    
+    open override var prefersStatusBarHidden: Bool{
         return true
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
     }
-    override func viewDidLoad() {
+    
+    open override func viewDidLoad() {
         super.viewDidLoad()
         cameraManger = CDCameraManger(baseView: self.view,isVideo:isVideo)
         
-        topBar = CDCameraTopBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48), isVideo: isVideo)
+        topBar = CDCameraTopBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44 + topSafeHeight), isVideo: isVideo)
         topBar.delegate = self
         self.view.addSubview(topBar)
         cameraManger.topBar = topBar
@@ -53,7 +62,8 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         bottomBar = CDCameraBottomBar(frame: CGRect(x: 0, y: self.view.frame.height - 140, width: self.view.frame.width, height: 140))
         bottomBar.delegate = self
         self.view.addSubview(bottomBar)
-        delayLabel = UILabel(frame: CGRect(x: self.view.frame.midX - 80, y: self.view.frame.midY - 100, width: 160, height: 200))
+        
+        delayLabel = UILabel(frame: CGRect(x: self.view.frame.midX - 100, y: self.view.frame.midY - 100, width: 200, height: 200))
         delayLabel.textColor = .white
         delayLabel.textAlignment = .center
         delayLabel.font = UIFont.boldSystemFont(ofSize: 180)
@@ -79,14 +89,30 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         cameraManger.takePhotoComplete = {(image) in
             if image != nil {
                 let previewVC = CDPreviewTakerViewController()
+                previewVC.cameraVC = self
                 previewVC.isVideo = false
                 previewVC.previewHandle = {(success) in
                     if success {
-                        let dic:[String:Any] = ["fileName":"\(GetTimestamp()).png","file":image!]
-                        self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
+                        let photoConfig = CDCameraPhotoConfig(fileName: "\(GetTimestamp(nil)).png",
+                                                              image: image!, type: .normal,
+                                                              createTime: GetTimestamp(nil),
+                                                              location: CLLocation(latitude: -1, longitude: -1))
+                        
+                        self.delegate.onCameraTakePhotoDidFinshed(cameraVC: self, obj: photoConfig)
+                        self.dismiss(animated: false, completion: nil)
                     } else {
                         self.cameraManger.reloadLayer()
                     }
+                }
+                
+                previewVC.previewEditPhotoHandle = {(image) in
+                    let photoConfig = CDCameraPhotoConfig(fileName: "\(GetTimestamp(nil)).png",
+                                                          image: image!, type: .normal,
+                                                          createTime: GetTimestamp(nil),
+                                                          location: CLLocation(latitude: -1, longitude: -1))
+                    
+                    self.delegate.onCameraTakePhotoDidFinshed(cameraVC: self, obj: photoConfig)
+                    self.dismiss(animated: false, completion: nil)
                 }
                 
                 previewVC.origialImage = image
@@ -99,10 +125,13 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
             let previewVC = CDPreviewTakerViewController()
             previewVC.isVideo = true
             previewVC.videoUrl = videoUrl
-            previewVC.previewHandle = {(scuess) in
-                if scuess {
-                    let dic:[String:Any] = ["fileURL":videoUrl!]
-                    self.delegate.onCameraTakePhotoDidFinshed?(cameraVC: self, obj: dic)
+            previewVC.cameraVC = self
+            previewVC.previewHandle = {(success)in
+                if success {
+                    
+                    let videoConfig = CDCameraVideoConfig(fileUrl: videoUrl!, createTime: GetTimestamp(nil))
+                    self.delegate.onCameraTakeVideoDidFinshed(cameraVC: self, obj: videoConfig)
+                    self.dismiss(animated: false, completion: nil)
                 } else {
                     do {
                         try FileManager.default.removeItem(at: videoUrl!)
@@ -110,6 +139,11 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
                         print(error.localizedDescription)
                     }
                 }
+            }
+            previewVC.previewEditVideoHandle = {(videoUrl) in
+                let videoConfig = CDCameraVideoConfig(fileUrl: videoUrl!, createTime: GetTimestamp(nil))
+                self.delegate.onCameraTakeVideoDidFinshed(cameraVC: self, obj: videoConfig)
+                self.dismiss(animated: false, completion: nil)
             }
             previewVC.modalPresentationStyle = .fullScreen
             self.present(previewVC, animated: false, completion: nil)
@@ -125,17 +159,13 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
             
             self!.qrPopView.loadData(type: type, qrContent: qrContent)
             UIView.animate(withDuration: 0.25) {
-                var fra = self!.qrPopView.frame
-                fra.origin.y = 15.0
-                self!.qrPopView.frame = fra
+                self!.qrPopView.minX = 15.0
             }
             
             self!.qrPopView.onTapQrCodeHandle = {[weak self](isEnable) in
                 recoverHandle()
                 UIView.animate(withDuration: 0.25) {
-                    var fra = self!.qrPopView.frame
-                    fra.origin.y = -115.0
-                    self!.qrPopView.frame = fra
+                    self!.qrPopView.minY = -115.0
                 }
                 if isEnable {
                     if type == .Url {
@@ -169,6 +199,11 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
     }
 
 
+   
+    
+}
+
+extension CDCameraViewController{
     //CDCameraBottomBarDelegate
     func onCanclePhoto() {
         cameraManger.cancleCamera()
@@ -211,82 +246,5 @@ class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCamer
         
     }
 
-    
 }
 
-
-class CDQrPopView: UIView {
-    enum CDQRType:Int {
-        case Text
-        case Url
-    }
-    private var typeLabel:UILabel!
-    private var titleLabel:UILabel!
-    private var contentLabel:UILabel!
-    var onTapQrCodeHandle:((_ isEnable:Bool)->Void)!
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layer.cornerRadius = 14.0
-        self.backgroundColor = UIColor(204, 194, 189)
-        let iconView = UIImageView(frame: CGRect(x: 15.0, y: 15.0, width: 30, height: 30))
-        iconView.backgroundColor = .red
-        iconView.isUserInteractionEnabled = true
-        self.addSubview(iconView)
-        
-        let detailIconView = UIImageView(frame: CGRect(x: self.frame.width - 20 - 45.0, y: self.frame.height/2.0 - 45.0/2.0, width: 45.0, height: 45.0))
-        detailIconView.backgroundColor = .blue
-        detailIconView.isUserInteractionEnabled = true
-        self.addSubview(detailIconView)
-        
-        
-        typeLabel = UILabel(frame: CGRect(x: iconView.frame.maxX + 10.0, y: iconView.frame.minY, width: detailIconView.frame.minX - iconView.frame.maxX - 20.0, height: 30.0))
-        typeLabel.textColor = .gray
-        typeLabel.font = UIFont.boldSystemFont(ofSize: 13)
-        addSubview(typeLabel)
-        
-        titleLabel = UILabel(frame: CGRect(x: iconView.frame.minX, y: typeLabel.frame.maxY, width: detailIconView.frame.minX - iconView.frame.maxX, height: 20.0))
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        addSubview(titleLabel)
-        
-        contentLabel = UILabel(frame: CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.maxY, width: self.width - iconView.frame.maxX, height: titleLabel.frame.height))
-        contentLabel.textColor = .black
-        contentLabel.font = UIFont.systemFont(ofSize: 15)
-        addSubview(contentLabel)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onHitQrCodeTap))
-        addGestureRecognizer(tap)
-        
-        let hiddenTap = UISwipeGestureRecognizer(target: self, action: #selector(onHiddenQrCodeTap))
-        hiddenTap.direction = .up
-        addGestureRecognizer(hiddenTap)
-        
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    func loadData(type:CDQRType,qrContent:String){
-        if type == .Text {
-            typeLabel.text = "文本二维码"
-            titleLabel.text = "在Safari浏览器中搜索网页"
-            contentLabel.text = "内容：“\(qrContent)”"
-        }else{
-            typeLabel.text = "网站二维码"
-            titleLabel.text = "在Safari浏览器中打开网站"
-            contentLabel.text = "链接：“\(qrContent)”"
-        }
-        
-    }
-    
-    @objc func onHitQrCodeTap(){
-        self.onTapQrCodeHandle(true)
-    }
-    
-    @objc func onHiddenQrCodeTap(){
-        self.onTapQrCodeHandle(false)
-    }
-}

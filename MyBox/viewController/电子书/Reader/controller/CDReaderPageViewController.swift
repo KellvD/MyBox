@@ -171,7 +171,7 @@ class CDReaderPageViewController: CDBaseAllViewController,CDReaderToolBarDelegat
            _pageIndex = page
            CDReaderManager.shared.readModel.chapterIndex = chapterIndex
            CDReaderManager.shared.readModel.pageIndex = page
-           CDReaderModel.updateLocalModel(model: CDReaderManager.shared.readModel, url: URL(fileURLWithPath: resource))
+        CDReaderModel.updateLocalModel(model: CDReaderManager.shared.readModel, url: resource.url)
            self.toolsView.updateProcess()
 
        }

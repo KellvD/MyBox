@@ -2,8 +2,8 @@
 //  CDTextViewConfig.swift
 //  CDTextViewDemo
 //
-//  Created by changdong cwx889303 on 2020/9/10.
-//  Copyright © 2020 (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
+//  Created by changdong on 2020/9/10.
+//  Copyright © 2019 changdong. All rights reserved.
 //
 
 import UIKit
@@ -167,25 +167,25 @@ class CDTextViewConfig: NSObject {
             } else if item == 2{
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
-                let scanAction = UIAlertAction(title: "扫描文稿", style: .default, handler: { (action) in
+                let scanAction = UIAlertAction(title: "扫描文稿".localize, style: .default, handler: { (action) in
                     
                 })
                 scanAction.setValue(UIColor.orange, forKey: "titleTextColor")
                 alert.addAction(scanAction)
                 
-                let cameraAction = UIAlertAction(title: "拍照录像", style: .default, handler: { (action) in
+                let cameraAction = UIAlertAction(title: "拍照录像".localize, style: .default, handler: { (action) in
                     
                 })
                 cameraAction.setValue(UIColor.orange, forKey: "titleTextColor")
                 alert.addAction(cameraAction)
                 
-                let libraryAction = UIAlertAction(title: "照片图库", style: .destructive, handler: { (action) in
+                let libraryAction = UIAlertAction(title: "照片图库".localize, style: .destructive, handler: { (action) in
                     
                 })
                 libraryAction.setValue(UIColor.orange, forKey: "titleTextColor")
                 alert.addAction(libraryAction)
                 
-                let cancleAction = UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil)
+                let cancleAction = UIAlertAction(title: "取消".localize, style: .cancel, handler: nil)
                 cancleAction.setValue(UIColor.red, forKey: "titleTextColor")
                 alert.addAction(cancleAction)
                 self.superVC.present(alert, animated: true, completion: nil)

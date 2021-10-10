@@ -2,7 +2,7 @@
 //  CDNavigationController.swift
 //  MyBox
 //
-//  Created by changdong cwx889303 on 2020/11/12.
+//  Created by changdong on 2020/11/12.
 //  Copyright © 2020 changdong. All rights reserved.
 //
 
@@ -22,7 +22,7 @@ class CDNavigationController: UINavigationController {
         var textAttributes:[NSAttributedString.Key:Any] = [:]
         textAttributes[.foregroundColor] = UIColor(251, 255.0, 255.0)
         textAttributes[.shadow] = shadow
-        textAttributes[.attachment] = UIFont20
+        textAttributes[.attachment] = UIFont.large
         self.navigationBar.titleTextAttributes = textAttributes
     }
     override var preferredStatusBarStyle: UIStatusBarStyle{

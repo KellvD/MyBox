@@ -23,22 +23,6 @@ import Photos
 }
 
 /*
-获取文件尺寸大小
-*/
-@inline(__always) func GetFileSize(filePath:String) ->Int{
-
-    var fileSize:Int = 0
-    if FileManager.default.fileExists(atPath: filePath) {
-        do{
-            let attr = try FileManager.default.attributesOfItem(atPath: filePath)
-            fileSize = attr[FileAttributeKey.size] as! Int
-        }catch{
-            
-        }
-    }
-    return fileSize
-}
-/*
 获取文件夹尺寸大小
 */
 @inline(__always) func GetFolderSize(folderPath:String) -> Int{
@@ -52,13 +36,13 @@ import Photos
             let fileArr = manager.subpaths(atPath: folderPath)!
             fileArr.forEach { (path) in
                 let allPath = folderPath + "/" + path
-                fileSize = fileSize + GetFileSize(filePath: allPath)
+                fileSize = fileSize + allPath.fileAttribute.fileSize
             }
             return fileSize
             
         }
     }
-    return GetFileSize(filePath: folderPath)
+    return folderPath.fileAttribute.fileSize
     
 }
 
@@ -83,26 +67,12 @@ import Photos
 }
 
 /*
-删除文件
-*/
-@inline(__always) func DeleteFile(filePath:String){
-    let manager = FileManager.default
-    if manager.fileExists(atPath: filePath) {
-        do{
-            try manager.removeItem(atPath: filePath)
-        }catch{
-            CDPrintManager.log("文件删除失败" + error.localizedDescription, type: .WarnLog)
-        }
-    }
-}
-
-/*
 格式化时间戳
 */
-@inline(__always)func GetMMSSFromSS(second:Double)->String{
-    let hour = Int(second / 3600)
-    let minute = (Int(second) % 3600)/3600
-    let second = Int(second) % 60
+@inline(__always)func GetMMSSFromSS(timeLength:Double)->String{
+    let hour = Int(timeLength / 3600)
+    let minute = Int(timeLength) / 60
+    let second = Int(timeLength) % 60
     var format:String = ""
     if hour > 0 {
         format = String.init(format: "%02ld:%02ld:%02ld", hour,minute,second)
@@ -112,25 +82,12 @@ import Photos
     return format
 }
 
-/*
-获取32位随机数
-*/
-@inline(__always)func GetRandString() -> String? {
-    let NUMBER_OF_CHARS: Int = 32
-    let random_str_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    var ranStr = ""
-    for _ in 0..<NUMBER_OF_CHARS {
-        let index = Int(arc4random_uniform(UInt32(random_str_characters.count)))
-        ranStr.append(random_str_characters[random_str_characters.index(random_str_characters.startIndex, offsetBy: index)])
-    }
-    return ranStr
-}
 
 /*
 获取视频的长度
 */
 @inline(__always)func GetVideoLength(path:String)->Double{
-    let urlAsset = AVURLAsset(url: URL(fileURLWithPath: path), options: nil)
+    let urlAsset = AVURLAsset(url: path.url, options: nil)
     let second = Double(urlAsset.duration.value) / Double(urlAsset.duration.timescale)
     return second
 }
@@ -166,8 +123,13 @@ import Photos
 /*
 获取当前时间戳
 */
-@inline(__always)func GetTimestamp() -> Int{
-    let nowTime = NSDate.init().timeIntervalSince1970 * 1000
+@inline(__always)func GetTimestamp(_ time:String?) -> Int{
+    var date = Date()
+    if time != nil {
+        let datter = DateFormatter()
+        date = datter.date(from: time!)!
+    }
+    let nowTime = date.timeIntervalSince1970 * 1000
     return Int(nowTime)
 }
 
@@ -235,14 +197,15 @@ import Photos
  */
 @inline(__always)func checkPermission(type:CDDevicePermissionType,Result:@escaping (Bool)->Void){
     if type == .library {
-       let status = PHPhotoLibrary.authorizationStatus()
+        let status = PHPhotoLibrary.authorizationStatus();
         if status == .authorized{
             Result(true)
-        }else if status == .notDetermined{
+        }else if status == .notDetermined {
             PHPhotoLibrary.requestAuthorization { (status) in
                 Result(status == .authorized)
             }
         }else{
+            
             Result(false)
         }
     } else if type == .camera {
@@ -289,21 +252,23 @@ import Photos
     var title:String!
     var message:String!
     if type == .library {
-        title = LocalizedString("Album is denied access")
-        message = LocalizedString("Please go to \"Settings>Privacy>Photos>%@)\" to set read and write", GetAppName())
+        title = "相册被拒绝访问".localize
+        message =
+            String(format: "请在”设置>隐私>照片>%@“，设置读取和写入".localize, GetAppName())
     } else if type == .camera {
-        title = LocalizedString("Camera access denied")
-        message = LocalizedString("Please turn on the switch to allow access in the \"Settings>Privacy>Camera>%@)\" option", GetAppName())
+        title = "相机访问被拒绝".localize
+        message = String(format: "请在“设置>隐私>相机>%@”选项中，打开允许访问的开关".localize, GetAppName())
     } else if type == .micorphone {
-        title = LocalizedString("Microphone access denied")
-        message = LocalizedString("Please turn on the switch to allow access in the \"Settings>Privacy>Microphone>%@)\" option", GetAppName())
+        title = "麦克风被拒绝访问".localize
+        message = String(format: "请在“设置>隐私>麦克风>%@”选项中，打开允许访问的开关".localize, GetAppName())
+        
     } else if type == .location {
-        title = LocalizedString("Map location access denied")
-        message = LocalizedString("Please select the usage permission in the \"Settings>Privacy>Location Services>%@)\" option", GetAppName())
+        title = "地图定位被拒绝访问".localize
+        message = String(format: "请在“设置>隐私>定位服务>%@)”选项中，选择使用权限".localize, GetAppName())
     }
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: LocalizedString("Set Up Later"), style: .cancel, handler: nil))
-    alert.addAction(UIAlertAction(title: LocalizedString("Go to Settings"), style: .default, handler: { (action) in
+    alert.addAction(UIAlertAction(title: "稍后设置".localize, style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(title: "前去设置".localize, style: .default, handler: { (action) in
         var url = URL(string: "App-Prefs:root=Privacy")
         if #available(iOS 10.3, *) {
             url = URL(string: UIApplication.openSettingsURLString)
@@ -327,7 +292,6 @@ import Photos
     }else{
         statusHeight = UIApplication.shared.statusBarFrame.height
     }
-    print("statusHeight = \(statusHeight)")
     return statusHeight
 }
 

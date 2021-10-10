@@ -16,7 +16,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.title = LocalizedString("Create Folder")
+        self.title = "创建文件夹".localize
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneBtnClick))
         self.navigationItem.rightBarButtonItem?.tintColor = .white
         //
@@ -25,12 +25,12 @@ class CDNewFolderViewController: CDBaseAllViewController {
         self.view.addSubview(firstLine)
         //
         iconImageV = UIImageView(frame: CGRect(x: 10, y: firstLine.frame.maxY + 12.5, width: 45, height: 45))
-        iconImageV.image = LoadImage("图片")
+        iconImageV.image = "icon_image".image
         self.view.addSubview(iconImageV)
 
         folderNameField = UITextField(frame: CGRect(x: iconImageV.frame.maxX+5, y: firstLine.frame.maxY + 12.5, width: CDSCREEN_WIDTH - iconImageV.frame.maxX - 5 - 15, height: 45))
-        folderNameField.placeholder = LocalizedString("New Folder Name")
-        folderNameField.textColor = TextLightGrayColor
+        folderNameField.placeholder = "新建文件夹名称".localize
+        folderNameField.textColor = .textGray
         folderNameField.clearButtonMode = .whileEditing
         self.view.addSubview(folderNameField)
 
@@ -45,19 +45,21 @@ class CDNewFolderViewController: CDBaseAllViewController {
         let space = (CDSCREEN_WIDTH - 15.0 * 2 - 60.0 * 4)/3
         let OY = secondLine.frame.maxY+5
 
-        let arr = ["icon_image","icon_audio","icon_media","icon_txt"]
+        let imageArr = ["icon_image","icon_audio","icon_media","icon_txt"]
+        let titleArr = ["图片文件".localize, "音频文件".localize,"视频文件".localize,"文本文件".localize]
 
-        for i in 0..<arr.count {
+        for i in 0..<imageArr.count {
             let button = UIButton(frame: CGRect(x: 15.0 + (60.0 + space) * CGFloat(i),
                                                       y: OY,
                                                       width: 60,
                                                       height: 60+30),
-                                        text: arr[i],
-                                        textColor: TextLightGrayColor,
-                                        imageNormal: arr[i],
+                                        text: titleArr[i],
+                                        textColor: .textGray,
+                                        imageNormal: imageArr[i],
                                         target: self,
                                         function: #selector(onTapClick(sender:)),
                                         supView: self.view)
+            button.titleLabel?.font = .small
             button.tag = i
             button.setImagePosition(edge: .top, space: 10)
         }
@@ -70,14 +72,14 @@ class CDNewFolderViewController: CDBaseAllViewController {
 
     @objc func doneBtnClick(){
 
-        let folderName = folderNameField.text!.isEmpty ? LocalizedString("Unnamed Folder") : folderNameField.text!
+        let folderName = folderNameField.text!.isEmpty ? "未命名文件夹".localize : folderNameField.text!
         if(folderName.matches(pattern: symbolExpression) || folderName.isContainsEmoji()){
-            let alert = UIAlertController(title: nil, message: LocalizedString("The name cannot contain emoticons and characters"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LocalizedString("Understood"), style: .cancel, handler: nil))
+            let alert = UIAlertController(title: nil, message: "名称中不能包含表情及字符".localize, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "知道了".localize, style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
-        let time = GetTimestamp()
+        let time = GetTimestamp(nil)
         let folderInfo = CDSafeFolder()
         folderInfo.folderName = folderName
         folderInfo.folderType = selectType

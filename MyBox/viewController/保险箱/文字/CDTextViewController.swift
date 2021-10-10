@@ -56,7 +56,7 @@ QLPreviewControllerDataSource{
         dirNavBar.dirDelegate = self
         view.addSubview(dirNavBar)
         
-        tablebview = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - 48 - dirNavBar.frame.height), style: .plain)
+        tablebview = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - BottomBarHeight - dirNavBar.height), style: .plain)
         tablebview.delegate = self
         tablebview.dataSource = self
         tablebview.separatorStyle = .none
@@ -71,7 +71,7 @@ QLPreviewControllerDataSource{
         
         self.backBtn = UIButton(type: .custom)
         self.backBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        self.backBtn.setTitle(LocalizedString("back"), for: .normal)
+        self.backBtn.setTitle("返回".localize, for: .normal)
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
         
@@ -109,7 +109,7 @@ QLPreviewControllerDataSource{
         batchBtn.isSelected = isSelected
         if (batchBtn.isSelected) { //点了批量操作
             //1.返回按钮变全选
-            self.backBtn.setTitle(LocalizedString("select all"), for: .normal)
+            self.backBtn.setTitle("全选".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             //所有文件，文件夹设置未选状态
             textTD.filesArr.forEach { (tmpFile) in
@@ -121,7 +121,7 @@ QLPreviewControllerDataSource{
             toolbar.hiddenReloadBar(isMulit: true)
         }else{
             //1.返回变全选
-            self.backBtn.setTitle(LocalizedString("back"), for: .normal)
+            self.backBtn.setTitle("返回".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
             textTD.filesArr.forEach { (tmpFile) in
@@ -139,7 +139,7 @@ QLPreviewControllerDataSource{
     //返回
     @objc private func backBtnClick() -> Void {
         if batchBtn.isSelected {
-            if (self.backBtn.currentTitle == LocalizedString("select all")) { //全选
+            if (self.backBtn.currentTitle == "全选".localize) { //全选
                 textTD.filesArr.forEach { (tmpFile) in
                      tmpFile.isSelected = .CDTrue
                  }
@@ -173,11 +173,11 @@ QLPreviewControllerDataSource{
             selectFolderCount == textTD.foldersArr.count &&
             (textTD.filesArr.count > 0 ||
             textTD.foldersArr.count > 0){
-            self.backBtn.setTitle(LocalizedString("unselect all"), for: .normal)
+            self.backBtn.setTitle("全不选".localize, for: .normal)
             backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
             backBtn.contentHorizontalAlignment = .left
         }else{
-            backBtn.setTitle(LocalizedString("select all"), for: .normal)
+            backBtn.setTitle("全选".localize, for: .normal)
         }
         tablebview.reloadData()
     }
@@ -222,7 +222,7 @@ QLPreviewControllerDataSource{
         for index in 0..<self.selectedFileArr.count{
             let file:CDSafeFileInfo = self.selectedFileArr[index]
             let filePath = String.RootPath().appendingPathComponent(str: file.filePath)
-            let url = URL(fileURLWithPath: filePath)
+            let url = filePath.url
             shareArr.append(url as NSObject)
         }
         presentShareActivityWith(dataArr: shareArr) {[unowned self] (error) in
@@ -246,18 +246,18 @@ QLPreviewControllerDataSource{
     @objc func deleteBarItemClick(){
         handelSelectedArr()
         let total = selectedFileArr.count + selectedFolderArr.count
-        let btnTitle = total > 1 ? LocalizedString("Delete%@ files","\(total)"): LocalizedString("Delete File")
+        let btnTitle = total > 1 ? String(format: "删除%d个文件".localize, selectedFileArr.count): "删除文件".localize
         
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
             DispatchQueue.main.async {
-                CDHUDManager.shared.showWait(LocalizedString("deleting..."))
+                CDHUDManager.shared.showWait("删除中".localize)
             }
             
             DispatchQueue.global().async {
                 self.selectedFileArr.forEach { (tmpFile) in
                     let filePath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
-                    DeleteFile(filePath: filePath)
+                    filePath.delete()
                     CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                     
                     let index = self.textTD.filesArr.firstIndex(of: tmpFile)
@@ -269,7 +269,7 @@ QLPreviewControllerDataSource{
                      文件夹中文件filePath：other/xxx/xxx/xxx，不能取最后部分拼接在other上
                      */
                     let folderPath = String.RootPath().appendingPathComponent(str: tmpFolder.folderPath)
-                    DeleteFile(filePath: folderPath)
+                    folderPath.delete()
                     let index = self.textTD.foldersArr.firstIndex(of: tmpFolder)
                     self.textTD.foldersArr.remove(at: index!)
                     
@@ -290,11 +290,11 @@ QLPreviewControllerDataSource{
                 DispatchQueue.main.async {
                     self.batchHandleFiles(isSelected: false)
                     CDHUDManager.shared.hideWait()
-                    CDHUDManager.shared.showText(LocalizedString("Delete complete"))
+                    CDHUDManager.shared.showText("删除完成".localize)
                 }
             }
         }))
-        sheet.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
     }
     
@@ -316,7 +316,8 @@ QLPreviewControllerDataSource{
     }
     
     //MARK:
-    @objc func inputItemClick(){
+    @objc func importItemClick(){
+        CDPrintManager.log("开始进入newtext", type: .InfoLog)
         self.isNeedReloadData = true
         let textVC = CDNewTextViewController()
         textVC.folderId = gFolderInfo.folderId
@@ -464,7 +465,7 @@ QLPreviewControllerDataSource{
                 }
                 else{
                     let filePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-                    let url = URL(fileURLWithPath: filePath)
+                    let url = filePath.url
                     let documentVC = UIDocumentInteractionController(url: url)
                     documentVC.name = fileInfo.fileName
                     documentVC.delegate = self
@@ -481,7 +482,7 @@ QLPreviewControllerDataSource{
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
         let fileInfo:CDSafeFileInfo = textTD.filesArr[controller.currentPreviewItemIndex]
         let filePath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
-        let url = URL(fileURLWithPath: filePath)
+        let url = filePath.url
         return url as QLPreviewItem
     }
     
@@ -518,7 +519,7 @@ QLPreviewControllerDataSource{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if indexPath.section == 0 {
             let folder:CDSafeFolder = textTD.foldersArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
+            let detail = UITableViewRowAction(style: .normal, title: "详情".localize) { (action, index) in
                 let folderDVC = CDFolderDetailViewController()
                 folderDVC.folderInfo = folder
                 self.navigationController?.pushViewController(folderDVC, animated: true)
@@ -526,7 +527,7 @@ QLPreviewControllerDataSource{
             return [detail]
         }else{
             let fileInfo:CDSafeFileInfo = textTD.filesArr[indexPath.row]
-            let detail = UITableViewRowAction(style: .normal, title: LocalizedString("Details")) { (action, index) in
+            let detail = UITableViewRowAction(style: .normal, title: "详情".localize) { (action, index) in
                 let fileDVC = CDFileDetailViewController()
                 fileDVC.fileInfo = fileInfo
                 self.navigationController?.pushViewController(fileDVC, animated: true)
@@ -547,7 +548,7 @@ QLPreviewControllerDataSource{
             
             detail.image = UIImage(named: "fileDetail")
             
-            let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
+            let delete = UIContextualAction(style: .normal, title: "删除".localize) { (action, view, handle) in
                 folder.isSelected = .CDTrue
                 self.deleteBarItemClick()
             }
@@ -564,7 +565,7 @@ QLPreviewControllerDataSource{
             }
             detail.image = UIImage(named: "fileDetail")
             
-            let delete = UIContextualAction(style: .normal, title: LocalizedString("delete")) { (action, view, handle) in
+            let delete = UIContextualAction(style: .normal, title: "删除".localize) { (action, view, handle) in
                 fileInfo.isSelected = .CDTrue
                 self.deleteBarItemClick()
             }
@@ -591,7 +592,7 @@ QLPreviewControllerDataSource{
                     }
                 }else{
                     CDHUDManager.shared.hideWait()
-                    CDHUDManager.shared.showText(LocalizedString("Unzip complete"))
+                    CDHUDManager.shared.showText("解压完成".localize)
                     self.refreshData(superId: self.currentFolderId)
                 }
             }
@@ -599,13 +600,13 @@ QLPreviewControllerDataSource{
         
         //解压
         func unArchiveZipToDirectory(password:String?){
-            CDHUDManager.shared.showWait(LocalizedString("Unzipping..."))
+            CDHUDManager.shared.showWait("解压中...".localize)
             let error = CDGeneralTool.unArchiveZipToDirectory(zip: zipPath, desDirectory: desDirPath, paaword: password)
             if error == nil {
                 getAllContentsOfDirectory(dirPath: desDirPath, superId: self.currentFolderId)
             }else{
                 CDHUDManager.shared.hideWait()
-                CDHUDManager.shared.showText(LocalizedString("解压失败:%@",error!.localizedDescription))
+                CDHUDManager.shared.showText(String(format: "解压失败:%@".localize, error!.localizedDescription))
             }
         }
         
@@ -615,20 +616,20 @@ QLPreviewControllerDataSource{
         var isDir:ObjCBool = true
         if FileManager.default.fileExists(atPath: desDirPath, isDirectory: &isDir) {
             if isDir.boolValue {
-                desDirPath = desDirPath + " (\(GetTimeFormat(GetTimestamp())))"
+                desDirPath = desDirPath + " (\(GetTimeFormat(GetTimestamp(nil))))"
             }
         }
 
         //判断压缩包是否加密
         if  CDGeneralTool.checkPasswordIsProtectedZip(zipFile: zipPath){
-            let alert = UIAlertController(title: LocalizedString("Encrypted Zip"), message: LocalizedString("Please enter the decompression password"), preferredStyle: .alert)
+            let alert = UIAlertController(title: "加密压缩包".localize, message: "请输入解压密码".localize, preferredStyle: .alert)
             var tmpTextFiled:UITextField!
             alert.addTextField { (textFiled) in tmpTextFiled = textFiled }
-            alert.addAction(UIAlertAction(title: LocalizedString("sure"), style: .default, handler: { (action) in
+            alert.addAction(UIAlertAction(title: "确定".localize, style: .default, handler: { (action) in
                 let password = tmpTextFiled.text ?? fileInfo.fileName
                 unArchiveZipToDirectory(password: password)
             }))
-            alert.addAction(UIAlertAction(title: LocalizedString("cancel"), style: .cancel, handler: { (action) in }))
+            alert.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: { (action) in }))
             present(alert, animated: true, completion: nil)
         }else{
             unArchiveZipToDirectory(password: nil)
@@ -640,7 +641,7 @@ QLPreviewControllerDataSource{
     
     //保存文件夹,并返回该文件夹的FolderId,作为保存子文件的folderId、文件夹的superId
     func saveSubFolders(path:String,superId:Int,Return:@escaping(_ folderId:Int) -> Void) {
-        let nowTime = GetTimestamp()
+        let nowTime = GetTimestamp(nil)
         let createtime:Int = nowTime;
         let folderInfo = CDSafeFolder()
         folderInfo.folderName = path.lastPathComponent
@@ -663,14 +664,15 @@ QLPreviewControllerDataSource{
         let fileName = path.fileName
         let suffix = path.suffix
         fileInfo.fileType = suffix.fileType
-        fileInfo.fileSize = GetFileSize(filePath: path)
-        
+        let fileAttribute = path.fileAttribute
+        fileInfo.fileSize = fileAttribute.fileSize
         fileInfo.folderId = superId
         fileInfo.userId = CDUserId()
         fileInfo.fileName = fileName
-        fileInfo.createTime =  GetTimestamp()
-        fileInfo.modifyTime = GetTimestamp()
-        fileInfo.accessTime = GetTimestamp()
+        fileInfo.createTime = fileAttribute.createTime
+        fileInfo.modifyTime = GetTimestamp(nil)
+        fileInfo.accessTime = GetTimestamp(nil)
+        fileInfo.accessTime = GetTimestamp(nil)
         fileInfo.filePath = path.relativePath
         fileInfo.folderType = .TextFolder
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
