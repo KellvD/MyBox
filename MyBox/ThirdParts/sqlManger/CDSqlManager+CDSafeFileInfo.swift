@@ -25,7 +25,6 @@ extension CDSqlManager{
                 build.column(db_importTime)
                 build.column(db_createTime)
                 build.column(db_modifyTime)
-                build.column(db_accessTime)
                 build.column(db_fileType)
                 build.column(db_filePath)
                 build.column(db_grade)
@@ -52,17 +51,16 @@ extension CDSqlManager{
         file.timeLength = item[db_timeLength]
         file.createTime = item[db_createTime]
         file.modifyTime = item[db_modifyTime]
-        file.accessTime = item[db_accessTime]
         file.importTime = item[db_importTime]
         file.filePath = item[db_filePath]
-        file.fileType = NSFileType(rawValue: item[db_fileType])
-        file.grade = NSFileGrade(rawValue: item[db_grade])
+        file.fileType = CDSafeFileInfo.NSFileType(rawValue: item[db_fileType])
+        file.grade = CDSafeFileInfo.NSFileGrade(rawValue: item[db_grade])
         file.fileName = item[db_fileName]
         file.fileText = item[db_fileText]
         file.thumbImagePath = item[db_thumbImagePath]
         file.userId = item[db_userId]
         file.markInfo = item[db_markInfo]
-        file.isSelected = .CDFalse
+        file.isSelected = .no
         file.createLocation = item[db_createLocation]
         file.folderType = NSFolderType(rawValue: item[db_folderType])
         
@@ -86,7 +84,6 @@ extension CDSqlManager{
                         db_timeLength <- fileInfo.timeLength,
                         db_createTime <- fileInfo.createTime,
                         db_modifyTime <- fileInfo.modifyTime,
-                        db_accessTime <- fileInfo.accessTime,
                         db_importTime <- fileInfo.importTime,
                         db_fileType <- fileInfo.fileType!.rawValue,
                         db_grade <- 1,
@@ -130,7 +127,7 @@ extension CDSqlManager{
         return fileArr
     }
     
-    public func queryAllFile(fileType:NSFileType)-> Array<CDSafeFileInfo>{
+    public func queryAllFile(fileType:CDSafeFileInfo.NSFileType)-> Array<CDSafeFileInfo>{
         var fileArr:[CDSafeFileInfo] = []
         do {
             let sql = SafeFileInfo.filter(db_fileType == fileType.rawValue).order(db_importTime.desc)
@@ -159,13 +156,13 @@ extension CDSqlManager{
         return file
     }
     
-    func queryOneSafeFileGrade(fileId:Int) ->NSFileGrade {
-        var grade = NSFileGrade(rawValue: 1)
+    func queryOneSafeFileGrade(fileId:Int) ->CDSafeFileInfo.NSFileGrade {
+        var grade = CDSafeFileInfo.NSFileGrade(rawValue: 1)
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileId)
             
             for item in try db.prepare(sql.select(db_grade)) {
-                grade = NSFileGrade(rawValue: item[db_grade])
+                grade = CDSafeFileInfo.NSFileGrade(rawValue: item[db_grade])
                 
             }
         }catch{
@@ -210,7 +207,7 @@ extension CDSqlManager{
     public func queryAllTextSafeFile()-> [CDSafeFileInfo]{
         var fileArr:[CDSafeFileInfo] = []
         do {
-            let sql = SafeFileInfo.filter(db_fileType == NSFileType.TxtType.rawValue)
+            let sql = SafeFileInfo.filter(db_fileType == CDSafeFileInfo.NSFileType.TxtType.rawValue)
             for item in try db.prepare(sql) {
                 let file = getSafeFileInfoFromItem(item: item)
                 fileArr.append(file)
@@ -230,6 +227,7 @@ extension CDSqlManager{
             CDPrintManager.log("updateOneSafeFileName-->error:\(error)", type: .ErrorLog)
         }
     }
+    
     public func updateOneSafeFileMarkInfo(markInfo:String,fileId:Int) {
         
         do{
@@ -240,7 +238,7 @@ extension CDSqlManager{
         }
     }
     
-    func updateOneSafeFileGrade(grade:NSFileGrade,fileId:Int) {
+    func updateOneSafeFileGrade(grade:CDSafeFileInfo.NSFileGrade,fileId:Int) {
         do{
             let sql = SafeFileInfo.filter((db_fileId == fileId)&&(db_userId == CDUserId()))
             try db.run(sql.update(db_grade <- grade.rawValue,db_modifyTime <- GetTimestamp(nil)))
@@ -252,7 +250,7 @@ extension CDSqlManager{
     /*
      文件移动文件夹，更新文件新的folderID
      */
-    func updateOneSafeFileForMove(fileInfo:CDSafeFileInfo) {
+    func updateOneSafeFileFolder(fileInfo:CDSafeFileInfo) {
         do{
             let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
             
@@ -261,6 +259,35 @@ extension CDSqlManager{
             CDPrintManager.log("updateOneSafeFileForMove-->error:\(error)", type: .ErrorLog)
         }
     }
+  
+    func updateOneSafeFileInfo(fileInfo:CDSafeFileInfo) {
+        do{
+            let sql = SafeFileInfo.filter(db_fileId == fileInfo.fileId)
+            
+            try db.run(sql.update(db_fileText <- fileInfo.fileText,
+                                  db_thumbImagePath <- fileInfo.thumbImagePath,
+                                  db_fileName <- fileInfo.fileName,
+                                  db_folderId <- fileInfo.folderId,
+                                  db_fileSize <- fileInfo.fileSize,
+                                  db_fileWidth <- fileInfo.fileWidth,
+                                  db_fileHeight <- fileInfo.fileHeight,
+                                  db_importTime <- fileInfo.importTime,
+                                  db_timeLength <- fileInfo.timeLength,
+                                  db_createTime <- fileInfo.createTime,
+                                  db_modifyTime <- fileInfo.modifyTime,
+                                  db_importTime <- fileInfo.importTime,
+                                  db_fileType <- fileInfo.fileType!.rawValue,
+                                  db_grade <- 1,
+                                  db_filePath <- fileInfo.filePath,
+                                  db_userId <- fileInfo.userId,
+                                  db_markInfo <- fileInfo.markInfo,
+                                  db_createLocation<-fileInfo.createLocation,
+                                  db_folderType <- fileInfo.folderType!.rawValue))
+        }catch{
+            CDPrintManager.log("updateOneSafeFileForMove-->error:\(error)", type: .ErrorLog)
+        }
+    }
+    
     
     public func updateOneSafeFileModifyTime(modifyTime:Int,fileId:Int) {
         
@@ -271,16 +298,7 @@ extension CDSqlManager{
             CDPrintManager.log("updateOneSafeFileModifyTime-->error:\(error)", type: .ErrorLog)
         }
     }
-    
-    public func updateOneSafeFileAccessTime(accessTime:Int,fileId:Int) {
-        
-        do{
-            let sql = SafeFileInfo.filter(db_fileId == fileId)
-            try db.run(sql.update(db_accessTime <- accessTime))
-        }catch{
-            CDPrintManager.log("updateOneSafeFileAccessTime-->error:\(error)", type: .ErrorLog)
-        }
-    }
+
     
     public func deleteOneSafeFile(fileId:Int) {
         do{

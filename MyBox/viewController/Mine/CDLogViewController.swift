@@ -109,7 +109,7 @@ class CDLogViewController: CDBaseAllViewController {
         }        
 
         CDLogBean.isOn = true
-        CDLogBean.logLevel = CDLogLevel(rawValue: segView.selectedSegmentIndex)!
+        CDLogBean.logLevel = CDPrintManager.CDLogLevel(rawValue: segView.selectedSegmentIndex)!
         CDLogBean.logFolder = path
         CDLogBean.logName = name
         CDLogBean.logPath = String.documentPath().appendingPathComponent(str: "/\(path)/\(name)")

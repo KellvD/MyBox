@@ -48,16 +48,19 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         self.previewBtn = UIButton(type: .custom)
         self.previewBtn.frame = CGRect(x: 15, y: 5, width: 50, height: 40)
         self.previewBtn.setTitle("预览", for:.normal)
+        self.previewBtn.setTitleColor(UIColor.gray, for: .disabled)
         self.previewBtn.setTitleColor(UIColor.white, for: .normal)
         self.previewBtn.addTarget(self, action: #selector(onPreviewClick), for: .touchUpInside)
         bottomV.addSubview(self.previewBtn)
 
         
         self.sendBtn = UIButton(type: .custom)
-        self.sendBtn .frame = CGRect(x: CDSCREEN_WIDTH-80, y: 5.0, width: 65, height: 40)
-        self.sendBtn .setTitle("发送", for:.normal)
-        self.sendBtn .setTitleColor(UIColor.white, for: .normal)
-        self.sendBtn .addTarget(self, action: #selector(onSendBtnClick), for: .touchUpInside)
+        self.sendBtn.frame = CGRect(x: CDSCREEN_WIDTH-120, y: 5.0, width: 100, height: 40)
+        self.sendBtn.setTitle("发送", for:.normal)
+        self.sendBtn.setTitleColor(UIColor.white, for: .normal)
+        self.sendBtn.setTitleColor(UIColor.gray, for: .disabled)
+        self.sendBtn.addTarget(self, action: #selector(onSendBtnClick), for: .touchUpInside)
+        self.sendBtn.titleLabel?.textAlignment = .right
         bottomV.addSubview(self.sendBtn)
         self.previewBtn.isEnabled = false
         self.sendBtn.isEnabled = false
@@ -155,6 +158,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
     }
 
     @objc func onSendBtnClick(){
+        self.sendBtn.isEnabled = false
         var selectArr:[CDPHAsset] = []
        cdAssetArr.forEach { (asset) in
             if asset.isSelected == .CD_True {
@@ -163,7 +167,7 @@ class CDAssetPickViewController: UIViewController,UICollectionViewDelegate,UICol
         }
         DispatchQueue.global().async {
             self.assetDelegate.selectedAssetsComplete(phAssets: selectArr)
-
+            
         }
     }
     override func didReceiveMemoryWarning() {

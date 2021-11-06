@@ -22,11 +22,15 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
     override func viewDidLoad() {
         super.viewDidLoad()
         //进度条
-        processView = UIProgressView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 1))
+        processView = UIProgressView(progressViewStyle: .default)
+        processView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 2)
+        processView.progressTintColor = .customBlue
+        processView.trackTintColor = .baseBgColor
         view.addSubview(processView)
+        processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.5)
         
         let config = WKWebViewConfiguration()
-        webView = WKWebView(frame: CGRect(x: 0, y: 1, width: CDSCREEN_WIDTH, height: CDViewHeight-1), configuration: config)
+        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-1))
         view.addSubview(webView)
         //UI代理
         webView.uiDelegate = self
@@ -45,36 +49,48 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if (keyPath == "estimatedProcess") {
-            processView.progress = Float(webView.estimatedProgress)
-            if webView.estimatedProgress >= 1.0 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.processView.progress = 0
+            let process = change![.newKey] as! Float
+            print(process)
+            if process == 1 {
+                self.processView.setProgress(process, animated: true)
+                UIView.animate(withDuration: 0.25, delay: 0.3, options: .curveEaseOut) {
+                    self.processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.4)
+                } completion: { success in
+                    self.processView.isHidden = true
                 }
+
+            }else{
+                self.processView.setProgress(process, animated: true)
             }
         }else if (keyPath == "title") {
             self.title = webView.title
+        }else{
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     func loadUrl(url:URL){
         let request = URLRequest(url: url)
         webView.load(request)
     }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        self.processView.isHidden = false
+        self.processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.5)
+        self.view.bringSubviewToFront(self.processView)
     }
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        //页面加载失败
-        self.processView.setProgress(0, animated: true)
-    }
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        //提交发生错误
-        self.processView.setProgress(0, animated: true)
-    }
-    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        let url = navigationResponse.response.url
-        decisionHandler(.allow)
-    }
+//    // 页面加载完成之后调用
+//    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+//        self.processView.isHidden = true
+//    }
+//    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+//        //页面加载失败
+//        self.processView.isHidden = true
+//    }
+//    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//        //提交发生错误
+//        self.processView.isHidden = true
+//    }
+    
     
     /*
     // MARK: - Navigation

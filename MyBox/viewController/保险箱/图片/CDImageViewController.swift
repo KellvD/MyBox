@@ -10,22 +10,15 @@ import UIKit
 import AVFoundation
 import MJRefresh
 import CDMediaPicker
-/**
- * 操作文件的状态类型
- */
-enum CDHandleType {
-    case resume   //删、改等操作完后将剩余文件恢复未选状态状态
-    case delete   //删除状态
-    case nothing  //单纯的显示选择框，待选状态
-}
+
+
 class CDImageViewController:
     CDBaseAllViewController,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate,
-    CDMediaPickerDelegate,
-    CDCameraViewControllerDelegate {
+    UINavigationControllerDelegate{
+    
     
     public var folderInfo:CDSafeFolder!
     
@@ -35,13 +28,15 @@ class CDImageViewController:
     private var collectionView:UICollectionView!
     private var mjHeader:MJRefreshNormalHeader!
     private var mjFooter:MJRefreshAutoNormalFooter!
-    private var imageArr:[CDSafeFileInfo] = []
+    @objc dynamic private var fileArr:[CDSafeFileInfo] = []
     private var selectedImageArr:[CDSafeFileInfo] = []
     private var outputImageArr:[CDSafeFileInfo] = []
     private var isNeedReloadData:Bool = false
     private var selectCount:Int = 0
     private var selectGifCount:Int = 0
-
+    deinit {
+        super.removeObserver(self, forKeyPath: "fileArr")
+    }
     override func viewWillAppear(_ animated: Bool) {
         if isNeedReloadData {
             isNeedReloadData = false
@@ -83,6 +78,7 @@ class CDImageViewController:
 
         self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .ImageTools, superVC: self)
         self.view.addSubview(self.toolbar)
+        super.addObserver(super.self, forKeyPath: "fileArr", options: [.new,.old], context: nil)
 
     }
     @objc func footerRefresh(){
@@ -111,8 +107,8 @@ class CDImageViewController:
             backBtn.setTitle("返回".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
-            imageArr.forEach { (tmpFile) in
-                tmpFile.isSelected = .CDFalse
+            fileArr.forEach { (tmpFile) in
+                tmpFile.isSelected = .no
             }
         }
         collectionView.reloadData()
@@ -123,16 +119,16 @@ class CDImageViewController:
         if batchBtn.isSelected {
             selectedImageArr.removeAll()
             if (self.backBtn.currentTitle == "全选".localize) { //全选
-                imageArr.forEach { (file) in
-                    file.isSelected = .CDTrue
+                fileArr.forEach { (file) in
+                    file.isSelected = .yes
                     if file.fileType == .GifType {
                         selectGifCount += 1
                     }
                 }
-                selectCount = imageArr.count
+                selectCount = fileArr.count
             } else {//全不选
-                imageArr.forEach { (file) in
-                    file.isSelected = .CDFalse
+                fileArr.forEach { (file) in
+                    file.isSelected = .no
                 }
                 selectCount = 0
                 selectGifCount = 0
@@ -146,7 +142,7 @@ class CDImageViewController:
     func refreshUI(){
         toolbar.enableReloadBar(isEnable: selectCount > 0)
         toolbar.appendItem.isEnabled = (selectCount <= 16 && selectCount >= 2) && selectGifCount == 0
-        if selectCount == imageArr.count && imageArr.count > 0{
+        if selectCount == fileArr.count && fileArr.count > 0{
             backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
             backBtn.contentHorizontalAlignment = .left
             backBtn.setTitle("全不选".localize, for: .normal)
@@ -160,14 +156,14 @@ class CDImageViewController:
         //沙盒导入，拍照，图库，拼接刷新DB数据源
         selectedImageArr.removeAll()
         toolbar.enableReloadBar(isEnable: false)
-        imageArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
+        fileArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         collectionView.reloadData()
     }
     
     func handelSelectedArr(){
         selectedImageArr.removeAll()
-        selectedImageArr = imageArr.filter({ (tmp) -> Bool in
-            tmp.isSelected == .CDTrue
+        selectedImageArr = fileArr.filter({ (tmp) -> Bool in
+            tmp.isSelected == .yes
         })
         
     }
@@ -193,7 +189,7 @@ class CDImageViewController:
     @objc func moveBarItemClick(){
 
         handelSelectedArr()
-        let folderList = CDFolderListViewController()
+        let folderList = CDPickerFolderViewController()
         folderList.selectedArr = selectedImageArr
         folderList.folderType = .ImageFolder
         folderList.folderId = folderInfo.folderId
@@ -255,8 +251,8 @@ class CDImageViewController:
                 defaultPath.delete()
                 CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                 
-                let index = imageArr.firstIndex(of: tmpFile)
-                imageArr.remove(at: index!)
+                let index = fileArr.firstIndex(of: tmpFile)
+                fileArr.remove(at: index!)
             }
             DispatchQueue.main.async {
                  //删除操作后，删除本地数据源中被删除的元素，取消批量操作,选中数据源以删除，不用恢复
@@ -317,7 +313,7 @@ class CDImageViewController:
         let documentTypes = ["public.image"]
         super.subFolderId = folderInfo.folderId
         super.subFolderType = folderInfo.folderType
-        super.processHandle = {(_ success:Bool) -> Void in
+        super.docuemntPickerComplete = {(_ success:Bool) -> Void in
             if success {
                 self.refreshDBData()
             }
@@ -336,11 +332,6 @@ class CDImageViewController:
                     camera.modalPresentationStyle = .fullScreen
                     CDSignalTon.shared.customPickerView = camera
                     self.present(camera, animated: true, completion: nil)
-                    
-                    //                let camera = GPUCameraViewController()
-                    //                camera.modalPresentationStyle = .fullScreen
-                    //                camera.isVideo = false
-                    //                self.present(camera, animated: true, completion: nil)
                 }
             } else {
                 
@@ -378,11 +369,11 @@ class CDImageViewController:
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArr.count
+        return fileArr.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCellIdrr", for: indexPath) as! CDImageCell
-        let tmpFile:CDSafeFileInfo = imageArr[indexPath.item]
+        let tmpFile:CDSafeFileInfo = fileArr[indexPath.item]
         cell.setImageData(fileInfo: tmpFile,isBatchEdit: batchBtn.isSelected)
         return cell
     }
@@ -391,18 +382,18 @@ class CDImageViewController:
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell:CDImageCell = collectionView.cellForItem(at: indexPath) as! CDImageCell
         if batchBtn.isSelected{
-            let tmFile = imageArr[indexPath.item]
-            if tmFile.isSelected == .CDFalse { //本地点击之前未选中
+            let tmFile = fileArr[indexPath.item]
+            if tmFile.isSelected == .no { //本地点击之前未选中
                 cell.isSelected = true
                 selectCount += 1
-                tmFile.isSelected = .CDTrue
+                tmFile.isSelected = .yes
                 if tmFile.fileType == .GifType {
                     selectGifCount += 1
                 }
             } else {
                 cell.isSelected = false
                 selectCount -= 1
-                tmFile.isSelected = .CDFalse
+                tmFile.isSelected = .no
                 if tmFile.fileType == .GifType {
                     selectGifCount -= 1
                 }
@@ -414,24 +405,22 @@ class CDImageViewController:
             self.isNeedReloadData = true
             let scrollerVC = CDImageScrollerViewController()
             scrollerVC.currentIndex = indexPath.item
-            scrollerVC.inputArr = imageArr
+            scrollerVC.inputArr = fileArr
             scrollerVC.folderId = folderInfo.folderId
             self.navigationController?.pushViewController(scrollerVC, animated: true)
         }
     }
-
-    
-    //MARK:CDCameraViewControllerDelegate
-    func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, obj: Dictionary<String, Any>) {
-        CDSignalTon.shared.saveOrigialImage(obj: obj, folderId: folderInfo.folderId)
-        self.isNeedReloadData = true
-        CDSignalTon.shared.customPickerView = nil
-//        cameraVC.dismiss(animated: true, completion: nil)
-        
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    //MARK:CDMeidaPickerDelegate
-    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
-        
+   
+
+}
+
+
+extension CDImageViewController:CDMediaPickerViewControllerDelegate{
+    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: [String : Any?], index: Int, totalCount: Int) {
         CDSignalTon.shared.saveOrigialImage(obj: data, folderId: folderInfo.folderId)
         if index == 1 { //第一个出现进度条
             DispatchQueue.main.async {
@@ -453,18 +442,23 @@ class CDImageViewController:
             }
         }
     }
-    
 
+    
+}
+
+extension CDImageViewController:CDCameraViewControllerDelegate{
+    func onCameraTakePhotoDidFinshed(cameraVC: CDCameraViewController, obj: [String : Any?]) {
+        CDSignalTon.shared.saveOrigialImage(obj: obj, folderId: folderInfo.folderId)
+        self.isNeedReloadData = true
+        CDSignalTon.shared.customPickerView = nil
+//        cameraVC.dismiss(animated: true, completion: nil)
+    }
+    
     func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
         CDSignalTon.shared.customPickerView = nil
         picker.dismiss(animated: true, completion: nil)
     }
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-   
-
+    
+    
 }
+

@@ -9,5 +9,4 @@
 #ifndef CDPrefixHeader_pch
 #define CDPrefixHeader_pch
 
-@import LFFilterSuiteHeader
 #endif /* CDPrefixHeader_pch */

@@ -14,7 +14,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
     private var textView:CDTextView!
     private var menuView:UIToolbar!
     var folderId = 0
-
+//    var sf:CDp
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,20 +49,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         }
         sender.isUserInteractionEnabled = false
         textView.resignFirstResponder()
-        var fileName = contentStr
-        fileName = contentStr.count > 6 ? contentStr.AsNSString().substring(to: 6) : contentStr
-        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
-        fileInfo.userId = CDUserId()
-        fileInfo.folderId = folderId
-        fileInfo.fileName = fileName
-        fileInfo.fileText = contentStr
-        fileInfo.importTime = GetTimestamp(nil)
-        fileInfo.createTime = GetTimestamp(nil)
-        fileInfo.modifyTime = GetTimestamp(nil)
-        fileInfo.accessTime = GetTimestamp(nil)
-        fileInfo.folderType = .TextFolder
-        fileInfo.fileType = NSFileType.PlainTextType
-        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+        CDSignalTon.shared.savePlainText(content: contentStr, folderId: folderId)
         self.navigationController?.popViewController(animated: true);
     }
 
@@ -94,6 +81,7 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
             let doneItem = UIBarButtonItem(customView: doneBtn)
             menuView.setItems([pastrItem,space,doneItem], animated: true)
 
+        
 
         }
     }

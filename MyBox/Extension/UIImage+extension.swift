@@ -10,6 +10,7 @@ import UIKit
 import CoreGraphics
 import CoreServices
 import AVFoundation
+import Foundation
 //MARK: 便利构造
 public extension UIImage{
     //图片的二维码信息
@@ -133,14 +134,10 @@ extension UIImage{
     
     //MARK: 裁剪照片
     func scaleAndCropToMaxSize(newSize:CGSize) ->UIImage {
-        let largestSize = newSize.width > newSize.height ? newSize.width : newSize.height
         var imageSize:CGSize = self.size
-        var ratio:CGFloat = 0
-        if imageSize.width > imageSize.height{
-            ratio = largestSize/imageSize.height
-        }else{
-            ratio = largestSize/imageSize.width
-        }
+        let largestSize = max(imageSize.width, imageSize.height)
+        
+        let ratio:CGFloat = largestSize/min(imageSize.width, imageSize.height)
         let rect = CGRect(x: 0.0, y: 0.0, width: ratio * imageSize.width, height: ratio * imageSize.height)
         UIGraphicsBeginImageContext(rect.size)
         self.draw(in: rect)
@@ -156,7 +153,7 @@ extension UIImage{
         }else{
             offSetX = (imageSize.width / 2) - (imageSize.height / 2)
         }
-
+        
         let corpRect = CGRect(x: offSetX, y: offSetY, width: imageSize.width - offSetX * 2, height: imageSize.height - offSetY * 2)
 
         let sourceImageRef:CGImage = scaleImage.cgImage!
@@ -206,11 +203,7 @@ extension UIImage{
     ///   - imageArr: 图片数组
     ///   - gifPath: GIF路径
     static func composeGif(imageArr:Array<UIImage>, delay:Double, gifPath: inout String){
-//        let url:CFURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath as CFString, CFURLPathStyle.cfurlposixPathStyle, false)
         let destination = CGImageDestinationCreateWithURL(gifPath.url as CFURL, kUTTypeGIF, imageArr.count, nil)
-
-
-        
         let gifProperty = [
             kCGImagePropertyGIFDictionary : [
                 kCGImagePropertyGIFHasGlobalColorMap: true,

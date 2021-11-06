@@ -63,22 +63,7 @@ enum NSFolderType:Int {
 //    case OtherFolder = 4
 }
 //
-enum NSFileType:Int {
-    case PlainTextType = 0
-    case AudioType = 1
-    case ImageType = 2
-    case VideoType = 3
-    case PdfType = 4
-    case PptType = 5
-    case DocType = 6
-    case TxtType = 7
-    case ExclType = 8
-    case RtfType = 9
-    case GifType = 10
-    case ZipType = 11
-    case LiveType = 12
-    case OtherType = 13
-}
+
 
 //登录模式
 enum CDLoginType:Int{
@@ -95,12 +80,7 @@ enum CDFakeType:Int{
     case invisible = 2
 }
 
-enum NSFileGrade:Int {
-    case lovely   //喜爱收藏
-    case normal   //普通
 
-
-}
 
 enum DiskSpaceAlertType:String
 {
@@ -128,10 +108,7 @@ enum SDImageFormat:NSInteger {
     case HEIC
 }
 
-enum CDSelectedStatus:String {
-    case CDTrue = "selected_true" //选中
-    case CDFalse = "selected_false"  //未选中
-}
+
 let IOSVersion = Float(UIDevice.current.systemVersion)
 
 enum CDDevicePermissionType:Int {
@@ -142,13 +119,6 @@ enum CDDevicePermissionType:Int {
     
 }
 //-----------------------------logCongig
-enum CDLogLevel:Int {
-    case DebugLog = 0
-    case InfoLog = 1
-    case ErrorLog = 2
-    case WarnLog = 3
-    case AllLog = 4
-}
 
 enum CDThemeMode :Int{
     case Nomal = 0

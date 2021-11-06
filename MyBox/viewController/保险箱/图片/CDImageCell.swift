@@ -58,7 +58,7 @@ class CDImageCell: UICollectionViewCell {
     
     func setImageData(fileInfo:CDSafeFileInfo,isBatchEdit:Bool){
         self.selectedView.isHidden = !isBatchEdit
-        self.selectedView.image = LoadImage(fileInfo.isSelected == .CDTrue ? "selected" : "no_selected")
+        self.selectedView.image = LoadImage(fileInfo.isSelected == .yes ? "selected" : "no_selected")
 
         self.tipLabel.isHidden = !(fileInfo.fileType == .GifType)
         self.tipLabel.text = "GIF"
@@ -72,7 +72,7 @@ class CDImageCell: UICollectionViewCell {
     func setVideoData(fileInfo:CDSafeFileInfo,isMutilEdit:Bool){
         
         self.selectedView.isHidden = !isMutilEdit
-        self.selectedView.image = LoadImage(fileInfo.isSelected == .CDTrue ? "selected" : "no_selected")
+        self.selectedView.image = LoadImage(fileInfo.isSelected == .yes ? "selected" : "no_selected")
         self.tipLabel.text = GetMMSSFromSS(timeLength: fileInfo.timeLength)
         
         let tmpPath = String.RootPath().appendingPathComponent(str: fileInfo.thumbImagePath)

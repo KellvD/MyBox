@@ -36,11 +36,7 @@ class CDImageScrollerViewController: CDBaseAllViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 10, *) {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }else{
-            
-        }
+        
         
         let fileInfo = inputArr[currentIndex]
         self.title = fileInfo.fileName
@@ -59,7 +55,6 @@ class CDImageScrollerViewController: CDBaseAllViewController {
         view.addSubview(collectionView)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "imageScrollerr")
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: false)
-//        collectionView.contentInsetAdjustmentBehavior = false
        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: LoadImage("fileDetail"), style: .plain, target: self, action: #selector(detailBtnClicked))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
@@ -77,6 +72,13 @@ class CDImageScrollerViewController: CDBaseAllViewController {
         self.view.addSubview(indexLabel)
         let videoTap = UITapGestureRecognizer(target: self, action: #selector(onBarsHiddenOrNot))
         self.view.addGestureRecognizer(videoTap)
+        
+        if #available(iOS 11.0, *) {
+            self.collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        }else{
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+        
     }
     
     lazy var toolBar: CDToolBar = {
@@ -218,9 +220,23 @@ extension CDImageScrollerViewController:PhotoEditorViewControllerDelegate{
         CDSignalTon.shared.saveFileWithUrl(fileUrl:result.editedImageURL, folderId: self.folderId, subFolderType: .ImageFolder,isFromDocment: false)
     }
     
-//    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, loadTitleChartlet response: @escaping EditorTitleChartletResponse) {
-//        
-//    }
+    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, loadTitleChartlet response: @escaping EditorTitleChartletResponse) {
+        let chartLet = EditorChartlet(image: "weixiao".image)
+        response([chartLet])
+    }
+    func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, titleChartlet: EditorChartlet, titleIndex: Int, loadChartletList response: @escaping EditorChartletListResponse) {
+        let emojiPath = Bundle.main.path(forResource: "ClassicExpressionPNGList", ofType: "plist")
+        let arr = NSArray(contentsOfFile: emojiPath!) as! [NSDictionary]
+        var charts:[EditorChartlet] = []
+        arr.forEach { item in
+            let name = item.object(forKey: "png") as! String
+//            let title = item["zh-Hant"] as! String
+            
+            let chartLet = EditorChartlet(image: name.image)
+            charts.append(chartLet)
+        }
+        response(titleIndex,charts)
+    }
     
     
 }

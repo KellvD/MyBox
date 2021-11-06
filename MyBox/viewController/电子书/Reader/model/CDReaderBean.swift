@@ -35,9 +35,7 @@ class CDReaderModel: NSObject,NSCoding {
         super.init()
         gcontent = content
         self.addObserver(self, forKeyPath: "chaptersArr", options: [.new,.old], context: nil)
-        chapterThread = Thread(target: self, selector: #selector(separateChapter), object: nil)
-        chapterThread.name = "chapterThread"
-        chapterThread.start()
+       
 
         
     }
@@ -55,7 +53,6 @@ class CDReaderModel: NSObject,NSCoding {
     
     func encode(with coder: NSCoder) {
         coder.encode(gcontent, forKey: "gcontent")
-        coder.encode(chaptersArr, forKey: "chaptersArr")
         coder.encode(pageIndex, forKey: "pageIndex")
         coder.encode(chapterIndex, forKey: "chapterIndex")
         coder.encode(resourceUrl, forKey: "resource")
@@ -132,61 +129,11 @@ class CDReaderModel: NSObject,NSCoding {
         return 0
     }
     
-    /**
-     正则匹配解析目录
-     */
-    @objc func separateChapter() {
-        chaptersArr.removeAll()
-    
-        let parten = "\n第?[0-9一二三四五六七八九十百千]+[章].*"
-        guard let regex = try? NSRegularExpression(pattern: parten, options: []) else {
-            return
-        }
-        let nsContent = gcontent as NSString
-        let match = regex.matches(in: gcontent, options: .reportCompletion, range: NSRange(location: 0, length: gcontent.count))
-        if match.count != 0 {
-            var lastRange = NSRange(location: 0, length: 0)
-            
-            for idx in 0..<match.count {
-                let obj = match[idx]
-                let range = obj.range
-                let location = range.location
-                if idx == 0 {
-                    let model = CDChapterModel()
-                    model.title = "开始"
-                    let len = location
-                    model.content = nsContent.substring(with: NSRange(location: 0, length: len))
-                    self.chaptersArr.append(model)
-                }
-                
-                if idx > 0 {
-                    let model = CDChapterModel()
-                    model.title = nsContent.substring(with: lastRange)
-                    let len = location - lastRange.location
-                    model.content = nsContent.substring(with: NSRange(location: lastRange.location, length: len))
-                    self.chaptersArr.append(model)
-                }
-                if idx == match.count - 1 {
-                    let model = CDChapterModel()
-                    model.title = nsContent.substring(with: range)
-                    model.content = nsContent.substring(with: NSRange(location: location, length: nsContent.length - location))
-                    self.chaptersArr.append(model)
-                }
-                lastRange = range
-            }
-            self.chapterThread.cancel()
-        } else {
-            let model = CDChapterModel()
-            model.content = gcontent
-            self.chaptersArr.append(model)
-            chapterThread.cancel()
-        }
-        
-    }
+   
 }
 
 
-class CDChapterModel: NSObject,NSCopying,NSCoding {
+class CDChapterModel: NSObject {
     var pageArray:[Int] = []
     var title = String()
     var pageCount = Int()
@@ -205,29 +152,8 @@ class CDChapterModel: NSObject,NSCopying,NSCoding {
             
         }
     }
-    func copy(with zone: NSZone? = nil) -> Any {
-        let model = CDChapterModel.copy() as! CDChapterModel
-        model.content = content
-        model.title = title
-        model.pageCount = pageCount
-        return model
-    }
-
     
-    func encode(with coder: NSCoder) {
-        coder.encode(content, forKey: "content")
-        coder.encode(title, forKey: "title")
-        coder.encode(pageCount, forKey: "pageCount")
-        coder.encode(pageArray, forKey: "pageArray")
-    }
     
-    required init?(coder: NSCoder) {
-        super.init()
-        content = coder.decodeObject(forKey: "content") as? String
-        title = coder.decodeObject(forKey: "title") as! String
-        pageCount = coder.decodeInteger(forKey: "pageCount")
-        pageArray = coder.decodeObject(forKey: "pageArray") as! [Int]
-    }
     
     func updateFont() {
         paginate(bounds:CGRect(x: LeftSpacing, y: TopSpacing, width: UIScreen.main.bounds.width - LeftSpacing - RightSpacing, height: UIScreen.main.bounds.height - TopSpacing - BottomSpacing))

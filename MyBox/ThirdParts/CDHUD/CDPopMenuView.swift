@@ -8,10 +8,7 @@
 
 import UIKit
 
-enum CDOrientation:Int {
-    case leftUp
-    case rightUp
-}
+
 
 @objc protocol CDPopMenuViewDelegate{
     @objc func onSelectedPopMenu(title:String)
@@ -20,7 +17,10 @@ private let tableBgViewWidth:CGFloat = 160
 private let tableBgViewY:CGFloat = 0
 class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
     let cellHeight = 48
-
+    enum CDOrientation:Int {
+        case leftUp
+        case rightUp
+    }
 
     weak var popDelegate:CDPopMenuViewDelegate!
     var tableView:UITableView!

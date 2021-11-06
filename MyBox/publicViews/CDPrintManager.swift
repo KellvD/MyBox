@@ -9,6 +9,15 @@
 import UIKit
 
 open class CDPrintManager:NSObject {
+    enum CDLogLevel:Int {
+        case DebugLog = 0
+        case InfoLog = 1
+        case ErrorLog = 2
+        case WarnLog = 3
+        case AllLog = 4
+    }
+
+      
     static private let _queue = DispatchQueue(label: "myBox.log")
     static private var _gtype:CDLogLevel!
     static private let levelArr = ["[DEBUG💙]","[INFO💚]","[Warn‼️]","[ERROR💔]"]

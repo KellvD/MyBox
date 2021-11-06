@@ -8,17 +8,22 @@
 
 import UIKit
 
-
-enum CDCameraSetType:Int {
-    case flash = 100
-    case hdr = 101
-    case delay = 102
+extension CDCameraTopBar{
+    enum CDCameraSetType:Int {
+        case flash = 100
+        case hdr = 101
+        case delay = 102
+    }
 }
+
+
+
 
 protocol CDCameraTopBarDelete {
     func turnFlashModel(model:Int)
     func turnHDRModel(model:Int)
 }
+
 class CDCameraTopBar: UIView {
 
     private var timeLabel:UILabel?

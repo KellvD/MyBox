@@ -76,19 +76,15 @@ class CDFileTableViewCell: UITableViewCell {
         fileCreateTimeL.text = GetTimeFormat(fileInfo.createTime)
 
         let imageName = GetFileHeadImage(type: fileInfo.fileType)
-//        var rect = audioLengthL.frame
         headImage.image = UIImage(named: imageName!)
         selectImage.isHidden = showSelectIcon == .hide
         if showSelectIcon == .show {
             selectImage.image = LoadImage("no_selected")
-//            rect.origin.x -= 30
         } else if showSelectIcon == .selected {
             selectImage.image = LoadImage("selected")
-//            rect.origin.x -= 30
         }
         
         if fileInfo.fileType == .AudioType {
-//            audioLengthL.frame = frame
             audioLengthL.isHidden = false
             audioLengthL.text = GetMMSSFromSS(timeLength: fileInfo.timeLength)
         }

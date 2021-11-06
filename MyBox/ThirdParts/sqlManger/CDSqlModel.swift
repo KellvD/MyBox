@@ -16,7 +16,11 @@ class CDUserInfo: NSObject {
 }
 
 class CDSafeFolder : NSObject {
-
+    enum CDSelectedStatus:Int {
+        case yes //选中
+        case no  //未选中
+    }
+    
     var folderName = String()  //文件夹名称
     var folderId = Int()       //文件夹id
     var folderType:NSFolderType! //文件夹类型
@@ -24,7 +28,6 @@ class CDSafeFolder : NSObject {
     var fakeType = CDFakeType.invisible         //文件夹访客可见不可见
     var createTime = Int()       //文件夹创建时间
     var modifyTime = Int() //修改时间
-    var accessTime = Int() //访问时间
     var userId = Int()           //预留，多账户使用
     var superId = Int()          //多层级文件夹时顶级文件夹的ID
     var folderPath = String()    //文件夹路径
@@ -32,7 +35,34 @@ class CDSafeFolder : NSObject {
 }
 
 class CDSafeFileInfo: NSObject {
-
+    enum CDSelectedStatus:Int {
+        case yes //选中
+        case no  //未选中
+    }
+    enum NSFileGrade:Int {
+        case lovely   //喜爱收藏
+        case normal   //普通
+    }
+    
+    enum NSFileType:Int {
+        case PlainTextType = 0
+        case AudioType = 1
+        case ImageType = 2
+        case VideoType = 3
+        case PdfType = 4
+        case PptType = 5
+        case DocType = 6
+        case TxtType = 7
+        case ExclType = 8
+        case RtfType = 9
+        case GifType = 10
+        case ZipType = 11
+        case LiveType = 12
+        case htmlType = 13
+        case OtherType = 14
+    }
+    
+    
     var fileId = Int()
     var folderId = Int()
     var fileSize = Int()
@@ -41,7 +71,6 @@ class CDSafeFileInfo: NSObject {
     var timeLength = Double()
     var createTime = Int() //创建时间 相册，沙盒导入文件的创建时间
     var modifyTime = Int() //修改时间
-    var accessTime = Int() //访问时间
     var importTime = Int() //导入时间
     var fileType:NSFileType!
     var fileName = String()
@@ -87,4 +116,18 @@ class CDAttendanceInfo:NSObject{
     var title = String()
     var type = Int()
     var statue = Int()
+}
+
+class CDNovelInfo:NSObject{
+    var novelName = String()
+    var novelPath = String()
+    var importTime = Int()
+    var novelId = Int()
+}
+
+
+class CDChapterInfo: NSObject {
+    var chapterName = String()
+    var content = String()
+    var charterId = Int()
 }

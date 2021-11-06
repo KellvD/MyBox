@@ -9,22 +9,22 @@
 import UIKit
 import AVFoundation
 
-enum CDTakeVideoStep {
-    case begin
-    case stop
-}
+
 
 let FlashKey = "flashKey"
 let HdrKey = "hdrKey"
 let DelayKey = "delayKey"
 
-typealias CDCameraTakePhotoComplete = (_ image:UIImage?) ->Void
-typealias CDCameraTakeVideoComplete = (_ videoUrl:URL?) ->Void
 
-typealias CDCameraScanQRComplete = (_ content:String?,_ recoverHandle:@escaping() -> Void) -> Void
-typealias CDUpdateDelayComplete = (_ delay:Int,_ isEnd:Bool) ->Void
+protocol CDCameraMangerDelegate {
+    func cameraTakePhotoDidComplete(image:UIImage?)
+    func cameraTakeVideoDidComplete(videoUrl:URL?)
+    func cameraScanQRDidComplete(content:String?,recoverHandle:@escaping() -> Void)
+    func cameraUpdateDelayDidComplete(delay:Int,isEnd:Bool)
+}
 
-class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate,UIGestureRecognizerDelegate {
+
+class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate,UIGestureRecognizerDelegate{
     
     private var captureSession:AVCaptureSession!
     private var device:AVCaptureDevice!
@@ -36,11 +36,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     private var audioInput:AVCaptureDeviceInput!
     private var videoOutput:AVCaptureMovieFileOutput!
     
-    
-    var takePhotoComplete:CDCameraTakePhotoComplete!
-    var takeVideoComplete:CDCameraTakeVideoComplete!
-    var scanRQComplete:CDCameraScanQRComplete!
-    var updateDelayComplete:CDUpdateDelayComplete!
+    var delegate:CDCameraMangerDelegate!
+
     
     var isVideoRecording = false
     var topBar:CDCameraTopBar!
@@ -231,10 +228,14 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
 
                     //扫描到二维码后取消输出，避免扫描不停的回调
                     captureSession.removeOutput(metadataOutput)
-                    scanRQComplete(string,{
+//                    scanRQComplete(string,{
+//                        //处理完成后重新添加
+//                        self.captureSession.addOutput(self.metadataOutput)
+//                    })
+                    delegate.cameraScanQRDidComplete(content: string) { [weak self] in
                         //处理完成后重新添加
-                        self.captureSession.addOutput(self.metadataOutput)
-                    })
+                        self!.captureSession.addOutput(self!.metadataOutput)
+                    }
 
                 }
             }
@@ -247,7 +248,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     @available(iOS, introduced: 10.0, deprecated: 11.0)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if error != nil{
-            takePhotoComplete(nil)
+//            takePhotoComplete(nil)
+            delegate.cameraTakePhotoDidComplete(image: nil)
         }else{
 
             if self.captureSession.isRunning {
@@ -255,7 +257,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
             }
             let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
             let image = UIImage(data: data!)
-            takePhotoComplete(image!)
+//            takePhotoComplete(image!)
+            delegate.cameraTakePhotoDidComplete(image: image)
         }
     }
      
@@ -263,7 +266,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     @available(iOS 11, *)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if error != nil{
-            takePhotoComplete(nil)
+//            takePhotoComplete(nil)
+            delegate.cameraTakePhotoDidComplete(image: nil)
         }else{
 
             if self.captureSession.isRunning {
@@ -271,7 +275,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
             }
             let data = photo.fileDataRepresentation()
             let image = UIImage(data: data!)
-            takePhotoComplete(image!)
+//            takePhotoComplete(image!)
+            delegate.cameraTakePhotoDidComplete(image: image)
         }
     }
     //MARK: 视频协议方法
@@ -280,7 +285,8 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
     }
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         closeTimer()
-        takeVideoComplete(outputFileURL)
+//        takeVideoComplete(outputFileURL)
+        delegate.cameraTakeVideoDidComplete(videoUrl: outputFileURL)
     }
     
     //MARK:相机操作
@@ -463,9 +469,12 @@ class CDCameraManger: NSObject,AVCaptureMetadataOutputObjectsDelegate,AVCaptureP
             topBar.updateTimeLabel(time: _timeCount)
         } else {
             if _timeCount <= delayNum {
-                updateDelayComplete(_timeCount,false)
+//                updateDelayComplete(_timeCount,false)
+                delegate.cameraUpdateDelayDidComplete(delay: _timeCount, isEnd: false)
+
             }else{
-                updateDelayComplete(0,true)
+//                updateDelayComplete(0,true)
+                delegate.cameraUpdateDelayDidComplete(delay: 0, isEnd: true)
                 closeTimer()
                 delayNum = 0
                 takePhoto()

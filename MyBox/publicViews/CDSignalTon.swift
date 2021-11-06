@@ -25,8 +25,9 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     var dirNavArr = NSMutableArray()
     var waterBean:CDWaterBean!
     var tab:CDTabBarViewController!
+    var navigationBar:CDNavigationController!
     var locationManager:CLLocationManager!
-    
+    var shareType:String!
     static let shared = CDSignalTon()
     private override init() {
         super.init()
@@ -86,7 +87,6 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             folderInfo.fakeType = .visible
             folderInfo.createTime = Int(createtime)
             folderInfo.modifyTime = Int(createtime)
-            folderInfo.accessTime = Int(createtime)
             folderInfo.folderPath = pathArr[i].relativePath
             folderInfo.userId = CDUserId()
             folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
@@ -137,6 +137,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         do {
             try contentData = Data(contentsOf: fileUrl)
         } catch  {
+            print("saveFileWithUrl Fail :\(error.localizedDescription)")
             return
         }
         if contentData.count <= 0 {
@@ -156,7 +157,6 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         fileInfo.fileName = fileName
         fileInfo.importTime = currentTime
         fileInfo.modifyTime = currentTime
-        fileInfo.accessTime = currentTime
         fileInfo.fileType = fileType
         fileInfo.folderType = subFolderType
         var filePath:String!
@@ -167,7 +167,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             let thumbPath = String.thumpImagePath().appendingPathComponent(str: "\(currentTime).\(suffix)")
             let image = UIImage(data: contentData)!
             let thumbImage = image.scaleAndCropToMaxSize(newSize: CGSize(width: 200, height: 200))
-            let data = thumbImage.jpegData(compressionQuality: 1.0)
+            let data = thumbImage.jpegData(compressionQuality: 0.5)
             try! data?.write(to: thumbPath.url)
             fileInfo.fileWidth = Double(image.size.width)
             fileInfo.fileHeight = Double(image.size.height)
@@ -178,7 +178,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
                 try! contentData.write(to: filePath.url)
                 let thumbPath = String.thumpVideoPath().appendingPathComponent(str: "\(currentTime).jpg")
                 let image = UIImage.previewImage(videoUrl: filePath.url)
-                let data = image.jpegData(compressionQuality: 1.0)
+                let data = image.jpegData(compressionQuality: 0.5)
                 try! data?.write(to: thumbPath.url)
                 fileInfo.thumbImagePath = thumbPath.relativePath
             }else{
@@ -195,16 +195,18 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         fileInfo.createTime = fileAttribute.createTime
         fileInfo.filePath = filePath.relativePath
         CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+        print("OK")
     }
     
     /**
      保存原始图片
      */
-    func saveOrigialImage(obj:Dictionary<String,Any>,folderId:Int) {
+    func saveOrigialImage(obj:Dictionary<String,Any?>,folderId:Int) {
         let fileName = obj["fileName"] as! String
         let imageType = obj["imageType"] as! String
         let createTime = obj["createTime"] as! Int
-        let location = obj["location"] as! CLLocation
+        let location = obj["location"] as? CLLocation
+        
         let suffix = fileName.suffix
         let fileType = suffix.fileType
         
@@ -256,7 +258,6 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         fileInfo.createTime = createTime
         fileInfo.importTime = importTime
         fileInfo.modifyTime = importTime
-        fileInfo.accessTime = importTime
         fileInfo.fileType = fileType
         
         fileInfo.userId = CDUserId()
@@ -267,7 +268,36 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
         }
         
     }
-
+    
+    func savePlainText(content:String,folderId:Int){
+        let fileName = content.count > 6 ? content.subString(to: 6) : content
+        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
+        fileInfo.userId = CDUserId()
+        fileInfo.folderId = folderId
+        fileInfo.fileName = fileName
+        fileInfo.fileText = content
+        fileInfo.importTime = GetTimestamp(nil)
+        fileInfo.createTime = GetTimestamp(nil)
+        fileInfo.modifyTime = GetTimestamp(nil)
+        fileInfo.folderType = .TextFolder
+        fileInfo.fileType = .PlainTextType
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+    }
+    
+    func saveUrl(url:String,title:String,folderId:Int){
+        let fileInfo:CDSafeFileInfo = CDSafeFileInfo()
+        fileInfo.userId = CDUserId()
+        fileInfo.folderId = folderId
+        fileInfo.fileName = title
+        fileInfo.fileText = url
+        fileInfo.importTime = GetTimestamp(nil)
+        fileInfo.createTime = GetTimestamp(nil)
+        fileInfo.modifyTime = GetTimestamp(nil)
+        fileInfo.folderType = .TextFolder
+        fileInfo.fileType = .htmlType
+        CDSqlManager.shared.addSafeFileInfo(fileInfo: fileInfo)
+    }
+    
     /**
      获取视频的每一帧图像
     */

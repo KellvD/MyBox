@@ -9,10 +9,8 @@
 import UIKit
 import AVFoundation
 import CDMediaEditor
-typealias CDPreviewDoneHandle = (_ success:Bool) -> Void
-typealias CDPreviewEditPhotoComplete = (_ image:UIImage?) ->Void
-typealias CDPreviewEditVideoComplete = (_ videoUrl:URL?) ->Void
 
+typealias CDPreviewDoneHandle = (_ data:Any?) -> Void
 class CDPreviewTakerViewController: UIViewController {
     private var preview:UIImageView!
     private var playerLayer:AVPlayerLayer!
@@ -23,8 +21,6 @@ class CDPreviewTakerViewController: UIViewController {
     var isVideo:Bool = false
     var origialImage:UIImage!
     var previewHandle:CDPreviewDoneHandle!
-    var previewEditPhotoHandle:CDPreviewEditPhotoComplete!
-    var previewEditVideoHandle:CDPreviewEditVideoComplete!
     var cameraVC:CDCameraViewController!
     
     override var prefersStatusBarHidden: Bool{
@@ -96,7 +92,7 @@ class CDPreviewTakerViewController: UIViewController {
     
     
     @objc func backButtonClick(){
-        previewHandle(false)
+        previewHandle(nil)
         self.dismiss(animated: false, completion: nil)
         
     }
@@ -106,10 +102,10 @@ class CDPreviewTakerViewController: UIViewController {
         if isVideo {
             self.dismiss(animated: false, completion: nil)
             distoryPlayer()
-            previewHandle(true)
+            previewHandle(videoUrl)
         }else{
             self.dismiss(animated: false, completion: nil)
-            previewHandle(true)
+            previewHandle(origialImage)
             
         }
         
@@ -198,18 +194,14 @@ class CDPreviewTakerViewController: UIViewController {
 
 extension CDPreviewTakerViewController:VideoEditorViewControllerDelegate,PhotoEditorViewControllerDelegate{
     func videoEditorViewController(_ videoEditorViewController: VideoEditorViewController, didFinish result: VideoEditResult){
-        self.dismiss(animated: false, completion: {
-            self.previewEditVideoHandle(result.editedURL)
-        })
 
-        
+        videoUrl = result.editedURL
+        initPlayer()
     }
     
     func photoEditorViewController(_ photoEditorViewController: PhotoEditorViewController, didFinish result: PhotoEditResult) {
-        self.dismiss(animated: false, completion: {
-            self.previewEditPhotoHandle(result.editedImage)
-        })
-        
+        origialImage = result.editedImage
+        preview.image = origialImage
         
     }
 }

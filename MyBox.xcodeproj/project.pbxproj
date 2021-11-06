@@ -127,7 +127,6 @@
 		EF29E3942712DB470041092B /* CDAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3932712DB470041092B /* CDAudioManager.swift */; };
 		EF29E3972712DB700041092B /* developLog.md in Resources */ = {isa = PBXBuildFile; fileRef = EF29E3962712DB700041092B /* developLog.md */; };
 		EF29E39A2712DBA00041092B /* CDQrPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3982712DBA00041092B /* CDQrPopView.swift */; };
-		EF29E39B2712DBA00041092B /* CDCameraConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E3992712DBA00041092B /* CDCameraConfig.swift */; };
 		EF29E3A32712DBB80041092B /* CDSqlManager+CDSafeFileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39C2712DBB70041092B /* CDSqlManager+CDSafeFileInfo.swift */; };
 		EF29E3A42712DBB80041092B /* CDSqlManager+CDSafeFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39D2712DBB70041092B /* CDSqlManager+CDSafeFolder.swift */; };
 		EF29E3A52712DBB80041092B /* CDSqlManager+CDUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E39E2712DBB80041092B /* CDSqlManager+CDUserInfo.swift */; };
@@ -147,6 +146,80 @@
 		EF29E3CF2712E7AC0041092B /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E3CD2712E7AC0041092B /* SQLite.framework */; };
 		EF29E3D02712E7C30041092B /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E3CC2712E7AC0041092B /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF29E3D12712E7C30041092B /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E3CD2712E7AC0041092B /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF82F86A273696080086CCA0 /* CDShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F865273696070086CCA0 /* CDShareImageView.swift */; };
+		EF82F86B273696080086CCA0 /* CDShareUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F866273696070086CCA0 /* CDShareUrlView.swift */; };
+		EF82F86C273696080086CCA0 /* CDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F867273696070086CCA0 /* CDExtension.swift */; };
+		EF82F86D273696080086CCA0 /* CDShareMoveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F868273696070086CCA0 /* CDShareMoveView.swift */; };
+		EF82F8742736968A0086CCA0 /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF82F8732736968A0086CCA0 /* SwiftSoup.framework */; };
+		EF82F8752736969B0086CCA0 /* SwiftSoup.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF82F8732736968A0086CCA0 /* SwiftSoup.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF82F877273696BF0086CCA0 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F876273696BF0086CCA0 /* UIImage+Gif.swift */; };
+		EF82F878273696C80086CCA0 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F876273696BF0086CCA0 /* UIImage+Gif.swift */; };
+		EF82F87B273697040086CCA0 /* CDCameraBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F879273697040086CCA0 /* CDCameraBottomBar.swift */; };
+		EF82F87C273697040086CCA0 /* CDCameraTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F87A273697040086CCA0 /* CDCameraTopBar.swift */; };
+		EF82F87F273697300086CCA0 /* CDSqlManager+CDNovelnfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F87D273697300086CCA0 /* CDSqlManager+CDNovelnfo.swift */; };
+		EF82F880273697300086CCA0 /* CDSqlManager+CDChapterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F87E273697300086CCA0 /* CDSqlManager+CDChapterInfo.swift */; };
+		EF82F8C1273697570086CCA0 /* yun.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F884273697570086CCA0 /* yun.png */; };
+		EF82F8C2273697570086CCA0 /* youhengheng.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F885273697570086CCA0 /* youhengheng.png */; };
+		EF82F8C3273697570086CCA0 /* huangzuan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F886273697570086CCA0 /* huangzuan.png */; };
+		EF82F8C4273697570086CCA0 /* dao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F887273697570086CCA0 /* dao.png */; };
+		EF82F8C5273697570086CCA0 /* baobao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F888273697570086CCA0 /* baobao.png */; };
+		EF82F8C6273697570086CCA0 /* xu.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F889273697570086CCA0 /* xu.png */; };
+		EF82F8C7273697570086CCA0 /* zhuakuang.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88A273697570086CCA0 /* zhuakuang.png */; };
+		EF82F8C8273697570086CCA0 /* OK.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88B273697570086CCA0 /* OK.png */; };
+		EF82F8C9273697570086CCA0 /* cabiti.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88C273697570086CCA0 /* cabiti.png */; };
+		EF82F8CA273697570086CCA0 /* labahua.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88D273697570086CCA0 /* labahua.png */; };
+		EF82F8CB273697570086CCA0 /* tu.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88E273697570086CCA0 /* tu.png */; };
+		EF82F8CC273697570086CCA0 /* zhadan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F88F273697570086CCA0 /* zhadan.png */; };
+		EF82F8CD273697570086CCA0 /* koubi.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F890273697570086CCA0 /* koubi.png */; };
+		EF82F8CE273697570086CCA0 /* weixiao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F891273697570086CCA0 /* weixiao.png */; };
+		EF82F8CF273697570086CCA0 /* guilian.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F892273697570086CCA0 /* guilian.png */; };
+		EF82F8D0273697570086CCA0 /* kelian.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F893273697570086CCA0 /* kelian.png */; };
+		EF82F8D1273697570086CCA0 /* daxiao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F894273697570086CCA0 /* daxiao.png */; };
+		EF82F8D2273697570086CCA0 /* shui.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F895273697570086CCA0 /* shui.png */; };
+		EF82F8D3273697570086CCA0 /* xiangyao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F896273697570086CCA0 /* xiangyao.png */; };
+		EF82F8D4273697570086CCA0 /* bishi.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F897273697570086CCA0 /* bishi.png */; };
+		EF82F8D5273697570086CCA0 /* fanu.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F898273697570086CCA0 /* fanu.png */; };
+		EF82F8D6273697570086CCA0 /* chifan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F899273697570086CCA0 /* chifan.png */; };
+		EF82F8D7273697570086CCA0 /* se.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89A273697570086CCA0 /* se.png */; };
+		EF82F8D8273697570086CCA0 /* guzhang.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89B273697570086CCA0 /* guzhang.png */; };
+		EF82F8D9273697570086CCA0 /* piezui.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89C273697570086CCA0 /* piezui.png */; };
+		EF82F8DA273697570086CCA0 /* bizui.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89D273697570086CCA0 /* bizui.png */; };
+		EF82F8DB273697570086CCA0 /* dajie.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89E273697570086CCA0 /* dajie.png */; };
+		EF82F8DC273697570086CCA0 /* deyi.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F89F273697570086CCA0 /* deyi.png */; };
+		EF82F8DD273697570086CCA0 /* haixiu.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A0273697570086CCA0 /* haixiu.png */; };
+		EF82F8DE273697570086CCA0 /* sikao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A1273697570086CCA0 /* sikao.png */; };
+		EF82F8DF273697570086CCA0 /* hanxiao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A2273697570086CCA0 /* hanxiao.png */; };
+		EF82F8E0273697570086CCA0 /* qianmi.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A3273697570086CCA0 /* qianmi.png */; };
+		EF82F8E1273697570086CCA0 /* jiong.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A4273697570086CCA0 /* jiong.png */; };
+		EF82F8E2273697570086CCA0 /* fadai.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A5273697570086CCA0 /* fadai.png */; };
+		EF82F8E3273697570086CCA0 /* tiaopi.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A6273697570086CCA0 /* tiaopi.png */; };
+		EF82F8E4273697570086CCA0 /* zhenjing.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A7273697570086CCA0 /* zhenjing.png */; };
+		EF82F8E5273697570086CCA0 /* xinsui.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A8273697570086CCA0 /* xinsui.png */; };
+		EF82F8E6273697570086CCA0 /* touxiao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8A9273697570086CCA0 /* touxiao.png */; };
+		EF82F8E7273697570086CCA0 /* ciya.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AA273697570086CCA0 /* ciya.png */; };
+		EF82F8E8273697570086CCA0 /* liulei.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AB273697570086CCA0 /* liulei.png */; };
+		EF82F8E9273697570086CCA0 /* fendou.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AC273697570086CCA0 /* fendou.png */; };
+		EF82F8EA273697570086CCA0 /* lanzuan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AD273697570086CCA0 /* lanzuan.png */; };
+		EF82F8EB273697570086CCA0 /* kun.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AE273697570086CCA0 /* kun.png */; };
+		EF82F8EC273697570086CCA0 /* lenghan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8AF273697570086CCA0 /* lenghan.png */; };
+		EF82F8ED273697570086CCA0 /* heiyan.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B0273697570086CCA0 /* heiyan.png */; };
+		EF82F8EE273697570086CCA0 /* qinqin.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B1273697570086CCA0 /* qinqin.png */; };
+		EF82F8EF273697570086CCA0 /* nanguo.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B2273697570086CCA0 /* nanguo.png */; };
+		EF82F8F0273697570086CCA0 /* ClassicExpressionPNGList.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B3273697570086CCA0 /* ClassicExpressionPNGList.plist */; };
+		EF82F8F1273697570086CCA0 /* qiaoda.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B4273697570086CCA0 /* qiaoda.png */; };
+		EF82F8F2273697570086CCA0 /* ding.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B5273697570086CCA0 /* ding.png */; };
+		EF82F8F3273697570086CCA0 /* haqian.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B6273697570086CCA0 /* haqian.png */; };
+		EF82F8F4273697570086CCA0 /* zaijian.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B7273697570086CCA0 /* zaijian.png */; };
+		EF82F8F5273697570086CCA0 /* yiwen.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B8273697570086CCA0 /* yiwen.png */; };
+		EF82F8F6273697570086CCA0 /* xin.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8B9273697570086CCA0 /* xin.png */; };
+		EF82F8F7273697570086CCA0 /* ganmao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BA273697570086CCA0 /* ganmao.png */; };
+		EF82F8F8273697570086CCA0 /* ganga.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BB273697570086CCA0 /* ganga.png */; };
+		EF82F8F9273697570086CCA0 /* huaixiao.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BC273697570086CCA0 /* huaixiao.png */; };
+		EF82F8FA273697570086CCA0 /* keai.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BD273697570086CCA0 /* keai.png */; };
+		EF82F8FB273697570086CCA0 /* zuohengheng.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BE273697570086CCA0 /* zuohengheng.png */; };
+		EF82F8FC273697570086CCA0 /* daku.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8BF273697570086CCA0 /* daku.png */; };
+		EF82F8FD273697570086CCA0 /* weiqu.png in Resources */ = {isa = PBXBuildFile; fileRef = EF82F8C0273697570086CCA0 /* weiqu.png */; };
+		EF82F8FF273697720086CCA0 /* CDPickerFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF82F8FE273697720086CCA0 /* CDPickerFolderViewController.swift */; };
 		EF91AEEE26D0A1AB00A6943F /* CDFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADA826D0A1AA00A6943F /* CDFontView.swift */; };
 		EF91AEEF26D0A1AB00A6943F /* CDTextViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADA926D0A1AA00A6943F /* CDTextViewConfig.swift */; };
 		EF91AEF026D0A1AB00A6943F /* CDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADAA26D0A1AA00A6943F /* CDTextView.swift */; };
@@ -178,12 +251,6 @@
 		EF91AF0A26D0A1AB00A6943F /* 项目符号03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF91ADC526D0A1AA00A6943F /* 项目符号03@2x.png */; };
 		EF91AF0B26D0A1AB00A6943F /* CDInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADC626D0A1AA00A6943F /* CDInputAccessoryView.swift */; };
 		EF91AF0C26D0A1AB00A6943F /* CDPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADC726D0A1AA00A6943F /* CDPickerView.swift */; };
-		EF91AF0D26D0A1AB00A6943F /* GPCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADC926D0A1AA00A6943F /* GPCameraManager.swift */; };
-		EF91AF0E26D0A1AB00A6943F /* CDCameraTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADCA26D0A1AA00A6943F /* CDCameraTopBar.swift */; };
-		EF91AF0F26D0A1AB00A6943F /* CDCameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADCB26D0A1AA00A6943F /* CDCameraPreview.swift */; };
-		EF91AF1026D0A1AB00A6943F /* GPUCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADCC26D0A1AA00A6943F /* GPUCameraViewController.swift */; };
-		EF91AF1126D0A1AB00A6943F /* CDCameraBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADCD26D0A1AA00A6943F /* CDCameraBottomBar.swift */; };
-		EF91AF1226D0A1AB00A6943F /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADCF26D0A1AA00A6943F /* UIImage+Gif.swift */; };
 		EF91AF1326D0A1AB00A6943F /* ShineLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADD126D0A1AA00A6943F /* ShineLineChart.swift */; };
 		EF91AF1426D0A1AB00A6943F /* ShineBaseChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADD226D0A1AA00A6943F /* ShineBaseChart.swift */; };
 		EF91AF1526D0A1AB00A6943F /* ShineBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91ADD326D0A1AA00A6943F /* ShineBarChart.swift */; };
@@ -222,7 +289,6 @@
 		EF91AF3C26D0A1AB00A6943F /* CDInlineTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0A26D0A1AA00A6943F /* CDInlineTools.swift */; };
 		EF91AF3D26D0A1AB00A6943F /* CDNetworkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0B26D0A1AA00A6943F /* CDNetworkTools.swift */; };
 		EF91AF3E26D0A1AB00A6943F /* CDCustomDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0C26D0A1AA00A6943F /* CDCustomDefines.swift */; };
-		EF91AF3F26D0A1AB00A6943F /* CDContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0D26D0A1AA00A6943F /* CDContainerViewController.swift */; };
 		EF91AF4026D0A1AB00A6943F /* CDEmojiHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0E26D0A1AA00A6943F /* CDEmojiHandle.swift */; };
 		EF91AF4126D0A1AB00A6943F /* CDGeneralTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE0F26D0A1AA00A6943F /* CDGeneralTool.swift */; };
 		EF91AF4226D0A1AB00A6943F /* CDSignalTon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE1026D0A1AA00A6943F /* CDSignalTon.swift */; };
@@ -282,8 +348,6 @@
 		EF91AFA126D0A1AB00A6943F /* CDFolderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE7F26D0A1AA00A6943F /* CDFolderDetailViewController.swift */; };
 		EF91AFA226D0A1AB00A6943F /* CDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8026D0A1AA00A6943F /* CDTableViewCell.swift */; };
 		EF91AFA326D0A1AB00A6943F /* CDToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8126D0A1AA00A6943F /* CDToolBar.swift */; };
-		EF91AFA426D0A1AB00A6943F /* CDFolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8226D0A1AA00A6943F /* CDFolderListViewController.swift */; };
-		EF91AFA526D0A1AB00A6943F /* CDSideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8326D0A1AA00A6943F /* CDSideViewController.swift */; };
 		EF91AFA626D0A1AB00A6943F /* CDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8426D0A1AA00A6943F /* CDWebViewController.swift */; };
 		EF91AFA726D0A1AB00A6943F /* CDFileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8526D0A1AA00A6943F /* CDFileDetailViewController.swift */; };
 		EF91AFA826D0A1AB00A6943F /* CDNewFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AE8626D0A1AA00A6943F /* CDNewFolderViewController.swift */; };
@@ -392,6 +456,16 @@
 				EF29E3C42712DC440041092B /* Share.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF82F8702736965E0086CCA0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EF82F8752736969B0086CCA0 /* SwiftSoup.framework in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EFC242F3245BF6AF00DDC829 /* CopyFiles */ = {
@@ -554,7 +628,6 @@
 		EF29E3952712DB700041092B /* MyBox.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
 		EF29E3962712DB700041092B /* developLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = developLog.md; sourceTree = "<group>"; };
 		EF29E3982712DBA00041092B /* CDQrPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDQrPopView.swift; sourceTree = "<group>"; };
-		EF29E3992712DBA00041092B /* CDCameraConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraConfig.swift; sourceTree = "<group>"; };
 		EF29E39C2712DBB70041092B /* CDSqlManager+CDSafeFileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDSafeFileInfo.swift"; sourceTree = "<group>"; };
 		EF29E39D2712DBB70041092B /* CDSqlManager+CDSafeFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDSafeFolder.swift"; sourceTree = "<group>"; };
 		EF29E39E2712DBB80041092B /* CDSqlManager+CDUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDUserInfo.swift"; sourceTree = "<group>"; };
@@ -572,9 +645,81 @@
 		EF29E3C12712DC440041092B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF29E3C82712DC930041092B /* Share.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
 		EF29E3C92712DC930041092B /* CDShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShareViewController.swift; sourceTree = "<group>"; };
-		EF29E3CB2712DFEE0041092B /* MyBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBox.entitlements; sourceTree = "<group>"; };
 		EF29E3CC2712E7AC0041092B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SnapKit.framework; sourceTree = "<group>"; };
 		EF29E3CD2712E7AC0041092B /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SQLite.framework; sourceTree = "<group>"; };
+		EF82F865273696070086CCA0 /* CDShareImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShareImageView.swift; sourceTree = "<group>"; };
+		EF82F866273696070086CCA0 /* CDShareUrlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShareUrlView.swift; sourceTree = "<group>"; };
+		EF82F867273696070086CCA0 /* CDExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDExtension.swift; sourceTree = "<group>"; };
+		EF82F868273696070086CCA0 /* CDShareMoveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShareMoveView.swift; sourceTree = "<group>"; };
+		EF82F86F2736963E0086CCA0 /* MyBoxDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyBoxDebug.entitlements; sourceTree = "<group>"; };
+		EF82F8732736968A0086CCA0 /* SwiftSoup.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftSoup.framework; sourceTree = "<group>"; };
+		EF82F876273696BF0086CCA0 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		EF82F879273697040086CCA0 /* CDCameraBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraBottomBar.swift; sourceTree = "<group>"; };
+		EF82F87A273697040086CCA0 /* CDCameraTopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraTopBar.swift; sourceTree = "<group>"; };
+		EF82F87D273697300086CCA0 /* CDSqlManager+CDNovelnfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDNovelnfo.swift"; sourceTree = "<group>"; };
+		EF82F87E273697300086CCA0 /* CDSqlManager+CDChapterInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSqlManager+CDChapterInfo.swift"; sourceTree = "<group>"; };
+		EF82F884273697570086CCA0 /* yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yun.png; sourceTree = "<group>"; };
+		EF82F885273697570086CCA0 /* youhengheng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youhengheng.png; sourceTree = "<group>"; };
+		EF82F886273697570086CCA0 /* huangzuan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huangzuan.png; sourceTree = "<group>"; };
+		EF82F887273697570086CCA0 /* dao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dao.png; sourceTree = "<group>"; };
+		EF82F888273697570086CCA0 /* baobao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baobao.png; sourceTree = "<group>"; };
+		EF82F889273697570086CCA0 /* xu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xu.png; sourceTree = "<group>"; };
+		EF82F88A273697570086CCA0 /* zhuakuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhuakuang.png; sourceTree = "<group>"; };
+		EF82F88B273697570086CCA0 /* OK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OK.png; sourceTree = "<group>"; };
+		EF82F88C273697570086CCA0 /* cabiti.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cabiti.png; sourceTree = "<group>"; };
+		EF82F88D273697570086CCA0 /* labahua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = labahua.png; sourceTree = "<group>"; };
+		EF82F88E273697570086CCA0 /* tu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tu.png; sourceTree = "<group>"; };
+		EF82F88F273697570086CCA0 /* zhadan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhadan.png; sourceTree = "<group>"; };
+		EF82F890273697570086CCA0 /* koubi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = koubi.png; sourceTree = "<group>"; };
+		EF82F891273697570086CCA0 /* weixiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weixiao.png; sourceTree = "<group>"; };
+		EF82F892273697570086CCA0 /* guilian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guilian.png; sourceTree = "<group>"; };
+		EF82F893273697570086CCA0 /* kelian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kelian.png; sourceTree = "<group>"; };
+		EF82F894273697570086CCA0 /* daxiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daxiao.png; sourceTree = "<group>"; };
+		EF82F895273697570086CCA0 /* shui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shui.png; sourceTree = "<group>"; };
+		EF82F896273697570086CCA0 /* xiangyao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xiangyao.png; sourceTree = "<group>"; };
+		EF82F897273697570086CCA0 /* bishi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bishi.png; sourceTree = "<group>"; };
+		EF82F898273697570086CCA0 /* fanu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanu.png; sourceTree = "<group>"; };
+		EF82F899273697570086CCA0 /* chifan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chifan.png; sourceTree = "<group>"; };
+		EF82F89A273697570086CCA0 /* se.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = se.png; sourceTree = "<group>"; };
+		EF82F89B273697570086CCA0 /* guzhang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guzhang.png; sourceTree = "<group>"; };
+		EF82F89C273697570086CCA0 /* piezui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piezui.png; sourceTree = "<group>"; };
+		EF82F89D273697570086CCA0 /* bizui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bizui.png; sourceTree = "<group>"; };
+		EF82F89E273697570086CCA0 /* dajie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dajie.png; sourceTree = "<group>"; };
+		EF82F89F273697570086CCA0 /* deyi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deyi.png; sourceTree = "<group>"; };
+		EF82F8A0273697570086CCA0 /* haixiu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haixiu.png; sourceTree = "<group>"; };
+		EF82F8A1273697570086CCA0 /* sikao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sikao.png; sourceTree = "<group>"; };
+		EF82F8A2273697570086CCA0 /* hanxiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hanxiao.png; sourceTree = "<group>"; };
+		EF82F8A3273697570086CCA0 /* qianmi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qianmi.png; sourceTree = "<group>"; };
+		EF82F8A4273697570086CCA0 /* jiong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jiong.png; sourceTree = "<group>"; };
+		EF82F8A5273697570086CCA0 /* fadai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fadai.png; sourceTree = "<group>"; };
+		EF82F8A6273697570086CCA0 /* tiaopi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiaopi.png; sourceTree = "<group>"; };
+		EF82F8A7273697570086CCA0 /* zhenjing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhenjing.png; sourceTree = "<group>"; };
+		EF82F8A8273697570086CCA0 /* xinsui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xinsui.png; sourceTree = "<group>"; };
+		EF82F8A9273697570086CCA0 /* touxiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touxiao.png; sourceTree = "<group>"; };
+		EF82F8AA273697570086CCA0 /* ciya.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ciya.png; sourceTree = "<group>"; };
+		EF82F8AB273697570086CCA0 /* liulei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = liulei.png; sourceTree = "<group>"; };
+		EF82F8AC273697570086CCA0 /* fendou.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fendou.png; sourceTree = "<group>"; };
+		EF82F8AD273697570086CCA0 /* lanzuan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lanzuan.png; sourceTree = "<group>"; };
+		EF82F8AE273697570086CCA0 /* kun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kun.png; sourceTree = "<group>"; };
+		EF82F8AF273697570086CCA0 /* lenghan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lenghan.png; sourceTree = "<group>"; };
+		EF82F8B0273697570086CCA0 /* heiyan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heiyan.png; sourceTree = "<group>"; };
+		EF82F8B1273697570086CCA0 /* qinqin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qinqin.png; sourceTree = "<group>"; };
+		EF82F8B2273697570086CCA0 /* nanguo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nanguo.png; sourceTree = "<group>"; };
+		EF82F8B3273697570086CCA0 /* ClassicExpressionPNGList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClassicExpressionPNGList.plist; sourceTree = "<group>"; };
+		EF82F8B4273697570086CCA0 /* qiaoda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qiaoda.png; sourceTree = "<group>"; };
+		EF82F8B5273697570086CCA0 /* ding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ding.png; sourceTree = "<group>"; };
+		EF82F8B6273697570086CCA0 /* haqian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haqian.png; sourceTree = "<group>"; };
+		EF82F8B7273697570086CCA0 /* zaijian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zaijian.png; sourceTree = "<group>"; };
+		EF82F8B8273697570086CCA0 /* yiwen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yiwen.png; sourceTree = "<group>"; };
+		EF82F8B9273697570086CCA0 /* xin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xin.png; sourceTree = "<group>"; };
+		EF82F8BA273697570086CCA0 /* ganmao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ganmao.png; sourceTree = "<group>"; };
+		EF82F8BB273697570086CCA0 /* ganga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ganga.png; sourceTree = "<group>"; };
+		EF82F8BC273697570086CCA0 /* huaixiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huaixiao.png; sourceTree = "<group>"; };
+		EF82F8BD273697570086CCA0 /* keai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keai.png; sourceTree = "<group>"; };
+		EF82F8BE273697570086CCA0 /* zuohengheng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zuohengheng.png; sourceTree = "<group>"; };
+		EF82F8BF273697570086CCA0 /* daku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daku.png; sourceTree = "<group>"; };
+		EF82F8C0273697570086CCA0 /* weiqu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weiqu.png; sourceTree = "<group>"; };
+		EF82F8FE273697720086CCA0 /* CDPickerFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPickerFolderViewController.swift; sourceTree = "<group>"; };
 		EF91ADA826D0A1AA00A6943F /* CDFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFontView.swift; sourceTree = "<group>"; };
 		EF91ADA926D0A1AA00A6943F /* CDTextViewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextViewConfig.swift; sourceTree = "<group>"; };
 		EF91ADAA26D0A1AA00A6943F /* CDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTextView.swift; sourceTree = "<group>"; };
@@ -606,12 +751,6 @@
 		EF91ADC526D0A1AA00A6943F /* 项目符号03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "项目符号03@2x.png"; sourceTree = "<group>"; };
 		EF91ADC626D0A1AA00A6943F /* CDInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInputAccessoryView.swift; sourceTree = "<group>"; };
 		EF91ADC726D0A1AA00A6943F /* CDPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPickerView.swift; sourceTree = "<group>"; };
-		EF91ADC926D0A1AA00A6943F /* GPCameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPCameraManager.swift; sourceTree = "<group>"; };
-		EF91ADCA26D0A1AA00A6943F /* CDCameraTopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraTopBar.swift; sourceTree = "<group>"; };
-		EF91ADCB26D0A1AA00A6943F /* CDCameraPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraPreview.swift; sourceTree = "<group>"; };
-		EF91ADCC26D0A1AA00A6943F /* GPUCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPUCameraViewController.swift; sourceTree = "<group>"; };
-		EF91ADCD26D0A1AA00A6943F /* CDCameraBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCameraBottomBar.swift; sourceTree = "<group>"; };
-		EF91ADCF26D0A1AA00A6943F /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		EF91ADD126D0A1AA00A6943F /* ShineLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShineLineChart.swift; sourceTree = "<group>"; };
 		EF91ADD226D0A1AA00A6943F /* ShineBaseChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShineBaseChart.swift; sourceTree = "<group>"; };
 		EF91ADD326D0A1AA00A6943F /* ShineBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShineBarChart.swift; sourceTree = "<group>"; };
@@ -650,7 +789,6 @@
 		EF91AE0A26D0A1AA00A6943F /* CDInlineTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInlineTools.swift; sourceTree = "<group>"; };
 		EF91AE0B26D0A1AA00A6943F /* CDNetworkTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNetworkTools.swift; sourceTree = "<group>"; };
 		EF91AE0C26D0A1AA00A6943F /* CDCustomDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCustomDefines.swift; sourceTree = "<group>"; };
-		EF91AE0D26D0A1AA00A6943F /* CDContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDContainerViewController.swift; sourceTree = "<group>"; };
 		EF91AE0E26D0A1AA00A6943F /* CDEmojiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDEmojiHandle.swift; sourceTree = "<group>"; };
 		EF91AE0F26D0A1AA00A6943F /* CDGeneralTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDGeneralTool.swift; sourceTree = "<group>"; };
 		EF91AE1026D0A1AA00A6943F /* CDSignalTon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSignalTon.swift; sourceTree = "<group>"; };
@@ -710,8 +848,6 @@
 		EF91AE7F26D0A1AA00A6943F /* CDFolderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFolderDetailViewController.swift; sourceTree = "<group>"; };
 		EF91AE8026D0A1AA00A6943F /* CDTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDTableViewCell.swift; sourceTree = "<group>"; };
 		EF91AE8126D0A1AA00A6943F /* CDToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDToolBar.swift; sourceTree = "<group>"; };
-		EF91AE8226D0A1AA00A6943F /* CDFolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFolderListViewController.swift; sourceTree = "<group>"; };
-		EF91AE8326D0A1AA00A6943F /* CDSideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSideViewController.swift; sourceTree = "<group>"; };
 		EF91AE8426D0A1AA00A6943F /* CDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDWebViewController.swift; sourceTree = "<group>"; };
 		EF91AE8526D0A1AA00A6943F /* CDFileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFileDetailViewController.swift; sourceTree = "<group>"; };
 		EF91AE8626D0A1AA00A6943F /* CDNewFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNewFolderViewController.swift; sourceTree = "<group>"; };
@@ -818,6 +954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF82F8742736968A0086CCA0 /* SwiftSoup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,7 +1005,7 @@
 		73550FE72457C0AB009B7599 /* MyBox */ = {
 			isa = PBXGroup;
 			children = (
-				EF29E3CB2712DFEE0041092B /* MyBox.entitlements */,
+				EF82F86F2736963E0086CCA0 /* MyBoxDebug.entitlements */,
 				EF91AEDB26D0A1AB00A6943F /* appleLunch */,
 				EF91AE1426D0A1AA00A6943F /* Extension */,
 				EF91AEE126D0A1AB00A6943F /* lib */,
@@ -1159,6 +1296,11 @@
 		EF29E3BB2712DC430041092B /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				EF82F8722736968A0086CCA0 /* lib */,
+				EF82F867273696070086CCA0 /* CDExtension.swift */,
+				EF82F865273696070086CCA0 /* CDShareImageView.swift */,
+				EF82F868273696070086CCA0 /* CDShareMoveView.swift */,
+				EF82F866273696070086CCA0 /* CDShareUrlView.swift */,
 				EF29E3C92712DC930041092B /* CDShareViewController.swift */,
 				EF29E3C82712DC930041092B /* Share.entitlements */,
 				EF29E3C12712DC440041092B /* Info.plist */,
@@ -1166,12 +1308,86 @@
 			path = Share;
 			sourceTree = "<group>";
 		};
+		EF82F8722736968A0086CCA0 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				EF82F8732736968A0086CCA0 /* SwiftSoup.framework */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		EF82F883273697570086CCA0 /* EmojiPNGs */ = {
+			isa = PBXGroup;
+			children = (
+				EF82F884273697570086CCA0 /* yun.png */,
+				EF82F885273697570086CCA0 /* youhengheng.png */,
+				EF82F886273697570086CCA0 /* huangzuan.png */,
+				EF82F887273697570086CCA0 /* dao.png */,
+				EF82F888273697570086CCA0 /* baobao.png */,
+				EF82F889273697570086CCA0 /* xu.png */,
+				EF82F88A273697570086CCA0 /* zhuakuang.png */,
+				EF82F88B273697570086CCA0 /* OK.png */,
+				EF82F88C273697570086CCA0 /* cabiti.png */,
+				EF82F88D273697570086CCA0 /* labahua.png */,
+				EF82F88E273697570086CCA0 /* tu.png */,
+				EF82F88F273697570086CCA0 /* zhadan.png */,
+				EF82F890273697570086CCA0 /* koubi.png */,
+				EF82F891273697570086CCA0 /* weixiao.png */,
+				EF82F892273697570086CCA0 /* guilian.png */,
+				EF82F893273697570086CCA0 /* kelian.png */,
+				EF82F894273697570086CCA0 /* daxiao.png */,
+				EF82F895273697570086CCA0 /* shui.png */,
+				EF82F896273697570086CCA0 /* xiangyao.png */,
+				EF82F897273697570086CCA0 /* bishi.png */,
+				EF82F898273697570086CCA0 /* fanu.png */,
+				EF82F899273697570086CCA0 /* chifan.png */,
+				EF82F89A273697570086CCA0 /* se.png */,
+				EF82F89B273697570086CCA0 /* guzhang.png */,
+				EF82F89C273697570086CCA0 /* piezui.png */,
+				EF82F89D273697570086CCA0 /* bizui.png */,
+				EF82F89E273697570086CCA0 /* dajie.png */,
+				EF82F89F273697570086CCA0 /* deyi.png */,
+				EF82F8A0273697570086CCA0 /* haixiu.png */,
+				EF82F8A1273697570086CCA0 /* sikao.png */,
+				EF82F8A2273697570086CCA0 /* hanxiao.png */,
+				EF82F8A3273697570086CCA0 /* qianmi.png */,
+				EF82F8A4273697570086CCA0 /* jiong.png */,
+				EF82F8A5273697570086CCA0 /* fadai.png */,
+				EF82F8A6273697570086CCA0 /* tiaopi.png */,
+				EF82F8A7273697570086CCA0 /* zhenjing.png */,
+				EF82F8A8273697570086CCA0 /* xinsui.png */,
+				EF82F8A9273697570086CCA0 /* touxiao.png */,
+				EF82F8AA273697570086CCA0 /* ciya.png */,
+				EF82F8AB273697570086CCA0 /* liulei.png */,
+				EF82F8AC273697570086CCA0 /* fendou.png */,
+				EF82F8AD273697570086CCA0 /* lanzuan.png */,
+				EF82F8AE273697570086CCA0 /* kun.png */,
+				EF82F8AF273697570086CCA0 /* lenghan.png */,
+				EF82F8B0273697570086CCA0 /* heiyan.png */,
+				EF82F8B1273697570086CCA0 /* qinqin.png */,
+				EF82F8B2273697570086CCA0 /* nanguo.png */,
+				EF82F8B3273697570086CCA0 /* ClassicExpressionPNGList.plist */,
+				EF82F8B4273697570086CCA0 /* qiaoda.png */,
+				EF82F8B5273697570086CCA0 /* ding.png */,
+				EF82F8B6273697570086CCA0 /* haqian.png */,
+				EF82F8B7273697570086CCA0 /* zaijian.png */,
+				EF82F8B8273697570086CCA0 /* yiwen.png */,
+				EF82F8B9273697570086CCA0 /* xin.png */,
+				EF82F8BA273697570086CCA0 /* ganmao.png */,
+				EF82F8BB273697570086CCA0 /* ganga.png */,
+				EF82F8BC273697570086CCA0 /* huaixiao.png */,
+				EF82F8BD273697570086CCA0 /* keai.png */,
+				EF82F8BE273697570086CCA0 /* zuohengheng.png */,
+				EF82F8BF273697570086CCA0 /* daku.png */,
+				EF82F8C0273697570086CCA0 /* weiqu.png */,
+			);
+			path = EmojiPNGs;
+			sourceTree = "<group>";
+		};
 		EF91ADA626D0A1AA00A6943F /* ThirdParts */ = {
 			isa = PBXGroup;
 			children = (
 				EF91ADA726D0A1AA00A6943F /* TextView */,
-				EF91ADC826D0A1AA00A6943F /* GPUCamera */,
-				EF91ADCE26D0A1AA00A6943F /* SwiftGif */,
 				EF91ADD026D0A1AA00A6943F /* Chart */,
 				EF91ADD526D0A1AA00A6943F /* CDCamera */,
 				EF91ADF226D0A1AA00A6943F /* CDHUD */,
@@ -1228,26 +1444,6 @@
 			path = image;
 			sourceTree = "<group>";
 		};
-		EF91ADC826D0A1AA00A6943F /* GPUCamera */ = {
-			isa = PBXGroup;
-			children = (
-				EF91ADC926D0A1AA00A6943F /* GPCameraManager.swift */,
-				EF91ADCA26D0A1AA00A6943F /* CDCameraTopBar.swift */,
-				EF91ADCB26D0A1AA00A6943F /* CDCameraPreview.swift */,
-				EF91ADCC26D0A1AA00A6943F /* GPUCameraViewController.swift */,
-				EF91ADCD26D0A1AA00A6943F /* CDCameraBottomBar.swift */,
-			);
-			path = GPUCamera;
-			sourceTree = "<group>";
-		};
-		EF91ADCE26D0A1AA00A6943F /* SwiftGif */ = {
-			isa = PBXGroup;
-			children = (
-				EF91ADCF26D0A1AA00A6943F /* UIImage+Gif.swift */,
-			);
-			path = SwiftGif;
-			sourceTree = "<group>";
-		};
 		EF91ADD026D0A1AA00A6943F /* Chart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1262,7 +1458,8 @@
 		EF91ADD526D0A1AA00A6943F /* CDCamera */ = {
 			isa = PBXGroup;
 			children = (
-				EF29E3992712DBA00041092B /* CDCameraConfig.swift */,
+				EF82F879273697040086CCA0 /* CDCameraBottomBar.swift */,
+				EF82F87A273697040086CCA0 /* CDCameraTopBar.swift */,
 				EF29E3982712DBA00041092B /* CDQrPopView.swift */,
 				EF91ADD626D0A1AA00A6943F /* CDPreviewTakerViewController.swift */,
 				EF91ADD726D0A1AA00A6943F /* CDCameraManger.swift */,
@@ -1336,6 +1533,8 @@
 		EF91AE0026D0A1AA00A6943F /* sqlManger */ = {
 			isa = PBXGroup;
 			children = (
+				EF82F87E273697300086CCA0 /* CDSqlManager+CDChapterInfo.swift */,
+				EF82F87D273697300086CCA0 /* CDSqlManager+CDNovelnfo.swift */,
 				EF29E3A02712DBB80041092B /* CDSqlDefines.swift */,
 				EF29E3A22712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift */,
 				EF29E39F2712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift */,
@@ -1357,7 +1556,6 @@
 				EF91AE0A26D0A1AA00A6943F /* CDInlineTools.swift */,
 				EF91AE0B26D0A1AA00A6943F /* CDNetworkTools.swift */,
 				EF91AE0C26D0A1AA00A6943F /* CDCustomDefines.swift */,
-				EF91AE0D26D0A1AA00A6943F /* CDContainerViewController.swift */,
 				EF91AE0E26D0A1AA00A6943F /* CDEmojiHandle.swift */,
 				EF91AE0F26D0A1AA00A6943F /* CDGeneralTool.swift */,
 				EF91AE1026D0A1AA00A6943F /* CDSignalTon.swift */,
@@ -1371,6 +1569,7 @@
 		EF91AE1426D0A1AA00A6943F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				EF82F876273696BF0086CCA0 /* UIImage+Gif.swift */,
 				EF91AE1526D0A1AA00A6943F /* UIFont+extension.swift */,
 				EF91AE1626D0A1AA00A6943F /* UIColor+extension.swift */,
 				EF91AE1726D0A1AA00A6943F /* UIButton+extension.swift */,
@@ -1513,13 +1712,12 @@
 		EF91AE7C26D0A1AA00A6943F /* base */ = {
 			isa = PBXGroup;
 			children = (
+				EF82F8FE273697720086CCA0 /* CDPickerFolderViewController.swift */,
 				EF91AE7D26D0A1AA00A6943F /* CDSafeViewController.swift */,
 				EF91AE7E26D0A1AA00A6943F /* CDMarkFileViewController.swift */,
 				EF91AE7F26D0A1AA00A6943F /* CDFolderDetailViewController.swift */,
 				EF91AE8026D0A1AA00A6943F /* CDTableViewCell.swift */,
 				EF91AE8126D0A1AA00A6943F /* CDToolBar.swift */,
-				EF91AE8226D0A1AA00A6943F /* CDFolderListViewController.swift */,
-				EF91AE8326D0A1AA00A6943F /* CDSideViewController.swift */,
 				EF91AE8426D0A1AA00A6943F /* CDWebViewController.swift */,
 				EF91AE8526D0A1AA00A6943F /* CDFileDetailViewController.swift */,
 				EF91AE8626D0A1AA00A6943F /* CDNewFolderViewController.swift */,
@@ -1542,6 +1740,7 @@
 		EF91AE8E26D0A1AA00A6943F /* 图片 */ = {
 			isa = PBXGroup;
 			children = (
+				EF82F883273697570086CCA0 /* EmojiPNGs */,
 				EF91AE8F26D0A1AA00A6943F /* CDImageScrollView.swift */,
 				EF91AE9026D0A1AA00A6943F /* CDImageScrollerViewController.swift */,
 				EF91AE9126D0A1AA00A6943F /* CDImageCell.swift */,
@@ -1733,6 +1932,7 @@
 				EF29E3B62712DC430041092B /* Sources */,
 				EF29E3B72712DC430041092B /* Frameworks */,
 				EF29E3B82712DC430041092B /* Resources */,
+				EF82F8702736965E0086CCA0 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1841,69 +2041,130 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF82F8DF273697570086CCA0 /* hanxiao.png in Resources */,
 				EF91AF7A26D0A1AB00A6943F /* 字体 (1).png in Resources */,
 				EF91AF7826D0A1AB00A6943F /* slider-白@2x.png in Resources */,
 				EF91AF0126D0A1AB00A6943F /* cancle@2x.png in Resources */,
+				EF82F8D1273697570086CCA0 /* daxiao.png in Resources */,
+				EF82F8E8273697570086CCA0 /* liulei.png in Resources */,
+				EF82F8C8273697570086CCA0 /* OK.png in Resources */,
+				EF82F8F9273697570086CCA0 /* huaixiao.png in Resources */,
 				EF91AF2C26D0A1AB00A6943F /* 37x-Checkmark.png in Resources */,
 				EF91AF1D26D0A1AB00A6943F /* cameraSwitch.png in Resources */,
 				EF91AF0226D0A1AB00A6943F /* 图库@2x.png in Resources */,
+				EF82F8FC273697570086CCA0 /* daku.png in Resources */,
 				EF91AF8226D0A1AB00A6943F /* 目录-黑@2x.png in Resources */,
 				EF91AF0826D0A1AB00A6943F /* subIndents-gay@2x.png in Resources */,
 				EF91AF8326D0A1AB00A6943F /* 亮度-白@2x.png in Resources */,
+				EF82F8D3273697570086CCA0 /* xiangyao.png in Resources */,
 				EF91AEFD26D0A1AB00A6943F /* subheading@2x.png in Resources */,
+				EF82F8F0273697570086CCA0 /* ClassicExpressionPNGList.plist in Resources */,
+				EF82F8C2273697570086CCA0 /* youhengheng.png in Resources */,
+				EF82F8FD273697570086CCA0 /* weiqu.png in Resources */,
 				EF91AEF726D0A1AB00A6943F /* fontbgColor@2x.png in Resources */,
 				EF91AEFF26D0A1AB00A6943F /* 项目符号02@2x.png in Resources */,
+				EF82F8E5273697570086CCA0 /* xinsui.png in Resources */,
+				EF82F8E2273697570086CCA0 /* fadai.png in Resources */,
+				EF82F8C5273697570086CCA0 /* baobao.png in Resources */,
+				EF82F8D5273697570086CCA0 /* fanu.png in Resources */,
 				EF91AF2F26D0A1AB00A6943F /* 37x-Error@2x.png in Resources */,
+				EF82F8E0273697570086CCA0 /* qianmi.png in Resources */,
 				EF91AFE826D0A1AB00A6943F /* Assets.xcassets in Resources */,
+				EF82F8F4273697570086CCA0 /* zaijian.png in Resources */,
+				EF82F8FA273697570086CCA0 /* keai.png in Resources */,
+				EF82F8EE273697570086CCA0 /* qinqin.png in Resources */,
+				EF82F8C6273697570086CCA0 /* xu.png in Resources */,
 				EF91AF7926D0A1AB00A6943F /* 字体-白-小@2x.png in Resources */,
+				EF82F8F6273697570086CCA0 /* xin.png in Resources */,
 				EF91AF2626D0A1AB00A6943F /* hdr_auto@2x.png in Resources */,
 				EF91AF0326D0A1AB00A6943F /* heading@2x.png in Resources */,
 				EF91AF1C26D0A1AB00A6943F /* delay_10@2x.png in Resources */,
+				EF82F8E7273697570086CCA0 /* ciya.png in Resources */,
+				EF82F8DB273697570086CCA0 /* dajie.png in Resources */,
 				EF91AF0926D0A1AB00A6943F /* 项目符号01@2x.png in Resources */,
 				EF91AF0726D0A1AB00A6943F /* italic@2x.png in Resources */,
 				EF91AF1A26D0A1AB00A6943F /* flash_off@2x.png in Resources */,
 				EF91AF2D26D0A1AB00A6943F /* 37x-Checkmark@2x.png in Resources */,
+				EF82F8CD273697570086CCA0 /* koubi.png in Resources */,
+				EF82F8C1273697570086CCA0 /* yun.png in Resources */,
 				EF91AF1F26D0A1AB00A6943F /* flash_on@2x.png in Resources */,
+				EF82F8EC273697570086CCA0 /* lenghan.png in Resources */,
 				EF91AF8026D0A1AB00A6943F /* 字体-黑-小@2x.png in Resources */,
 				EF91AF3326D0A1AB00A6943F /* record_timeProgressBG@2x.png in Resources */,
+				EF82F8E6273697570086CCA0 /* touxiao.png in Resources */,
+				EF82F8EA273697570086CCA0 /* lanzuan.png in Resources */,
 				EF91AFE626D0A1AB00A6943F /* Localizable.strings in Resources */,
+				EF82F8D4273697570086CCA0 /* bishi.png in Resources */,
 				EF91AEF926D0A1AB00A6943F /* blod@2x.png in Resources */,
 				EF91AF1E26D0A1AB00A6943F /* back_blue@2x.png in Resources */,
 				EF91AF2226D0A1AB00A6943F /* flash_auto@2x.png in Resources */,
+				EF82F8F5273697570086CCA0 /* yiwen.png in Resources */,
 				EF91AF0026D0A1AB00A6943F /* 项目符号07@2x.png in Resources */,
 				EF91AEFB26D0A1AB00A6943F /* 项目符号00@2x.png in Resources */,
 				EF91AF7C26D0A1AB00A6943F /* 右箭头-黑@2x.png in Resources */,
+				EF82F8C4273697570086CCA0 /* dao.png in Resources */,
+				EF82F8DC273697570086CCA0 /* deyi.png in Resources */,
+				EF82F8CB273697570086CCA0 /* tu.png in Resources */,
 				EF91AF7626D0A1AB00A6943F /* 字体-白-大@2x.png in Resources */,
+				EF82F8CA273697570086CCA0 /* labahua.png in Resources */,
+				EF82F8C3273697570086CCA0 /* huangzuan.png in Resources */,
+				EF82F8F1273697570086CCA0 /* qiaoda.png in Resources */,
+				EF82F8E1273697570086CCA0 /* jiong.png in Resources */,
+				EF82F8D8273697570086CCA0 /* guzhang.png in Resources */,
 				EF91AF2426D0A1AB00A6943F /* save@2x.png in Resources */,
 				EF91AEF526D0A1AB00A6943F /* 项目符号06@2x.png in Resources */,
+				EF82F8FB273697570086CCA0 /* zuohengheng.png in Resources */,
+				EF82F8E4273697570086CCA0 /* zhenjing.png in Resources */,
+				EF82F8F8273697570086CCA0 /* ganga.png in Resources */,
 				EF91AF0426D0A1AB00A6943F /* 背@2x.png in Resources */,
+				EF82F8DA273697570086CCA0 /* bizui.png in Resources */,
 				EF91AF7E26D0A1AB00A6943F /* 左箭头-黑@2x.png in Resources */,
 				EF91AF8526D0A1AB00A6943F /* 字体-黑-大@2x.png in Resources */,
+				EF82F8EB273697570086CCA0 /* kun.png in Resources */,
 				EF91AF2826D0A1AB00A6943F /* frame.png in Resources */,
 				EF91AF1B26D0A1AB00A6943F /* takePhoto.png in Resources */,
+				EF82F8DE273697570086CCA0 /* sikao.png in Resources */,
 				EF91AF0626D0A1AB00A6943F /* 项目符号05@2x.png in Resources */,
 				EF91AF2926D0A1AB00A6943F /* hdr_off@2x.png in Resources */,
+				EF82F8E9273697570086CCA0 /* fendou.png in Resources */,
+				EF82F8C9273697570086CCA0 /* cabiti.png in Resources */,
+				EF82F8CF273697570086CCA0 /* guilian.png in Resources */,
 				EF91AF2726D0A1AB00A6943F /* delay_on@2x.png in Resources */,
+				EF82F8D2273697570086CCA0 /* shui.png in Resources */,
+				EF82F8D0273697570086CCA0 /* kelian.png in Resources */,
 				EF91AF0526D0A1AB00A6943F /* paragraphSymbol@2x.png in Resources */,
+				EF82F8EF273697570086CCA0 /* nanguo.png in Resources */,
+				EF82F8CC273697570086CCA0 /* zhadan.png in Resources */,
+				EF82F8F7273697570086CCA0 /* ganmao.png in Resources */,
 				EF91AEF326D0A1AB00A6943F /* 样式@2x.png in Resources */,
 				EF91AF7726D0A1AB00A6943F /* slider-黑@2x.png in Resources */,
 				EF91AF2126D0A1AB00A6943F /* retake@2x.png in Resources */,
 				EF91AEF626D0A1AB00A6943F /* body@2x.png in Resources */,
 				EF91AEF226D0A1AB00A6943F /* subIndents@2x.png in Resources */,
 				EF91AEFC26D0A1AB00A6943F /* underline@2x.png in Resources */,
+				EF82F8F3273697570086CCA0 /* haqian.png in Resources */,
+				EF82F8D6273697570086CCA0 /* chifan.png in Resources */,
 				EF91AEF826D0A1AB00A6943F /* 项目符号04@2x.png in Resources */,
 				EF91AF0A26D0A1AB00A6943F /* 项目符号03@2x.png in Resources */,
 				EF91AEFE26D0A1AB00A6943F /* addIndents@2x.png in Resources */,
+				EF82F8DD273697570086CCA0 /* haixiu.png in Resources */,
 				EF91AEFA26D0A1AB00A6943F /* 涂鸦@2x.png in Resources */,
+				EF82F8CE273697570086CCA0 /* weixiao.png in Resources */,
 				EF91AF2326D0A1AB00A6943F /* delay_off@2x.png in Resources */,
+				EF82F8ED273697570086CCA0 /* heiyan.png in Resources */,
 				EF29E3972712DB700041092B /* developLog.md in Resources */,
 				EF91AF8126D0A1AB00A6943F /* 目录-白@2x.png in Resources */,
 				EF91AF7B26D0A1AB00A6943F /* 右箭头-白@2x.png in Resources */,
 				EF91AF8426D0A1AB00A6943F /* 亮度-黑@2x.png in Resources */,
 				EF91AF7F26D0A1AB00A6943F /* 左箭头-白@2x.png in Resources */,
 				EF91AF2E26D0A1AB00A6943F /* 37x-Error.png in Resources */,
+				EF82F8F2273697570086CCA0 /* ding.png in Resources */,
+				EF82F8D9273697570086CCA0 /* piezui.png in Resources */,
 				EF91AF2526D0A1AB00A6943F /* hdr_on@2x.png in Resources */,
+				EF82F8C7273697570086CCA0 /* zhuakuang.png in Resources */,
+				EF82F8E3273697570086CCA0 /* tiaopi.png in Resources */,
 				EF91AEF426D0A1AB00A6943F /* fontColor@2x.png in Resources */,
+				EF82F8D7273697570086CCA0 /* se.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1947,7 +2208,6 @@
 			files = (
 				EF91AFED26D0A1AB00A6943F /* CDRootViewController.swift in Sources */,
 				EF29E3A72712DBB80041092B /* CDSqlDefines.swift in Sources */,
-				EF91AFA526D0A1AB00A6943F /* CDSideViewController.swift in Sources */,
 				EF91AFA326D0A1AB00A6943F /* CDToolBar.swift in Sources */,
 				EF29E3A52712DBB80041092B /* CDSqlManager+CDUserInfo.swift in Sources */,
 				EF29E3B42712DC0C0041092B /* CDAudioPlayViewController.swift in Sources */,
@@ -1957,8 +2217,6 @@
 				EF91AFA826D0A1AB00A6943F /* CDNewFolderViewController.swift in Sources */,
 				EF29E3A62712DBB80041092B /* CDSqlManager+CDMusicClassInfo.swift in Sources */,
 				EF91AF0B26D0A1AB00A6943F /* CDInputAccessoryView.swift in Sources */,
-				EF29E39B2712DBA00041092B /* CDCameraConfig.swift in Sources */,
-				EF91AF1126D0A1AB00A6943F /* CDCameraBottomBar.swift in Sources */,
 				EF91AFEA26D0A1AB00A6943F /* CDBaseAllViewController.swift in Sources */,
 				EF91AF1526D0A1AB00A6943F /* ShineBarChart.swift in Sources */,
 				EF91AFEE26D0A1AB00A6943F /* CDNavigationController.swift in Sources */,
@@ -1967,7 +2225,6 @@
 				EF91AFA726D0A1AB00A6943F /* CDFileDetailViewController.swift in Sources */,
 				EF29E3B52712DC0C0041092B /* CDMarqueeView.swift in Sources */,
 				EF91AFE226D0A1AB00A6943F /* CDComposeVideoViewController.swift in Sources */,
-				EF91AF3F26D0A1AB00A6943F /* CDContainerViewController.swift in Sources */,
 				EF91AF9826D0A1AB00A6943F /* CDAudioViewController.swift in Sources */,
 				EF91AF4E26D0A1AB00A6943F /* UIView+animation.swift in Sources */,
 				EF91AF4C26D0A1AB00A6943F /* NSNotification+extension.swift in Sources */,
@@ -1976,11 +2233,11 @@
 				EF91AF8926D0A1AB00A6943F /* CDChapterViewController.swift in Sources */,
 				EF91AF4A26D0A1AB00A6943F /* String+Path.swift in Sources */,
 				EF91AF3226D0A1AB00A6943F /* CDCircleProcess.swift in Sources */,
-				EF91AF0D26D0A1AB00A6943F /* GPCameraManager.swift in Sources */,
 				EF91AF9626D0A1AB00A6943F /* CDDeviceInfoViewController.swift in Sources */,
 				EF29E3942712DB470041092B /* CDAudioManager.swift in Sources */,
 				EF29E3A92712DBB80041092B /* CDSqlManager+CDAttendanceInfo.swift in Sources */,
 				EF91AFEB26D0A1AB00A6943F /* CDAppDelegate.swift in Sources */,
+				EF82F87F273697300086CCA0 /* CDSqlManager+CDNovelnfo.swift in Sources */,
 				EF91AFAE26D0A1AB00A6943F /* CDVideoPlayerView.swift in Sources */,
 				EF91AF1826D0A1AB00A6943F /* CDCameraManger.swift in Sources */,
 				EF91AFE426D0A1AB00A6943F /* CDLockViewController.swift in Sources */,
@@ -1994,9 +2251,7 @@
 				EF29E39A2712DBA00041092B /* CDQrPopView.swift in Sources */,
 				EF91AF1726D0A1AB00A6943F /* CDPreviewTakerViewController.swift in Sources */,
 				EF91AF4026D0A1AB00A6943F /* CDEmojiHandle.swift in Sources */,
-				EF91AFA426D0A1AB00A6943F /* CDFolderListViewController.swift in Sources */,
 				EF91AF3B26D0A1AB00A6943F /* CDLocationManager.swift in Sources */,
-				EF91AF0F26D0A1AB00A6943F /* CDCameraPreview.swift in Sources */,
 				EF91AF8726D0A1AB00A6943F /* CDReaderPageViewController.swift in Sources */,
 				EF91AF4726D0A1AB00A6943F /* UIColor+extension.swift in Sources */,
 				EF91AF1326D0A1AB00A6943F /* ShineLineChart.swift in Sources */,
@@ -2005,15 +2260,15 @@
 				EF91AEEF26D0A1AB00A6943F /* CDTextViewConfig.swift in Sources */,
 				EF91AF9D26D0A1AB00A6943F /* CDTextViewController.swift in Sources */,
 				EF91AF9A26D0A1AB00A6943F /* CDPDFViewController.swift in Sources */,
-				EF91AF1226D0A1AB00A6943F /* UIImage+Gif.swift in Sources */,
 				EF91AF8826D0A1AB00A6943F /* CDReaderToolBar.swift in Sources */,
 				EF91AFA026D0A1AB00A6943F /* CDMarkFileViewController.swift in Sources */,
 				EF91AF8A26D0A1AB00A6943F /* CDReaderBean.swift in Sources */,
 				EF91AFE526D0A1AB00A6943F /* CDFaceLockViewController.swift in Sources */,
+				EF82F877273696BF0086CCA0 /* UIImage+Gif.swift in Sources */,
 				EF29E3AE2712DBEA0041092B /* CDMonthAttendanceView.swift in Sources */,
+				EF82F87B273697040086CCA0 /* CDCameraBottomBar.swift in Sources */,
 				EF91AFA926D0A1AB00A6943F /* CDVideoScrollerViewController.swift in Sources */,
 				EF91AF0C26D0A1AB00A6943F /* CDPickerView.swift in Sources */,
-				EF91AF1026D0A1AB00A6943F /* GPUCameraViewController.swift in Sources */,
 				EF91AFE326D0A1AB00A6943F /* CDImageViewController.swift in Sources */,
 				EF91AF8C26D0A1AB00A6943F /* CDReaderManager.swift in Sources */,
 				EF91AF2A26D0A1AB00A6943F /* CDHUDManager.swift in Sources */,
@@ -2035,20 +2290,22 @@
 				EF91AFEC26D0A1AB00A6943F /* CDTabBarViewController.swift in Sources */,
 				EF91AF4626D0A1AB00A6943F /* UIFont+extension.swift in Sources */,
 				EF91AF8F26D0A1AB00A6943F /* CDOptionViewController.swift in Sources */,
+				EF82F87C273697040086CCA0 /* CDCameraTopBar.swift in Sources */,
 				EF91AF9126D0A1AB00A6943F /* CDMapViewController.swift in Sources */,
 				EF91AEEE26D0A1AB00A6943F /* CDFontView.swift in Sources */,
 				EF29E3A42712DBB80041092B /* CDSqlManager+CDSafeFolder.swift in Sources */,
 				EF29E3AF2712DBEA0041092B /* CDTipsView.swift in Sources */,
 				EF91AF2B26D0A1AB00A6943F /* CDPopMenuView.swift in Sources */,
 				EF91AF3826D0A1AB00A6943F /* CDSqlManager.swift in Sources */,
-				EF91AF0E26D0A1AB00A6943F /* CDCameraTopBar.swift in Sources */,
 				EF29E3A32712DBB80041092B /* CDSqlManager+CDSafeFileInfo.swift in Sources */,
 				EF29E3A82712DBB80041092B /* CDSqlManager+CDMusicInfo.swift in Sources */,
 				EF29E3AD2712DBEA0041092B /* CDDayAttendanceView.swift in Sources */,
 				EF91AFAF26D0A1AB00A6943F /* CDImageScrollView.swift in Sources */,
 				EF91AF9E26D0A1AB00A6943F /* CDDirNavBar.swift in Sources */,
+				EF82F8FF273697720086CCA0 /* CDPickerFolderViewController.swift in Sources */,
 				EF91AF8D26D0A1AB00A6943F /* CDReaderListViewController.swift in Sources */,
 				EF91AFA226D0A1AB00A6943F /* CDTableViewCell.swift in Sources */,
+				EF82F880273697300086CCA0 /* CDSqlManager+CDChapterInfo.swift in Sources */,
 				EF91AF4326D0A1AB00A6943F /* CDDeviceTools.swift in Sources */,
 				EF91AF9226D0A1AB00A6943F /* CDThemeViewController.swift in Sources */,
 				EF91AF9F26D0A1AB00A6943F /* CDSafeViewController.swift in Sources */,
@@ -2174,7 +2431,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF82F878273696C80086CCA0 /* UIImage+Gif.swift in Sources */,
+				EF82F86C273696080086CCA0 /* CDExtension.swift in Sources */,
 				EF29E3CA2712DC930041092B /* CDShareViewController.swift in Sources */,
+				EF82F86A273696080086CCA0 /* CDShareImageView.swift in Sources */,
+				EF82F86D273696080086CCA0 /* CDShareMoveView.swift in Sources */,
+				EF82F86B273696080086CCA0 /* CDShareUrlView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2369,7 +2631,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = MyBox/MyBox.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MyBox/MyBoxDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QDPCHHH5GJ;
@@ -2501,6 +2763,10 @@
 				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Share/lib",
+				);
 				INFOPLIST_FILE = Share/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2524,6 +2790,10 @@
 				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QDPCHHH5GJ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Share/lib",
+				);
 				INFOPLIST_FILE = Share/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (

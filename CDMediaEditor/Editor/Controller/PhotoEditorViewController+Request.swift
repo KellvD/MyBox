@@ -52,7 +52,7 @@ extension PhotoEditorViewController {
         }else if photoAsset.isNetworkAsset {
             #if canImport(Kingfisher)
             let loadingView = ProgressHUD.showLoading(addedTo: view, animated: true)
-            photoAsset.getNetworkImage(urlType: .original, filterEditor: true) { (receiveSize, totalSize) in
+            photoAsset.getNetworkImage(htmlType: .original, filterEditor: true) { (receiveSize, totalSize) in
                 let progress = Double(receiveSize) / Double(totalSize)
                 if progress > 0 {
                     loadingView?.updateText(text: "图片下载中".localized + "(" + String(Int(progress * 100)) + "%)")

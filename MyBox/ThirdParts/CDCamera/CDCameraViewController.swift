@@ -10,21 +10,18 @@ import UIKit
 import AVFoundation
 import CoreLocation
 import CDMediaEditor
-public protocol CDCameraViewControllerDelegate:NSObjectProtocol  {
-    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraPhotoConfig)
-    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraVideoConfig)
+
+protocol CDCameraViewControllerDelegate:NSObjectProtocol  {
+    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:[String:Any?])
+    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:[String:Any?])
+}
+extension CDCameraViewControllerDelegate{
+    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:[String:Any?]){}
+    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:[String:Any?]){}
 }
 
-public extension CDCameraViewControllerDelegate {
-    func onCameraTakePhotoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraPhotoConfig){}
-    func onCameraTakeVideoDidFinshed(cameraVC:CDCameraViewController,obj:CDCameraVideoConfig){}
-}
 
-@objc protocol CDScanQRDelegate:NSObjectProtocol  {
-
-    @objc optional func onScanQRDidFinshed(cameraVC:CDCameraViewController,obj:String)
-}
-open class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCameraTopBarDelete{
+class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CDCameraTopBarDelete{
     
 
     var delegate:CDCameraViewControllerDelegate!
@@ -53,6 +50,7 @@ open class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CD
     open override func viewDidLoad() {
         super.viewDidLoad()
         cameraManger = CDCameraManger(baseView: self.view,isVideo:isVideo)
+        cameraManger.delegate = self
         
         topBar = CDCameraTopBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44 + topSafeHeight), isVideo: isVideo)
         topBar.delegate = self
@@ -83,123 +81,116 @@ open class CDCameraViewController: UIViewController,CDCameraBottomBarDelegate,CD
         self.view.addSubview(QRBorderView)
         cameraManger.qrView = QRBorderView
         
-//        qrPopView = CDQrPopView(frame: CGRect(x: 15.0, y: -135.0, width: self.view.frame.width - 30.0, height: 100))
-//        self.view.addSubview(qrPopView)
+        qrPopView = CDQrPopView(frame: CGRect(x: 15.0, y: -135.0, width: self.view.frame.width - 30.0, height: 100))
+        self.view.addSubview(qrPopView)
+        self.view.bringSubviewToFront(qrPopView)
         
-        cameraManger.takePhotoComplete = {(image) in
-            if image != nil {
-                let previewVC = CDPreviewTakerViewController()
-                previewVC.cameraVC = self
-                previewVC.isVideo = false
-                previewVC.previewHandle = {(success) in
-                    if success {
-                        let photoConfig = CDCameraPhotoConfig(fileName: "\(GetTimestamp(nil)).png",
-                                                              image: image!, type: .normal,
-                                                              createTime: GetTimestamp(nil),
-                                                              location: CLLocation(latitude: -1, longitude: -1))
-                        
-                        self.delegate.onCameraTakePhotoDidFinshed(cameraVC: self, obj: photoConfig)
-                        self.dismiss(animated: false, completion: nil)
-                    } else {
-                        self.cameraManger.reloadLayer()
-                    }
-                }
-                
-                previewVC.previewEditPhotoHandle = {(image) in
-                    let photoConfig = CDCameraPhotoConfig(fileName: "\(GetTimestamp(nil)).png",
-                                                          image: image!, type: .normal,
-                                                          createTime: GetTimestamp(nil),
-                                                          location: CLLocation(latitude: -1, longitude: -1))
-                    
-                    self.delegate.onCameraTakePhotoDidFinshed(cameraVC: self, obj: photoConfig)
-                    self.dismiss(animated: false, completion: nil)
-                }
-                
-                previewVC.origialImage = image
-                previewVC.modalPresentationStyle = .fullScreen
-                self.present(previewVC, animated: false, completion: nil)
-            }
-        }
-        
-        cameraManger.takeVideoComplete = {(videoUrl) in
+
+    }
+}
+
+extension CDCameraViewController:CDCameraMangerDelegate{
+    func cameraTakePhotoDidComplete(image: UIImage?) {
+        if image != nil {
             let previewVC = CDPreviewTakerViewController()
-            previewVC.isVideo = true
-            previewVC.videoUrl = videoUrl
             previewVC.cameraVC = self
-            previewVC.previewHandle = {(success)in
-                if success {
-                    
-                    let videoConfig = CDCameraVideoConfig(fileUrl: videoUrl!, createTime: GetTimestamp(nil))
-                    self.delegate.onCameraTakeVideoDidFinshed(cameraVC: self, obj: videoConfig)
+            previewVC.isVideo = false
+            previewVC.previewHandle = {(data) in
+                if data != nil {
+                    let prewImage = data as! UIImage
+                    let dic:[String:Any?] = ["fileName":"\(GetTimestamp(nil)).png",
+                                             "file":prewImage,
+                                            "imageType":"normal",
+                                            "createTime":GetTimestamp(nil),
+                                            "location":nil]
+                    self.delegate.onCameraTakePhotoDidFinshed(cameraVC: self, obj: dic)
                     self.dismiss(animated: false, completion: nil)
                 } else {
-                    do {
-                        try FileManager.default.removeItem(at: videoUrl!)
-                    } catch  {
-                        print(error.localizedDescription)
-                    }
+                    self.cameraManger.reloadLayer()
                 }
             }
-            previewVC.previewEditVideoHandle = {(videoUrl) in
-                let videoConfig = CDCameraVideoConfig(fileUrl: videoUrl!, createTime: GetTimestamp(nil))
-                self.delegate.onCameraTakeVideoDidFinshed(cameraVC: self, obj: videoConfig)
-                self.dismiss(animated: false, completion: nil)
-            }
+            
+            previewVC.origialImage = image
             previewVC.modalPresentationStyle = .fullScreen
             self.present(previewVC, animated: false, completion: nil)
         }
-        
-        cameraManger.scanRQComplete = { [weak self](content,recoverHandle) in
-            
-            let qrUrl = URL(string: content!)
-            let type:CDQrPopView.CDQRType = qrUrl != nil && UIApplication.shared.canOpenURL(qrUrl!) ? .Url : .Text
-
-            let qrContent = type == .Url ? qrUrl!.host! : content!
-            
-            
-            self!.qrPopView.loadData(type: type, qrContent: qrContent)
-            UIView.animate(withDuration: 0.25) {
-                self!.qrPopView.minX = 15.0
+    }
+    
+    func cameraTakeVideoDidComplete(videoUrl: URL?) {
+        let previewVC = CDPreviewTakerViewController()
+        previewVC.isVideo = true
+        previewVC.videoUrl = videoUrl
+        previewVC.cameraVC = self
+        previewVC.previewHandle = {(data)in
+            if data != nil {
+                let prewUrl = data as! URL
+                let dic:[String:Any] = ["fileURL":prewUrl,
+                                        "createTime": GetTimestamp(nil)]
+                self.delegate.onCameraTakeVideoDidFinshed(cameraVC: self, obj: dic)
+                self.dismiss(animated: false, completion: nil)
+            } else {
+                do {
+                    try FileManager.default.removeItem(at: videoUrl!)
+                } catch  {
+                    print(error.localizedDescription)
+                }
             }
-            
-            self!.qrPopView.onTapQrCodeHandle = {[weak self](isEnable) in
-                recoverHandle()
-                UIView.animate(withDuration: 0.25) {
-                    self!.qrPopView.minY = -115.0
-                }
-                if isEnable {
-                    if type == .Url {
-                        UIApplication.shared.open(qrUrl!, options: [:], completionHandler: nil)
-                    }else{
-                        let uslStr = "https://www.baidu.com/s?ie=UTF-8&wd=\(content!)"
-                        UIApplication.shared.open(URL(string: uslStr)!, options: [:], completionHandler: nil)
-                    }
-                }
-                
+        }
+        previewVC.modalPresentationStyle = .fullScreen
+        self.present(previewVC, animated: false, completion: nil)
+    }
+    
+    func cameraScanQRDidComplete(content: String?, recoverHandle: @escaping () -> Void) {
+        let qrUrl = URL(string: content!)
+        let type:CDQrPopView.CDQRType = qrUrl != nil && UIApplication.shared.canOpenURL(qrUrl!) ? .Url : .Text
+
+        let qrContent = type == .Url ? qrUrl!.host! : content!
+        
+        
+        self.qrPopView.loadData(type: type, qrContent: qrContent)
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25) {
+                self.qrPopView.minX = 15.0
             }
         }
         
-        cameraManger.updateDelayComplete = {(delay,isEnd) in
-            if !isEnd {
-                self.delayLabel.isHidden = false
-                self.delayLabel.text = "\(delay)"
-                let popAnimation = CAKeyframeAnimation(keyPath: "transform")
-                popAnimation.duration = 0.5;
-                popAnimation.values = [NSValue(caTransform3D: CATransform3DMakeScale(0.01, 0.01, 1.0)),
-                                       NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)),
-                                       NSValue(caTransform3D: CATransform3DIdentity)]
-                popAnimation.timingFunctions = [CAMediaTimingFunction(name: .easeInEaseOut),
-                                                CAMediaTimingFunction(name: .easeInEaseOut),
-                                                CAMediaTimingFunction(name: .easeInEaseOut)]
-                self.delayLabel.layer.add(popAnimation, forKey: nil)
-            } else {
-                self.delayLabel.isHidden = true
+        
+        self.qrPopView.onTapQrCodeHandle = {[weak self](isEnable) in
+            recoverHandle()
+            UIView.animate(withDuration: 0.25) {
+                self!.qrPopView.minY = -115.0
             }
+            if isEnable {
+                if type == .Url {
+                    UIApplication.shared.open(qrUrl!, options: [:], completionHandler: nil)
+                }else{
+                    let uslStr = "https://www.baidu.com/s?ie=UTF-8&wd=\(content!)"
+                    UIApplication.shared.open(URL(string: uslStr)!, options: [:], completionHandler: nil)
+                }
+            }
+            
         }
     }
-
-
-   
+    
+    func cameraUpdateDelayDidComplete(delay: Int, isEnd: Bool) {
+        if !isEnd {
+            self.delayLabel.isHidden = false
+            self.delayLabel.text = "\(delay)"
+            let popAnimation = CAKeyframeAnimation(keyPath: "transform")
+            popAnimation.duration = 0.5;
+            popAnimation.values = [NSValue(caTransform3D: CATransform3DMakeScale(0.01, 0.01, 1.0)),
+                                   NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)),
+                                   NSValue(caTransform3D: CATransform3DIdentity)]
+            popAnimation.timingFunctions = [CAMediaTimingFunction(name: .easeInEaseOut),
+                                            CAMediaTimingFunction(name: .easeInEaseOut),
+                                            CAMediaTimingFunction(name: .easeInEaseOut)]
+            self.delayLabel.layer.add(popAnimation, forKey: nil)
+        } else {
+            self.delayLabel.isHidden = true
+        }
+    }
+    
+    
     
 }
 
@@ -239,6 +230,7 @@ extension CDCameraViewController{
     }
     
     func turnHDRModel(model: Int) {
+        
     }
     
     

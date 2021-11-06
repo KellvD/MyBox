@@ -8,17 +8,17 @@
 
 import UIKit
 
-enum CDToolsType:Int {
-    case ImageTools
-    case VideoTools
-    case AudioTools
-    case TextTools
-    case ImageScrollerTools
-    case VideoScrollerTools
-}
+
 
 class CDToolBar: UIImageView {
-
+    enum CDToolsType:Int {
+        case ImageTools
+        case VideoTools
+        case AudioTools
+        case TextTools
+        case ImageScrollerTools
+        case VideoScrollerTools
+    }
     var inputItem:UIButton!  //导入
     var takeItem:UIButton!   //拍照片,写文字，导入照片
     var documentItem:UIButton! //沙盒导入

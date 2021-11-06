@@ -11,7 +11,6 @@ import AVFoundation
 
 extension CDBaseAllViewController {
     public typealias CDDocumentPickerCompleteHandler = (_ success:Bool) -> Void
-    public typealias CDComposeHandle = (_ success:Bool) -> (Void) //合成视频，GIf,拼接视频
 }
 class CDBaseAllViewController:
 UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
@@ -19,7 +18,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     var popBtn = UIButton()
     var subFolderId:Int = 0
     var subFolderType:NSFolderType!
-    open var processHandle:CDBaseAllViewController.CDDocumentPickerCompleteHandler?
+    open var docuemntPickerComplete:CDDocumentPickerCompleteHandler?
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -35,19 +34,45 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.popBtn)
         
     }
+    lazy var noMoreDataView: UIView = {
+        let bgView = UIView(frame: CGRect(x: CDSCREEN_WIDTH/2.0 - 85.0/2.0, y: CDViewHeight/2.0 - 85/2.0 - 60, width: 85.0, height: 85.0 + 60))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 85.0, height: 85.0))
+        imageView.image = "wushuju-2-universal".image
+        bgView.addSubview(imageView)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: imageView.maxY, width: 85, height: 30))
+        label.text = "无数据".localize
+        label.textAlignment = .center
+        label.font = .midSmall
+        label.textColor = .lightGray
+        bgView.addSubview(label)
+        
+        bgView.isHidden = true
+        self.view.addSubview(bgView)
+        return bgView
+    }()
     
     override func viewWillLayoutSubviews() {
         if #available(iOS 12.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark{
             }else{
                 //
-
             }
         } else {
             // Fallback on earlier versions
         }
     }
         
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "fileArr" {
+            DispatchQueue.main.async {
+                let new = change?[NSKeyValueChangeKey.newKey] as? [CDSafeFileInfo]
+                self.noMoreDataView.isHidden = new!.count > 0
+            }
+            
+        }
+    }
     @objc func backButtonClick() -> Void {
         self.navigationController?.popViewController(animated: true)
     }
@@ -92,7 +117,6 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                                     DispatchQueue.main.async {
                                         self.alertSpaceWarn(alertType: .AlertDocumentType)
                                         CDHUDManager.shared.hideProgress()
-                                        
                                         return
                                     }
                                 }else{
@@ -121,7 +145,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
                             CDHUDManager.shared.showComplete("部分文件导入失败".localize)
                         }
                         
-                        self.processHandle?(true)
+                        self.docuemntPickerComplete?(true)
                     }
                 }
             }

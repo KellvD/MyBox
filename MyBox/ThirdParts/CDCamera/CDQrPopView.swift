@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class CDQrPopView: UIView {
     enum CDQRType:Int {
         case Text

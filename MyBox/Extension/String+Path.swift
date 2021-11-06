@@ -109,6 +109,13 @@ extension String{
         return path
     }
     
+    static func NovelPath()->String{
+        let path = (RootPath() as NSString).appendingPathComponent("Novel")
+        ensurePathAt(path: path)
+        return path
+    }
+    
+    
     func appendingFormat(_ format: NSString, _ args: CVarArg...) -> NSString{
         let appen = self.AsNSString().appendingFormat(format
             , args)
@@ -124,9 +131,6 @@ extension String{
         return (self as NSString)
     }
     
-    func AsString() -> String{
-        return (self as String)
-    }
     /**
     移除后缀名
     */
@@ -264,7 +268,7 @@ extension String{
     /**
     根据文件后缀判断文件类型
     */
-    var fileType:NSFileType{
+    var fileType:CDSafeFileInfo.NSFileType{
         let tmp = self.uppercased()
         if ["PDF","PDFX","PPT","PPTX","KEY"].contains(tmp){
             return .PdfType
@@ -286,6 +290,8 @@ extension String{
             return .VideoType
         }else if ["ZIP","RAR","7-ZIP","ACE","ARJ","BV2","CAD","GZIP","ISO","JAR","LZH","TAR","UUE","XZ"].contains(tmp) {
             return .ZipType
+        }else if ["HTML"].contains(tmp) {
+            return .htmlType
         } else {
             return .OtherType
         }

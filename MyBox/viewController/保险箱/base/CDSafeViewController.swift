@@ -23,6 +23,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         hiddBackbutton()
         self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width:CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
         self.tableView.delegate = self
@@ -30,12 +31,10 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         self.tableView.separatorStyle = .none
         self.view.addSubview(self.tableView)
         tableView.register(CDFolderTableViewCell.self, forCellReuseIdentifier: "safeCellIdentifier")
-
-        let addFolderBtn = UIButton(type: .contactAdd)
-        addFolderBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
-        addFolderBtn.addTarget(self, action: #selector(addfFolderClick), for: .touchUpInside)
-        addFolderBtn.tintColor = .white
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addFolderBtn);
+        
+        let rightItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addfFolderClick))
+        rightItem.tintColor = .white
+        self.navigationItem.rightBarButtonItem = rightItem
   
 //        let pwdFlag = CDConfigFile.getIntValueFromConfigWith(key: .initPwd);
 //        if pwdFlag == NotInitPwd{
@@ -60,16 +59,13 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
 
     lazy var popView: CDPopMenuView = {
         let titleArr = ["新建文件夹","扫一扫","电子书"]
-        let popView = CDPopMenuView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), imageArr: titleArr, titleArr: titleArr, orientation: CDOrientation.rightUp)
+        let popView = CDPopMenuView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), imageArr: titleArr, titleArr: titleArr, orientation: .rightUp)
         popView.popDelegate = self
         self.view.addSubview(popView)
         return popView
     }()
     
-    lazy var sideVC: CDSideViewController = {
-        let sideVC = CDSideViewController()
-        return sideVC
-    }()
+  
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return folderArr.count
@@ -127,7 +123,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
         }else if (folderInfo.folderType == .AudioFolder){
             let audioVC = CDAudioViewController()
             audioVC.title = "音频文件".localize
-            audioVC.gFolderInfo = folderInfo
+            audioVC.folderInfo = folderInfo
             audioVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(audioVC, animated: true)
         }else if (folderInfo.folderType == .VideoFolder){
@@ -138,7 +134,7 @@ class CDSafeViewController: CDBaseAllViewController,UITableViewDelegate,UITableV
             self.navigationController?.pushViewController(videoVC, animated: true)
         }else if (folderInfo.folderType == .TextFolder){
             let textVC = CDTextViewController()
-            textVC.gFolderInfo = folderInfo
+            textVC.folderInfo = folderInfo
             textVC.title = "文本文件".localize
             textVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(textVC, animated: true)

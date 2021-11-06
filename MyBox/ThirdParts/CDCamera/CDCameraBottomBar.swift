@@ -8,12 +8,14 @@
 
 import UIKit
 
+
 protocol CDCameraBottomBarDelegate:NSObjectProtocol  {
     func onTakePhoto()
     func onCameraTurnAround()
     func onCanclePhoto()
     func onFigPhoto()
 }
+
 class CDCameraBottomBar: UIView {
 
     var delegate:CDCameraBottomBarDelegate!

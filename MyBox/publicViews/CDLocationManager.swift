@@ -48,15 +48,13 @@ class CDLocationManager: NSObject,CLLocationManagerDelegate {
     }
     
     
-    public func reverseGeocode(oTocation: CLLocation,complete:@escaping (_ street:String)->Void){
-        var tLocation = oTocation
-        if tLocation.coordinate.latitude == -1 && tLocation.coordinate.longitude == -1 {
-//            tLocation = location
+    public func reverseGeocode(oTocation: CLLocation?,complete:@escaping (_ street:String)->Void){
+        if oTocation == nil {
             complete("西安市未央区")
             return
         }
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(tLocation, preferredLocale: nil) { marks, error in
+        geocoder.reverseGeocodeLocation(oTocation!, preferredLocale: nil) { marks, error in
             let mark = marks![0]
 //            let addressDic = mark.addressDictionary
 //            let country = mark.country

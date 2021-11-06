@@ -21,7 +21,6 @@ extension CDSqlManager{
                 build.column(db_fakeType)
                 build.column(db_createTime)
                 build.column(db_modifyTime)
-                build.column(db_accessTime)
                 build.column(db_userId)
                 build.column(db_folderPath)
                 build.column(db_superId)
@@ -44,11 +43,10 @@ extension CDSqlManager{
         folderInfo.fakeType = CDFakeType(rawValue: item[db_fakeType])!
         folderInfo.createTime = item[db_createTime]
         folderInfo.modifyTime = item[db_modifyTime]
-        folderInfo.accessTime = item[db_accessTime]
         folderInfo.userId = item[db_userId]
         folderInfo.superId = item[db_superId]
         folderInfo.folderPath = item[db_folderPath]
-        folderInfo.isSelected = .CDFalse
+        folderInfo.isSelected = .no
         return folderInfo
     }
 
@@ -65,7 +63,6 @@ extension CDSqlManager{
                 db_fakeType <- folder.fakeType.rawValue,
                 db_createTime <- folder.createTime,
                 db_modifyTime <- folder.modifyTime,
-                db_accessTime <- folder.accessTime,
                 db_userId <- folder.userId,
                 db_folderPath <- folder.folderPath,
                 db_superId <- folder.superId,
@@ -190,7 +187,7 @@ extension CDSqlManager{
         }
         return maxFolderId
     }
-    
+    ///folderId: 除该文件夹以外的所有同类型文件夹
     func queryAllOtherFolderWith(folderType:NSFolderType, folderId:Int) -> [Array<CDSafeFolder>] {
         var unlockArr:[CDSafeFolder] = []
         var lockArr:[CDSafeFolder] = []
@@ -204,6 +201,33 @@ extension CDSqlManager{
                     (db_folderId != folderId) &&
                     (db_folderType == folderType.rawValue) &&
                     (db_fakeType == 2))
+            }
+            for item in (try db.prepare(sql)) {
+                let folderInfo = getSafeFolderFromItem(item: item)
+                if folderInfo.isLock == LockOn {
+                    unlockArr.append(folderInfo)
+                }else{
+                    lockArr.append(folderInfo)
+                }
+            }
+            totalArr.insert(lockArr, at: 0)
+            totalArr.insert(unlockArr, at: 1)
+        } catch  {
+            CDPrint(item:"查询失败\(error)")
+        }
+        return totalArr
+    }
+    
+    func queryAllOtherFolderWith(folderType:NSFolderType) -> [Array<CDSafeFolder>] {
+        var unlockArr:[CDSafeFolder] = []
+        var lockArr:[CDSafeFolder] = []
+        var totalArr:[Array<CDSafeFolder>] = []
+        do {
+
+            var sql = SafeFolder.where(db_folderType == folderType.rawValue)
+
+            if CDSignalTon.shared.loginType != .real{
+                sql = SafeFolder.where( (db_folderType == folderType.rawValue) && (db_fakeType == 2))
             }
             for item in (try db.prepare(sql)) {
                 let folderInfo = getSafeFolderFromItem(item: item)
@@ -262,19 +286,6 @@ extension CDSqlManager{
         }
     }
     
-    /*
-    更新文件夹访问时间
-    */
-    public func updateOneSafeFolderAccessTime(accessTime:Int,folderId:Int) {
-
-        do{
-            let sql = SafeFolder.filter(db_folderId == folderId)
-            try db.run(sql.update(db_accessTime <- accessTime))
-            CDPrint(item:"updateOneSafeFolderAccessTime-->success")
-        }catch{
-            CDPrintManager.log("updateOneSafeFolderAccessTime-->error:\(error)", type: .ErrorLog)
-        }
-    }
     
     public func deleteOneFolder(folderId:Int) {
         do{

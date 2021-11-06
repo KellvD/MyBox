@@ -19,10 +19,9 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
     private var mainCollectionView:CDPreviewView!
     private var followCollectionView:CDPreviewView!
     private var imageManager:PHCachingImageManager!
-    private var editBtn:UIButton!
-    private var sendBtn:UIButton!
     private var isHiddenBottom:Bool! = false
 
+    var count = 0
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController!.navigationBar.isTranslucent = false
@@ -41,20 +40,17 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.automaticallyAdjustsScrollViewInsets = false
+        
         self.navigationController!.navigationBar.topItem?.title = ""
         let mainLayout = UICollectionViewFlowLayout()
-        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH)
+        mainLayout.itemSize = CGSize(width:CDSCREEN_WIDTH, height: CDViewHeight)
         mainLayout.sectionInset = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 2)
         mainLayout.minimumLineSpacing = 0
         mainLayout.minimumInteritemSpacing = 0
         mainLayout.scrollDirection = .horizontal
         self.mainCollectionView = CDPreviewView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDSCREEN_HEIGTH), layout: mainLayout,isMain: true)
-
         self.mainCollectionView.assetArr = assetArr
         self.mainCollectionView.isVideo = isVideo
-        self.mainCollectionView.itemW = CDSCREEN_WIDTH
-        self.mainCollectionView.itemH = CDViewHeight
         self.mainCollectionView.mainDelegete = self
         self.mainCollectionView.backgroundColor = UIColor.black
         self.mainCollectionView.isPagingEnabled = true
@@ -62,7 +58,7 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         
         self.bottomV.bringSubviewToFront(self.view)
         self.view.addSubview(self.bottomV)
-
+//
         let followLayout = UICollectionViewFlowLayout()
         followLayout.itemSize = CGSize(width:65 , height: 65)
         followLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10,right: 10)
@@ -71,8 +67,6 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         followLayout.scrollDirection = .horizontal
         self.followCollectionView = CDPreviewView(frame: CGRect(x: 0, y: 0, width: bottomV.frame.width, height: 85), layout: followLayout, isMain: false)
         self.followCollectionView.followDelegete = self
-        self.followCollectionView.itemW = 65
-        self.followCollectionView.itemH = 65
         self.followCollectionView.isVideo = isVideo
         self.followCollectionView.assetArr = self.assetArr
         self.followCollectionView.backgroundColor = UIColor.black
@@ -82,13 +76,19 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
         line.backgroundColor = UIColor(red:153/255.0,green:153/255.0,blue:153/255.0,alpha:1.0)
         self.bottomV.addSubview(line)
 
-        self.sendBtn = UIButton(type: .custom)
-        self.sendBtn .frame = CGRect(x: CDSCREEN_WIDTH-80, y: line.frame.maxY+4, width: 65, height: 40)
-        self.sendBtn .setTitle("发送", for:.normal)
-        self.sendBtn .setTitleColor(UIColor.white, for: .normal)
-        self.sendBtn .addTarget(self, action: #selector(previewSendBtnClick), for: .touchUpInside)
-        self.bottomV.addSubview(self.sendBtn)
+        let sendBtn = UIButton(type: .custom)
+        sendBtn.frame = CGRect(x: CDSCREEN_WIDTH-80, y: line.frame.maxY+4, width: 65, height: 40)
+        sendBtn.setTitle("发送", for:.normal)
+        sendBtn.setTitleColor(UIColor.white, for: .normal)
+        sendBtn.addTarget(self, action: #selector(previewSendBtnClick(sender:)), for: .touchUpInside)
+        bottomV.addSubview(sendBtn)
 
+        if #available(iOS 11.0, *) {
+            self.mainCollectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        }else{
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+        
     }
     
     lazy var bottomV: UIView = {
@@ -98,7 +98,8 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
     }()
 
     //MARK:预览发送
-    @objc func previewSendBtnClick(){
+    @objc func previewSendBtnClick(sender:UIButton){
+        sender.isEnabled = false
         var selectArr:[CDPHAsset] = []
         self.assetArr.forEach { (asset) in
             if asset.isSelected == .CD_True {
@@ -109,29 +110,32 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
             self.assetDelegate.selectedAssetsComplete(phAssets: selectArr)
 
         }
+
     }
 
     
-    func selectFollowWith(indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        }
+    func didSelectFollowCell(indexPath: IndexPath) {
+        self.mainCollectionView.isPagingEnabled = false
+        self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        self.mainCollectionView.isPagingEnabled = true
     }
     
-    func scrollMainPreview(lastIndexPath: IndexPath, currentIndexPath: IndexPath) {
-
-        self.followCollectionView.selectitem = currentIndexPath.item
-        self.followCollectionView.reloadItems(at: [lastIndexPath,currentIndexPath])
-        self.followCollectionView.scrollToItem(at: currentIndexPath, at: .centeredHorizontally, animated: true)
+    func scrollMainPreview(lastIndexPath: IndexPath, indexPath: IndexPath) {
+        self.followCollectionView.selectitem = indexPath.item
+        self.followCollectionView.reloadItems(at: [lastIndexPath,indexPath])
+        self.followCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
         
         //如果缩略图隐藏，滑动主视图让他pop出来
         if bottomV.frame.minY >= CDViewHeight {
             self.hideOrPopBottomV()
         }
     }
+        
+    
     
     //点击主视图，隐藏/展示缩略图
-    func selectMainPreview() {
+    func didSelectMainCell() {
         hideOrPopBottomV()
     }
     
@@ -142,7 +146,6 @@ class CDPreviewViewController: UIViewController,CDMainPreviewDelegate,CDFollowPr
             rect.origin.y = self.isHiddenBottom ? CDSCREEN_HEIGTH : (CDSCREEN_HEIGTH - BottomBarHeight - 85.0)
             self.bottomV.frame = rect
         }
-        
         self.navigationController?.setNavigationBarHidden(self.isHiddenBottom, animated: true)
         self.setNeedsStatusBarAppearanceUpdate()
         

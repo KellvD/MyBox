@@ -8,12 +8,15 @@
 
 import UIKit
 import LocalAuthentication
-enum CDPrivatyAndLogOption:String {
-    case ChangePwd = "修改密码"
-    case TouchID = "Touch ID"
-    case FakeSet = "访客模式"
-    case LogSet  = "日志设置"
-    case LogPreview = "日志预览"
+
+extension CDOptionViewController{
+    enum CDPrivatyAndLogOption:String {
+        case ChangePwd = "修改密码"
+        case TouchID = "Touch ID"
+        case FakeSet = "访客模式"
+        case LogSet  = "日志设置"
+        case LogPreview = "日志预览"
+    }
 }
 class CDOptionViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
     

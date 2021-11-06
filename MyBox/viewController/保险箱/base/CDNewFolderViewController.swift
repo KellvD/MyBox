@@ -88,7 +88,6 @@ class CDNewFolderViewController: CDBaseAllViewController {
         folderInfo.userId = CDUserId()
         folderInfo.createTime = Int(time)
         folderInfo.modifyTime = Int(time)
-        folderInfo.accessTime = Int(time)
         folderInfo.superId = ROOTSUPERID
         _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
         CDPrintManager.log("创建新文件夹:\(folderName)", type: .InfoLog)

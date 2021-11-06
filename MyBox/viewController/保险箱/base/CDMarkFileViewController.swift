@@ -7,13 +7,15 @@
 //
 
 import UIKit
-
-enum CDMarkType:Int {
-    case fileName = 1
-    case fileMark = 2
-    case waterInfo = 3
-    case folderName = 4
+extension CDMarkFileViewController{
+    enum CDMarkType:Int {
+        case fileName = 1
+        case fileMark = 2
+        case waterInfo = 3
+        case folderName = 4
+    }
 }
+
 typealias OnMarkResultHandle = (_ newContent:String?)->Void
 class CDMarkFileViewController: CDBaseAllViewController,UITextViewDelegate {
 

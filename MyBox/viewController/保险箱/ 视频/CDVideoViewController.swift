@@ -11,7 +11,7 @@ import AVFoundation
 import CDMediaPicker
 
 
-class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource,CDMediaPickerDelegate,CDCameraViewControllerDelegate {
+class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource {
     
     public var folderInfo:CDSafeFolder!
     
@@ -19,12 +19,14 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     private var batchBtn:UIButton!
     private var backBtn:UIButton!
     private var collectionView:UICollectionView!
-    private var videoArr:[CDSafeFileInfo] = []
+    @objc dynamic private var fileArr:[CDSafeFileInfo] = []
     private var selectCount:Int = 0 //选择的数量
     private var selectedVideoArr:[CDSafeFileInfo] = [] //存放选中的视频
     private var outputVideoArr:[CDSafeFileInfo] = []   //临时存放需要导出的视频，串行，导出一个删一个
     private var isNeedReloadData:Bool = false
-
+    deinit {
+        super.removeObserver(self, forKeyPath: "fileArr")
+    }
     override func viewWillAppear(_ animated: Bool) {
         if isNeedReloadData {
             isNeedReloadData = false
@@ -62,6 +64,9 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
         self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .VideoTools, superVC: self)
         self.view.addSubview(self.toolbar)
+        super.addObserver(super.self, forKeyPath: "fileArr", options: [.new,.old], context: nil)
+
+
     }
     
     // MARK:批量按钮
@@ -80,8 +85,8 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
             backBtn.setTitle("返回".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
-            videoArr.forEach { (tmpFile) in
-                tmpFile.isSelected = .CDFalse
+            fileArr.forEach { (tmpFile) in
+                tmpFile.isSelected = .no
             }
             
         }
@@ -93,13 +98,13 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         if batchBtn.isSelected { //
             selectedVideoArr.removeAll()
             if (self.backBtn.currentTitle == "全选".localize) { //全选
-                videoArr.forEach { (file) in
-                    file.isSelected = .CDTrue
+                fileArr.forEach { (file) in
+                    file.isSelected = .yes
                 }
-                selectCount = videoArr.count
+                selectCount = fileArr.count
             }else{
-                videoArr.forEach { (file) in
-                    file.isSelected = .CDFalse
+                fileArr.forEach { (file) in
+                    file.isSelected = .no
                 }
                 selectCount = 0
             }
@@ -114,7 +119,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         toolbar.enableReloadBar(isEnable: selectCount > 0)
         //视频拼接只能2-5个
         toolbar.appendItem.isEnabled = (selectCount >= 2 && selectCount <= 5)
-        if selectCount == videoArr.count && videoArr.count > 0{
+        if selectCount == fileArr.count && fileArr.count > 0{
             backBtn.frame = CGRect(x: 0, y: 0, width: 88, height: 44)
             backBtn.contentHorizontalAlignment = .left
             backBtn.setTitle("全不选".localize, for: .normal)
@@ -126,14 +131,14 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     func refreshData() {
         selectedVideoArr.removeAll()
         toolbar.enableReloadBar(isEnable: false)
-        videoArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
+        fileArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         collectionView.reloadData()
     }
     
     func handelSelectedArr(){
         selectedVideoArr.removeAll()
-        selectedVideoArr = videoArr.filter({ (tmp) -> Bool in
-            tmp.isSelected == .CDTrue
+        selectedVideoArr = fileArr.filter({ (tmp) -> Bool in
+            tmp.isSelected == .yes
         })
     }
     
@@ -157,7 +162,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     @objc func moveBarItemClick(){
         isNeedReloadData = false
         handelSelectedArr()
-        let folderList = CDFolderListViewController()
+        let folderList = CDPickerFolderViewController()
         folderList.selectedArr = selectedVideoArr
         folderList.folderType = .VideoFolder
         folderList.folderId = folderInfo.folderId
@@ -234,8 +239,8 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                     CDSqlManager.shared.deleteOneSafeFile(fileId: tmpFile.fileId)
                 
                     //删除元数据数组
-                    let index = self.videoArr.firstIndex(of: tmpFile)
-                    self.videoArr.remove(at: index!)
+                    let index = self.fileArr.firstIndex(of: tmpFile)
+                    self.fileArr.remove(at: index!)
                 }
                 DispatchQueue.main.async {
                     CDHUDManager.shared.hideWait()
@@ -255,17 +260,17 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         
         let sheet = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "拼接视频".localize, style: .destructive, handler: { (action) in
-            let appendVC = CDAppendVideoViewController()
-//            appendVC.fileArr = self.selectedImageArr
-//            appendVC.folderId = self.folderInfo.folderId
-//            appendVC.composeType = .Gif
-//            appendVC.composeHandle = {[unowned self](success) -> Void in
-//
-//                //拼接产生新的数据，更新DB数据源
-//                self.refreshData()
-//                //取消批量操作，更新DB时，所有本地数据重新从DB中更新，无需重复操作
-//                self.batchHandleFiles(isBatch: false)
-//            }
+            let appendVC = CDComposeGifViewController()
+            appendVC.fileArr = self.selectedVideoArr
+            appendVC.folderId = self.folderInfo.folderId
+            appendVC.composeType = .Video
+            appendVC.composeHandle = {[unowned self](success) -> Void in
+
+                //拼接产生新的数据，更新DB数据源
+                self.refreshData()
+                //取消批量操作，更新DB时，所有本地数据重新从DB中更新，无需重复操作
+                self.batchHandleFiles(isBatch: false)
+            }
             
             
             self.navigationController?.pushViewController(appendVC, animated: true)
@@ -316,7 +321,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         let documentTypes = ["public.movie"]
         super.subFolderId = folderInfo.folderId
         super.subFolderType = folderInfo.folderType
-        super.processHandle = {[weak self](_ success:Bool) -> Void in
+        super.docuemntPickerComplete = {[weak self](_ success:Bool) -> Void in
             if success {
                 self!.refreshData()
             }
@@ -329,12 +334,12 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videoArr.count
+        return fileArr.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoCellIdrr", for: indexPath) as! CDImageCell
-        let tmpFile:CDSafeFileInfo = videoArr[indexPath.item]
+        let tmpFile:CDSafeFileInfo = fileArr[indexPath.item]
         cell.setVideoData(fileInfo: tmpFile,isMutilEdit: batchBtn.isSelected)
         return cell
     }
@@ -344,32 +349,54 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         let cell:CDImageCell = collectionView.cellForItem(at: indexPath) as! CDImageCell
         
         if batchBtn.isSelected{
-            let tmFile = videoArr[indexPath.item]
-            if tmFile.isSelected == .CDFalse {
+            let tmFile = fileArr[indexPath.item]
+            if tmFile.isSelected == .no {
                 cell.isSelected = true
                 selectCount += 1
-                tmFile.isSelected = .CDTrue
+                tmFile.isSelected = .yes
             }else{
                 cell.isSelected = false
                 selectCount -= 1
-                tmFile.isSelected = .CDFalse
+                tmFile.isSelected = .no
             }
             cell.reloadSelectImageView()
             refreshUI()
             
         }else{
             let scrollerVC = CDVideoScrollerViewController()
-            scrollerVC.fileArr = videoArr
+            scrollerVC.fileArr = fileArr
             scrollerVC.currentIndex = indexPath.item
             scrollerVC.folderId = folderInfo.folderId
             self.navigationController?.pushViewController(scrollerVC, animated: true)
         }
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     
+}
+
+
+extension CDVideoViewController:CDCameraViewControllerDelegate{
+    func onCameraTakeVideoDidFinshed(cameraVC: CDCameraViewController, obj: [String : Any?]) {
+        isNeedReloadData = true
+        let videoUrl = obj["fileURL"] as! URL
+        CDSignalTon.shared.saveFileWithUrl(fileUrl: videoUrl, folderId: folderInfo.folderId, subFolderType: .VideoFolder,isFromDocment: false)
+        CDSignalTon.shared.customPickerView = nil
+//        cameraVC.dismiss(animated: false, completion: nil)
+    }
+}
+
+extension CDVideoViewController:CDMediaPickerViewControllerDelegate{
+    func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
+        CDSignalTon.shared.customPickerView = nil
+        picker.dismiss(animated: true, completion: nil)
+    }
     
-    //MARK:CDMeidaPickerDelegate
-    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: Dictionary<String, Any>, index: Int, totalCount: Int) {
+    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: [String : Any?], index: Int, totalCount: Int) {
         let tmpUrl = data["fileURL"] as! URL
         
         CDSignalTon.shared.saveFileWithUrl(fileUrl: tmpUrl, folderId: folderInfo
@@ -400,26 +427,6 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
                 
             }
         }
-    }
-    
-    
-    
-    func onMediaPickerDidCancle(picker: CDMediaPickerViewController) {
-        CDSignalTon.shared.customPickerView = nil
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func onCameraTakeVideoDidFinshed(cameraVC: CDCameraViewController, obj: CDCameraVideoConfig) {
-        isNeedReloadData = true
-        let videoUrl = obj.fileUrl
-        CDSignalTon.shared.saveFileWithUrl(fileUrl: videoUrl, folderId: folderInfo.folderId, subFolderType: .VideoFolder,isFromDocment: false)
-        CDSignalTon.shared.customPickerView = nil
-//        cameraVC.dismiss(animated: false, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     

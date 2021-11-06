@@ -47,13 +47,13 @@ class CDLogBean: NSObject {
             return CDConfigFile.getBoolValueFromConfigWith(key: .logSwi)
         }
     }
-    static var logLevel: CDLogLevel {
+    static var logLevel: CDPrintManager.CDLogLevel {
         set {
             CDConfigFile.setIntValueToConfigWith(key: .logLevel, intValue: newValue.rawValue)
         }
         get {
             let level = CDConfigFile.getIntValueFromConfigWith(key: .logLevel)
-            return  level == -1 ? .DebugLog : CDLogLevel(rawValue: level)!
+            return  level == -1 ? .DebugLog : CDPrintManager.CDLogLevel(rawValue: level)!
         }
     }
     static var logPath: String {

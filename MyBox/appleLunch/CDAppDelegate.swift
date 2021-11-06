@@ -18,7 +18,6 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
         let _ = CDSqlManager.shared
         let _ = CDSignalTon.shared
         let _ = CDLocationManager.shared
@@ -113,12 +112,33 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         let urlStr = url.absoluteString
-        print(urlStr)
+        let urlStrArr = urlStr.components(separatedBy: "//")
+        if urlStrArr.count > 1 && urlStrArr[1] == "shareExtension" {
+            let shareType = urlStrArr.last
+            CDSignalTon.shared.shareType = shareType
+            let pickerVC = CDPickerFolderViewController()
+            pickerVC.isShare = true
+            if shareType == "public.movie" {
+                pickerVC.folderType = .VideoFolder
+            }else if shareType == "public.image" {
+                pickerVC.folderType = .ImageFolder
+            }else if shareType == "public.url" {
+                pickerVC.folderType = .TextFolder
+            }else if shareType == "public.file-url" {
+                pickerVC.folderType = .TextFolder
+            }else if shareType == "public.plain-text" {
+                pickerVC.folderType = .TextFolder
+
+            }
+            self.loginNav = CDNavigationController(rootViewController: pickerVC)
+            self.window?.rootViewController = self.loginNav
+            
+//            CDSignalTon.shared.navigationBar = self.loginNav
+        }
         
         return true
     }
-    
-    
+
     
   
    

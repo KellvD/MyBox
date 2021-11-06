@@ -14,6 +14,10 @@ enum CDComposeType {
     case Gif
     case Video
 }
+
+extension CDComposeGifViewController{
+    typealias CDComposeHandle = (_ success:Bool) -> Void
+}
 class CDComposeGifViewController: CDBaseAllViewController,UICollectionViewDelegate,UICollectionViewDataSource{
 
 

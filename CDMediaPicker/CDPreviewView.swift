@@ -10,22 +10,17 @@ import UIKit
 import Photos
 
 protocol CDFollowPreviewDelegate:NSObjectProtocol {
-    func selectFollowWith(indexPath:IndexPath)
+    func didSelectFollowCell(indexPath:IndexPath)
 }
 
 protocol CDMainPreviewDelegate:NSObjectProtocol {
-    func scrollMainPreview(lastIndexPath:IndexPath,currentIndexPath:IndexPath)
-    func selectMainPreview()
+    func scrollMainPreview(lastIndexPath:IndexPath,indexPath:IndexPath)
+    func didSelectMainCell()
 }
 
 class CDPreviewView: UICollectionView,UICollectionViewDelegate,UICollectionViewDataSource {
-    
-    
-
     var assetArr:[CDPHAsset] = []
-    var itemW:CGFloat = 0
-    var itemH:CGFloat = 0
-    
+
     var isVideo:Bool!
     var selectitem:Int = 0 //标记当前展示的cell的item
     private var isMian:Bool = false
@@ -61,6 +56,7 @@ class CDPreviewView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
             cell.setVideoToView(cdAsset: asset, isMain: isMian)
         }else{
             cell.setImageToView(cdAsset: asset, isMain: isMian)
+            
         }
 
         return cell
@@ -70,13 +66,14 @@ class CDPreviewView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if isMian {
-            self.mainDelegete?.selectMainPreview()
+            self.mainDelegete?.didSelectMainCell()
         }else{
             if self.selectitem != indexPath.item { //防止单击同一张图做不必要的刷新
                 let lastIndexPath = IndexPath(item: self.selectitem, section: 0)
                 self.selectitem = indexPath.item
                 self.reloadItems(at: [lastIndexPath,indexPath])
-                self.followDelegete!.selectFollowWith(indexPath: indexPath)
+                self.followDelegete!.didSelectFollowCell(indexPath: indexPath)
+
             }
         }
     }
@@ -84,11 +81,11 @@ class CDPreviewView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isMian && isMeDrag{
             //本次拖动未完成，cell没变，就不刷新
-            let index:Int = lroundf(Float(self.contentOffset.x/itemW))
+            let index:Int = lroundf(Float(self.contentOffset.x/self.frame.width))
             if self.selectitem != index {//完成一次成功的滚动就去刷新一下
-                let lastIndexPath = IndexPath(item: self.selectitem, section: 0)
                 let currentIndexPath = IndexPath(item: index, section: 0)
-                self.mainDelegete?.scrollMainPreview(lastIndexPath: lastIndexPath, currentIndexPath: currentIndexPath)
+                let lastIndexPath = IndexPath(item: self.selectitem, section: 0)
+                self.mainDelegete?.scrollMainPreview(lastIndexPath: lastIndexPath, indexPath: currentIndexPath)
                 isMeDrag = false
             }
         }
@@ -97,14 +94,16 @@ class CDPreviewView: UICollectionView,UICollectionViewDelegate,UICollectionViewD
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if isMian {
             //暂停上次播放的
-            self.selectitem = lroundf(Float(self.contentOffset.x/itemW))
-            let cell:CDPreviewCell = self.visibleCells.first as! CDPreviewCell
-            cell.playerItemDidFinish()
+            self.selectitem = lroundf(Float(self.contentOffset.x/self.frame.width))
+            let index:Int = lroundf(Float(self.contentOffset.x/self.frame.width))
+            let visibleCell = self.cellForItem(at: IndexPath(item: index, section: 0)) as! CDPreviewCell
+            if visibleCell.player != nil{
+                visibleCell.playerItemDidFinish()
+            }
+            
             isMeDrag = true
         }
     }
-
-
 }
 
 
@@ -122,19 +121,19 @@ class CDPreviewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
-        itemH = frame.height
-        itemW = frame.width
+        itemH = frame.height - 6
+        itemW = frame.width - 6
 
-        livePhotoView = PHLivePhotoView(frame: CGRect(x: 0, y: 0, width:itemW, height: itemH))
+        livePhotoView = PHLivePhotoView(frame: self.bounds)
         livePhotoView.isUserInteractionEnabled = true
         self.addSubview(livePhotoView)
         
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width:itemW, height: itemH))
+        imageView = UIImageView(frame: self.bounds)
         imageView.isUserInteractionEnabled = true
         self.addSubview(imageView)
 
         playBtn = UIButton(type: .custom)
-        playBtn.frame = CGRect(x: frame.width/2 - 25, y: imageView.frame.height/2 - 25, width: 50, height: 50)
+        playBtn.frame = CGRect(x: frame.width/2 - 25, y: frame.height/2 - 25, width: 50, height: 50)
         playBtn.setImage(UIImage(named: "play"), for: .normal)
         playBtn.addTarget(self, action: #selector(startPlayer), for: .touchUpInside)
         imageView.addSubview(playBtn)
@@ -179,7 +178,7 @@ class CDPreviewCell: UICollectionViewCell {
                         let scale = width / self.itemW
                         let resultH = height/scale
                         self.imageView.frame = CGRect(x: 0, y: (self.itemH-resultH)/2, width: self.itemW, height: resultH)
-//                        self.imageView.image = UIImage.gif(data: data!)
+                        self.imageView.image = UIImage.gif(data: data!)
                     }else{
                         let image = UIImage(data: data!)
                         self.imageView.image = image

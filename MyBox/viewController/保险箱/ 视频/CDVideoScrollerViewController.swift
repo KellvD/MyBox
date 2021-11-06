@@ -39,7 +39,7 @@ class CDVideoScrollerViewController: CDBaseAllViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false;
+
         let fileInfo = fileArr[currentIndex]
         self.title = fileInfo.fileName
         let layout = UICollectionViewFlowLayout()
@@ -73,6 +73,11 @@ class CDVideoScrollerViewController: CDBaseAllViewController{
         self.view.addSubview(indexLabel)
         let videoTap = UITapGestureRecognizer(target: self, action: #selector(onBarsHiddenOrNot))
         self.view.addGestureRecognizer(videoTap)
+        if #available(iOS 11.0, *) {
+            self.collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        }else{
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
     }
     
    

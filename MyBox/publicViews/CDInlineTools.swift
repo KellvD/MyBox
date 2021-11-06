@@ -96,28 +96,14 @@ import Photos
 格式化文件size
 */
 @inline(__always)func GetSizeFormat(fileSize:Int)->String{
-    var sizeStr = ""
     var sizef = Float(fileSize)
     var i = 0
     while sizef >= 1024 {
         sizef = sizef / 1024.0
         i += 1
     }
-    switch i {
-    case 0:
-        sizeStr = String(format: "%.2ldB", sizef)
-    case 1:
-        sizeStr = String(format: "%.2lfKB", sizef)
-    case 2:
-        sizeStr = String(format: "%.2lfM", sizef)
-    case 3:
-        sizeStr = String(format: "%.2lfG", sizef)
-    case 4:
-        sizeStr = String(format: "%.2lfT", sizef)
-    default:
-        break
-    }
-    return sizeStr
+    let fortmates = ["%.2ldB","%.2lfKB","%.2lfM","%.2lfG","%.2lfT"]
+    return String(format: fortmates[i], sizef)
 }
 
 /*
@@ -145,22 +131,12 @@ import Photos
 }
 
 
-@inline(__always)func GetFileHeadImage(type: NSFileType) -> String? {
+@inline(__always)func GetFileHeadImage(type: CDSafeFileInfo.NSFileType) -> String? {
     let arr: [String] = [
-        "file_txt_big",
-        "file_audio_big",
-        "file_image_big",
-        "file_video_big",
-        "file_pdf_big",
-        "file_ppt_big",
-        "file_doc_big",
-        "file_txt_big",
-        "file_excel_big",
-        "file_rtf_big",
-        "file_image_big",
-        "file_zip_big",
-        "file_image_big",
-        "file_other_big"
+        "file_txt_big","file_audio_big","file_image_big","file_video_big",
+        "file_pdf_big","file_ppt_big","file_doc_big","file_txt_big",
+        "file_excel_big","file_rtf_big","file_image_big","file_zip_big",
+        "file_image_big","link_icon","file_other_big"
     ]
     if type.rawValue >= arr.count {
         return "file_other_big"
@@ -249,36 +225,38 @@ import Photos
  */
 @inline(__always)func openPermission(type:CDDevicePermissionType,viewController:CDBaseAllViewController){
     
-    var title:String!
-    var message:String!
-    if type == .library {
-        title = "相册被拒绝访问".localize
-        message =
-            String(format: "请在”设置>隐私>照片>%@“，设置读取和写入".localize, GetAppName())
-    } else if type == .camera {
-        title = "相机访问被拒绝".localize
-        message = String(format: "请在“设置>隐私>相机>%@”选项中，打开允许访问的开关".localize, GetAppName())
-    } else if type == .micorphone {
-        title = "麦克风被拒绝访问".localize
-        message = String(format: "请在“设置>隐私>麦克风>%@”选项中，打开允许访问的开关".localize, GetAppName())
-        
-    } else if type == .location {
-        title = "地图定位被拒绝访问".localize
-        message = String(format: "请在“设置>隐私>定位服务>%@)”选项中，选择使用权限".localize, GetAppName())
-    }
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "稍后设置".localize, style: .cancel, handler: nil))
-    alert.addAction(UIAlertAction(title: "前去设置".localize, style: .default, handler: { (action) in
-        var url = URL(string: "App-Prefs:root=Privacy")
-        if #available(iOS 10.3, *) {
-            url = URL(string: UIApplication.openSettingsURLString)
-        }
-        if UIApplication.shared.canOpenURL(url!) {
+    DispatchQueue.main.async {
+        var title:String!
+        var message:String!
+        if type == .library {
+            title = "相册被拒绝访问".localize
+            message =
+                String(format: "请在”设置>隐私>照片>%@“，设置读取和写入".localize, GetAppName())
+        } else if type == .camera {
+            title = "相机访问被拒绝".localize
+            message = String(format: "请在“设置>隐私>相机>%@”选项中，打开允许访问的开关".localize, GetAppName())
+        } else if type == .micorphone {
+            title = "麦克风被拒绝访问".localize
+            message = String(format: "请在“设置>隐私>麦克风>%@”选项中，打开允许访问的开关".localize, GetAppName())
             
-            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        } else if type == .location {
+            title = "地图定位被拒绝访问".localize
+            message = String(format: "请在“设置>隐私>定位服务>%@)”选项中，选择使用权限".localize, GetAppName())
         }
-    }))
-    viewController.present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "稍后设置".localize, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "前去设置".localize, style: .default, handler: { (action) in
+            var url = URL(string: "App-Prefs:root=Privacy")
+            if #available(iOS 10.3, *) {
+                url = URL(string: UIApplication.openSettingsURLString)
+            }
+            if UIApplication.shared.canOpenURL(url!) {
+                
+                UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            }
+        }))
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }
 
 /**

@@ -15,7 +15,8 @@ let UserInfo = Table("CDUserInfo")
 let MusicInfo = Table("CDMusicInfo")
 let MusicClassInfo = Table("CDMusicClassInfo")
 let AttendanceInfo = Table("CDAttendanceInfo")
-
+let NovelInfo = Table("CDNovelInfo")
+let ChapterInfo = Table("CDChapterInfo")
 
 let db_id = Expression<Int>("id")
 var db_folderName = Expression<String>("folderName")
@@ -25,7 +26,6 @@ var db_isLock = Expression<Int>("isLock")
 var db_fakeType = Expression<Int>("fakeType")
 var db_createTime = Expression<Int>("createTime")
 var db_modifyTime = Expression<Int>("modifyTime")
-var db_accessTime = Expression<Int>("accessTime")
 var db_importTime = Expression<Int>("importTime")
 var db_createLocation = Expression<String>("createLocation")
 var db_folderPath = Expression<String>("folderPath")
@@ -70,3 +70,13 @@ var db_year = Expression<Int>("year")
 var db_title = Expression<String>("title")
 var db_type = Expression<Int>("type")
 var db_statue = Expression<Int>("statue")
+
+
+
+var db_novelName = Expression<String>("novelName")
+var db_novelPath = Expression<String>("novelPath")
+var db_novelId = Expression<Int>("novelId")
+
+var db_chapterName = Expression<String>("chapterName")
+var db_content = Expression<String>("content")
+var db_charterId = Expression<Int>("charterId")

@@ -55,39 +55,15 @@ class CDSqlManager: NSObject {
         createMusicClassInfoTab()
         createSafeFileInfoTab()
         createAttendanceInfoTab()
-        
+        createNovelTab()
+        createChapterTab()
         
         //默添加user
         let user = CDUserInfo()
         user.userId = FIRSTUSERID
         addOneUserInfoWith(usernInfo: user)
     }
-    
-   
-    
-    
-   
-    
-   
-    
-    
-    
-    
-   
-    
-    
-    func firstUpdate() {
-        do{
-            try db.run(
-                SafeFolder.addColumn(db_accessTime, defaultValue: 0)
-            )
-            CDPrint(item:"addUserInfo -->success")
-        }catch{
-            CDPrintManager.log("addUserIn -->error:\(error)", type: .ErrorLog)
-        }
-        
-    }
-    
+
     
     
 }
