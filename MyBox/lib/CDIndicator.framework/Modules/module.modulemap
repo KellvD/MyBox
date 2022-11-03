@@ -1,4 +1,0 @@
-framework module CDIndicator {
-  header "CDIndicator-Swift.h"
-  requires objc
-}

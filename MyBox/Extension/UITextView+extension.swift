@@ -58,15 +58,15 @@ extension UITextView{
         }
     }
     
-    @IBInspectable var text: String!{
-        set {
-            self.text = newValue
-            setNeedsDisplay()
-        }
-        get{
-            return self.text
-        }
-    }
+//    @IBInspectable var text: String!{
+//        set {
+//            self.text = newValue
+//            setNeedsDisplay()
+//        }
+//        get{
+//            return self.text
+//        }
+//    }
     
     @IBInspectable var attributedText: NSAttributedString!{
         set {

@@ -6,7 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.hw.swiftDemo</string>
+		<string>group.boxdemo</string>
 	</array>
 </dict>
 </plist>

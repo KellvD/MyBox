@@ -160,7 +160,7 @@ class CDShareViewController: UIViewController {
    
     @objc func onSureShare(){
         let fileManager = FileManager.default
-        let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.hw.swiftDemo")
+        let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.boxdemo")
         let fileUrl = groupUrl!.appendingPathComponent("shareContent.txt")
         switch self.shareType {
         case "public.url":

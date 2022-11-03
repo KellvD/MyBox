@@ -55,7 +55,10 @@ QLPreviewControllerDataSource{
         dirNavBar = CDDirNavBar(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 48))
         dirNavBar.dirDelegate = self
         view.addSubview(dirNavBar)
-        tablebview = UITableView(frame: CGRect(x: 0, y: dirNavBar.frame.maxY, width: CDSCREEN_WIDTH, height: CDViewHeight - BottomBarHeight - dirNavBar.height), style: .plain)
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .TextTools, superVC: self)
+        self.view.addSubview(self.toolbar)
+        
+        tablebview = UITableView(frame: CGRect(x: 0, y: dirNavBar.maxY, width: CDSCREEN_WIDTH, height: self.toolbar.minY - dirNavBar.maxY), style: .plain)
         tablebview.delegate = self
         tablebview.dataSource = self
         tablebview.separatorStyle = .none
@@ -74,8 +77,7 @@ QLPreviewControllerDataSource{
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
         
-        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .TextTools, superVC: self)
-        self.view.addSubview(self.toolbar)
+
         hiddenDirNavBar()
 
     }

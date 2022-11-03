@@ -106,7 +106,7 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
     }
 
 //    GCD队列
-    private func handleVideo(){
+    public func handleVideo(){
         let sem = DispatchSemaphore(value: 1)
         DispatchQueue(label: "handleVideo",qos: .default).sync {
             for index in 0..<gphAssets.count{

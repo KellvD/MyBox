@@ -36,7 +36,11 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         super.viewDidLoad()
         self.title = "语音文件"
         isNeedReloadData = true
-        tableblew = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-BottomBarHeight), style: .plain)
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .ImageTools, superVC: self)
+
+        view.addSubview(self.toolbar)
+        
+        tableblew = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: toolbar.minY), style: .plain)
         tableblew.delegate = self
         tableblew.dataSource = self
         tableblew.separatorStyle = .none
@@ -55,8 +59,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
 
-        toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .AudioTools, superVC: self)
-        view.addSubview(self.toolbar)
+
 
         super.addObserver(super.self, forKeyPath: "fileArr", options: [.new,.old], context: nil)
 

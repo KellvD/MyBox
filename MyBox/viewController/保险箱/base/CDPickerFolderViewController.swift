@@ -98,7 +98,7 @@ class CDPickerFolderViewController: CDBaseAllViewController,UITableViewDelegate,
     }
     
     private func onDoneShare(folder:CDSafeFolder){
-        let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.hw.swiftDemo")
+        let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.boxdemo")
         let fileUrl = groupUrl!.appendingPathComponent("shareContent.txt")
         let content = try? String(contentsOf: fileUrl,encoding: .utf8)
         if CDSignalTon.shared.shareType == "public.movie" {

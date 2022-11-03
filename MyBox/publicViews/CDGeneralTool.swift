@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ZipArchive
+import SSZipArchive
 import UnrarKit
 class CDGeneralTool: NSObject {
     class func attributedTextWith(textArr:Array<String>,fontArr:Array<UIFont>,colorArr:Array<UIColor>) ->NSAttributedString?{

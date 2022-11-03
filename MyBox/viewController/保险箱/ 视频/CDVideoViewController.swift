@@ -37,13 +37,16 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
     override func viewDidLoad() {
         super.viewDidLoad()
         isNeedReloadData = true
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .VideoTools, superVC: self)
+        self.view.addSubview(self.toolbar)
+        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width:(CDSCREEN_WIDTH-10)/4 , height: (CDSCREEN_WIDTH-10)/4)
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .vertical
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-BottomBarHeight), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: self.toolbar.minY), collectionViewLayout: layout)
         collectionView.register(CDImageCell.self, forCellWithReuseIdentifier: "VideoCellIdrr")
         
         collectionView.delegate = self
@@ -62,8 +65,7 @@ class CDVideoViewController: CDBaseAllViewController,UICollectionViewDelegate,UI
         self.backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
         
-        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDViewHeight - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .VideoTools, superVC: self)
-        self.view.addSubview(self.toolbar)
+
         super.addObserver(super.self, forKeyPath: "fileArr", options: [.new,.old], context: nil)
 
 

@@ -37,7 +37,7 @@ UIViewController,UIGestureRecognizerDelegate,UIDocumentPickerDelegate {
     lazy var noMoreDataView: UIView = {
         let bgView = UIView(frame: CGRect(x: CDSCREEN_WIDTH/2.0 - 85.0/2.0, y: CDViewHeight/2.0 - 85/2.0 - 60, width: 85.0, height: 85.0 + 60))
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 85.0, height: 85.0))
-        imageView.image = "wushuju-2-universal".image
+//        imageView.image = "wushuju-2-universal".image
         bgView.addSubview(imageView)
         
         let label = UILabel(frame: CGRect(x: 0, y: imageView.maxY, width: 85, height: 30))
