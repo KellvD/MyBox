@@ -27,7 +27,6 @@ import Photos
 */
 @inline(__always) func GetFolderSize(folderPath:String) -> Int{
     
-    
     var isDir:ObjCBool = false
     let manager = FileManager.default
     var fileSize:Int = 0
@@ -39,11 +38,9 @@ import Photos
                 fileSize = fileSize + allPath.fileAttribute.fileSize
             }
             return fileSize
-            
         }
     }
     return folderPath.fileAttribute.fileSize
-    
 }
 
 

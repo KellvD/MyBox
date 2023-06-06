@@ -120,10 +120,11 @@ class CDConfigFile: NSObject {
         let finaPath = databasePath()
         let nullDict = NSMutableDictionary(contentsOfFile: finaPath)
         nullDict?.removeAllObjects()
-        let _ = writeToFileWith(writeDict: nullDict!, filePath: finaPath)
+        writeToFileWith(writeDict: nullDict!, filePath: finaPath)
 
     }
 
+    @discardableResult
     private class func writeToFileWith(writeDict:NSMutableDictionary,filePath:String)->Bool{
         objc_sync_enter(self)
         let writeFlag = writeDict.write(toFile: filePath, atomically: true)

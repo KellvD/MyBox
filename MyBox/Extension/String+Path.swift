@@ -57,6 +57,7 @@ extension String{
     }
 
     //MARK:图片路径
+    @discardableResult
     static func ImagePath()->String{
         let path = (RootPath() as NSString).appendingPathComponent("Images")
         ensurePathAt(path: path)
@@ -79,6 +80,7 @@ extension String{
 
 
     //MARK:视频
+    @discardableResult
     static func VideoPath()->String{
         let path = (RootPath() as NSString).appendingPathComponent("Video")
         ensurePathAt(path: path)
@@ -92,12 +94,14 @@ extension String{
     }
 
     //MARK:Other
+    @discardableResult
     static func OtherPath()->String{
         let path = (RootPath() as NSString).appendingPathComponent("Other")
         ensurePathAt(path: path)
         return path
     }
     //MARK:Music
+    @discardableResult
     static func MusicPath()->String{
         let path = (RootPath() as NSString).appendingPathComponent("Music")
         ensurePathAt(path: path)
@@ -158,6 +162,7 @@ extension String{
             }
         }
     }
+    
     //相对路径
     var relativePath:String{
         get{

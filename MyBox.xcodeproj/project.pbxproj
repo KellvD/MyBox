@@ -25,8 +25,8 @@
 		84D3C4F6B834002915F39351 /* Pods_CDIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBCE9C94B3FF95BD9E17E8E6 /* Pods_CDIndicator.framework */; };
 		890988EAE4691568ABECD92D /* Pods_MyBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64BA84B68FFF6438CFA05037 /* Pods_MyBox.framework */; };
 		B57A29BD290E58CB0094D3F8 /* Emoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B57A29BC290E58CB0094D3F8 /* Emoji.bundle */; };
+		B5B057D729B04B90005D08AB /* CDJsonObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B057D629B04B90005D08AB /* CDJsonObject.swift */; };
 		EF29E2AC2712DA480041092B /* CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E2A52712DA480041092B /* CDMediaEditor.framework */; };
-		EF29E2AD2712DA480041092B /* CDMediaEditor.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF29E2A52712DA480041092B /* CDMediaEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF29E32A2712DA590041092B /* Core+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B32712DA580041092B /* Core+Bundle.swift */; };
 		EF29E32B2712DA590041092B /* Core+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B42712DA580041092B /* Core+UIFont.swift */; };
 		EF29E32C2712DA590041092B /* Core+PHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF29E2B52712DA580041092B /* Core+PHAsset.swift */; };
@@ -309,9 +309,7 @@
 		EF91AFED26D0A1AB00A6943F /* CDRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEDF26D0A1AB00A6943F /* CDRootViewController.swift */; };
 		EF91AFEE26D0A1AB00A6943F /* CDNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91AEE026D0A1AB00A6943F /* CDNavigationController.swift */; };
 		EF91B00726D0A1C500A6943F /* CDIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91B00026D0A1C500A6943F /* CDIndicator.framework */; };
-		EF91B00826D0A1C500A6943F /* CDIndicator.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF91B00026D0A1C500A6943F /* CDIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF91B01826D0A1DA00A6943F /* CDMediaPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF91B01126D0A1DA00A6943F /* CDMediaPicker.framework */; };
-		EF91B01926D0A1DA00A6943F /* CDMediaPicker.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF91B01126D0A1DA00A6943F /* CDMediaPicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF91B02B26D0A22000A6943F /* CDPickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91B01D26D0A21F00A6943F /* CDPickModel.swift */; };
 		EF91B02C26D0A22000A6943F /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91B01E26D0A21F00A6943F /* UIImage+Gif.swift */; };
 		EF91B02D26D0A22000A6943F /* CDMediaPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91B01F26D0A21F00A6943F /* CDMediaPickerViewController.swift */; };
@@ -386,18 +384,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EFC242F3245BF6AF00DDC829 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				EF91B01926D0A1DA00A6943F /* CDMediaPicker.framework in CopyFiles */,
-				EF91B00826D0A1C500A6943F /* CDIndicator.framework in CopyFiles */,
-				EF29E2AD2712DA480041092B /* CDMediaEditor.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EFF78A232713114A00DF0315 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,6 +423,7 @@
 		A2C1D6365E89783CAB13F282 /* Pods-CDIndicator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDIndicator.release.xcconfig"; path = "Target Support Files/Pods-CDIndicator/Pods-CDIndicator.release.xcconfig"; sourceTree = "<group>"; };
 		A400F14B5B655D98B6BE37D9 /* Pods-CDIndicator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDIndicator.debug.xcconfig"; path = "Target Support Files/Pods-CDIndicator/Pods-CDIndicator.debug.xcconfig"; sourceTree = "<group>"; };
 		B57A29BC290E58CB0094D3F8 /* Emoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Emoji.bundle; sourceTree = "<group>"; };
+		B5B057D629B04B90005D08AB /* CDJsonObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDJsonObject.swift; sourceTree = "<group>"; };
 		C2BC4C0928BE9CD6636C6D33 /* Pods_Share.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Share.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E931E808FF267F8B03D886 /* Pods-CDMediaEditor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDMediaEditor.debug.xcconfig"; path = "Target Support Files/Pods-CDMediaEditor/Pods-CDMediaEditor.debug.xcconfig"; sourceTree = "<group>"; };
 		EDC73A58365E33767F98A0FF /* Pods-CDMediaPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDMediaPicker.debug.xcconfig"; path = "Target Support Files/Pods-CDMediaPicker/Pods-CDMediaPicker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1336,6 +1323,7 @@
 				EF91AE1126D0A1AA00A6943F /* CDDeviceTools.swift */,
 				EF91AE1226D0A1AA00A6943F /* CDPrintManager.swift */,
 				EF91AE1326D0A1AA00A6943F /* CDMediaSlider.swift */,
+				B5B057D629B04B90005D08AB /* CDJsonObject.swift */,
 			);
 			path = publicViews;
 			sourceTree = "<group>";
@@ -1645,9 +1633,9 @@
 				73550FE12457C0AB009B7599 /* Sources */,
 				73550FE22457C0AB009B7599 /* Frameworks */,
 				73550FE32457C0AB009B7599 /* Resources */,
-				EFC242F3245BF6AF00DDC829 /* CopyFiles */,
 				EF7C522824C2DAD600DA7605 /* Embed App Extensions */,
 				299C1926A4D0A26D61BBE8AF /* [CP] Embed Pods Frameworks */,
+				B56F9CB72945BAC10030F8CF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1745,6 +1733,7 @@
 		73550FDD2457C0AB009B7599 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = CD;
 				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "(c) Huawei Technologies Co., Ltd. 2012-2019.";
@@ -1983,6 +1972,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B56F9CB72945BAC10030F8CF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n$(PODS_ROOT)/SwiftLint/swiftlint\n";
+		};
 		E712BDBDBBEB3199E2567303 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2119,6 +2125,7 @@
 				EF91AF4626D0A1AB00A6943F /* UIFont+extension.swift in Sources */,
 				EF91AF8F26D0A1AB00A6943F /* CDOptionViewController.swift in Sources */,
 				EF82F87C273697040086CCA0 /* CDCameraTopBar.swift in Sources */,
+				B5B057D729B04B90005D08AB /* CDJsonObject.swift in Sources */,
 				EF91AF9126D0A1AB00A6943F /* CDMapViewController.swift in Sources */,
 				EF91AEEE26D0A1AB00A6943F /* CDFontView.swift in Sources */,
 				EF29E3A42712DBB80041092B /* CDSqlManager+CDSafeFolder.swift in Sources */,

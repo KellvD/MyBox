@@ -89,7 +89,7 @@ class CDNewFolderViewController: CDBaseAllViewController {
         folderInfo.createTime = Int(time)
         folderInfo.modifyTime = Int(time)
         folderInfo.superId = ROOTSUPERID
-        _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
+        CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
         CDPrintManager.log("创建新文件夹:\(folderName)", type: .InfoLog)
         self.navigationController?.popViewController(animated: true)
     }

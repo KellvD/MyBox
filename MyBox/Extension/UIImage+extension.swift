@@ -190,9 +190,27 @@ extension UIImage{
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
-        
-        
     }
+    /// 生成马赛克图片
+    func mosaicImage(level: CGFloat) -> UIImage? {
+        let screenScale = level / max(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        let scale = self.size.width * screenScale
+        guard let image = self.cgImage else {
+            return nil
+        }
+        // 输入
+        let input = CIImage(cgImage: image)
+        // 输出
+        let output = input.applyingFilter("CIPixellate", parameters: [kCIInputScaleKey: scale])
+
+        // 渲染图片
+        guard let cgimage = CIContext(options: nil).createCGImage(output, from: input.extent) else {
+            return nil
+        }
+        return UIImage(cgImage: cgimage)
+
+    }
+    
 }
 
 //类方法
@@ -243,25 +261,7 @@ extension UIImage{
         
     }
     
-    /// 生成马赛克图片
-    func mosaicImage(level: CGFloat) -> UIImage? {
-        let screenScale = level / max(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
-        let scale = self.size.width * screenScale
-        guard let image = self.cgImage else {
-            return nil
-        }
-        // 输入
-        let input = CIImage(cgImage: image)
-        // 输出
-        let output = input.applyingFilter("CIPixellate", parameters: [kCIInputScaleKey: scale])
-
-        // 渲染图片
-        guard let cgimage = CIContext(options: nil).createCGImage(output, from: input.extent) else {
-            return nil
-        }
-        return UIImage(cgImage: cgimage)
-
-    }
+   
 
 
 }

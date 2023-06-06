@@ -90,7 +90,7 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
             folderInfo.folderPath = pathArr[i].relativePath
             folderInfo.userId = CDUserId()
             folderInfo.superId = ROOTSUPERID//-2默认文件夹，-1默认文件夹下子文件
-            _ = CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
+            CDSqlManager.shared.addSafeFoldeInfo(folder: folderInfo)
         }
     }
     
@@ -98,11 +98,11 @@ class CDSignalTon: NSObject,CLLocationManagerDelegate {
     添加沙盒文件夹
     */
     func createLibraryForUser(){
-        _ = String.ImagePath()
-        _ = String.AudioPath()
-        _ = String.VideoPath()
-        _ = String.OtherPath()
-        _ = String.MusicPath()
+        String.ImagePath()
+        String.AudioPath()
+        String.VideoPath()
+        String.OtherPath()
+        String.MusicPath()
     }
     
     /**

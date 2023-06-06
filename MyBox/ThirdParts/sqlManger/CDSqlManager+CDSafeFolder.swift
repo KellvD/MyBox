@@ -50,6 +50,7 @@ extension CDSqlManager{
         return folderInfo
     }
 
+    @discardableResult
     public func addSafeFoldeInfo(folder:CDSafeFolder) -> Int {
 
         let folderId = queryMaxSafeFolderId()+1

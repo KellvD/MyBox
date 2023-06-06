@@ -121,7 +121,9 @@ extension UIView{
         }
     }
     
-    
+    var xib:Self {
+        return Bundle.main.loadNibNamed(String(describing: self.self), owner: nil, options: nil)?.last as! Self
+    }
     
     
     /**
@@ -203,6 +205,8 @@ extension UIView{
         self.addSubview(effectView)
         self.sendSubviewToBack(effectView)
     }
+    
+    
     
     
 }

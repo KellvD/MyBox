@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 protocol CDMediaSliderDelegate {
     func sliderDidChange(value:Float)
 }
@@ -67,17 +66,12 @@ class CDMediaSlider: UIView {
             self.sliderView.value = Float(process)
             self.hasPlayTimeLab.text = GetMMSSFromSS(timeLength: process)
         }
-        
     }
-    
     
     @objc func onSliderChangePlayTime(){
         if delegate != nil{
             delegate.sliderDidChange(value: sliderView.value)
         }
         self.hasPlayTimeLab.text = GetMMSSFromSS(timeLength: Double(sliderView.value))
-        
-        
     }
-    
 }
