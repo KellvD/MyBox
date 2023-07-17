@@ -8,7 +8,7 @@
 import AVKit
 
 extension PhotoManager: AVAudioPlayerDelegate {
-    
+
     @discardableResult
     public func playMusic(filePath path: String, finished: @escaping () -> Void) -> Bool {
         audioPlayFinish = finished
@@ -31,18 +31,17 @@ extension PhotoManager: AVAudioPlayerDelegate {
             return false
         }
     }
-    
+
     public func stopPlayMusic() {
         audioPlayer?.stop()
         audioPlayer = nil
         audioPlayFinish = nil
     }
-    
+
     public func changeAudioPlayerVolume(_ volume: Float) {
         audioPlayer?.volume = volume
     }
-    
-    
+
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         if flag {
             audioPlayer?.currentTime = 0

@@ -13,7 +13,7 @@ import Kingfisher
 #endif
 
 public class PhotoTools {
-    
+
     /// 跳转系统设置界面
     public class func openSettingsURL() {
         if let openURL = URL(string: UIApplication.openSettingsURLString) {
@@ -24,7 +24,7 @@ public class PhotoTools {
             }
         }
     }
-    
+
     /// 显示UIAlertController
     public class func showAlert(viewController: UIViewController? ,
                                 title: String? ,
@@ -44,7 +44,7 @@ public class PhotoTools {
         }
         viewController?.present(alertController, animated: true, completion: nil)
     }
-    
+
     public class func showConfirm(viewController: UIViewController? ,
                                   title: String? ,
                                   message: String?,
@@ -57,11 +57,11 @@ public class PhotoTools {
             viewController?.present(alertController, animated: true, completion: nil)
         }
     }
-    
+
     /// 根据PHAsset资源获取对应的目标大小
     public class func transformTargetWidthToSize(targetWidth: CGFloat,
                                                  asset: PHAsset) -> CGSize {
-        let scale:CGFloat = 0.8
+        let scale: CGFloat = 0.8
         let aspectRatio = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
         var width = targetWidth
         if asset.pixelWidth < Int(targetWidth) {
@@ -79,43 +79,43 @@ public class PhotoTools {
         }
         return CGSize.init(width: width, height: height)
     }
-    
+
     /// 转换视频时长为 mm:ss 格式的字符串
     public class func transformVideoDurationToString(duration: TimeInterval) -> String {
         let time = Int(round(Double(duration)))
         if time < 10 {
             return String.init(format: "00:0%d", arguments: [time])
-        }else if time < 60 {
+        } else if time < 60 {
             return String.init(format: "00:%d", arguments: [time])
-        }else {
+        } else {
             var min = Int(time / 60)
             let sec = time - (min * 60)
             if min < 60 {
                 if sec < 10 {
-                    return String.init(format: "%d:0%d", arguments: [min,sec])
-                }else {
-                    return String.init(format: "%d:%d", arguments: [min,sec])
+                    return String.init(format: "%d:0%d", arguments: [min, sec])
+                } else {
+                    return String.init(format: "%d:%d", arguments: [min, sec])
                 }
-            }else {
+            } else {
                 let hour = Int(min / 60)
                 min -= hour * 60
                 if min < 10 {
                     if sec < 10 {
-                        return String.init(format: "%d:0%d:0%d", arguments: [hour,min,sec])
-                    }else {
-                        return String.init(format: "%d:0%d:%d", arguments: [hour,min,sec])
+                        return String.init(format: "%d:0%d:0%d", arguments: [hour, min, sec])
+                    } else {
+                        return String.init(format: "%d:0%d:%d", arguments: [hour, min, sec])
                     }
-                }else {
+                } else {
                     if sec < 10 {
-                        return String.init(format: "%d:%d:0%d", arguments: [hour,min,sec])
-                    }else {
-                        return String.init(format: "%d:%d:%d", arguments: [hour,min,sec])
+                        return String.init(format: "%d:%d:0%d", arguments: [hour, min, sec])
+                    } else {
+                        return String.init(format: "%d:%d:%d", arguments: [hour, min, sec])
                     }
                 }
             }
         }
     }
-    
+
     /// 根据视频地址获取视频时长
     public class func getVideoDuration(videoURL: URL?) -> TimeInterval {
         if videoURL == nil {
@@ -126,7 +126,7 @@ public class PhotoTools {
 //        let second = TimeInterval(urlAsset.duration.value) / TimeInterval(urlAsset.duration.timescale)
         return TimeInterval(round(urlAsset.duration.seconds))
     }
-    
+
     /// 根据视频时长(00:00:00)获取秒
     class func getVideoTime(forVideo duration: String) -> TimeInterval {
         var m = 0
@@ -139,12 +139,12 @@ public class PhotoTools {
             if components.count == 3 {
                 ms = Int(components[2]) ?? 0
             }
-        }else {
+        } else {
             s = Int(INT_MAX)
         }
         return TimeInterval(CGFloat(m * 60) + CGFloat(s) + CGFloat(ms) * 0.001)
     }
-    
+
     /// 根据视频地址获取视频封面
     public class func getVideoThumbnailImage(videoURL: URL?,
                                              atTime: TimeInterval) -> UIImage? {
@@ -154,7 +154,7 @@ public class PhotoTools {
         let urlAsset = AVURLAsset.init(url: videoURL!)
         return getVideoThumbnailImage(avAsset: urlAsset as AVAsset, atTime: atTime)
     }
-    
+
     /// 根据视频地址获取视频封面
     public class func getVideoThumbnailImage(avAsset: AVAsset?,
                                              atTime: TimeInterval) -> UIImage? {
@@ -170,7 +170,7 @@ public class PhotoTools {
         }
         return nil
     }
-    
+
     /// 获视频缩略图
     public class  func getVideoThumbnailImage(url: URL, atTime: TimeInterval, completion: @escaping (URL, UIImage) -> Void) {
         let asset = AVAsset(url: url)
@@ -181,7 +181,7 @@ public class PhotoTools {
             generator.requestedTimeToleranceBefore = .zero
             let time = CMTime(value: CMTimeValue(atTime), timescale: asset.duration.timescale)
             let array = [NSValue(time: time)]
-            generator.generateCGImagesAsynchronously(forTimes: array) { (requestedTime, cgImage, actualTime, result, error) in
+            generator.generateCGImagesAsynchronously(forTimes: array) { (_, cgImage, _, result, _) in
                 if let image = cgImage, result == .succeeded {
                     DispatchQueue.main.async {
                         completion(url, UIImage(cgImage: image))
@@ -190,7 +190,7 @@ public class PhotoTools {
             }
         }
     }
-    
+
     /// 导出编辑视频
     /// - Parameters:
     ///   - avAsset: 视频对应的 AVAsset 数据
@@ -211,7 +211,7 @@ public class PhotoTools {
         let timeRang = CMTimeRange(start: start, end: end)
         exportEditVideo(for: avAsset, outputURL: outputURL, timeRang: timeRang, presentName: presentName, completion: completion)
     }
-    
+
     /// 导出编辑视频
     /// - Parameters:
     ///   - avAsset: 视频对应的 AVAsset 数据
@@ -231,10 +231,10 @@ public class PhotoTools {
                 exportSession.outputURL = videoURL
                 if supportedTypeArray.contains(AVFileType.mp4) {
                     exportSession.outputFileType = .mp4
-                }else if supportedTypeArray.isEmpty {
+                } else if supportedTypeArray.isEmpty {
                     completion(nil, PhotoError.error(type: .exportFailed, message: "不支持导出该类型视频"))
                     return
-                }else {
+                } else {
                     exportSession.outputFileType = supportedTypeArray.first
                 }
                 exportSession.shouldOptimizeForNetworkUse = true
@@ -252,16 +252,16 @@ public class PhotoTools {
                         }
                     }
                 })
-            }else {
+            } else {
                 completion(nil, PhotoError.error(type: .exportFailed, message: "不支持导出该类型视频"))
                 return
             }
-        }else {
+        } else {
             completion(nil, PhotoError.error(type: .exportFailed, message: "设备不支持导出：" + presentName))
             return
         }
     }
-    
+
     #if canImport(Kingfisher)
     public class func downloadNetworkImage(with url: URL,
                                            options: KingfisherOptionsInfo,
@@ -273,7 +273,7 @@ public class PhotoTools {
                 switch result {
                 case .success(let value):
                     completionHandler?(value.image)
-                case .failure(_):
+                case .failure:
                     completionHandler?(nil)
                 }
             }
@@ -282,28 +282,28 @@ public class PhotoTools {
         ImageDownloader.default.downloadImage(with: url, options: options, progressBlock: progressBlock) { (result) in
             switch result {
             case .success(let value):
-                if let gifImage = DefaultImageProcessor.default.process(item: .data(value.originalData), options: .init([]))  {
+                if let gifImage = DefaultImageProcessor.default.process(item: .data(value.originalData), options: .init([])) {
                     ImageCache.default.store(gifImage, original: value.originalData, forKey: key)
                     completionHandler?(gifImage)
                     return
                 }
                 ImageCache.default.store(value.image, original: value.originalData, forKey: key)
                 completionHandler?(value.image)
-            case .failure(_):
+            case .failure:
                 completionHandler?(nil)
             }
         }
     }
     #endif
-    
+
     class func transformImageSize(_ imageSize: CGSize, to view: UIView) -> CGRect {
         return transformImageSize(imageSize, toViewSize: view.size)
     }
-    
+
     class func transformImageSize(_ imageSize: CGSize, toViewSize viewSize: CGSize, directions: [PhotoToolsTransformImageSizeDirections] = [.horizontal, .vertical]) -> CGRect {
         var size: CGSize = .zero
         var center: CGPoint = .zero
-        
+
         func handleVertical(_ imageSize: CGSize, _ viewSize: CGSize) -> (CGSize, CGPoint) {
             let aspectRatio = viewSize.width / imageSize.width
             let contentWidth = viewSize.width
@@ -330,22 +330,22 @@ public class PhotoTools {
             }
             return (_size, .zero)
         }
-        
+
         if directions.contains(.horizontal) && directions.contains(.vertical) {
             if UIDevice.isPortrait {
                 let content = handleVertical(imageSize, viewSize)
                 size = content.0
                 center = content.1
-            }else {
+            } else {
                 let content = handleHorizontal(imageSize, viewSize)
                 size = content.0
                 if !content.1.equalTo(.zero) {
                     center = content.1
                 }
             }
-        }else if directions.contains(.horizontal) {
+        } else if directions.contains(.horizontal) {
             size = handleHorizontal(imageSize, viewSize).0
-        }else if directions.contains(.vertical) {
+        } else if directions.contains(.vertical) {
             let content = handleVertical(imageSize, viewSize)
             size = content.0
             center = content.1
@@ -367,7 +367,7 @@ public class PhotoTools {
         var rectY: CGFloat
         if center.equalTo(.zero) {
             rectY = 0
-        }else {
+        } else {
             rectY = (viewSize.height - size.height) * 0.5
         }
         return CGRect(x: (viewSize.width - size.width) * 0.5, y: rectY, width: size.width, height: size.height)

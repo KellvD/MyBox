@@ -15,36 +15,36 @@ class CDUserInfo: NSObject {
     var fakePwd = String()
 }
 
-class CDSafeFolder : NSObject {
-    enum CDSelectedStatus:Int {
-        case yes //选中
-        case no  //未选中
+class CDSafeFolder: NSObject {
+    enum CDSelectedStatus: Int {
+        case yes // 选中
+        case no  // 未选中
     }
-    
-    var folderName = String()  //文件夹名称
-    var folderId = Int()       //文件夹id
-    var folderType:NSFolderType! //文件夹类型
-    var isLock = Int()           //文件夹是否新建还是默认
-    var fakeType = CDFakeType.invisible         //文件夹访客可见不可见
-    var createTime = Int()       //文件夹创建时间
-    var modifyTime = Int() //修改时间
-    var userId = Int()           //预留，多账户使用
-    var superId = Int()          //多层级文件夹时顶级文件夹的ID
-    var folderPath = String()    //文件夹路径
-    var isSelected:CDSelectedStatus! //不入库，作为判断文件操作时是否选中，出库时设置为”false“,选中时设置为”True“，最后判断本字段
+
+    var folderName = String()  // 文件夹名称
+    var folderId = Int()       // 文件夹id
+    var folderType: NSFolderType! // 文件夹类型
+    var isLock = Int()           // 文件夹是否新建还是默认
+    var fakeType = CDFakeType.invisible         // 文件夹访客可见不可见
+    var createTime = Int()       // 文件夹创建时间
+    var modifyTime = Int() // 修改时间
+    var userId = Int()           // 预留，多账户使用
+    var superId = Int()          // 多层级文件夹时顶级文件夹的ID
+    var folderPath = String()    // 文件夹路径
+    var isSelected: CDSelectedStatus! // 不入库，作为判断文件操作时是否选中，出库时设置为”false“,选中时设置为”True“，最后判断本字段
 }
 
 class CDSafeFileInfo: NSObject {
-    enum CDSelectedStatus:Int {
-        case yes //选中
-        case no  //未选中
+    enum CDSelectedStatus: Int {
+        case yes // 选中
+        case no  // 未选中
     }
-    enum NSFileGrade:Int {
-        case lovely   //喜爱收藏
-        case normal   //普通
+    enum NSFileGrade: Int {
+        case lovely   // 喜爱收藏
+        case normal   // 普通
     }
-    
-    enum NSFileType:Int {
+
+    enum NSFileType: Int {
         case PlainTextType = 0
         case AudioType = 1
         case ImageType = 2
@@ -61,18 +61,17 @@ class CDSafeFileInfo: NSObject {
         case htmlType = 13
         case OtherType = 14
     }
-    
-    
+
     var fileId = Int()
     var folderId = Int()
     var fileSize = Int()
     var fileWidth = Double()
     var fileHeight = Double()
     var timeLength = Double()
-    var createTime = Int() //创建时间 相册，沙盒导入文件的创建时间
-    var modifyTime = Int() //修改时间
-    var importTime = Int() //导入时间
-    var fileType:NSFileType!
+    var createTime = Int() // 创建时间 相册，沙盒导入文件的创建时间
+    var modifyTime = Int() // 修改时间
+    var importTime = Int() // 导入时间
+    var fileType: NSFileType!
     var fileName = String()
     var fileText = String()
     var thumbImagePath = String()
@@ -80,9 +79,9 @@ class CDSafeFileInfo: NSObject {
     var markInfo = String()
     var createLocation = String()
     var userId = Int()
-    var grade:NSFileGrade!
-    var isSelected:CDSelectedStatus!
-    var folderType:NSFolderType! //文件所属大类
+    var grade: NSFileGrade!
+    var isSelected: CDSelectedStatus!
+    var folderType: NSFolderType! // 文件所属大类
 }
 
 class CDMusicInfo: NSObject {
@@ -98,7 +97,6 @@ class CDMusicInfo: NSObject {
     var musicImage = String()
 }
 
-
 class CDMusicClassInfo: NSObject {
     var classId = Int()
     var className = String()
@@ -107,24 +105,23 @@ class CDMusicClassInfo: NSObject {
     var classCreateTime = Int()
 }
 
-class CDAttendanceInfo:NSObject{
-    var attendanceId = Int() //日程Id
-    var year = Int() //事件拆分年 不入库
-    var month = Int() //事件拆分月 不入库
-    var day = Int() //事件拆分日 不入库
-    var time = Int() //年月日时分
+class CDAttendanceInfo: NSObject {
+    var attendanceId = Int() // 日程Id
+    var year = Int() // 事件拆分年 不入库
+    var month = Int() // 事件拆分月 不入库
+    var day = Int() // 事件拆分日 不入库
+    var time = Int() // 年月日时分
     var title = String()
     var type = Int()
     var statue = Int()
 }
 
-class CDNovelInfo:NSObject{
+class CDNovelInfo: NSObject {
     var novelName = String()
     var novelPath = String()
     var importTime = Int()
     var novelId = Int()
 }
-
 
 class CDChapterInfo: NSObject {
     var chapterName = String()

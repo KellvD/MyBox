@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    var x : CGFloat {
+    var x: CGFloat {
         get {
             return frame.origin.x
         }
@@ -19,7 +19,7 @@ extension UIView {
             frame = rect
         }
     }
-    var y : CGFloat {
+    var y: CGFloat {
         get {
             return frame.origin.y
         }
@@ -29,7 +29,7 @@ extension UIView {
             frame = rect
         }
     }
-    var width : CGFloat {
+    var width: CGFloat {
         get {
             return frame.width
         }
@@ -39,7 +39,7 @@ extension UIView {
             frame = rect
         }
     }
-    var height : CGFloat {
+    var height: CGFloat {
         get {
             return frame.height
         }
@@ -49,7 +49,7 @@ extension UIView {
             frame = rect
         }
     }
-    var size : CGSize {
+    var size: CGSize {
         get {
             return frame.size
         }
@@ -59,7 +59,7 @@ extension UIView {
             frame = rect
         }
     }
-    var centerX : CGFloat {
+    var centerX: CGFloat {
         get {
             return center.x
         }
@@ -69,7 +69,7 @@ extension UIView {
             center = point
         }
     }
-    var centerY : CGFloat {
+    var centerY: CGFloat {
         get {
             return center.y
         }
@@ -79,10 +79,10 @@ extension UIView {
             center = point
         }
     }
-    
+
     func viewController() -> UIViewController? {
         var next = superview
-        while (next != nil) {
+        while next != nil {
             let nextResponder = next?.next
             if nextResponder is UINavigationController ||
                 nextResponder is UIViewController {
@@ -92,7 +92,7 @@ extension UIView {
         }
         return nil
     }
-    
+
     /// UIView转UIImage
     /// - Returns: UIImage
     func convertedToImage(rect: CGRect = .zero) -> UIImage? {

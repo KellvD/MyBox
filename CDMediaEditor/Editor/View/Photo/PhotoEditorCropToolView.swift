@@ -17,7 +17,7 @@ class PhotoEditorCropToolView: UIView {
     weak var delegate: PhotoEditorCropToolViewDelegate?
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout.init()
-        flowLayout.minimumInteritemSpacing = 20;
+        flowLayout.minimumInteritemSpacing = 20
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 10)
         flowLayout.scrollDirection = .horizontal
         return flowLayout
@@ -33,7 +33,7 @@ class PhotoEditorCropToolView: UIView {
         collectionView.register(PhotoEditorCropToolHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PhotoEditorCropToolHeaderViewID")
         return collectionView
     }()
-    
+
     lazy var ratioModels: [PhotoEditorCropToolModel] = {
         let scaleArray = [[0, 0], [1, 1], [3, 2], [2, 3], [4, 3], [3, 4], [16, 9], [9, 16]]
         var ratioModels: [PhotoEditorCropToolModel] = []
@@ -55,7 +55,7 @@ class PhotoEditorCropToolView: UIView {
     init(showRatios: Bool) {
         self.showRatios = showRatios
         super.init(frame: .zero)
-        
+
         addSubview(collectionView)
     }
     func updateContentInset() {
@@ -72,7 +72,7 @@ class PhotoEditorCropToolView: UIView {
         super.layoutSubviews()
         collectionView.frame = bounds
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -82,7 +82,7 @@ extension PhotoEditorCropToolView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         showRatios ? ratioModels.count : 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoEditorCropToolViewCellID", for: indexPath) as! PhotoEditorCropToolViewCell
         cell.themeColor = themeColor
@@ -106,7 +106,7 @@ extension PhotoEditorCropToolView: UICollectionViewDelegate, UICollectionViewDel
         if model.widthRatio == 0 || model.widthRatio == 1 {
             model.size = .init(width: 28, height: 28)
             model.scaleSize = .init(width: 28, height: scaleWidth)
-        }else {
+        } else {
             let scale = scaleWidth / model.widthRatio
             var itemWidth = model.widthRatio * scale
             var itemHeight = model.heightRatio * scale
@@ -172,9 +172,9 @@ protocol PhotoEditorCropToolHeaderViewDelegate: AnyObject {
 }
 
 class PhotoEditorCropToolHeaderView: UICollectionReusableView {
-    
+
     weak var delegate: PhotoEditorCropToolHeaderViewDelegate?
-    
+
     lazy var rotateButton: UIButton = {
         let button = UIButton.init(type: .system)
         button.setImage("hx_editor_photo_rotate".image, for: .normal)
@@ -183,11 +183,11 @@ class PhotoEditorCropToolHeaderView: UICollectionReusableView {
         button.addTarget(self, action: #selector(didRotateButtonClick(button:)), for: .touchUpInside)
         return button
     }()
-    
+
     @objc func didRotateButtonClick(button: UIButton) {
         delegate?.headerView(didRotateButtonClick: self)
     }
-    
+
     lazy var mirrorHorizontallyButton: UIButton = {
         let button = UIButton.init(type: .system)
         button.setImage("hx_editor_photo_mirror_horizontally".image, for: .normal)
@@ -196,11 +196,11 @@ class PhotoEditorCropToolHeaderView: UICollectionReusableView {
         button.addTarget(self, action: #selector(didMirrorHorizontallyButtonClick(button:)), for: .touchUpInside)
         return button
     }()
-    
+
     @objc func didMirrorHorizontallyButtonClick(button: UIButton) {
         delegate?.headerView(didMirrorHorizontallyButtonClick: self)
     }
-    
+
     lazy var lineView: UIView = {
         let view = UIView.init(frame: .init(x: 0, y: 0, width: 2, height: 20))
         view.backgroundColor = .white
@@ -217,26 +217,26 @@ class PhotoEditorCropToolHeaderView: UICollectionReusableView {
         addSubview(mirrorHorizontallyButton)
         addSubview(lineView)
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         rotateButton.centerY = height * 0.5
         rotateButton.x = 20
-        
+
         mirrorHorizontallyButton.x = rotateButton.frame.maxX + 10
         mirrorHorizontallyButton.centerY = rotateButton.centerY
-        
+
         lineView.x = width - 2
         lineView.centerY = rotateButton.centerY
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 class PhotoEditorCropToolViewCell: UICollectionViewCell {
-    
+
     lazy var scaleView: UIView = {
         let view = UIView.init()
         view.layer.cornerRadius = 2
@@ -244,12 +244,12 @@ class PhotoEditorCropToolViewCell: UICollectionViewCell {
         view.addSubview(scaleLabel)
         return view
     }()
-    
+
     lazy var scaleImageView: UIImageView = {
         let imageView = UIImageView.init(image: "hx_editor_photo_crop_free".image?.withRenderingMode(.alwaysTemplate))
         return imageView
     }()
-    
+
     lazy var scaleLabel: UILabel = {
         let label = UILabel.init()
         label.textColor = .white
@@ -265,7 +265,7 @@ class PhotoEditorCropToolViewCell: UICollectionViewCell {
             if model.widthRatio == 0 {
                 scaleView.layer.borderWidth = 0
                 scaleImageView.isHidden = false
-            }else {
+            } else {
                 scaleView.layer.borderWidth = 1.25
                 scaleImageView.isHidden = true
             }
@@ -273,19 +273,19 @@ class PhotoEditorCropToolViewCell: UICollectionViewCell {
                 scaleImageView.tintColor = themeColor
                 scaleView.layer.borderColor = themeColor?.cgColor
                 scaleLabel.textColor = themeColor
-            }else {
+            } else {
                 scaleImageView.tintColor = .white
                 scaleView.layer.borderColor = UIColor.white.cgColor
                 scaleLabel.textColor = .white
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(scaleView)
     }
-    
+
     func updateViewFrame() {
         scaleView.size = model.size
         scaleView.centerX = model.scaleSize.width * 0.5
@@ -293,7 +293,7 @@ class PhotoEditorCropToolViewCell: UICollectionViewCell {
         scaleLabel.frame = CGRect(x: 1.5, y: 1.5, width: scaleView.width - 3, height: scaleView.height - 3)
         scaleImageView.frame = scaleView.bounds
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

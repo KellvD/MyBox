@@ -11,20 +11,20 @@ import UIKit
 class CDAppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var loginNav:UINavigationController?
-    var isEnterBackground:Bool = false
-    var defaultImageView:UIImageView!
-    var defaultView:UIView!
+    var loginNav: UINavigationController?
+    var isEnterBackground: Bool = false
+    var defaultImageView: UIImageView!
+    var defaultView: UIView!
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        let _ = CDSqlManager.shared
-        let _ = CDSignalTon.shared
-        let _ = CDLocationManager.shared
+
+        _ = CDSqlManager.shared
+        _ = CDSignalTon.shared
+        _ = CDLocationManager.shared
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = .baseBgColor
-        
+
 //        let rootVC = CDRootViewController()
         self.window?.rootViewController = CDTabBarViewController()
         if CDSignalTon.shared.waterBean.isOn {
@@ -38,8 +38,8 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
     func lockOrUnlock() {
         defaultImageView?.removeFromSuperview()
         defaultView?.removeFromSuperview()
-        
-        if isEnterBackground{
+
+        if isEnterBackground {
             isEnterBackground = false
             if self.window?.rootViewController != loginNav {
                 self.loginNav?.popViewController(animated: false)
@@ -58,15 +58,15 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-    
+
     func applicationDidEnterBackground(_ application: UIApplication) {
 
-        //进入后台后的present的view全部dismiss，比如分享，拍照等
-        if (CDSignalTon.shared.customPickerView != nil) {
+        // 进入后台后的present的view全部dismiss，比如分享，拍照等
+        if CDSignalTon.shared.customPickerView != nil {
             CDSignalTon.shared.customPickerView.dismiss(animated: true, completion: nil)
             CDSignalTon.shared.customPickerView = nil
         }
-        
+
         if defaultImageView == nil {
             defaultImageView = UIImageView.init()
             defaultView = UIView.init()
@@ -77,7 +77,7 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         defaultView.addSubview(defaultImageView)
 
         let iconY = CDViewHeight > 667 ? 145 : 115
-        
+
         let firstImage = UIImageView.init(frame: CGRect(x: Int((CDSCREEN_WIDTH-240)/2), y: iconY, width: 240, height: 170))
 //        firstImage.image = LoadImageByName(imageName: "", type: "")
         defaultView.addSubview(firstImage)
@@ -91,9 +91,6 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.addSubview(defaultView)
 //        self.window?.bri
 
-
-
-
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -102,15 +99,14 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         let urlStr = url.absoluteString
         let urlStrArr = urlStr.components(separatedBy: "//")
         if urlStrArr.count > 1 && urlStrArr[1] == "shareExtension" {
@@ -120,27 +116,23 @@ class CDAppDelegate: UIResponder, UIApplicationDelegate {
             pickerVC.isShare = true
             if shareType == "public.movie" {
                 pickerVC.folderType = .VideoFolder
-            }else if shareType == "public.image" {
+            } else if shareType == "public.image" {
                 pickerVC.folderType = .ImageFolder
-            }else if shareType == "public.url" {
+            } else if shareType == "public.url" {
                 pickerVC.folderType = .TextFolder
-            }else if shareType == "public.file-url" {
+            } else if shareType == "public.file-url" {
                 pickerVC.folderType = .TextFolder
-            }else if shareType == "public.plain-text" {
+            } else if shareType == "public.plain-text" {
                 pickerVC.folderType = .TextFolder
 
             }
             self.loginNav = CDNavigationController(rootViewController: pickerVC)
             self.window?.rootViewController = self.loginNav
-            
+
 //            CDSignalTon.shared.navigationBar = self.loginNav
         }
-        
+
         return true
     }
 
-    
-  
-   
 }
-

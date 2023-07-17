@@ -8,29 +8,27 @@
 
 import UIKit
 
-
-
-@objc protocol CDPopMenuViewDelegate{
-    @objc func onSelectedPopMenu(title:String)
+@objc protocol CDPopMenuViewDelegate {
+    @objc func onSelectedPopMenu(title: String)
 }
-private let tableBgViewWidth:CGFloat = 160
-private let tableBgViewY:CGFloat = 0
-class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
+private let tableBgViewWidth: CGFloat = 160
+private let tableBgViewY: CGFloat = 0
+class CDPopMenuView: UIView, UITableViewDelegate, UITableViewDataSource {
     let cellHeight = 48
-    enum CDOrientation:Int {
+    enum CDOrientation: Int {
         case leftUp
         case rightUp
     }
 
-    weak var popDelegate:CDPopMenuViewDelegate!
-    var tableView:UITableView!
-    var tableBgView:UIImageView!
+    weak var popDelegate: CDPopMenuViewDelegate!
+    var tableView: UITableView!
+    var tableBgView: UIImageView!
 
-    var tableBgViewHeight:CGFloat = 0
-    var _cellTitleArr:[String] = []
-    var _cellImageArr:[String] = []
-    var _orientation:CDOrientation!
-    init(frame: CGRect, imageArr: [String], titleArr:[String], orientation:CDOrientation) {
+    var tableBgViewHeight: CGFloat = 0
+    var _cellTitleArr: [String] = []
+    var _cellImageArr: [String] = []
+    var _orientation: CDOrientation!
+    init(frame: CGRect, imageArr: [String], titleArr: [String], orientation: CDOrientation) {
         super.init(frame: frame)
         let backGroundView = UIView(frame: frame)
         backGroundView.isUserInteractionEnabled = true
@@ -39,28 +37,27 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         backGroundView.alpha = 0.3
         addSubview(backGroundView)
 
-        //毛玻璃效果
+        // 毛玻璃效果
         let blurEffect = UIBlurEffect(style: .dark)
         let effectView = UIVisualEffectView(effect: blurEffect)
         effectView.frame = backGroundView.bounds
         backGroundView.addSubview(effectView)
-        
-        
+
         _cellTitleArr = titleArr
         _cellImageArr = imageArr
-        var tableViewHeight:CGFloat = CGFloat(cellHeight * imageArr.count)
+        var tableViewHeight: CGFloat = CGFloat(cellHeight * imageArr.count)
         tableViewHeight = tableViewHeight > frame.height/2 ? frame.height/2 :tableViewHeight
         _orientation = orientation
-        
-        let startX:CGFloat = orientation == .leftUp ? 10 : frame.width - tableBgViewWidth - 10
+
+        let startX: CGFloat = orientation == .leftUp ? 10 : frame.width - tableBgViewWidth - 10
         let bgImageName = orientation == .leftUp ? "leftUp":"rightUp"
         let bgImage = LoadImage(bgImageName)!
-        
+
         tableBgView = UIImageView(frame: CGRect(x: startX, y: tableBgViewY - (tableViewHeight + 12.0), width: tableBgViewWidth, height: tableViewHeight + 12.0))
         tableBgView.isUserInteractionEnabled = true
         tableBgView.image = bgImage.stretchableImage(withLeftCapWidth: Int(bgImage.size.width/2), topCapHeight: Int(bgImage.size.height/2))
         self.addSubview(tableBgView)
-        
+
         tableView = UITableView(frame: CGRect(x: 2, y: 12, width: tableBgView.frame.width - 4, height: tableViewHeight), style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
@@ -72,20 +69,17 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         tableView.isScrollEnabled = false
     }
 
-    
-    func reloadTableViewWithCellArr(titleArr:[String], imageArr:[String]) -> Void {
+    func reloadTableViewWithCellArr(titleArr: [String], imageArr: [String]) {
         _cellTitleArr = titleArr
         _cellImageArr = imageArr
         var tableViewHeight = CGFloat(cellHeight * imageArr.count)
         tableViewHeight = tableViewHeight > frame.height/2 ? frame.height/2 :tableViewHeight
-        
-        let startX:CGFloat = _orientation == .leftUp ? 10 : frame.width - tableBgViewHeight - 10
 
+        let startX: CGFloat = _orientation == .leftUp ? 10 : frame.width - tableBgViewHeight - 10
 
-        let bgImageV = self.viewWithTag(999) as! UIImageView;
+        let bgImageV = self.viewWithTag(999) as! UIImageView
         bgImageV.frame = CGRect(x: startX, y: tableBgViewY - (tableViewHeight + 12.0), width: tableBgViewWidth, height: tableViewHeight + 12.0)
-        tableView.frame = CGRect(x: 2
-            , y: 10, width: tableBgViewWidth - 4.0, height: tableViewHeight)
+        tableView.frame = CGRect(x: 2, y: 10, width: tableBgViewWidth - 4.0, height: tableViewHeight)
         tableView.reloadData()
 
     }
@@ -100,7 +94,7 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "CDPopMenuViewIdentify")
+        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "CDPopMenuViewIdentify")
         if cell == nil {
             cell = UITableViewCell(style: .default, reuseIdentifier: "CDPopMenuViewIdentify")
             let view = UIView()
@@ -129,7 +123,7 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         let imageName = _cellImageArr[indexPath.row]
         titleV.text = title
         imageV.image = LoadImage(imageName)
-        lineView.isHidden = indexPath.row == _cellImageArr.count-1;
+        lineView.isHidden = indexPath.row == _cellImageArr.count-1
 
         return cell
     }
@@ -140,21 +134,21 @@ class CDPopMenuView: UIView,UITableViewDelegate,UITableViewDataSource {
         dismissPopView()
     }
 
-    func showPopView(){
-        if self.tableBgView.minY == tableBgViewY{
+    func showPopView() {
+        if self.tableBgView.minY == tableBgViewY {
             dismissPopView()
-        }else{
+        } else {
             UIView.animate(withDuration: 0.25, animations: {
                 self.isHidden = false
                 self.tableBgView.minY = tableBgViewY
-            }) { (finished) in}
+            }) { (_) in}
         }
     }
-    @objc func dismissPopView(){
-        
+    @objc func dismissPopView() {
+
         UIView.animate(withDuration: 0.25, animations: {
             self.tableBgView.minY = tableBgViewY - self.tableBgView.height
-        }) { (finished) in
+        }) { (_) in
             self.isHidden = true
         }
     }

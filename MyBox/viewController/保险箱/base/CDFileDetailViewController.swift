@@ -8,50 +8,50 @@
 
 import UIKit
 
-class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
+class CDFileDetailViewController: CDBaseAllViewController, UITableViewDelegate, UITableViewDataSource {
 
-    private var tableView:UITableView!
+    private var tableView: UITableView!
     private var optionValueArr: [[String]] = [[]]
-    public var fileInfo:CDSafeFileInfo!
-    
+    public var fileInfo: CDSafeFileInfo!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initOptionValue()
         self.title = fileInfo.fileName
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
-        tableView.delegate = self;
+        tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.register(CDSwitchCell.self, forCellReuseIdentifier: "fileDetailcell")
         self.view.addSubview(tableView)
-        
+
     }
 
-    func initOptionValue(){
+    func initOptionValue() {
         optionValueArr.removeAll()
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.suffix],
-                [GetTimeFormat(fileInfo.createTime),GetTimeFormat(fileInfo.importTime),GetTimeFormat(fileInfo.modifyTime) ],
+                [fileInfo.fileName, fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.importTime), GetTimeFormat(fileInfo.modifyTime) ],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 ["\(fileInfo.fileWidth) x \(fileInfo.fileHeight)"],
                 [fileInfo.createLocation],
                 [fileInfo.markInfo]
             ]
-            
-        }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
+
+        } else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.suffix],
-                [GetTimeFormat(fileInfo.createTime),GetTimeFormat(fileInfo.importTime), GetTimeFormat(fileInfo.modifyTime)],
+                [fileInfo.fileName, fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.importTime), GetTimeFormat(fileInfo.modifyTime)],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [GetMMSSFromSS(timeLength: fileInfo.timeLength)],
                 [fileInfo.markInfo]
             ]
-        }else{
+        } else {
             optionValueArr = [
-                [fileInfo.fileName,fileInfo.filePath.suffix],
-                [GetTimeFormat(fileInfo.createTime),GetTimeFormat(fileInfo.importTime), GetTimeFormat(fileInfo.modifyTime)],
+                [fileInfo.fileName, fileInfo.filePath.suffix],
+                [GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.importTime), GetTimeFormat(fileInfo.modifyTime)],
                 [GetSizeFormat(fileSize: fileInfo.fileSize)],
                 [fileInfo.markInfo]
             ]
@@ -60,7 +60,7 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
 //            optionValueArr[1]=[GetTimeFormat(fileInfo.importTime),GetTimeFormat(fileInfo.createTime), GetTimeFormat(fileInfo.modifyTime)]
 //        }
     }
-    
+
     lazy var optionTitleArr: [[String]] = {
         var arr = [["名称".localize, "格式".localize],
                    ["创建时间".localize, "导入时间".localize, "修改时间".localize],
@@ -69,14 +69,12 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         if fileInfo.fileType == .ImageType || fileInfo.fileType == .GifType {
             arr.insert(["尺寸".localize], at: 3)
             arr.insert(["创建定位".localize], at: 4)
-        }else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
+        } else if  fileInfo.fileType == .AudioType || fileInfo.fileType == .VideoType {
             arr.insert(["时长".localize], at: 3)
         }
-        
-        
+
         return arr
     }()
-    
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return optionTitleArr.count
@@ -85,31 +83,31 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionTitleArr[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let optionTitle = optionTitleArr[indexPath.section][indexPath.row]
         return optionTitle == "备注".localize ? 120 : CELL_HEIGHT
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return SECTION_SPACE
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.01
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellId = "fileDetailcell"
-        var cell:CDSwitchCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as? CDSwitchCell
+        var cell: CDSwitchCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as? CDSwitchCell
         if cell == nil {
             cell = CDSwitchCell(style: .default, reuseIdentifier: cellId)
         }
@@ -121,7 +119,7 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
         cell.selectionStyle = (optionTitle == "名称".localize || optionTitle == "备注".localize) ? .default : .none
         cell.separatorLineIsHidden = indexPath.row == optionTitleArr[indexPath.section].count - 1
         return cell
-        
+
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -139,11 +137,11 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
                 self.fileInfo.fileName = newContent!
                 CDHUDManager.shared.showComplete("重命名成功！".localize)
                 self.reloadData()
-                
+
             }
             self.navigationController?.pushViewController(markVC, animated: true)
 
-        }else if title == "备注".localize{
+        } else if title == "备注".localize {
             let markVC = CDMarkFileViewController()
             markVC.title = "备注".localize
             markVC.maxTextCount = 140
@@ -160,7 +158,7 @@ class CDFileDetailViewController: CDBaseAllViewController,UITableViewDelegate,UI
             self.navigationController?.pushViewController(markVC, animated: true)
         }
     }
-    
+
     func reloadData() {
         initOptionValue()
         tableView.reloadData()

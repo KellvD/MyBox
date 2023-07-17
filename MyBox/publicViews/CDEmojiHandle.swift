@@ -8,28 +8,27 @@
 
 import UIKit
 
-
 class CDEmojiHandle: NSObject {
 
     // 判断字符串中是否有自定义表情
-    class func hasEmojiWithText(text:String) -> Bool{
-        if text.count == 0{
+    class func hasEmojiWithText(text: String) -> Bool {
+        if text.count == 0 {
             return false
         }
         let pattern = EmojiRegularExpression
-        var regular:NSRegularExpression
+        var regular: NSRegularExpression
 
         do {
             regular = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-        } catch  {
+        } catch {
             print("检查富文本error:\(error.localizedDescription)")
             return false
         }
 
         let resultArr = regular.matches(in: text, options: [], range: NSRange(location: 0, length: text.count))
-        if  resultArr.count > 0{
+        if  resultArr.count > 0 {
             return true
-        }else{
+        } else {
             return false
         }
     }

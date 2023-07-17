@@ -8,7 +8,7 @@
 import Foundation
 
 open class EditorConfiguration: BaseConfiguration {
-    
+
     public override init() {
         super.init()
         prefersStatusBarHidden = true

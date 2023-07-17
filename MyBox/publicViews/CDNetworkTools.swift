@@ -8,16 +8,16 @@
 
 import UIKit
 let REQUESTTIMEOUT = 15.0
-enum CDHttpMethod:String {
+enum CDHttpMethod: String {
     case Post = "POST"
     case Get = "GET"
 }
 
-//网络请求返回的response，info,error
-typealias CompletionHandler = (Any?,Any?)->Void
-class CDNetworkTools: NSObject,URLSessionDelegate {
+// 网络请求返回的response，info,error
+typealias CompletionHandler = (Any?, Any?) -> Void
+class CDNetworkTools: NSObject, URLSessionDelegate {
 
-    public static let getInstance = CDNetworkTools();
+    public static let getInstance = CDNetworkTools()
     private let queue = OperationQueue()
     private lazy var session: URLSession = {
         let config = URLSessionConfiguration.default
@@ -25,91 +25,87 @@ class CDNetworkTools: NSObject,URLSessionDelegate {
         let sess = URLSession(configuration: config, delegate: self, delegateQueue: queue)
         return sess
     }()
-    
-    
+
     /** http请求
      *@method 请求方法
      *@param url 地址
      *@param param 请求体
      *@param completion 回调
      */
-    public func request(method:CDHttpMethod,url:String, param:Any, completionHandle:@escaping CompletionHandler) {
+    public func request(method: CDHttpMethod, url: String, param: Any, completionHandle:@escaping CompletionHandler) {
         if url.isEmpty {
-            completionHandle(nil,"请求地址异常")
+            completionHandle(nil, "请求地址异常")
         }
-        //创建请求对象
+        // 创建请求对象
         var request = URLRequest(url: URL(string: url)!)
-        //设置header
+        // 设置header
         request.httpMethod = method.rawValue
-        request.allHTTPHeaderFields = ["Content-Type":"/*/",
-                                       "Accept":"/*/",
-                                       "User-Agent":"iOS",
-                                       "Charset":"UTF-8"]
+        request.allHTTPHeaderFields = ["Content-Type": "/*/",
+                                       "Accept": "/*/",
+                                       "User-Agent": "iOS",
+                                       "Charset": "UTF-8"]
         request.timeoutInterval = REQUESTTIMEOUT
         request.httpBody = try! JSONSerialization.data(withJSONObject: param, options: .fragmentsAllowed)
-        let task:URLSessionDataTask = self.session.dataTask(with: request) { (data, response, error) in
+        let task: URLSessionDataTask = self.session.dataTask(with: request) { (data, response, error) in
             self.parseHttpResponse(data: data, response: response, error: error, completionHandle: completionHandle)
         }
         task.resume()
     }
-    
+
     /** 上传文件
     *@method 请求方法
     *@param url 地址
     *@param param 文件
     *@param completion 回调
     */
-    public func upload(url:String, param:Dictionary<String, Any>?, filepPath:String, completionHandle:@escaping CompletionHandler){
+    public func upload(url: String, param: [String: Any]?, filepPath: String, completionHandle:@escaping CompletionHandler) {
         if url.isEmpty {
-            completionHandle(nil,"上传文件地址异常")
+            completionHandle(nil, "上传文件地址异常")
         }
-        //创建请求对象
+        // 创建请求对象
         var request = URLRequest(url: URL(string: url)!)
-        //设置header
+        // 设置header
         request.httpMethod = "POST"
-        request.allHTTPHeaderFields = ["Content-Type":"/*/",
-                                       "Accept":"/*/",
-                                       "User-Agent":"iOS",
-                                       "Charset":"UTF-8"]
+        request.allHTTPHeaderFields = ["Content-Type": "/*/",
+                                       "Accept": "/*/",
+                                       "User-Agent": "iOS",
+                                       "Charset": "UTF-8"]
         request.timeoutInterval = REQUESTTIMEOUT
-        
+
 //        request.httpBody = try! JSONSerialization.data(withJSONObject: param, options: .fragmentsAllowed)
         let fileData = try! Data(contentsOf: filepPath.url)
-        let task:URLSessionDataTask = self.session.uploadTask(with: request, from: fileData , completionHandler: { (data, response, error) in
+        let task: URLSessionDataTask = self.session.uploadTask(with: request, from: fileData, completionHandler: { (data, response, error) in
             self.parseHttpResponse(data: data, response: response, error: error, completionHandle: completionHandle)
         })
         task.resume()
     }
-    
-    
-    
+
     /**
      * 处理返回的x响应
      */
-    private func parseHttpResponse(data:Data?, response:URLResponse?, error:Error?,completionHandle: @escaping CompletionHandler){
-        
+    private func parseHttpResponse(data: Data?, response: URLResponse?, error: Error?, completionHandle: @escaping CompletionHandler) {
+
         if response == nil {
             print("返回response为nil")
             return
         }
-        let resp:HTTPURLResponse = response as! HTTPURLResponse
+        let resp: HTTPURLResponse = response as! HTTPURLResponse
         if error == nil &&
             data != nil &&
             resp.statusCode == 200 {
             do {
                 let dic = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves)
-                completionHandle(dic,nil)
+                completionHandle(dic, nil)
             } catch {
                 let str = String(data: data!, encoding: .utf8)
-                completionHandle(str,nil)
+                completionHandle(str, nil)
             }
-        }else{
-            completionHandle(nil,error)
+        } else {
+            completionHandle(nil, error)
         }
-        
-        
+
     }
-    
+
     /**
      *URLAuthenticationChallenge 授权质问
      *AuthChallengeDisposition 响应身份验证
@@ -148,4 +144,3 @@ class CDNetworkTools: NSObject,URLSessionDelegate {
 //        
 //    }
 }
-

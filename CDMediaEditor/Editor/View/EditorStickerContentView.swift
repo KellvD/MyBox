@@ -33,10 +33,10 @@ struct EditorStickerItem {
         if imageHeight > height {
             itemWidth = height / image.height * imageWidth
             itemHeight = height
-        }else {
+        } else {
             if imageWidth > width {
                 itemWidth = width
-            }else {
+            } else {
                 itemWidth = imageWidth
             }
             itemHeight = imageHeight
@@ -52,7 +52,7 @@ extension EditorStickerText: Codable {
         case textColor
         case showBackgroud
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let imageData = try container.decode(Data.self, forKey: .image)
@@ -86,7 +86,7 @@ extension EditorStickerItem: Codable {
         case hasText
         case text
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let imageData = try container.decode(Data.self, forKey: .image)
@@ -94,7 +94,7 @@ extension EditorStickerItem: Codable {
         let hasText = try container.decode(Bool.self, forKey: .hasText)
         if hasText {
             text = try container.decode(EditorStickerText.self, forKey: .text)
-        }else {
+        } else {
             text = nil
         }
     }
@@ -110,14 +110,14 @@ extension EditorStickerItem: Codable {
         if let text = text {
             try container.encode(text, forKey: .text)
             try container.encode(true, forKey: .hasText)
-        }else {
+        } else {
             try container.encode(false, forKey: .hasText)
         }
     }
 }
 
 class EditorStickerContentView: UIView {
-    
+
     lazy var imageView: UIImageView = {
         let view = UIImageView(image: item.image)
         view.contentMode = .scaleAspectFill

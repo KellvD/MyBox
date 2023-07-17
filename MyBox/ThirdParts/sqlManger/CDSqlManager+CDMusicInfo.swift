@@ -8,10 +8,10 @@
 
 import Foundation
 import SQLite
-//MARK:musicInfo
+// MARK: musicInfo
 extension CDSqlManager {
-    internal func createMusicInfoTab(){
-        do{
+    internal func createMusicInfoTab() {
+        do {
             let create1 = MusicInfo.create(temporary: false, ifNotExists: false, withoutRowid: false) { (build) in
                 build.column(db_id, primaryKey: true)
                 build.column(db_musicId)
@@ -26,17 +26,16 @@ extension CDSqlManager {
 
             }
             try db.run(create1)
-            CDPrint(item:"createMusicInfo -->success")
-        }catch{
+            CDPrint(item: "createMusicInfo -->success")
+        } catch {
             CDPrintManager.log("createMusicInfo -->error:\(error)", type: .ErrorLog)
         }
     }
-    
-    
-    func addOneMusicInfoWith(musicInfo:CDMusicInfo) -> Void {
+
+    func addOneMusicInfoWith(musicInfo: CDMusicInfo) {
         let musicId = queryMusicCount() + 1
 
-        do{
+        do {
             try db.run(MusicInfo.insert(
                 db_musicId <- musicId,
                 db_musicMark <- musicInfo.musicMark,
@@ -49,30 +48,30 @@ extension CDSqlManager {
                 db_musicImage <- musicInfo.musicImage)
             )
 
-            CDPrint(item:"addCDMusicInfoInfo-->success")
-        }catch{
+            CDPrint(item: "addCDMusicInfoInfo-->success")
+        } catch {
             CDPrintManager.log("addCDMusicInfoInfo-->error:\(error)", type: .ErrorLog)
         }
     }
-    func deleteOneMusicInfoWith(musicId:Int) -> Void {
-        do{
+    func deleteOneMusicInfoWith(musicId: Int) {
+        do {
             try db.run(MusicInfo.filter((db_musicId == musicId) && (db_userId == CDUserId())).delete())
-            CDPrint(item:"deleteOneMusicInfo-->success")
-        }catch{
+            CDPrint(item: "deleteOneMusicInfo-->success")
+        } catch {
             CDPrintManager.log("deleteOneMusicInfo-->error:\(error)", type: .ErrorLog)
         }
     }
-    func deleteOneClassAllMusicClassInfoWith(musicClassId:Int) -> Void {
-        do{
+    func deleteOneClassAllMusicClassInfoWith(musicClassId: Int) {
+        do {
             try db.run(MusicInfo.filter((db_musicClassId == musicClassId) && (db_userId == CDUserId())).delete())
-            //delete from UserInfo where db_userId = userId
-            CDPrint(item:"deleteOneClassAllMusicClassInfo-->success")
-        }catch{
+            // delete from UserInfo where db_userId = userId
+            CDPrint(item: "deleteOneClassAllMusicClassInfo-->success")
+        } catch {
             CDPrintManager.log("deleteOneClassAllMusicClassInfo-->error:\(error)", type: .ErrorLog)
         }
     }
-    func updateOneMusicInfoWith(musicInfo:CDMusicInfo) -> Void {
-        do{
+    func updateOneMusicInfoWith(musicInfo: CDMusicInfo) {
+        do {
             let sql = MusicInfo.filter((db_musicId == musicInfo.musicId) && (db_userId == musicInfo.userId))
             try db.run(sql.update(
                 db_musicId <- musicInfo.musicId,
@@ -85,12 +84,12 @@ extension CDSqlManager {
                 db_userId <- musicInfo.userId,
                 db_musicImage <- musicInfo.musicImage)
             )
-            CDPrint(item:"updateOneMusicInfo-->success")
-        }catch{
+            CDPrint(item: "updateOneMusicInfo-->success")
+        } catch {
             CDPrintManager.log("updateOneMusicInfo -->error:\(error)", type: .ErrorLog)
         }
     }
-    func queryOneMusicInfoWith(userId:Int,musicId:Int) -> CDMusicInfo {
+    func queryOneMusicInfoWith(userId: Int, musicId: Int) -> CDMusicInfo {
         let musicInfo = CDMusicInfo()
 
         for item in try! db.prepare(MusicInfo.filter((db_musicId == musicId) && (db_userId == userId))) {
@@ -108,7 +107,7 @@ extension CDSqlManager {
     }
     func queryAllMusic() -> [CDMusicInfo] {
 
-        var musicArr:[CDMusicInfo] = []
+        var musicArr: [CDMusicInfo] = []
 
         for item in try! db.prepare(MusicInfo) {
             let musicInfo = CDMusicInfo()
@@ -125,9 +124,9 @@ extension CDSqlManager {
         }
         return musicArr
     }
-    func queryAllMusicWithClassId(classId:Int) -> [CDMusicInfo] {
+    func queryAllMusicWithClassId(classId: Int) -> [CDMusicInfo] {
 
-        var musicArr:[CDMusicInfo] = []
+        var musicArr: [CDMusicInfo] = []
 
         for item in try! db.prepare(MusicInfo.filter(db_musicClassId == classId)) {
             let musicInfo = CDMusicInfo()
@@ -144,13 +143,13 @@ extension CDSqlManager {
         }
         return musicArr
     }
-    public func queryMusicCount()->Int{
+    public func queryMusicCount() -> Int {
         var count = 0
-        do{
+        do {
             let sql = MusicInfo.filter(db_userId == CDUserId())
             count = try db.scalar(sql.select(db_musicId.max)) ?? 0
             count += 1
-        }catch{
+        } catch {
             CDPrintManager.log("queryMusicCount -->error:\(error)", type: .ErrorLog)
         }
         return count

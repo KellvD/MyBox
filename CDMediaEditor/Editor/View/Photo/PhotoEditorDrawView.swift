@@ -13,13 +13,13 @@ protocol PhotoEditorDrawViewDelegate: AnyObject {
 }
 
 class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
-    
+
     weak var delegate: PhotoEditorDrawViewDelegate?
-     
+
     var linePaths: [PhotoEditorBrushPath] = []
     var points: [CGPoint] = []
     var shapeLayers: [CAShapeLayer] = []
-    
+
     var lineColor: UIColor = .white
     var lineWidth: CGFloat = 5.0
     var enabled: Bool = false {
@@ -69,7 +69,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
             if path?.currentPoint.equalTo(point) == false {
                 delegate?.drawView(beganDraw: self)
                 isTouching = true
-                
+
                 path?.addLine(to: point)
                 points.append(CGPoint(x: point.x / width, y: point.y / height))
                 let shapeLayer = shapeLayers.last
@@ -80,7 +80,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
                 let path = linePaths.last
                 path?.points = points
                 delegate?.drawView(endDraw: self)
-            }else {
+            } else {
                 undo()
             }
             points.removeAll()
@@ -89,11 +89,11 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
             break
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func createdShapeLayer(path: PhotoEditorBrushPath) -> CAShapeLayer {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
@@ -105,7 +105,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
         shapeLayer.lineWidth = path.lineWidth
         return shapeLayer
     }
-    
+
     func undo() {
         if shapeLayers.isEmpty {
             return
@@ -114,7 +114,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
         shapeLayers.removeLast()
         linePaths.removeLast()
     }
-    
+
     func emptyCanvas() {
         shapeLayers.forEach { (shapeLayer) in
             shapeLayer.removeFromSuperlayer()
@@ -122,7 +122,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
         linePaths.removeAll()
         shapeLayers.removeAll()
     }
-    
+
     func getBrushData() -> [PhotoEditorBrushData] {
         var brushsData: [PhotoEditorBrushData] = []
         for path in linePaths {
@@ -133,7 +133,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
         }
         return brushsData
     }
-    
+
     func setBrushData(_ brushsData: [PhotoEditorBrushData], viewSize: CGSize) {
         for brushData in brushsData {
             let path = PhotoEditorBrushPath()
@@ -145,7 +145,7 @@ class PhotoEditorDrawView: UIView, UIGestureRecognizerDelegate {
                 let cPoint = CGPoint(x: point.x * viewSize.width, y: point.y * viewSize.height)
                 if index == 0 {
                     path.move(to: cPoint)
-                }else {
+                } else {
                     path.addLine(to: cPoint)
                 }
             }
@@ -170,7 +170,7 @@ extension PhotoEditorBrushData: Codable {
         case points
         case lineWidth
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let colorData = try container.decode(Data.self, forKey: .color)
@@ -178,7 +178,7 @@ extension PhotoEditorBrushData: Codable {
         points = try container.decode([CGPoint].self, forKey: .points)
         lineWidth = try container.decode(CGFloat.self, forKey: .lineWidth)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if #available(iOS 11.0, *) {

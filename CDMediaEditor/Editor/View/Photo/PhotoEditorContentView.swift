@@ -17,15 +17,15 @@ protocol PhotoEditorContentViewDelegate: AnyObject {
 }
 
 class PhotoEditorContentView: UIView {
-    
+
     weak var delegate: PhotoEditorContentViewDelegate?
-    
+
     var itemViewMoveToCenter: ((CGRect) -> Bool)?
-    
+
     var stickerMinScale: ((CGSize) -> CGFloat)?
-    
+
     var stickerMaxScale: ((CGSize) -> CGFloat)?
-    
+
     lazy var imageView: UIImageView = {
         var imageView: UIImageView
         #if canImport(Kingfisher)
@@ -60,9 +60,9 @@ class PhotoEditorContentView: UIView {
         view.delegate = self
         return view
     }()
-    
+
     let mosaicConfig: PhotoEditorConfiguration.MosaicConfig
-    
+
     init(mosaicConfig: PhotoEditorConfiguration.MosaicConfig) {
         self.mosaicConfig = mosaicConfig
         super.init(frame: .zero)
@@ -82,7 +82,7 @@ class PhotoEditorContentView: UIView {
         imageView.image = image
         #endif
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = bounds
@@ -107,7 +107,7 @@ extension PhotoEditorContentView: EditorStickerViewDelegate {
     func stickerView(_ stickerView: EditorStickerView, updateStickerText item: EditorStickerItem) {
         delegate?.contentView(self, updateStickerText: item)
     }
-    
+
     func stickerView(touchBegan stickerView: EditorStickerView) {
         delegate?.contentView(drawViewBeganDraw: self)
     }
@@ -120,14 +120,14 @@ extension PhotoEditorContentView: EditorStickerViewDelegate {
         }
         return false
     }
-    
+
     func stickerView(_ stickerView: EditorStickerView, minScale itemSize: CGSize) -> CGFloat {
         if let minScale = stickerMinScale?(itemSize) {
             return minScale
         }
         return 0.2
     }
-    
+
     func stickerView(_ stickerView: EditorStickerView, maxScale itemSize: CGSize) -> CGFloat {
         if let maxScale = stickerMaxScale?(itemSize) {
             return maxScale
@@ -139,11 +139,11 @@ extension PhotoEditorContentView: PhotoEditorMosaicViewDelegate {
     func mosaicView(_ mosaicView: PhotoEditorMosaicView, splashColor atPoint: CGPoint) -> UIColor? {
         imageView.color(for: atPoint)
     }
-    
+
     func mosaicView(beganDraw mosaicView: PhotoEditorMosaicView) {
         delegate?.contentView(drawViewBeganDraw: self)
     }
-    
+
     func mosaicView(endDraw mosaicView: PhotoEditorMosaicView) {
         delegate?.contentView(drawViewEndDraw: self)
     }

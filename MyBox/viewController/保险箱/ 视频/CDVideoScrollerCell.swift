@@ -10,15 +10,14 @@ import UIKit
 import AVFoundation
 class CDVideoScrollerCell: UICollectionViewCell {
 
-    var videoSizeL:UILabel!
-    var videoTap:UITapGestureRecognizer?
-    var videoView:CDVideoPlayerView!
-
+    var videoSizeL: UILabel!
+    var videoTap: UITapGestureRecognizer?
+    var videoView: CDVideoPlayerView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.black
-        
+
         videoView = CDVideoPlayerView(frame: self.bounds)
         self.addSubview(videoView)
 
@@ -31,18 +30,16 @@ class CDVideoScrollerCell: UICollectionViewCell {
 
     }
 
-
-    func setVideoToView(fileInfo:CDSafeFileInfo) {
+    func setVideoToView(fileInfo: CDSafeFileInfo) {
 
         videoView.videoPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
         videoSizeL.text = GetSizeFormat(fileSize: fileInfo.fileSize)
 
     }
-    
+
     func stopPlayer() {
         videoView.dellocPlayer()
     }
-
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

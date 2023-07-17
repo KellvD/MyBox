@@ -10,13 +10,10 @@ import UIKit
 
 class CDMarqueeView: UIView {
 
-
-        
         func start() {
 
-
         }
-        
+
         func stop() {
 
         }

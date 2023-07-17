@@ -8,7 +8,7 @@
 import UIKit
 
 extension PhotoManager: URLSessionDownloadDelegate {
-    
+
     @discardableResult
     public func downloadTask(with url: URL,
                              toFile fileURL: URL? = nil,
@@ -55,7 +55,7 @@ extension PhotoManager: URLSessionDownloadDelegate {
         task.resume()
         return task
     }
-    
+
     public func suspendTask(_ url: URL) {
         let key = url.absoluteString
         let task = downloadTasks[key]
@@ -67,7 +67,7 @@ extension PhotoManager: URLSessionDownloadDelegate {
         downloadCompletions.removeValue(forKey: key)
         downloadProgresss.removeValue(forKey: key)
     }
-    
+
     public func removeTask(_ url: URL) {
         let key = url.absoluteString
         let task = downloadTasks[key]
@@ -78,7 +78,7 @@ extension PhotoManager: URLSessionDownloadDelegate {
         downloadProgresss.removeValue(forKey: key)
         downloadTasks.removeValue(forKey: key)
     }
-    
+
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         let responseURL = downloadTask.currentRequest!.url!
         let progress = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
@@ -87,7 +87,7 @@ extension PhotoManager: URLSessionDownloadDelegate {
             progressHandler?(progress, downloadTask)
         }
     }
-    
+
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         let responseURL = downloadTask.currentRequest!.url!
         let key = responseURL.absoluteString
@@ -106,19 +106,19 @@ extension PhotoManager: URLSessionDownloadDelegate {
             DispatchQueue.main.async {
                 completionHandler?(url, nil, ext)
             }
-        }else {
+        } else {
             var url: URL
             if key.hasSuffix("mp4") {
                 let videoURL = PhotoTools.getVideoCacheURL(for: key)
                 PhotoTools.removeFile(fileURL: videoURL)
                 try? FileManager.default.moveItem(at: location, to: videoURL)
                 url = videoURL
-            }else if key.hasSuffix("mp3") {
+            } else if key.hasSuffix("mp3") {
                 let audioURL = PhotoTools.getAudioTmpURL(for: key)
                 PhotoTools.removeFile(fileURL: audioURL)
                 try? FileManager.default.moveItem(at: location, to: audioURL)
                 url = audioURL
-            }else {
+            } else {
                 url = location
             }
             DispatchQueue.main.async {
@@ -127,7 +127,7 @@ extension PhotoManager: URLSessionDownloadDelegate {
         }
         removeTask(responseURL)
     }
-    
+
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         let responseURL = task.currentRequest!.url!
         let key = responseURL.absoluteString

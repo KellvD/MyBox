@@ -10,32 +10,32 @@ import UIKit
 import CoreGraphics
 import LocalAuthentication
 
-class CDLockViewController:CDBaseAllViewController {
-    var pwdTextFiled:UITextField!
-     
+class CDLockViewController: CDBaseAllViewController {
+    var pwdTextFiled: UITextField!
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         if CDSignalTon.shared.touchIDSwitch {
             showTouchID()
         }
-        
+
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        //头像
+        // 头像
         let headImageView = UIImageView(frame: CGRect(x: (CDSCREEN_WIDTH-100)/2, y: 100, width: 100, height: 100))
         headImageView.image = LoadImage("icon")
-        self.view.addSubview(headImageView);
+        self.view.addSubview(headImageView)
 
         let leftLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 48))
         leftLabel.text = "密码  "
         leftLabel.textAlignment = .left
 
-        //输入框
-        self.pwdTextFiled = UITextField(frame: CGRect(x: 30, y:headImageView.frame.maxY+30, width: CDSCREEN_WIDTH-60, height: 48))
-        self.pwdTextFiled.isSecureTextEntry = true;
+        // 输入框
+        self.pwdTextFiled = UITextField(frame: CGRect(x: 30, y: headImageView.frame.maxY+30, width: CDSCREEN_WIDTH-60, height: 48))
+        self.pwdTextFiled.isSecureTextEntry = true
         self.pwdTextFiled.placeholder = "请输入密码"
         self.pwdTextFiled.leftView = leftLabel
         self.pwdTextFiled.leftViewMode = .always
@@ -50,30 +50,28 @@ class CDLockViewController:CDBaseAllViewController {
         loginBtn.layer.cornerRadius = 4.0
         loginBtn.backgroundColor = UIColor.red
         self.view.addSubview(loginBtn)
-        
-        
-        
+
     }
-    func showTouchID(){
+    func showTouchID() {
         let lol = LAContext()
-        var error:NSError?
-        //lol 是否存在
-        if lol.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-            //开始运作
-            lol.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "触按Home键进行指纹解锁") { (success, err) in
+        var error: NSError?
+        // lol 是否存在
+        if lol.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            // 开始运作
+            lol.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "触按Home键进行指纹解锁") { (success, _) in
                 if success {
                     DispatchQueue.main.async {
                         let myDelegate = UIApplication.shared.delegate as! CDAppDelegate
                         myDelegate.window?.rootViewController = CDSignalTon.shared.tab
                     }
-                    
+
                 }
             }
         }
-       
+
     }
-    
-    @objc func loginBtnClick() -> Void {
+
+    @objc func loginBtnClick() {
         pwdTextFiled.resignFirstResponder()
         let inputPwd = self.pwdTextFiled.text?.md5
         let pwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
@@ -81,16 +79,15 @@ class CDLockViewController:CDBaseAllViewController {
         if pwd.isEmpty {
            CDHUDManager.shared.showText("请输入密码")
             return
-        }else if inputPwd != pwd{
+        } else if inputPwd != pwd {
             CDHUDManager.shared.showText("密码输入有误")
             return
         }
         let myDelegate = UIApplication.shared.delegate as! CDAppDelegate
         myDelegate.window?.rootViewController = CDSignalTon.shared.tab
 
-        
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         pwdTextFiled?.resignFirstResponder()
     }

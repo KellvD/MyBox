@@ -22,12 +22,12 @@ class VideoEditorPlayerView: VideoPlayerView {
     var isPlaying: Bool = false
     var shouldPlay = true
     var addObserverReadyForDisplay = false
-    
+
     lazy var coverImageView: UIImageView = {
         let imageView = UIImageView.init()
         return imageView
     }()
-    
+
     convenience init(videoURL: URL) {
         self.init(avAsset: AVAsset.init(url: videoURL))
     }
@@ -49,7 +49,7 @@ class VideoEditorPlayerView: VideoPlayerView {
             NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterPlayGround), name: UIApplication.didBecomeActiveNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidPlayToEndTimeNotification(notifi:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
-            
+
             playerLayer.addObserver(self, forKeyPath: "readyForDisplay", options: [.new, .old], context: nil)
             addObserverReadyForDisplay = true
         }
@@ -90,7 +90,7 @@ class VideoEditorPlayerView: VideoPlayerView {
                     self.play()
                 }
             }
-        }else {
+        } else {
             seek(to: CMTime.zero) { (isFinished) in
                 if isFinished {
                     self.play()
@@ -98,8 +98,8 @@ class VideoEditorPlayerView: VideoPlayerView {
             }
         }
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if object is AVPlayerLayer && keyPath == "readyForDisplay" {
             if object as? AVPlayerLayer != playerLayer {
                 return

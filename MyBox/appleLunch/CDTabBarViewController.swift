@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
+class CDTabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,32 +18,29 @@ class CDTabBarViewController: UITabBarController,UITabBarControllerDelegate {
         addChildViewControll(vc: CDAttendanceViewController(), title: "考勤".localize, imageName: "music_normal", selectImageName: "music_select")
         addChildViewControll(vc: CDMineViewController(), title: "起之".localize, imageName: "mine_normal", selectImageName: "mine_select")
         self.tabBarController?.selectedIndex = 0
-        
+
         if #available(iOS 13.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = .baseBgColor
-            self.tabBar.standardAppearance = appearance;
+            self.tabBar.standardAppearance = appearance
             if #available(iOS 15.0, *) {
                 self.tabBar.scrollEdgeAppearance = self.tabBar.standardAppearance
             }
         }
 
-        
-    
     }
 
-    private func addChildViewControll(vc:UIViewController,title:String,imageName:String,selectImageName:String){
+    private func addChildViewControll(vc: UIViewController, title: String, imageName: String, selectImageName: String) {
         vc.title = title
         vc.tabBarItem.image = imageName.image
         vc.tabBarItem.selectedImage = LoadImage(selectImageName)
-        
+
         let naVC = CDNavigationController(rootViewController: vc)
         self.addChild(naVC)
-        
-        
+
     }
-    
+
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return true
     }

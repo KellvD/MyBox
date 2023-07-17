@@ -15,23 +15,23 @@ import Kingfisher
 #endif
 
 extension UIImage {
-    var width : CGFloat {
+    var width: CGFloat {
         get {
             return size.width
         }
     }
-    var height : CGFloat {
+    var height: CGFloat {
         get {
             return size.height
         }
     }
-    
+
     class func image(for named: String?) -> UIImage? {
         if named == nil {
             return nil
         }
         let bundle = PhotoManager.shared.bundle
-        var image : UIImage?
+        var image: UIImage?
         if bundle != nil {
             var path = bundle?.path(forResource: "images", ofType: nil)
             if path != nil {
@@ -44,10 +44,10 @@ extension UIImage {
         }
         return image
     }
-    
+
     func scaleSuitableSize() -> UIImage? {
         var imageSize = self.size
-        while (imageSize.width * imageSize.height > 3 * 1000 * 1000) {
+        while imageSize.width * imageSize.height > 3 * 1000 * 1000 {
             imageSize.width *= 0.5
             imageSize.height *= 0.5
         }
@@ -67,7 +67,7 @@ extension UIImage {
                 scaleHeight = size.height
             }
             rect = CGRect(x: -(scaleWidth - size.height) * 0.5, y: -(scaleHeight - size.height) * 0.5, width: scaleWidth, height: scaleHeight)
-        }else {
+        } else {
             rect = CGRect(origin: .zero, size: size)
         }
         UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
@@ -91,7 +91,7 @@ extension UIImage {
             let rect: CGRect
             if havingSize.equalTo(CGSize.zero) {
                 rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-            }else {
+            } else {
                 rect = CGRect(x: 0, y: 0, width: havingSize.width, height: havingSize.height)
             }
             UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
@@ -100,14 +100,14 @@ extension UIImage {
             let path = UIBezierPath(roundedRect: rect, cornerRadius: radius).cgPath
             context?.addPath(path)
             context?.fillPath()
-        
+
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             return image
         }
         return nil
     }
-    
+
     func normalizedImage() -> UIImage? {
         if imageOrientation == .up {
             return self
@@ -138,13 +138,13 @@ extension UIImage {
                                  size.height / viewHeight)
 
         // Scale cropRect to handle images larger than shown-on-screen size
-        let cropZone = CGRect(x:cropRect.origin.x * imageViewScale,
-                              y:cropRect.origin.y * imageViewScale,
-                              width:cropRect.size.width * imageViewScale,
-                              height:cropRect.size.height * imageViewScale)
+        let cropZone = CGRect(x: cropRect.origin.x * imageViewScale,
+                              y: cropRect.origin.y * imageViewScale,
+                              width: cropRect.size.width * imageViewScale,
+                              height: cropRect.size.height * imageViewScale)
 
         // Perform cropping in Core Graphics
-        guard let cutImageRef: CGImage = cgImage?.cropping(to:cropZone)
+        guard let cutImageRef: CGImage = cgImage?.cropping(to: cropZone)
         else {
             return nil
         }
@@ -153,7 +153,7 @@ extension UIImage {
         let croppedImage: UIImage = UIImage(cgImage: cutImageRef)
         return croppedImage
     }
-    
+
     func rotation(to orientation: UIImage.Orientation) -> UIImage? {
         if let cgImage = cgImage {
             func swapWidthAndHeight(_ toRect: CGRect) -> CGRect {
@@ -229,19 +229,19 @@ extension UIImage {
         case 90:
             if !isHorizontal {
                 return rotation(to: .left)
-            }else {
+            } else {
                 return rotation(to: .rightMirrored)
             }
         case 180:
             if !isHorizontal {
                 return rotation(to: .down)
-            }else {
+            } else {
                 return rotation(to: .downMirrored)
             }
         case 270:
             if !isHorizontal {
                 return rotation(to: .right)
-            }else {
+            } else {
                 return rotation(to: .leftMirrored)
             }
         default:
@@ -260,11 +260,11 @@ extension UIImage {
                 return nil
             }
             let frameCount = CGImageSourceGetCount(imageSource)
-            
+
             var images = [UIImage]()
             var delays = [Double]()
             var gifDuration = 0.0
-            
+
             for i in 0 ..< frameCount {
                 guard let imageRef = CGImageSourceCreateImageAtIndex(imageSource, i, nil) else {
                     return nil
@@ -300,7 +300,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return mergeImage
     }
-    
+
     class func merge(images: [UIImage], scale: CGFloat = UIScreen.main.scale) -> UIImage? {
         if images.isEmpty {
             return nil

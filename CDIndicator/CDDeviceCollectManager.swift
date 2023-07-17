@@ -15,81 +15,80 @@ class CDDeviceCollectManager: NSObject {
         let dev = UIDevice.current
         return dev
     }()
-    
-    //设备名称
-    @objc func getPhoneName()->String{
+
+    // 设备名称
+    @objc func getPhoneName() -> String {
         return _device.name
     }
-    
-    //设备版本13.3
-    @objc func getModelVersion()->String{
+
+    // 设备版本13.3
+    @objc func getModelVersion() -> String {
         return _device.systemVersion
     }
-    
-    @objc func getUUID()->String{
+
+    @objc func getUUID() -> String {
         return _device.identifierForVendor!.uuidString
     }
-    
-    //型号名称 iPhone8
-    @objc func getModelName()->String{
+
+    // 型号名称 iPhone8
+    @objc func getModelName() -> String {
         return CDDeviceConfig.getPhoneName()
     }
-    
-    //在线时长
-    @objc func getPowerOnTime()->String{
+
+    // 在线时长
+    @objc func getPowerOnTime() -> String {
         return String(format: "%.0fmin", ProcessInfo.processInfo.systemUptime / 60.0)
     }
-    
-    //电池电量
-    @objc func getPowerRate()->String{
+
+    // 电池电量
+    @objc func getPowerRate() -> String {
         _device.isBatteryMonitoringEnabled = true
         return String(format: "%.0f%%", _device.batteryLevel * 100)
     }
-    
-    //是否开启省电模式
+
+    // 是否开启省电模式
     @objc func getPoweraSaveModel() -> String {
         if ProcessInfo.processInfo.isLowPowerModeEnabled {
             return "打开"
-        }else{
+        } else {
             return "关闭"
         }
     }
-    
-    //CPU
-    @objc func getCpuState()->String{
+
+    // CPU
+    @objc func getCpuState() -> String {
         return CDCpuManager.cpuUsage().user
     }
-    
-    ///获取cpu核数类型
+
+    /// 获取cpu核数类型
     @objc func getCpuCount() -> String {
         return CDCpuManager.cpuCount()
     }
-    
+
     /// 获取当前网络类型
-    @objc func getNetWorkName()->String{
+    @objc func getNetWorkName() -> String {
         let status = CDReachability.networkType()
         if status == .Unknow {
             return "无网络"
-        }else if status == .WLAN{
+        } else if status == .WLAN {
             return CDReachability.wifiName()
-        }else{
+        } else {
             return CDReachability.carrierName()
         }
     }
-    
+
     /// 获取当前设备IP
     @objc func getIP() -> String {
         return CDReachability.IP()
     }
-    
+
     /// 获取运营商
     @objc func getNetworkCarrier() -> String {
         return CDReachability.carrierName()
     }
-    
-    
-    //内存
-    @objc func getMemoryRate()->String{
+
+    // 内存
+    @objc func getMemoryRate() -> String {
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &info) {
@@ -100,7 +99,7 @@ class CDDeviceCollectManager: NSObject {
                           &count)
             }
         }
-        
+
         if kerr == KERN_SUCCESS {
             let usage = info.resident_size
             let total = ProcessInfo.processInfo.physicalMemory
@@ -109,37 +108,37 @@ class CDDeviceCollectManager: NSObject {
             let ratio = Double(usage) / Double(total)
             return String(format: "%.0f%%", ratio * 100)
         }
-       
+
         return ""
-       
+
     }
-    
+
     /// 磁盘总大小
     @objc func getTotalDiskSize() -> String {
         var fs = blankof(type: statfs.self)
-        if statfs("/var",&fs) >= 0{
+        if statfs("/var", &fs) >= 0 {
             let size = Int64(UInt64(fs.f_bsize) * fs.f_blocks)
             return fileSizeToString(fileSize: size)
         }
         return "0B"
     }
-    
+
     /// 磁盘可用大小
     @objc func getAvailableDiskSize() -> String {
         var fs = blankof(type: statfs.self)
-        if statfs("/var",&fs) >= 0{
+        if statfs("/var", &fs) >= 0 {
             return fileSizeToString(fileSize: Int64(UInt64(fs.f_bsize) * fs.f_bavail))
         }
         return "0B"
     }
-    
+
     /// 将大小转换成字符串用以显示
-    private func fileSizeToString(fileSize:Int64) -> String {
-        
+    private func fileSizeToString(fileSize: Int64) -> String {
+
         let fileSize1 = CGFloat(fileSize)
-        let KB:CGFloat = 1024
-        let MB:CGFloat = KB*KB
-        let GB:CGFloat = MB*KB
+        let KB: CGFloat = 1024
+        let MB: CGFloat = KB*KB
+        let GB: CGFloat = MB*KB
         if fileSize < 10 {
             return "0 B"
         } else if fileSize1 < KB {
@@ -152,13 +151,10 @@ class CDDeviceCollectManager: NSObject {
             return String(format: "%.1f GB", CGFloat(fileSize1)/GB)
         }
     }
-    
-    private func blankof<T>(type:T.Type) -> T {
+
+    private func blankof<T>(type: T.Type) -> T {
         let ptr = UnsafeMutablePointer<T>.allocate(capacity: MemoryLayout<T>.size)
         let val = ptr.pointee
         return val
     }
 }
-
-
-

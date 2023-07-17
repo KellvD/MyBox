@@ -10,22 +10,22 @@ import Photos
 
 // MARK: 获取视频地址
 public extension AssetManager {
-    
+
     typealias VideoURLResultHandler = (Result<URL, AssetError>) -> Void
-    
+
     /// 请求获取视频地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
     ///   - resultHandler: 获取结果
     class func requestVideoURL(for asset: PHAsset,
                                resultHandler: @escaping VideoURLResultHandler) {
-        requestAVAsset(for: asset) { (reqeustID) in
-        } progressHandler: { (progress, error, stop, info) in
+        requestAVAsset(for: asset) { (_) in
+        } progressHandler: { (_, _, _, _) in
         } resultHandler: { (_) in
             self.requestVideoURL(mp4Format: asset, resultHandler: resultHandler)
         }
     }
-    
+
     /// 请求获取mp4格式的视频地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
@@ -35,14 +35,14 @@ public extension AssetManager {
         let videoURL = PhotoTools.getVideoTmpURL()
         requestVideoURL(for: asset, toFile: videoURL, resultHandler: resultHandler)
     }
-    
+
     /// 获取视频地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
     ///   - fileURL: 指定视频地址
     ///   - resultHandler: 获取结果
     class func requestVideoURL(for asset: PHAsset,
-                               toFile fileURL:URL,
+                               toFile fileURL: URL,
                                resultHandler: @escaping VideoURLResultHandler) {
         asset.checkAdjustmentStatus { (isAdjusted) in
             if isAdjusted {
@@ -53,14 +53,14 @@ public extension AssetManager {
                         if let urlAsset = avAsset as? AVURLAsset,
                            PhotoTools.copyFile(at: urlAsset.url, to: fileURL) {
                             resultHandler(.success(fileURL))
-                        }else {
+                        } else {
                             var presetName: String
                             let presets = AVAssetExportSession.exportPresets(compatibleWith: avAsset)
                             if presets.contains(AVAssetExportPresetHighestQuality) {
                                 presetName = AVAssetExportPresetHighestQuality
-                            }else if presets.contains(AVAssetExportPreset1280x720) {
+                            } else if presets.contains(AVAssetExportPreset1280x720) {
                                 presetName = AVAssetExportPreset1280x720
-                            }else {
+                            } else {
                                 presetName = AVAssetExportPresetMediumQuality
                             }
                             let exportSession = AVAssetExportSession.init(asset: avAsset, presetName: presetName)
@@ -83,7 +83,7 @@ public extension AssetManager {
                         resultHandler(.failure(error.error))
                     }
                 }
-            }else {
+            } else {
                 var videoResource: PHAssetResource?
                 for resource in PHAssetResource.assetResources(for: asset) {
                     if resource.type == .video {
@@ -105,7 +105,7 @@ public extension AssetManager {
                     DispatchQueue.main.async {
                         if error == nil {
                             resultHandler(.success(videoURL))
-                        }else {
+                        } else {
                             resultHandler(.failure(.assetResourceWriteDataFailed(error!)))
                         }
                     }

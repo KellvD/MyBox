@@ -16,15 +16,15 @@ class EditorStickerTextView: UIView {
         textView.layoutManager.delegate = self
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.contentInset = .zero
-        
+
         textView.becomeFirstResponder()
         return textView
     }()
-    
+
     var text: String {
         textView.text
     }
-    
+
     lazy var textButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage("hx_editor_photo_text_normal".image, for: .normal)
@@ -45,14 +45,14 @@ class EditorStickerTextView: UIView {
         if button.isSelected {
             if currentSelectedColor.isWhite {
                 changeTextColor(color: .black)
-            }else {
+            } else {
                 changeTextColor(color: .white)
             }
-        }else {
+        } else {
             changeTextColor(color: currentSelectedColor)
         }
     }
-    
+
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -60,7 +60,7 @@ class EditorStickerTextView: UIView {
         flowLayout.itemSize = CGSize(width: 37, height: 37)
         return flowLayout
     }()
-    
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -74,10 +74,10 @@ class EditorStickerTextView: UIView {
         collectionView.register(PhotoEditorBrushColorViewCell.self, forCellWithReuseIdentifier: "EditorStickerTextViewCellID")
         return collectionView
     }()
-    
-    var typingAttributes: [NSAttributedString.Key : Any] = [:]
+
+    var typingAttributes: [NSAttributedString.Key: Any] = [:]
     var stickerText: EditorStickerText?
-    
+
     var showBackgroudColor: Bool = false
     var useBgColor: UIColor = .clear
     var textIsDelete: Bool = false
@@ -87,7 +87,7 @@ class EditorStickerTextView: UIView {
     var layerRadius: CGFloat = 8
     var keyboardFrame: CGRect = .zero
     var maxIndex: Int = 0
-    
+
     init(config: PhotoEditorConfiguration.TextConfig,
          stickerText: EditorStickerText?) {
         self.config = config
@@ -101,7 +101,7 @@ class EditorStickerTextView: UIView {
         setupTextColors()
         addKeyboardNotificaition()
     }
-    
+
     func setupStickerText() {
         if let text = stickerText {
             showBackgroudColor = text.showBackgroud
@@ -110,12 +110,12 @@ class EditorStickerTextView: UIView {
         }
         setupTextAttributes()
     }
-    
+
     func setupTextConfig() {
         textView.tintColor = config.tintColor
         textView.font = config.font
     }
-    
+
     func setupTextAttributes() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
@@ -124,7 +124,7 @@ class EditorStickerTextView: UIView {
         typingAttributes = attributes
         textView.attributedText = NSAttributedString(string: stickerText?.text ?? "", attributes: attributes)
     }
-    
+
     func setupTextColors() {
         for (index, colorHex) in config.colors.enumerated() {
             let color = colorHex.color
@@ -133,18 +133,18 @@ class EditorStickerTextView: UIView {
                     if text.showBackgroud {
                         if color.isWhite {
                             changeTextColor(color: .black)
-                        }else {
+                        } else {
                             changeTextColor(color: .white)
                         }
                         useBgColor = color
-                    }else {
+                    } else {
                         changeTextColor(color: color)
                     }
                     currentSelectedColor = color
                     currentSelectedIndex = index
                     collectionView.selectItem(at: IndexPath(item: currentSelectedIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
                 }
-            }else {
+            } else {
                 if index == 0 {
                     changeTextColor(color: color)
                     currentSelectedColor = color
@@ -157,12 +157,12 @@ class EditorStickerTextView: UIView {
             drawTextBackgroudColor()
         }
     }
-    
+
     func addKeyboardNotificaition() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppearance), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDismiss), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     @objc func keyboardWillAppearance(notifi: Notification) {
         guard let info = notifi.userInfo,
               let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
@@ -174,7 +174,7 @@ class EditorStickerTextView: UIView {
             self.layoutSubviews()
         }
     }
-    
+
     @objc func keyboardWillDismiss(notifi: Notification) {
         guard let info = notifi.userInfo,
               let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
@@ -185,7 +185,7 @@ class EditorStickerTextView: UIView {
             self.layoutSubviews()
         }
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12 + UIDevice.rightMargin)
@@ -193,18 +193,18 @@ class EditorStickerTextView: UIView {
         collectionView.frame = CGRect(x: textButton.frame.maxX, y: textButton.y, width: width - textButton.width, height: 50)
         textView.frame = CGRect(x: 10, y: 0, width: width - 20, height: textButton.y)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension EditorStickerTextView {
-    
+
     func createTextBackgroundLayer(path: CGPath) -> EditorStickerTextLayer {
         let textLayer = EditorStickerTextLayer()
         textLayer.path = path
@@ -214,13 +214,13 @@ extension EditorStickerTextView {
         textLayer.fillColor = color
         return textLayer
     }
-    
+
     func changeTextColor(color: UIColor) {
         textView.textColor = color
         typingAttributes[NSAttributedString.Key.foregroundColor] = color
         textView.typingAttributes = typingAttributes
     }
-    
+
     func preProccess() {
         maxIndex = 0
         if rectArray.count < 2 {
@@ -233,7 +233,7 @@ extension EditorStickerTextView {
             }
         }
     }
-    
+
     func processRect(index: Int) {
         if rectArray.count < 2 || index < 1 || index > maxIndex {
             return
@@ -250,7 +250,7 @@ extension EditorStickerTextView {
                 cur = CGRect(x: last.minX, y: cur.minY, width: cur.width, height: cur.height)
                 t1 = true
             }
-        }else if cur.minX < last.minX {
+        } else if cur.minX < last.minX {
             if last.minX - cur.minX < 2 * layerRadius {
                 cur = CGRect(x: last.minX, y: cur.minY, width: cur.width, height: cur.height)
                 t1 = true
@@ -279,7 +279,7 @@ extension EditorStickerTextView {
             processRect(index: index - 1)
         }
     }
-    
+
     func drawBackgroundPath(rects: [CGRect]) -> UIBezierPath {
         self.rectArray = rects
         preProccess()
@@ -300,13 +300,13 @@ extension EditorStickerTextView {
                 bezierPath?.addArc(withCenter: CGPoint(x: loctionX + layerRadius, y: loctionY + layerRadius), radius: layerRadius, startAngle: CGFloat.pi, endAngle: 1.5 * CGFloat.pi, clockwise: true)
                 bezierPath?.addLine(to: CGPoint(x: rect.maxX - layerRadius, y: loctionY))
                 bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX - layerRadius, y: loctionY + layerRadius), radius: layerRadius, startAngle: 1.5 * CGFloat.pi, endAngle: 0, clockwise: true)
-            }else {
+            } else {
                 let lastRect = rectArray[index - 1]
                 var nextRect: CGRect?
                 if lastRect.maxX > rect.maxX {
                     if index + 1 < rectArray.count {
                         nextRect = rectArray[index + 1]
-                        if nextRect!.width > blankWidth && nextRect!.maxX > rect.maxX{
+                        if nextRect!.width > blankWidth && nextRect!.maxX > rect.maxX {
                             half = true
                         }
                     }
@@ -314,12 +314,12 @@ extension EditorStickerTextView {
                         let radius = (nextRect!.minY - lastRect.maxY) / 2
                         let centerY = nextRect!.minY - radius
                         bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX + radius, y: centerY), radius: radius, startAngle: -CGFloat.pi * 0.5, endAngle: -CGFloat.pi * 1.5, clockwise: false)
-                    }else {
+                    } else {
                         bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX + layerRadius, y: lastRect.maxY + layerRadius), radius: layerRadius, startAngle: -CGFloat.pi * 0.5, endAngle: -CGFloat.pi, clockwise: false)
                     }
-                }else if lastRect.maxX == rect.maxX {
+                } else if lastRect.maxX == rect.maxX {
                     bezierPath?.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - layerRadius))
-                }else {
+                } else {
                     bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX - layerRadius, y: rect.minY + layerRadius), radius: layerRadius, startAngle: CGFloat.pi * 1.5, endAngle: 0, clockwise: true)
                 }
             }
@@ -331,19 +331,19 @@ extension EditorStickerTextView {
                         let point = CGPoint(x: rect.maxX, y: rect.maxY - layerRadius)
                         if let currentPoint = bezierPath?.currentPoint, point.equalTo(currentPoint) {
                             bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX - layerRadius, y: rect.maxY - layerRadius), radius: layerRadius, startAngle: 0, endAngle: CGFloat.pi * 0.5, clockwise: true)
-                        }else {
+                        } else {
                             bezierPath?.addLine(to: point)
                             bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX - layerRadius, y: rect.maxY - layerRadius), radius: layerRadius, startAngle: 0, endAngle: CGFloat.pi * 0.5, clockwise: true)
                         }
                         bezierPath?.addLine(to: CGPoint(x: nextRect.maxX + layerRadius, y: rect.maxY))
-                    }else if rect.maxX == nextRect.maxX {
+                    } else if rect.maxX == nextRect.maxX {
                         bezierPath?.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-                    }else {
+                    } else {
                         if !half {
                             let point = CGPoint(x: rect.maxX, y: nextRect.minY - layerRadius)
                             if let currentPoint = bezierPath?.currentPoint, point.equalTo(currentPoint) {
                                 bezierPath?.addArc(withCenter: CGPoint(x: currentPoint.x + layerRadius, y: currentPoint.y), radius: layerRadius, startAngle: -CGFloat.pi, endAngle: -CGFloat.pi * 1.5, clockwise: false)
-                            }else {
+                            } else {
                                 bezierPath?.addLine(to: point)
                                 bezierPath?.addArc(withCenter: CGPoint(x: rect.maxX + layerRadius, y: nextRect.minY - layerRadius), radius: layerRadius, startAngle: -CGFloat.pi, endAngle: -CGFloat.pi * 1.5, clockwise: false)
                             }
@@ -367,7 +367,7 @@ extension EditorStickerTextView {
         }
         return path
     }
-    
+
     func drawTextBackgroudColor() {
         if textView.text.isEmpty {
             textLayer?.path = nil
@@ -395,14 +395,14 @@ extension EditorStickerTextView {
                         nextIsEmpty = false
                     }
                 }
-            }else {
+            } else {
                 if text[text.index(before: text.endIndex)] == "\n" {
                     lastLineIsEmpty = true
                 }
             }
             if !nextIsEmpty || lastLineIsEmpty {
                 usedRect = CGRect(x: usedRect.minX - 6, y: usedRect.minY - 8, width: usedRect.width + 12, height: usedRect.height + 8)
-            }else {
+            } else {
                 usedRect = CGRect(x: usedRect.minX - 6, y: usedRect.minY - 8, width: usedRect.width + 12, height: usedRect.height + 16)
             }
             rectArray.append(usedRect)
@@ -417,7 +417,7 @@ extension EditorStickerTextView {
             CATransaction.setDisableActions(true)
             textLayer.frame = CGRect(x: 15, y: 15, width: path.bounds.width, height: textView.contentSize.height)
             CATransaction.commit()
-        }else {
+        } else {
             for subView in textView.subviews {
                 if let textClass = NSClassFromString("_UITextContainerView"), subView.isKind(of: textClass) {
                     textLayer = createTextBackgroundLayer(path: path.cgPath)
@@ -431,12 +431,12 @@ extension EditorStickerTextView {
             }
         }
     }
-    
+
     func textMaximumWidth(view: UIView) -> CGFloat {
         let newSize = textView.sizeThatFits(view.size)
         return newSize.width
     }
-    
+
     func textImage() -> UIImage? {
         textView.tintColor = .clear
         for subView in textView.subviews {
@@ -464,7 +464,7 @@ extension EditorStickerTextView: UITextViewDelegate {
                 let text = textView.text[..<config.maximumLimitTextLength]
                 textView.text = text
             }
-        }else {
+        } else {
             textLayer?.frame = .zero
         }
     }
@@ -505,10 +505,10 @@ extension EditorStickerTextView: UICollectionViewDataSource, UICollectionViewDel
             useBgColor = color
             if color.isWhite {
                 changeTextColor(color: .black)
-            }else {
+            } else {
                 changeTextColor(color: .white)
             }
-        }else {
+        } else {
             changeTextColor(color: color)
         }
     }

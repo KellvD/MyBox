@@ -27,10 +27,10 @@ class VideoEditorMusic: Equatable {
         self.audioURL = audioURL
         self.lrc = lrc
     }
-    
+
     var isLoading: Bool = false
     var isSelected: Bool = false
-    
+
     var metaData: [String: String] = [:]
     var lyrics: [VideoEditorLyric] = []
     var lyricIsEmpty = false
@@ -39,12 +39,12 @@ class VideoEditorMusic: Equatable {
     var time: TimeInterval? {
         if let time = metaData["t_time"]?.replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "") {
             return PhotoTools.getVideoTime(forVideo: time)
-        }else if let lastLyric = lyrics.last {
+        } else if let lastLyric = lyrics.last {
             return lastLyric.startTime + 5
         }
         return nil
     }
-    
+
     func parseLrc() {
         let lines = lrc.replacingOccurrences(of: "\r", with: "").components(separatedBy: "\n")
         let tags = ["ti", "ar", "al", "by", "offset", "t_time"]
@@ -78,14 +78,14 @@ class VideoEditorMusic: Equatable {
                 continue
             }
             if let reg1 = regular1, let reg2 = regular2 {
-                let matches = reg1.matches(in: line, options: .reportProgress, range: NSMakeRange(0, line.count))
-                
-                let modifyString = reg2.stringByReplacingMatches(in: line, options: .reportProgress, range: NSMakeRange(0, line.count), withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                let matches = reg1.matches(in: line, options: .reportProgress, range: NSRange(location: 0, length: line.count))
+
+                let modifyString = reg2.stringByReplacingMatches(in: line, options: .reportProgress, range: NSRange(location: 0, length: line.count), withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
                 for result in matches {
                     if result.range.location == NSNotFound {
                         continue
                     }
-                    
+
                     var sec = line[result.range.location...(result.range.location + result.range.length - 1)]
                     sec = sec.replacingOccurrences(of: "[", with: "")
                     sec = sec.replacingOccurrences(of: "]", with: "")
@@ -112,10 +112,10 @@ class VideoEditorMusic: Equatable {
             if index + 1 >= sorted.count {
                 if let time = metaData["t_time"]?.replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "") {
                     first?.update(second: time, isEnd: true)
-                }else {
+                } else {
                     first?.update(second: "60000:50:00", isEnd: true)
                 }
-            }else {
+            } else {
                 second = sorted[index + 1]
                 first?.update(second: second!.second, isEnd: true)
             }
@@ -126,7 +126,7 @@ class VideoEditorMusic: Equatable {
             lyrics.append(.init(lyric: "此歌曲暂无歌词，请您欣赏".localized))
         }
     }
-    
+
     func lyric(at range: NSRange) -> [VideoEditorLyric] {
         if range.location == NSNotFound || lyrics.isEmpty {
             return []
@@ -134,7 +134,7 @@ class VideoEditorMusic: Equatable {
         let count = lyrics.count
         let loc = range.location
         var len = range.length
-        
+
         if loc >= count {
             return []
         }
@@ -144,7 +144,7 @@ class VideoEditorMusic: Equatable {
         return Array(lyrics[loc..<(loc + len)])
     }
     func lyric(at line: Int) -> VideoEditorLyric? {
-        return lyric(at: NSMakeRange(line, 1)).first
+        return lyric(at: NSRange(location: line, length: 1)).first
     }
     public static func == (lhs: VideoEditorMusic, rhs: VideoEditorMusic) -> Bool {
         lhs === rhs
@@ -152,17 +152,17 @@ class VideoEditorMusic: Equatable {
 }
 
 class VideoEditorLyric: Equatable {
-    
+
     /// 歌词
     let lyric: String
-    
+
     var second: String = ""
     var startTime: TimeInterval = 0
     var endTime: TimeInterval = 0
     init(lyric: String) {
         self.lyric = lyric
     }
-    
+
     func update(second: String, isEnd: Bool) {
         if !second.isEmpty {
             self.second = second
@@ -170,11 +170,11 @@ class VideoEditorLyric: Equatable {
         let time = PhotoTools.getVideoTime(forVideo: self.second)
         if isEnd {
             endTime = time
-        }else {
+        } else {
             startTime = time
         }
     }
-    
+
     static func == (lhs: VideoEditorLyric, rhs: VideoEditorLyric) -> Bool {
         lhs === rhs
     }

@@ -11,28 +11,27 @@ import CoreGraphics
 import CoreServices
 import AVFoundation
 import Foundation
-//MARK: 便利构造
-public extension UIImage{
-    //图片的二维码信息
-    var qrMessage:String?{
-        get{
-            let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
+// MARK: 便利构造
+public extension UIImage {
+    // 图片的二维码信息
+    var qrMessage: String? {
+        get {
+            let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
             let deatureArr = detector?.features(in: CIImage(cgImage: self.cgImage!))
             if deatureArr!.count == 0 {
                 return nil
             }
-            let feature = deatureArr?.first as! CIQRCodeFeature //二维码图像特征
+            let feature = deatureArr?.first as! CIQRCodeFeature // 二维码图像特征
             let message = feature.messageString
             return message!
         }
     }
-    
-    
+
     /// 用纯色填充图片
     /// - Parameters:
     ///   - color: 纯色
     ///   - size: 填充尺寸
-    convenience init?(color:UIColor,size:CGSize) {
+    convenience init?(color: UIColor, size: CGSize) {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContext(size)
         let context = UIGraphicsGetCurrentContext()
@@ -43,11 +42,10 @@ public extension UIImage{
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
     }
-    
-    
+
     /// UIVIew 剪裁成图片
     /// - Parameter clipView: 待剪裁的view
-    convenience init?(clipView:UIView){
+    convenience init?(clipView: UIView) {
         UIGraphicsBeginImageContextWithOptions(clipView.frame.size, true, 0.0)
         clipView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image  = UIGraphicsGetImageFromCurrentImageContext()
@@ -55,13 +53,13 @@ public extension UIImage{
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
     }
-    
+
     /// 生成二维码图片
     /// - Parameters:
     ///   - qrText: 二维码信息
     ///   - qrSize: 二维码尺寸
-    convenience init?(qrText:String,qrSize:CGSize){
-        let filter = CIFilter(name: "CIQRCodeGenerator") //二维码滤镜
+    convenience init?(qrText: String, qrSize: CGSize) {
+        let filter = CIFilter(name: "CIQRCodeGenerator") // 二维码滤镜
         filter?.setDefaults()
         let data = qrText.data(using: .utf8)
         filter?.setValue(data, forKey: "inputMessage")
@@ -79,13 +77,13 @@ public extension UIImage{
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
     }
-    
+
 }
 
-//MARK: 实例方法
-extension UIImage{
-    //MARK: 压缩图片
-    func compress(maxWidth:CGFloat) -> UIImage{
+// MARK: 实例方法
+extension UIImage {
+    // MARK: 压缩图片
+    func compress(maxWidth: CGFloat) -> UIImage {
         // 宽高比
         let ratio: CGFloat = self.size.width / self.size.height
         // 目标大小
@@ -109,7 +107,7 @@ extension UIImage{
                 targetW = maxWidth
                 targetH = targetW / ratio
             }
-        }else{// 宽或高 > 1280
+        } else {// 宽或高 > 1280
             if ratio > 2 { // 宽图 图片尺寸大小保持不变
                 targetW = self.size.width
                 targetH = self.size.height
@@ -131,61 +129,61 @@ extension UIImage{
         return newImage!
 
     }
-    
-    //MARK: 裁剪照片
-    func scaleAndCropToMaxSize(newSize:CGSize) ->UIImage {
-        var imageSize:CGSize = self.size
+
+    // MARK: 裁剪照片
+    func scaleAndCropToMaxSize(newSize: CGSize) -> UIImage {
+        var imageSize: CGSize = self.size
         let largestSize = max(imageSize.width, imageSize.height)
-        
-        let ratio:CGFloat = largestSize/min(imageSize.width, imageSize.height)
+
+        let ratio: CGFloat = largestSize/min(imageSize.width, imageSize.height)
         let rect = CGRect(x: 0.0, y: 0.0, width: ratio * imageSize.width, height: ratio * imageSize.height)
         UIGraphicsBeginImageContext(rect.size)
         self.draw(in: rect)
 
-        let scaleImage:UIImage! = UIGraphicsGetImageFromCurrentImageContext()
+        let scaleImage: UIImage! = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        var offSetX:CGFloat = 0
-        var offSetY:CGFloat = 0
+        var offSetX: CGFloat = 0
+        var offSetY: CGFloat = 0
 
         imageSize = scaleImage.size
         if imageSize.width < imageSize.height {
             offSetY = (imageSize.height / 2) - (imageSize.width / 2)
-        }else{
+        } else {
             offSetX = (imageSize.width / 2) - (imageSize.height / 2)
         }
-        
+
         let corpRect = CGRect(x: offSetX, y: offSetY, width: imageSize.width - offSetX * 2, height: imageSize.height - offSetY * 2)
 
-        let sourceImageRef:CGImage = scaleImage.cgImage!
-        let croppedImageRef:CGImage = sourceImageRef.cropping(to: corpRect)!
+        let sourceImageRef: CGImage = scaleImage.cgImage!
+        let croppedImageRef: CGImage = sourceImageRef.cropping(to: corpRect)!
         let newImage = UIImage(cgImage: croppedImageRef)
         UIGraphicsEndImageContext()
         return newImage
     }
-    
+
     /// 剪裁图片的指定部分
     /// - Parameter rect: 裁剪的指定位置
     /// - Returns: 剪裁后的图片
-    func cut(rect:CGRect) -> UIImage {
+    func cut(rect: CGRect) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
         context?.translateBy(x: 0.0, y: rect.height)
         context?.scaleBy(x: 1.0, y: -1.0)
-        context?.setBlendMode(.copy) //设置绘制模式
+        context?.setBlendMode(.copy) // 设置绘制模式
         context?.draw(self.cgImage!, in: rect)
         let image  = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
-        
+
     }
-    
-    func addTextMark(_ content:String,_ frame:CGRect,_ color:UIColor)->UIImage{
+
+    func addTextMark(_ content: String, _ frame: CGRect, _ color: UIColor) -> UIImage {
         UIGraphicsBeginImageContext(self.size)
         self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
-        var textAttributes:[NSAttributedString.Key:Any] = [:]
+        var textAttributes: [NSAttributedString.Key: Any] = [:]
         textAttributes[.foregroundColor] = color
         textAttributes[.font] = UIFont.large
-        
+
         content.AsNSString().draw(in: frame, withAttributes: textAttributes)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -210,20 +208,20 @@ extension UIImage{
         return UIImage(cgImage: cgimage)
 
     }
-    
+
 }
 
-//类方法
-extension UIImage{
-    
+// 类方法
+extension UIImage {
+
     /// 图片合成GIF
     /// - Parameters:
     ///   - imageArr: 图片数组
     ///   - gifPath: GIF路径
-    static func composeGif(imageArr:Array<UIImage>, delay:Double, gifPath: inout String){
+    static func composeGif(imageArr: [UIImage], delay: Double, gifPath: inout String) {
         let destination = CGImageDestinationCreateWithURL(gifPath.url as CFURL, kUTTypeGIF, imageArr.count, nil)
         let gifProperty = [
-            kCGImagePropertyGIFDictionary : [
+            kCGImagePropertyGIFDictionary: [
                 kCGImagePropertyGIFHasGlobalColorMap: true,
                 kCGImagePropertyColorModel: kCGImagePropertyColorModelRGB,
                 kCGImagePropertyDepth: 8,
@@ -232,36 +230,33 @@ extension UIImage{
         ]
         CGImageDestinationSetProperties(destination!, gifProperty as CFDictionary)
         for image in imageArr {
-            //每帧之间播放的时间间隔
+            // 每帧之间播放的时间间隔
             let frameDic = [
-                kCGImagePropertyGIFDictionary : [
-                    kCGImagePropertyGIFDelayTime : delay
+                kCGImagePropertyGIFDictionary: [
+                    kCGImagePropertyGIFDelayTime: delay
                 ]
             ]
             CGImageDestinationAddImage(destination!, image.cgImage!, frameDic as CFDictionary)
         }
         CGImageDestinationFinalize(destination!)
     }
-    
-    class func previewImage(videoUrl:URL) -> UIImage {
+
+    class func previewImage(videoUrl: URL) -> UIImage {
         let avAsset = AVAsset(url: videoUrl)
         let generator = AVAssetImageGenerator(asset: avAsset)
         generator.appliesPreferredTrackTransform = true
         let time = CMTimeMakeWithSeconds(0.0, preferredTimescale: 600)
-        var actualTime:CMTime = CMTimeMake(value: 0, timescale: 0)
+        var actualTime: CMTime = CMTimeMake(value: 0, timescale: 0)
         do {
-            let imageRef:CGImage = try generator.copyCGImage(at: time, actualTime: &actualTime)
+            let imageRef: CGImage = try generator.copyCGImage(at: time, actualTime: &actualTime)
             let image = UIImage(cgImage: imageRef)
 
             return image
-        } catch  {
+        } catch {
             print(error)
             return LoadImage("file_video_big")!
         }
-        
-    }
-    
-   
 
+    }
 
 }

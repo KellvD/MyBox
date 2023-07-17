@@ -23,18 +23,18 @@ class EditorToolViewCell: UICollectionViewCell {
         view.isUserInteractionEnabled = false
         return view
     }()
-    
+
     lazy var button: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didButtonClick), for: .touchUpInside)
         button.tintColor = .white
         return button
     }()
-    
+
     @objc func didButtonClick() {
         delegate?.toolViewCell(didClick: self)
     }
-    
+
     var showBox: Bool = false {
         didSet {
             boxView.isSelected = showBox
@@ -47,7 +47,7 @@ class EditorToolViewCell: UICollectionViewCell {
             boxView.config.selectedBackgroudDarkColor = boxColor
         }
     }
-    
+
     var model: EditorToolOptions! {
         didSet {
             let image = UIImage.image(for: model.imageName)?.withRenderingMode(.alwaysTemplate)
@@ -60,17 +60,17 @@ class EditorToolViewCell: UICollectionViewCell {
             button.tintColor = isSelectedImageView ? selectedColor : .white
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(button)
         contentView.addSubview(boxView)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         button.frame = bounds

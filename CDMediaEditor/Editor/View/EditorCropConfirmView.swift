@@ -42,7 +42,7 @@ class EditorCropConfirmView: UIView {
         cancelButton.addTarget(self, action: #selector(didCancelButtonClick(button:)), for: .touchUpInside)
         return cancelButton
     }()
-    
+
     lazy var finishButton: UIButton = {
         let finishButton = UIButton.init(type: .custom)
         finishButton.setTitle("完成".localized, for: .normal)
@@ -52,7 +52,7 @@ class EditorCropConfirmView: UIView {
         finishButton.addTarget(self, action: #selector(didFinishButtonClick(button:)), for: .touchUpInside)
         return finishButton
     }()
-    
+
     lazy var resetButton: UIButton = {
         let resetButton = UIButton.init(type: .custom)
         resetButton.setTitle("还原".localized, for: .normal)
@@ -97,7 +97,7 @@ class EditorCropConfirmView: UIView {
         if (isDark && config.cancelButtonDarkBackgroundColor == nil) ||
             (!isDark && config.cancelButtonBackgroundColor == nil) {
             cancelButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
-        }else {
+        } else {
             cancelButton.titleEdgeInsets = .zero
         }
     }
@@ -112,7 +112,7 @@ class EditorCropConfirmView: UIView {
         cancelButton.width = cancelWidth
         cancelButton.height = 33
         cancelButton.centerY = 25
-        
+
         var finishWidth = (finishButton.currentTitle?.width(ofFont: finishButton.titleLabel!.font, maxHeight: 33) ?? 0) + 20
         if finishWidth < 60 {
             finishWidth = 60
@@ -121,7 +121,7 @@ class EditorCropConfirmView: UIView {
         finishButton.height = 33
         finishButton.x = width - finishButton.width - 12 - UIDevice.rightMargin
         finishButton.centerY = 25
-        
+
         if showReset {
             var resetWidth = (resetButton.currentTitle?.width(ofFont: resetButton.titleLabel!.font, maxHeight: 33) ?? 0) + 20
             if resetWidth < 60 {
@@ -132,9 +132,9 @@ class EditorCropConfirmView: UIView {
             resetButton.centerY = 25
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

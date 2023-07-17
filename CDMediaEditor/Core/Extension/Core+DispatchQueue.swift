@@ -16,7 +16,7 @@ extension DispatchQueue {
         DispatchQueue.main.setSpecific(key: key, value: ())
         return key
     }()
-    
+
     // 通过队列上是否有绑定 token 对应的值来判断是否为主队列
     static var isMain: Bool {
         return DispatchQueue.getSpecific(key: token) != nil

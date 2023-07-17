@@ -22,12 +22,12 @@ extension PhotoEditorViewController {
                 if let result = result {
                     self.delegate?.photoEditorViewController(self, didFinish: result)
                     self.didBackClick()
-                }else {
+                } else {
                     ProgressHUD.hide(forView: self.view, animated: true)
                     ProgressHUD.showWarning(addedTo: self.view, text: "图片获取失败!".localized, animated: true, delayHide: 1.5)
                 }
             }
-        }else {
+        } else {
             delegate?.photoEditorViewController(didFinishWithUnedited: self)
             didBackClick()
         }

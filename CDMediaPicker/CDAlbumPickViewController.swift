@@ -9,14 +9,12 @@
 import UIKit
 import Photos
 
+class CDAlbumPickViewController: UITableViewController, PHPhotoLibraryChangeObserver {
 
-class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObserver {
-    
-    
-    private var ablumList:[CDAlbum] = []
+    private var ablumList: [CDAlbum] = []
     private var folderId = Int()
-    var isSelectedVideo:Bool!
-    weak var assetDelegate:CDAssetSelectedDelagete!
+    var isSelectedVideo: Bool!
+    weak var assetDelegate: CDAssetSelectedDelagete!
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -25,9 +23,9 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
             if status == .limited {
                 PHPhotoLibrary.shared().unregisterChangeObserver(self)
             }
-            
+
         }
-        
+
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +33,7 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
         self.navigationController!.navigationBar.topItem?.title = ""
         let cancle = UIBarButtonItem(barButtonSystemItem: .cancel, target: assetDelegate, action: #selector(cancleMediaPicker))
         self.navigationItem.rightBarButtonItem = cancle
-        
+
         if #available(iOS 14, *) {
             let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
             if status == .limited {
@@ -43,26 +41,25 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
                 PHPhotoLibrary.shared().register(self)
                 return
             }
-            
+
         }
         loadAllAlbum()
     }
-    
+
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         DispatchQueue.main.async {
             self.loadAllAlbum()
         }
-        
+
     }
 
-    @objc func cancleMediaPicker(){}
-    
-    
+    @objc func cancleMediaPicker() {}
+
     func loadAllAlbum() {
         CDAssetTon.shared.getAllAlbums { (albumArr) in
             self.ablumList.removeAll()
             self.ablumList = albumArr
-            //排序降序
+            // 排序降序
             self.ablumList.sort(by: { (photo1, photo2) -> Bool in
                 return photo1.fetchResult.count > photo2.fetchResult.count
             })
@@ -76,18 +73,17 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
         }
     }
 
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.ablumList.count
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentify = "imageListpickcell"
-        var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentify)
+        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentify)
         if cell == nil {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentify)
 
@@ -103,14 +99,13 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
             let titleLabel = UILabel(frame: CGRect(x: imageView.frame.maxX+15, y: imageView.frame.minY+5, width: 100, height: 30))
             titleLabel.tag = 102
             titleLabel.font = UIFont.systemFont(ofSize: 17)
-            titleLabel.textColor = UIColor(red:61/255.0, green:81/255.0,blue:97/255.0,alpha:1.0)
+            titleLabel.textColor = UIColor(red: 61/255.0, green: 81/255.0, blue: 97/255.0, alpha: 1.0)
             cell.addSubview(titleLabel)
 
-            
             let countlabel = UILabel(frame: CGRect(x: imageView.frame.maxX+15, y: titleLabel.frame.maxY, width: 100, height: 15))
             countlabel.tag = 103
             countlabel.font = UIFont.systemFont(ofSize: 12)
-            countlabel.textColor = UIColor(red:154/255.0, green:154/255.0,blue:154/255.0,alpha:1.0)
+            countlabel.textColor = UIColor(red: 154/255.0, green: 154/255.0, blue: 154/255.0, alpha: 1.0)
             cell.addSubview(countlabel)
 
             let separatorLine = UILabel(frame: CGRect(x: 15, y: 84, width: CDSCREEN_WIDTH-15, height: 1))
@@ -124,21 +119,18 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
         let countLabel = cell.viewWithTag(103) as! UILabel
         let separatorLine = cell.viewWithTag(104) as! UILabel
 
-
-        let alum:CDAlbum = ablumList[indexPath.row]
-        titleLabel.text = alum.title;
+        let alum: CDAlbum = ablumList[indexPath.row]
+        titleLabel.text = alum.title
         countLabel.text = "\(alum.fetchResult.count) 张"
         headImage.image = alum.coverImage
         separatorLine.isHidden = indexPath.row == ablumList.count - 1
         return cell
 
-
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let alum:CDAlbum = ablumList[indexPath.row]
+        let alum: CDAlbum = ablumList[indexPath.row]
         let imageItemVC = CDAssetPickViewController()
         imageItemVC.albumItem = alum
         imageItemVC.isVideo = isSelectedVideo
@@ -147,7 +139,6 @@ class CDAlbumPickViewController: UITableViewController,PHPhotoLibraryChangeObser
 
     }
 
-   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

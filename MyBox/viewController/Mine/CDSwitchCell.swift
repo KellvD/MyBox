@@ -8,21 +8,21 @@
 
 import UIKit
 import SnapKit
-typealias SwitchBlock = (_ swi:UISwitch) -> Void
+typealias SwitchBlock = (_ swi: UISwitch) -> Void
 class CDSwitchCell: UITableViewCell {
 
-    public var swi:UISwitch!
-    public var titleLabel:UILabel!
-    public var valueLabel:UILabel!
-    private var separatorLine:UIView!
-    public var swiBlock:SwitchBlock!
+    public var swi: UISwitch!
+    public var titleLabel: UILabel!
+    public var valueLabel: UILabel!
+    private var separatorLine: UIView!
+    public var swiBlock: SwitchBlock!
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        
+
         let view = UIView()
         self.selectedBackgroundView = view
         self.selectedBackgroundView?.backgroundColor = .cellSelectColor
-        
+
         titleLabel = UILabel()
         titleLabel.textColor = .textBlack
         titleLabel.font = .mid
@@ -31,9 +31,9 @@ class CDSwitchCell: UITableViewCell {
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15.0)
             make.centerY.equalToSuperview()
-            
+
         }
-        
+
         swi = UISwitch()
         swi.addTarget(self, action: #selector(onSwitchClick(swi:)), for: .valueChanged)
         self.contentView.addSubview(swi)
@@ -44,7 +44,7 @@ class CDSwitchCell: UITableViewCell {
             make.width.equalTo(50.0)
             make.height.equalTo(30.0)
         }
-        
+
         valueLabel = UILabel()
         valueLabel.font = .mid
         valueLabel.textColor = .textLightBlack
@@ -58,7 +58,7 @@ class CDSwitchCell: UITableViewCell {
             make.centerY.equalTo(titleLabel)
             make.right.equalToSuperview().offset(-15.0)
         }
-        
+
         separatorLine = UIView()
         separatorLine.backgroundColor = .separatorColor
         self.addSubview(separatorLine)
@@ -69,16 +69,16 @@ class CDSwitchCell: UITableViewCell {
             make.right.equalToSuperview().offset(-15.0)
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    @objc private func onSwitchClick(swi:UISwitch){
+
+    @objc private func onSwitchClick(swi: UISwitch) {
         swiBlock(swi)
     }
-    
-    public func valueLabelIsAtBottom(){
+
+    public func valueLabelIsAtBottom() {
         valueLabel.isHidden = false
         valueLabel.snp.removeConstraints()
         valueLabel.snp.makeConstraints { (make) in
@@ -89,15 +89,13 @@ class CDSwitchCell: UITableViewCell {
         valueLabel.textAlignment = .left
     }
 
-    
-    //分割线是否隐藏
-    var separatorLineIsHidden:Bool{
-        set{
+    // 分割线是否隐藏
+    var separatorLineIsHidden: Bool {
+        set {
             separatorLine.isHidden = newValue
         }
-        get{
+        get {
             return false
         }
     }
 }
-

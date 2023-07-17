@@ -8,8 +8,7 @@
 
 import UIKit
 import AVFoundation
-class CDFaceLockViewController: CDBaseAllViewController,AVCaptureMetadataOutputObjectsDelegate {
-
+class CDFaceLockViewController: CDBaseAllViewController, AVCaptureMetadataOutputObjectsDelegate {
 
 //    var device = <#value#>
 //
@@ -34,9 +33,5 @@ class CDFaceLockViewController: CDBaseAllViewController,AVCaptureMetadataOutputO
 //        originDataOutput.metadataObjectTypes = [.face]
 //
 //    }
-
-
-
-
 
 }

@@ -14,7 +14,7 @@ protocol PhotoEditorViewDelegate: AnyObject {
     func editorView(didAppear editorView: PhotoEditorView)
     func editorView(willDisappearCrop editorView: PhotoEditorView)
     func editorView(didDisappearCrop editorView: PhotoEditorView)
-    
+
     func editorView(drawViewBeganDraw editorView: PhotoEditorView)
     func editorView(drawViewEndDraw editorView: PhotoEditorView)
     func editorView(_ editorView: PhotoEditorView, updateStickerText item: EditorStickerItem)
@@ -32,27 +32,27 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
         imageResizerView.imageView.delegate = self
         return imageResizerView
     }()
-    
+
     override var zoomScale: CGFloat {
         didSet { imageResizerView.zoomScale = zoomScale }
     }
-    
+
     var config: PhotoEditorConfiguration
-    
+
     var state: State = .normal
     var imageScale: CGFloat = 1
     var canZoom = true
     var cropSize: CGSize = .zero
-    
+
     var image: UIImage? { imageResizerView.imageView.image }
-    
+
     var isEnabled: Bool = false {
         didSet {
             imageResizerView.isUserInteractionEnabled = isEnabled
             isScrollEnabled = isEnabled
         }
     }
-    
+
     var drawEnabled: Bool {
         get { imageResizerView.drawEnabled }
         set { imageResizerView.drawEnabled = newValue }
@@ -75,7 +75,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
     var canUndoMosaic: Bool { imageResizerView.imageView.mosaicView.canUndo }
     var hasSticker: Bool { imageResizerView.imageView.stickerView.count > 0 }
     var hasFilter: Bool { imageResizerView.filter != nil }
-    
+
     init(config: PhotoEditorConfiguration) {
         self.config = config
         super.init(frame: .zero)
@@ -91,13 +91,13 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
         }
         addSubview(imageResizerView)
     }
-    
+
     func updateImageViewFrame() {
         let imageWidth = width
         var imageHeight: CGFloat
         if cropSize.equalTo(.zero) {
             imageHeight = imageWidth / imageScale
-        }else {
+        } else {
             imageHeight = cropSize.height
         }
         let imageX: CGFloat = 0
@@ -105,13 +105,13 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
         if imageHeight < height {
             imageY = (height - imageHeight) * 0.5
             imageResizerView.setViewFrame(CGRect(x: 0, y: -imageY, width: width, height: height))
-        }else {
+        } else {
             imageResizerView.setViewFrame(bounds)
         }
         contentSize = CGSize(width: imageWidth, height: imageHeight)
         imageResizerView.frame = CGRect(x: imageX, y: imageY, width: imageWidth, height: imageHeight)
     }
-    
+
     func setImage(_ image: UIImage) {
         imageScale = image.width / image.height
         updateImageViewFrame()
@@ -145,7 +145,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
             imageResizerView.layer.cornerRadius = cropSize.width * 0.5
         }
     }
-    
+
     func resetZoomScale(_ animated: Bool) {
         if state == .normal {
             canZoom = true
@@ -155,12 +155,12 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
                 if self.zoomScale != 1 {
                     self.zoomScale = 1
                 }
-            } completion: { (isFinished) in
+            } completion: { (_) in
                 if self.state == .cropping {
                     self.canZoom = false
                 }
             }
-        }else {
+        } else {
             if zoomScale != 1 {
                 zoomScale = 1
             }
@@ -170,7 +170,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
         }
         setContentOffset(CGPoint(x: -contentInset.left, y: -contentInset.top), animated: false)
     }
-    
+
     func startCropping(_ animated: Bool) {
         editorDelegate?.editorView(willAppearCrop: self)
         state = .cropping
@@ -182,7 +182,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
             self.editorDelegate?.editorView(didAppear: self)
         }
     }
-    
+
     func cancelCropping(canShowMask: Bool = true, _ animated: Bool) {
         editorDelegate?.editorView(willDisappearCrop: self)
         state = .normal
@@ -197,11 +197,11 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
     func canReset() -> Bool {
         return imageResizerView.canReset()
     }
-    
+
     func reset(_ animated: Bool) {
         imageResizerView.reset(animated)
     }
-    
+
     func finishCropping(_ animated: Bool, completion: (() -> Void)? = nil) {
         editorDelegate?.editorView(willDisappearCrop: self)
         state = .normal
@@ -218,7 +218,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
         }
         cropSize = imageResizerView.cropSize
         updateImageViewFrame()
-    } 
+    }
     func cropping(completion: @escaping (PhotoEditResult?) -> Void) {
         let toRect = imageResizerView.getCroppingRect()
         let inputImage = imageResizerView.imageView.image
@@ -236,7 +236,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
                                                           editedData: self.getEditedData())
                     completion(editResult)
                 }
-            }else {
+            } else {
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -261,13 +261,13 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
     func deselectedSticker() {
         imageResizerView.imageView.stickerView.deselectedSticker()
     }
-    
+
     func orientationDidChange() {
         cropSize = .zero
         updateImageViewFrame()
         imageResizerView.updateBaseConfig()
     }
-    
+
     func undoAllDraw() {
         imageResizerView.imageView.drawView.emptyCanvas()
     }
@@ -283,7 +283,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
     func undoAllSticker() {
         imageResizerView.imageView.stickerView.removeAllSticker()
     }
-    
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
         if state != .cropping && imageResizerView == view {
@@ -294,7 +294,7 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
                 return imageResizerView.imageView.mosaicView
             }
             return self
-        }else if state == .cropping && self == view {
+        } else if state == .cropping && self == view {
             return imageResizerView
         }
         return view
@@ -302,18 +302,18 @@ class PhotoEditorView: UIScrollView, UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if state == .cropping {
             return false
-        }else if (imageResizerView.drawEnabled || imageResizerView.mosaicEnabled) && !gestureRecognizer.isKind(of: UIPinchGestureRecognizer.self) {
+        } else if (imageResizerView.drawEnabled || imageResizerView.mosaicEnabled) && !gestureRecognizer.isKind(of: UIPinchGestureRecognizer.self) {
             return false
         }
         return true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 extension PhotoEditorView: UIScrollViewDelegate {
-    
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         if !canZoom {
             return nil
@@ -328,7 +328,7 @@ extension PhotoEditorView: UIScrollViewDelegate {
         let offsetY = (scrollView.height > scrollView.contentSize.height) ? (scrollView.height - scrollView.contentSize.height) * 0.5 : 0
         let centerX = scrollView.contentSize.width * 0.5 + offsetX
         let centerY = scrollView.contentSize.height * 0.5 + offsetY
-        imageResizerView.center = CGPoint(x: centerX, y: centerY);
+        imageResizerView.center = CGPoint(x: centerX, y: centerY)
     }
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         imageResizerView.zoomScale = scale
@@ -349,23 +349,23 @@ extension PhotoEditorView: EditorImageResizerViewDelegate {
     func imageResizerView(willChangedMaskRect imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(willBeginEditing: self)
     }
-    
+
     func imageResizerView(didEndChangedMaskRect imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(didEndEditing: self)
     }
-    
+
     func imageResizerView(willBeginDragging imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(willBeginEditing: self)
     }
-    
+
     func imageResizerView(didEndDecelerating imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(didEndEditing: self)
     }
-    
+
     func imageResizerView(WillBeginZooming imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(willBeginEditing: self)
     }
-    
+
     func imageResizerView(didEndZooming imageResizerView: EditorImageResizerView) {
         editorDelegate?.editorView(didEndEditing: self)
     }

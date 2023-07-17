@@ -75,7 +75,7 @@ class EditorChartletView: UIView {
         flowLayout.minimumInteritemSpacing = 0
         return flowLayout
     }()
-    
+
     lazy var listView: UICollectionView = {
         let view = UICollectionView.init(frame: .zero, collectionViewLayout: listFlowLayout)
         view.backgroundColor = .clear
@@ -105,18 +105,18 @@ class EditorChartletView: UIView {
         addSubview(backButton)
         addSubview(loadingView)
     }
-    
+
     func setupTitles(_ titleChartlets: [EditorChartlet]) {
         configTitles = titleChartlets
         for (index, title) in titleChartlets.enumerated() {
             let titleChartlet: EditorChartletTitle
             if let image = title.image {
                 titleChartlet = EditorChartletTitle(image: image)
-            }else {
+            } else {
                 #if canImport(Kingfisher)
                 if let url = title.url {
                     titleChartlet = EditorChartletTitle(url: url)
-                }else {
+                } else {
                     titleChartlet = .init(image: "hx_picker_album_empty".image)
                 }
                 #else
@@ -129,7 +129,7 @@ class EditorChartletView: UIView {
             titles.append(titleChartlet)
         }
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         titleBgView.frame = CGRect(x: 0, y: 0, width: width, height: 50)
@@ -140,7 +140,7 @@ class EditorChartletView: UIView {
         listView.frame = bounds
         loadingView.center = CGPoint(x: width * 0.5, y: height * 0.5)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -150,25 +150,25 @@ extension EditorChartletView: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return titles.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == titleView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditorChartletViewCellTitleID", for: indexPath) as! EditorChartletViewCell
             let titleChartlet = titles[indexPath.item]
             cell.titleChartlet = titleChartlet
             return cell
-        }else {
+        } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditorChartletViewListCell_ID", for: indexPath) as! EditorChartletViewListCell
             cell.rowCount = config.rowCount
             cell.delegate = self
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == titleView {
             return CGSize(width: 40, height: 40)
-        }else {
+        } else {
             return listView.size
         }
     }
@@ -215,11 +215,11 @@ extension EditorChartletView: UICollectionViewDataSource, UICollectionViewDelega
         let titleCell = titleView.cellForItem(at: indexPath) as? EditorChartletViewCell
         titleCell?.isSelectedTitle = true
         titles[currentIndex].isSelected = true
-        
+
         let selectedCell = titleView.cellForItem(at: IndexPath(item: selectedTitleIndex, section: 0)) as? EditorChartletViewCell
         selectedCell?.isSelectedTitle = false
         titles[selectedTitleIndex].isSelected = false
-        
+
         selectedTitleIndex = currentIndex
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -230,7 +230,7 @@ extension EditorChartletView: UICollectionViewDataSource, UICollectionViewDelega
             requestData(index: currentIndex())
         }
     }
-    
+
     func currentIndex() -> Int {
         let offsetX = listView.contentOffset.x  + (listView.width) * 0.5
         var currentIndex = Int(offsetX / listView.width)
@@ -242,7 +242,7 @@ extension EditorChartletView: UICollectionViewDataSource, UICollectionViewDelega
         }
         return currentIndex
     }
-    
+
     func requestData(index: Int) {
         let titleChartle = titles[index]
         if !titleChartle.chartletList.isEmpty || titleChartle.isLoading || configTitles.isEmpty {
@@ -294,7 +294,7 @@ class EditorChartletViewListCell: UICollectionViewCell, UICollectionViewDataSour
         view.hidesWhenStopped = true
         return view
     }()
-    
+
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -321,34 +321,34 @@ class EditorChartletViewListCell: UICollectionViewCell, UICollectionViewDataSour
             resetOffset()
         }
     }
-    
+
     func resetOffset() {
         collectionView.contentOffset = CGPoint(x: -collectionView.contentInset.left, y: -collectionView.contentInset.top)
     }
-    
+
     func startLoading() {
         loadingView.startAnimating()
     }
     func stopLoad() {
         loadingView.stopAnimating()
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(collectionView)
         contentView.addSubview(loadingView)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return chartletList.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditorChartletViewListCellID", for: indexPath) as! EditorChartletViewCell
         cell.chartlet = chartletList[indexPath.item]
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let rowCount = !UIDevice.isPortrait && !UIDevice.isPad ? 7 : CGFloat(self.rowCount)
         let margin = collectionView.contentInset.left + collectionView.contentInset.right
@@ -356,15 +356,15 @@ class EditorChartletViewListCell: UICollectionViewCell, UICollectionViewDataSour
         let itemWidth = (width - margin - spacing) / rowCount
         return CGSize(width: itemWidth, height: itemWidth)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         let cell = collectionView.cellForItem(at: indexPath) as! EditorChartletViewCell
         #if canImport(Kingfisher)
         if let image = cell.chartlet.image {
             delegate?.listCell(self, didSelectImage: image)
-        }else if let url = cell.chartlet.url {
-            PhotoTools.downloadNetworkImage(with: url, options: [.backgroundDecode], completionHandler:  { [weak self] (image) in
+        } else if let url = cell.chartlet.url {
+            PhotoTools.downloadNetworkImage(with: url, options: [.backgroundDecode], completionHandler: { [weak self] (image) in
                 guard let self = self else { return }
                 if let image = image {
                     self.delegate?.listCell(self, didSelectImage: image)
@@ -377,7 +377,7 @@ class EditorChartletViewListCell: UICollectionViewCell, UICollectionViewDataSour
         }
         #endif
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = bounds
@@ -385,7 +385,7 @@ class EditorChartletViewListCell: UICollectionViewCell, UICollectionViewDataSour
         collectionView.contentInset = UIEdgeInsets(top: 60, left: 15 + UIDevice.leftMargin, bottom: 15 + UIDevice.bottomMargin, right: 15 + UIDevice.rightMargin)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 60, left: UIDevice.leftMargin, bottom: 15 + UIDevice.bottomMargin, right: UIDevice.rightMargin)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -400,14 +400,14 @@ class EditorChartletViewCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         return view
     }()
-    
+
     lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         return view
     }()
-    
+
     var titleChartlet: EditorChartletTitle! {
         didSet {
             selectedBgView.isHidden = !titleChartlet.isSelected
@@ -418,14 +418,14 @@ class EditorChartletViewCell: UICollectionViewCell {
             #endif
         }
     }
-    
+
     var isSelectedTitle: Bool = false {
         didSet {
             titleChartlet.isSelected = isSelectedTitle
             selectedBgView.isHidden = !titleChartlet.isSelected
         }
     }
-    
+
     var chartlet: EditorChartlet! {
         didSet {
             #if canImport(Kingfisher)
@@ -435,13 +435,13 @@ class EditorChartletViewCell: UICollectionViewCell {
             #endif
         }
     }
-    
+
     func setupImage(image: UIImage?, url: URL? = nil) {
         imageView.image = nil
         #if canImport(Kingfisher)
         if let image = image {
             imageView.image = image
-        }else if let url = url {
+        } else if let url = url {
             imageView.kf.indicatorType = .activity
             (imageView.kf.indicator?.view as? UIActivityIndicatorView)?.color = .white
             let processor = DownsamplingImageProcessor(size: CGSize(width: width * 2, height: height * 2))
@@ -453,7 +453,7 @@ class EditorChartletViewCell: UICollectionViewCell {
         }
         #endif
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(selectedBgView)
@@ -465,11 +465,11 @@ class EditorChartletViewCell: UICollectionViewCell {
         if titleChartlet != nil {
             imageView.size = CGSize(width: 25, height: 25)
             imageView.center = CGPoint(x: width * 0.5, y: height * 0.5)
-        }else {
+        } else {
             imageView.frame = bounds
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

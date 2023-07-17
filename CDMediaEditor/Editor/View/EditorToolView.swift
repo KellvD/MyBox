@@ -21,7 +21,7 @@ class EditorToolScrollView: UICollectionView {
 class EditorToolView: UIView {
     weak var delegate: EditorToolViewDelegate?
     var config: EditorToolViewConfiguration
-     
+
     lazy var maskLayer: CAGradientLayer = {
         let layer = CAGradientLayer.init()
         layer.contentsScale = UIScreen.main.scale
@@ -37,7 +37,7 @@ class EditorToolView: UIView {
         layer.borderWidth = 0.0
         return layer
     }()
-    
+
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout.init()
         flowLayout.scrollDirection = .horizontal
@@ -46,7 +46,7 @@ class EditorToolView: UIView {
         flowLayout.itemSize = CGSize(width: 30, height: 50)
         return flowLayout
     }()
-    
+
     lazy var collectionView: EditorToolScrollView = {
         let collectionView = EditorToolScrollView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 50), collectionViewLayout: flowLayout)
         collectionView.delaysContentTouches = false
@@ -61,11 +61,11 @@ class EditorToolView: UIView {
         collectionView.register(EditorToolViewCell.self, forCellWithReuseIdentifier: "EditorToolViewCellID")
         return collectionView
     }()
-    
+
     func reloadContentInset() {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 12 + UIDevice.leftMargin, bottom: 0, right: 0)
     }
-    
+
     lazy var finishButton: UIButton = {
         let finishButton = UIButton.init(type: .custom)
         finishButton.setTitle("完成".localized, for: .normal)
@@ -81,7 +81,7 @@ class EditorToolView: UIView {
     var stretchMask: Bool = false
     var currentSelectedIndexPath: IndexPath?
     var musicCellShowBox: Bool = false
-    
+
     init(config: EditorToolViewConfiguration) {
         self.config = config
         super.init(frame: .zero)
@@ -101,13 +101,13 @@ class EditorToolView: UIView {
             cell?.isSelectedImageView = false
         }
     }
-    
+
     func selected(indexPath: IndexPath) {
         deselected()
         let cell = collectionView.cellForItem(at: indexPath) as? EditorToolViewCell
         cell?.isSelectedImageView = true
     }
-    
+
     func reloadMusic(isSelected: Bool) {
         musicCellShowBox = isSelected
         for (index, option) in config.toolOptions.enumerated() {
@@ -117,11 +117,11 @@ class EditorToolView: UIView {
             }
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         maskLayer.frame = CGRect(x: 0, y: stretchMask ? -70 : -10, width: width, height: stretchMask ? height + 70 : height + 10)
@@ -141,7 +141,7 @@ extension EditorToolView: UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         config.toolOptions.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditorToolViewCellID", for: indexPath) as! EditorToolViewCell
         let model = config.toolOptions[indexPath.item]
@@ -149,7 +149,7 @@ extension EditorToolView: UICollectionViewDataSource, UICollectionViewDelegate, 
         cell.boxColor = config.musicSelectedColor
         if model.type == .music {
             cell.showBox = musicCellShowBox
-        }else {
+        } else {
             cell.showBox = false
         }
         cell.selectedColor = config.toolSelectedColor
@@ -158,19 +158,19 @@ extension EditorToolView: UICollectionViewDataSource, UICollectionViewDelegate, 
             if let selectedIndexPath = currentSelectedIndexPath,
                selectedIndexPath.item == indexPath.item {
                 cell.isSelectedImageView = true
-            }else {
+            } else {
                 cell.isSelectedImageView = false
             }
-        }else {
+        } else {
             cell.isSelectedImageView = false
         }
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
     }
-    
+
     func toolViewCell(didClick cell: EditorToolViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
             return
@@ -181,7 +181,7 @@ extension EditorToolView: UICollectionViewDataSource, UICollectionViewDelegate, 
                selectedIndexPath.item == indexPath.item {
                 deselected()
                 currentSelectedIndexPath = nil
-            }else {
+            } else {
                 selected(indexPath: indexPath)
                 currentSelectedIndexPath = indexPath
             }

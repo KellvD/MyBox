@@ -12,7 +12,7 @@ public extension EditorController {
         case photo
         case video
     }
-    
+
     enum SourceType {
         /// 本地
         case local
@@ -48,22 +48,22 @@ public extension EditorToolOptions {
     enum `Type` {
         /// photo - 涂鸦
         case graffiti
-        
+
         /// photo - 贴图
         case chartlet
-        
+
         /// photo - 文本
         case text
-        
+
         /// photo - 马赛克
         case mosaic
-        
+
         /// photo - 滤镜
         case filter
-        
+
         /// video - 配乐
         case music
-        
+
         /// 裁剪
         case cropping
     }

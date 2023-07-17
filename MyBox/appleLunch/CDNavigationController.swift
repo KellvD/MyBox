@@ -12,7 +12,7 @@ class CDNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let shadow = NSShadow()
         shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0)
         shadow.shadowOffset = CGSize(width: 0, height: 0)
@@ -20,17 +20,17 @@ class CDNavigationController: UINavigationController {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = .navgationBarColor
-            navigationBar.standardAppearance = appearance;
+            navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
         }
-        var textAttributes:[NSAttributedString.Key:Any] = [:]
+        var textAttributes: [NSAttributedString.Key: Any] = [:]
         textAttributes[.foregroundColor] = UIColor.white
         textAttributes[.shadow] = shadow
         textAttributes[.attachment] = UIFont.large
         self.navigationBar.titleTextAttributes = textAttributes
-        
+
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle{
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 

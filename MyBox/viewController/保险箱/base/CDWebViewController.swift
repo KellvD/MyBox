@@ -9,70 +9,70 @@
 import UIKit
 import WebKit
 
-class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDelegate {
+class CDWebViewController: CDBaseAllViewController, WKUIDelegate, WKNavigationDelegate {
 
-    private var processView:UIProgressView!
-    private var webView:WKWebView!
-    public var url:URL!
-    
+    private var processView: UIProgressView!
+    private var webView: WKWebView!
+    public var url: URL!
+
     deinit {
         webView.removeObserver(self, forKeyPath: "estimatedProcess")
         webView.removeObserver(self, forKeyPath: "title")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //进度条
+        // 进度条
         processView = UIProgressView(progressViewStyle: .default)
         processView.frame = CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 2)
         processView.progressTintColor = .customBlue
         processView.trackTintColor = .baseBgColor
         view.addSubview(processView)
         processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.5)
-        
+
         let config = WKWebViewConfiguration()
         webView = WKWebView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight-1))
         view.addSubview(webView)
-        //UI代理
+        // UI代理
         webView.uiDelegate = self
-        //导航代理
+        // 导航代理
         webView.navigationDelegate = self
-        //允许左滑返回上一级
+        // 允许左滑返回上一级
         webView.allowsBackForwardNavigationGestures = true
-        //进度条
-        //监听网页加载进度
+        // 进度条
+        // 监听网页加载进度
         webView.addObserver(self, forKeyPath: "estimatedProcess", options: .new, context: nil)
-        //监听网页标题
+        // 监听网页标题
         webView.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         loadUrl(url: url)
-        
+
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if (keyPath == "estimatedProcess") {
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProcess" {
             let process = change![.newKey] as! Float
             print(process)
             if process == 1 {
                 self.processView.setProgress(process, animated: true)
                 UIView.animate(withDuration: 0.25, delay: 0.3, options: .curveEaseOut) {
                     self.processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.4)
-                } completion: { success in
+                } completion: { _ in
                     self.processView.isHidden = true
                 }
 
-            }else{
+            } else {
                 self.processView.setProgress(process, animated: true)
             }
-        }else if (keyPath == "title") {
+        } else if keyPath == "title" {
             self.title = webView.title
-        }else{
+        } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    func loadUrl(url:URL){
+    func loadUrl(url: URL) {
         let request = URLRequest(url: url)
         webView.load(request)
     }
-    
+
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         self.processView.isHidden = false
         self.processView.transform = CGAffineTransform(scaleX: 1.0, y: 1.5)
@@ -90,8 +90,7 @@ class CDWebViewController: CDBaseAllViewController,WKUIDelegate,WKNavigationDele
 //        //提交发生错误
 //        self.processView.isHidden = true
 //    }
-    
-    
+
     /*
     // MARK: - Navigation
 

@@ -9,28 +9,26 @@
 import UIKit
 import QuartzCore
 
-
-
 class CDCircleProcess: UIView {
-    var gProgress:Double!
-    var shapLayer:CAShapeLayer!
-    var textLabel:UILabel!
+    var gProgress: Double!
+    var shapLayer: CAShapeLayer!
+    var textLabel: UILabel!
 
     override init(frame: CGRect) {
 
         super.init(frame: frame)
         self.backgroundColor = .clear
-        
-        let imageView = UIImageView(frame:CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         imageView.image = UIImage(named: "record_timeProgressBG")
         self.addSubview(imageView)
-        
+
         self.textLabel = UILabel(frame: CGRect(x: (frame.width - 90)/2, y: (frame.height - 50)/2, width: 90.0, height: 50.0))
         textLabel.font = UIFont.systemFont(ofSize: 32.0)
         textLabel.textColor = UIColor(red: 120/225.0, green: 120/225.0, blue: 120/225.0, alpha: 1)
         textLabel.textAlignment = .center
         self.addSubview(textLabel)
-        
+
         shapLayer = CAShapeLayer.init()
         gProgress = 0.0
     }
@@ -59,13 +57,13 @@ class CDCircleProcess: UIView {
         shapLayer.opacity = 1.0
         shapLayer.lineCap = .round
         shapLayer.lineWidth = CGFloat(circleWidth)
-        let path:UIBezierPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-(Double.pi/4 * 2 / 3)), endAngle: CGFloat(radian), clockwise: false)
+        let path: UIBezierPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-(Double.pi/4 * 2 / 3)), endAngle: CGFloat(radian), clockwise: false)
         shapLayer.path = path.cgPath
         shapLayer.strokeEnd = 1
         self.layer.addSublayer(shapLayer)
     }
 
-    public func changeProgress(progress:Double,text:String){
+    public func changeProgress(progress: Double, text: String) {
         gProgress = progress
         textLabel.text = text
         self.setNeedsDisplay()

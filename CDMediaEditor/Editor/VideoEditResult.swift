@@ -9,41 +9,41 @@ import UIKit
 import AVFoundation
 
 public struct VideoEditResult {
-    
+
     /// 编辑后的视频地址
     public let editedURL: URL
-    
+
     /// 编辑后的视频封面
     public let coverImage: UIImage?
 
     /// 编辑后的视频大小
     public let editedFileSize: Int
-    
+
     /// 视频时长 格式：00:00
     public let videoTime: String
-    
+
     /// 视频时长 秒
     public let videoDuration: TimeInterval
-    
+
     /// 原视频音量
     public let videoSoundVolume: Float
-    
+
     /// 背景音乐地址
     public let backgroundMusicURL: URL?
-    
+
     /// 背景音乐音量
     public let backgroundMusicVolume: Float
-    
+
     /// 裁剪数据
     public let cropData: VideoCropData?
-    
+
     public init(editedURL: URL,
                 cropData: VideoCropData?,
                 videoSoundVolume: Float,
                 backgroundMusicURL: URL?,
                 backgroundMusicVolume: Float) {
         editedFileSize = editedURL.fileSize
-        
+
         videoDuration = PhotoTools.getVideoDuration(videoURL: editedURL)
         videoTime = PhotoTools.transformVideoDurationToString(duration: videoDuration)
         coverImage = PhotoTools.getVideoThumbnailImage(videoURL: editedURL, atTime: 0.1)
@@ -56,27 +56,27 @@ public struct VideoEditResult {
 }
 
 public struct VideoCropData: Codable {
-    
+
     /// 编辑的开始时间
     public let startTime: TimeInterval
-    
+
     /// 编辑的结束时间
     public let endTime: TimeInterval
-    
+
     public let preferredTimescale: Int32
-    
+
     /// 已经确定的裁剪数据
     /// 0：offsetX ，CollectionView的offset.x
     /// 1：validX ，裁剪框的x
     /// 2：validWidth ，裁剪框的宽度
     public let cropingData: CropData
-    
+
     /// 裁剪框的位置大小比例
     /// 0：offsetX ，CollectionView的offset.x
     /// 1：validX ，裁剪框的x
     /// 2：validWidth ，裁剪框的宽度
     public let cropRectData: CropData
-    
+
     public init(startTime: TimeInterval,
                 endTime: TimeInterval,
                 preferredTimescale: Int32,
@@ -88,7 +88,7 @@ public struct VideoCropData: Codable {
         self.cropingData = cropingData
         self.cropRectData = cropRectData
     }
-    
+
     public struct CropData: Codable {
         let offsetX: CGFloat
         let validX: CGFloat
@@ -97,7 +97,7 @@ public struct VideoCropData: Codable {
 }
 
 extension VideoEditResult: Codable {
-    
+
     enum CodingKeys: String, CodingKey {
         case editedURL
         case coverImage
@@ -114,7 +114,7 @@ extension VideoEditResult: Codable {
         editedURL = try container.decode(URL.self, forKey: .editedURL)
         if let coverImageData = try container.decodeIfPresent(Data.self, forKey: .coverImage) {
             coverImage = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(coverImageData) as? UIImage
-        }else {
+        } else {
             coverImage = nil
         }
         editedFileSize = try container.decode(Int.self, forKey: .editedFileSize)
@@ -125,7 +125,7 @@ extension VideoEditResult: Codable {
         backgroundMusicVolume = try container.decode(Float.self, forKey: .backgroundMusicVolume)
         cropData = try container.decode(VideoCropData.self, forKey: .cropData)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(editedURL, forKey: .editedURL)
@@ -136,7 +136,7 @@ extension VideoEditResult: Codable {
         try container.encode(backgroundMusicURL, forKey: .backgroundMusicURL)
         try container.encode(backgroundMusicVolume, forKey: .backgroundMusicVolume)
         try container.encode(cropData, forKey: .cropData)
-        
+
         if let image = coverImage {
             if #available(iOS 11.0, *) {
                 let imageData = try NSKeyedArchiver.archivedData(withRootObject: image, requiringSecureCoding: false)

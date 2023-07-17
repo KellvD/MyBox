@@ -10,19 +10,19 @@ import Photos
 
 public extension AssetManager {
     typealias ImageDataResultHandler = (Result<ImageDataResult, ImageDataError>) -> Void
-    
+
     struct ImageDataResult {
         public let imageData: Data
         public let dataUTI: String
         public let imageOrientation: UIImage.Orientation
-        public let info: [AnyHashable : Any]?
+        public let info: [AnyHashable: Any]?
     }
-    
+
     struct ImageDataError: Error {
-        public let info: [AnyHashable : Any]?
+        public let info: [AnyHashable: Any]?
         public let error: AssetError
     }
-    
+
     /// 请求imageData，如果资源在iCloud上会自动请求下载iCloud上的资源 注意处理 HEIC格式
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据 
@@ -45,7 +45,7 @@ public extension AssetManager {
                         let iCloudRequestID = self.requestImageData(for: asset, version: version, isNetworkAccessAllowed: true, progressHandler: progressHandler, resultHandler: { (result) in
                             DispatchQueue.main.async {
                                 switch result {
-                                case .success(_):
+                                case .success:
                                     resultHandler(result)
                                 case .failure(let error):
                                     resultHandler(.failure(.init(info: error.info, error: .syncICloudFailed(error.info))))
@@ -64,7 +64,7 @@ public extension AssetManager {
             }
         }
     }
-    
+
     /// 请求imageData，注意处理 HEIC格式
     @discardableResult
     class func requestImageData(for asset: PHAsset,
@@ -86,41 +86,41 @@ public extension AssetManager {
                                 resultHandler: @escaping ImageDataResultHandler) -> PHImageRequestID {
         if #available(iOS 13, *) {
             return PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { (imageData, dataUTI, imageOrientation, info) in
-                var sureOrientation : UIImage.Orientation;
-                if (imageOrientation == .up) {
-                    sureOrientation = .up;
-                } else if (imageOrientation == .upMirrored) {
-                    sureOrientation = .upMirrored;
-                } else if (imageOrientation == .down) {
-                    sureOrientation = .down;
-                } else if (imageOrientation == .downMirrored) {
-                    sureOrientation = .downMirrored;
-                } else if (imageOrientation == .left) {
-                    sureOrientation = .left;
-                } else if (imageOrientation == .leftMirrored) {
-                    sureOrientation = .leftMirrored;
-                } else if (imageOrientation == .right) {
-                    sureOrientation = .right;
-                } else if (imageOrientation == .rightMirrored) {
-                    sureOrientation = .rightMirrored;
+                var sureOrientation: UIImage.Orientation
+                if imageOrientation == .up {
+                    sureOrientation = .up
+                } else if imageOrientation == .upMirrored {
+                    sureOrientation = .upMirrored
+                } else if imageOrientation == .down {
+                    sureOrientation = .down
+                } else if imageOrientation == .downMirrored {
+                    sureOrientation = .downMirrored
+                } else if imageOrientation == .left {
+                    sureOrientation = .left
+                } else if imageOrientation == .leftMirrored {
+                    sureOrientation = .leftMirrored
+                } else if imageOrientation == .right {
+                    sureOrientation = .right
+                } else if imageOrientation == .rightMirrored {
+                    sureOrientation = .rightMirrored
                 } else {
-                    sureOrientation = .up;
+                    sureOrientation = .up
                 }
                 func result() {
                     if let imageData = imageData, self.assetDownloadFinined(for: info) {
                         resultHandler(.success(.init(imageData: imageData, dataUTI: dataUTI!, imageOrientation: sureOrientation, info: info)))
                         return
                     }
-                    
+
                     if let inICloud = info?.inICloud, inICloud {
                         resultHandler(.failure(.init(info: info, error: .needSyncICloud)))
-                    }else {
+                    } else {
                         resultHandler(.failure(.init(info: info, error: .requestFailed(info))))
                     }
                 }
                 if DispatchQueue.isMain {
                     result()
-                }else {
+                } else {
                     DispatchQueue.main.async {
                         result()
                     }
@@ -136,13 +136,13 @@ public extension AssetManager {
                     }
                     if let inICloud = info?.inICloud, inICloud {
                         resultHandler(.failure(.init(info: info, error: .needSyncICloud)))
-                    }else {
+                    } else {
                         resultHandler(.failure(.init(info: info, error: .requestFailed(info))))
                     }
                 }
                 if DispatchQueue.isMain {
                     result()
-                }else {
+                } else {
                     DispatchQueue.main.async {
                         result()
                     }

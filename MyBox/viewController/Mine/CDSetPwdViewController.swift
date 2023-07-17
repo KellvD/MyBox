@@ -8,17 +8,17 @@
 
 import UIKit
 class CDSetPwdViewController: CDBaseAllViewController {
-    var isFake:Bool = false
-    var isModify:Bool = false
-    
-    private var oldPwdTextFiled:UITextField!
-    private var newPwdTextFiled:UITextField!
-    private var confirmPwdTextFiled:UITextField!
+    var isFake: Bool = false
+    var isModify: Bool = false
+
+    private var oldPwdTextFiled: UITextField!
+    private var newPwdTextFiled: UITextField!
+    private var confirmPwdTextFiled: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var _Y:CGFloat = 20
+
+        var _Y: CGFloat = 20
         if isModify {
             oldPwdTextFiled = UITextField(frame: CGRect(x: 0, y: _Y, width: CDSCREEN_WIDTH, height: 48))
             oldPwdTextFiled.backgroundColor = UIColor.white
@@ -39,7 +39,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         view.addSubview(newPwdTextFiled)
         newPwdTextFiled.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 48))
         newPwdTextFiled.leftViewMode = .always
-        
+
         confirmPwdTextFiled = UITextField(frame: CGRect(x: 0, y: newPwdTextFiled.frame.maxY+1, width: CDSCREEN_WIDTH, height: 48))
         confirmPwdTextFiled.backgroundColor = UIColor.white
         confirmPwdTextFiled.isSecureTextEntry = true
@@ -47,11 +47,10 @@ class CDSetPwdViewController: CDBaseAllViewController {
         view.addSubview(confirmPwdTextFiled)
         confirmPwdTextFiled.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 48))
         confirmPwdTextFiled.leftViewMode = .always
-        
 
         let bottomView = UIView(frame: CGRect(x: 0, y: confirmPwdTextFiled.frame.maxY+20, width: CDSCREEN_WIDTH, height: CDViewHeight - confirmPwdTextFiled.frame.maxY-20))
         bottomView.backgroundColor = UIColor.white
-        view.addSubview(bottomView);
+        view.addSubview(bottomView)
 
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 15, y: 50, width: CDSCREEN_WIDTH-30, height: 48)
@@ -61,8 +60,7 @@ class CDSetPwdViewController: CDBaseAllViewController {
         button.setTitle("确定".localize, for: .normal)
         button.addTarget(self, action: #selector(onLoadPassWordClick), for: .touchUpInside)
         bottomView.addSubview(button)
-        
-        
+
         let tipLabel = UILabel(frame: CGRect(x: 15.0, y: bottomView.height - 15.0 - 80.0, width: bottomView.width - 15.0 * 2, height: 80.0))
         tipLabel.textColor = .baseBgColor
         tipLabel.numberOfLines = 0
@@ -72,37 +70,37 @@ class CDSetPwdViewController: CDBaseAllViewController {
         bottomView.addSubview(tipLabel)
     }
 
-    @objc func onLoadPassWordClick() ->Void {
+    @objc func onLoadPassWordClick() {
 
         let oldStr = oldPwdTextFiled?.text ?? ""
         let pwdStr = newPwdTextFiled.text!
         let confirmPwdStr = confirmPwdTextFiled.text
 
-        if isModify && oldStr.isEmpty{
+        if isModify && oldStr.isEmpty {
             CDHUDManager.shared.showText("请输入原始密码".localize)
-        }else if pwdStr.isEmpty{
+        } else if pwdStr.isEmpty {
             CDHUDManager.shared.showText("请输入新密码".localize)
             return
-        }else if pwdStr.count<6 || pwdStr.count>12{
+        } else if pwdStr.count<6 || pwdStr.count>12 {
             CDHUDManager.shared.showText("密码长度不符，6-12位!".localize)
             return
-        }else if pwdStr != confirmPwdStr{
+        } else if pwdStr != confirmPwdStr {
             CDHUDManager.shared.showText("两次密码不一致,请重新输入".localize)
             return
         }
 
         if isModify {
             if isFake {
-                //数据库验证原始密码是否正确
+                // 数据库验证原始密码是否正确
                 let fakePwd = CDSqlManager.shared.queryUserFakeKeyWithUserId(userId: CDUserId())
                 if fakePwd != oldStr.md5 {
-                    //验证错误，重新输入
+                    // 验证错误，重新输入
                     CDHUDManager.shared.showText("原始访客密码错误，请重新输入".localize)
                     return
                 }
-                //验证通过，保存
+                // 验证通过，保存
                 CDSqlManager.shared.updateUserFakePwdWith(pwd: oldStr.md5)
-            }else{
+            } else {
                 let realPwd = CDSqlManager.shared.queryUserRealKeyWithUserId(userId: CDUserId())
                 if realPwd != pwdStr.md5 {
                     CDHUDManager.shared.showText("原始访客密码错误，请重新输入".localize)
@@ -112,28 +110,27 @@ class CDSetPwdViewController: CDBaseAllViewController {
             }
             CDHUDManager.shared.showComplete("密码修改成功".localize)
             CDPrintManager.log("密码修改成功", type: .InfoLog)
-        }else{
+        } else {
             if !isFake {
                 CDSignalTon.shared.basePwd = pwdStr.md5
                 CDSqlManager.shared.updateUserRealPwdWith(pwd: pwdStr.md5)
                 CDSignalTon.shared.loginType = .real
                 CDPrintManager.log("超级密码设置成功", type: .InfoLog)
-            }else{
+            } else {
                 CDSqlManager.shared.updateUserFakePwdWith(pwd: pwdStr.md5)
                 CDPrintManager.log("访客密码设置成功", type: .InfoLog)
             }
             CDHUDManager.shared.showComplete("密码设置成功".localize)
             CDConfigFile.setIntValueToConfigWith(key: .initPwd, intValue: HasInitPwd)
-            
+
         }
         navigationController?.popViewController(animated: true)
-        
+
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

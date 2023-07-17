@@ -9,13 +9,12 @@
 import UIKit
 import SQLite
 
-
 class CDSqlManager: NSObject {
 
     static let shared = CDSqlManager()
-    var db:Connection!
+    var db: Connection!
     let SafeFolder = Table("CDSafeFolder")
-    
+
     private override init() {
         super.init()
         objc_sync_enter(self)
@@ -23,12 +22,12 @@ class CDSqlManager: NSObject {
         objc_sync_exit(self)
     }
 
-    func CDPrint(item:Any) {
-        //print(item)
+    func CDPrint(item: Any) {
+        // print(item)
     }
 
     private func openDatabase() {
-        let documentArr:[String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentArr: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentPath = documentArr.first!
         let dbpath = "\(documentPath)/\(sqlFileName)"
         if !FileManager.default.fileExists(atPath: dbpath) {
@@ -36,18 +35,18 @@ class CDSqlManager: NSObject {
             db = try! Connection(dbpath)
             createTable()
             CDPrintManager.log("数据库创建成功", type: .InfoLog)
-        }else{
-            do{
+        } else {
+            do {
                 db = try Connection(dbpath)
                 CDPrintManager.log("数据库连接成功", type: .InfoLog)
-            }catch{
+            } catch {
                 CDPrintManager.log("数据库连接失败:\(error.localizedDescription)", type: .ErrorLog)
             }
-            
+
         }
     }
 
-    private func createTable() -> Void {
+    private func createTable() {
         CDPrintManager.log("创建数据库表", type: .InfoLog)
         createUserTab()
         createSafeFoldeTab()
@@ -57,20 +56,11 @@ class CDSqlManager: NSObject {
         createAttendanceInfoTab()
         createNovelTab()
         createChapterTab()
-        
-        //默添加user
+
+        // 默添加user
         let user = CDUserInfo()
         user.userId = FIRSTUSERID
         addOneUserInfoWith(usernInfo: user)
     }
 
-    
-    
 }
-
-
-
-
-
-
-

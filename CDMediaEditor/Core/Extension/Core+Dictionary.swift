@@ -8,7 +8,7 @@
 import Photos
 
 extension Dictionary {
-    
+
     /// 资源是否存在iCloud上
     var inICloud: Bool {
         if let isICloud = self[AnyHashable(PHImageResultIsInCloudKey) as! Key] as? Int {
@@ -16,7 +16,7 @@ extension Dictionary {
         }
         return false
     }
-    
+
     /// 资源是否取消了下载
     var isCancel: Bool {
         if let isCancel = self[AnyHashable(PHImageCancelledKey) as! Key] as? Int {
@@ -31,7 +31,7 @@ extension Dictionary {
     var isError: Bool {
         self[AnyHashable(PHImageErrorKey) as! Key] != nil
     }
-    
+
     /// 判断资源下载得到的是否为退化的
     var isDegraded: Bool {
         if let isDegraded = self[AnyHashable(PHImageResultIsDegradedKey) as! Key] as? Int {
@@ -39,7 +39,7 @@ extension Dictionary {
         }
         return false
     }
-    
+
     /// 判断资源是否下载完成
     var downloadFinined: Bool {
         !isCancel && !isError && !isDegraded

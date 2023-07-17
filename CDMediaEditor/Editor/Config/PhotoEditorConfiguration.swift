@@ -9,16 +9,16 @@ import UIKit
 
 /// 旋转会重置所有编辑效果
 open class PhotoEditorConfiguration: EditorConfiguration {
-    
+
     /// 控制画笔、贴图...导出之后清晰程度
     public var scale: CGFloat = 2
-    
+
     /// 编辑器默认状态
     public var state: PhotoEditorViewController.State = .normal
-    
+
     /// 编辑器固定裁剪状态
     public var fixedCropState: Bool = false
-    
+
     /// 工具视图配置
     public lazy var toolView: EditorToolViewConfiguration = {
         let config = EditorToolViewConfiguration.init()
@@ -37,19 +37,19 @@ open class PhotoEditorConfiguration: EditorConfiguration {
         config.toolOptions = [graffiti, chartlet, text, crop, mosaic, filter]
         return config
     }()
-    
+
     /// 画笔颜色数组
     public lazy var brushColors: [String] = PhotoTools.defaultColors()
-    
+
     /// 默认画笔颜色索引
     public var defaultBrushColorIndex: Int = 2
-    
+
     /// 画笔宽度
     public var brushLineWidth: CGFloat = 5
-    
+
     /// 贴图
     public lazy var chartlet: ChartletConfig = .init()
-    
+
     public class ChartletConfig {
         public enum LoadScene {
             /// cell显示时
@@ -66,10 +66,10 @@ open class PhotoEditorConfiguration: EditorConfiguration {
         /// 贴图标题
         public var titles: [EditorChartlet] = []
     }
-    
+
     /// 文本
     public lazy var text: TextConfig = .init()
-    
+
     public class TextConfig {
         /// 文本颜色数组
         public lazy var colors: [String] = PhotoTools.defaultColors()
@@ -87,19 +87,19 @@ open class PhotoEditorConfiguration: EditorConfiguration {
                 return .fullScreen
             }
         }()
-        
+
         public init() { }
     }
-    
+
     /// 裁剪配置
     public lazy var cropping: PhotoCroppingConfiguration = .init()
-    
+
     /// 裁剪确认视图配置
     public lazy var cropConfimView: CropConfirmViewConfiguration = .init()
-    
+
     /// 滤镜配置
     public lazy var filter: FilterConfig = .init(infos: PhotoTools.defaultFilters())
-    
+
     public struct FilterConfig {
         /// 滤镜信息
         public let infos: [PhotoEditorFilterInfo]
@@ -111,12 +111,12 @@ open class PhotoEditorConfiguration: EditorConfiguration {
             self.selectedColor = selectedColor
         }
     }
-    
+
     /// 马赛克配置
     public lazy var mosaic: MosaicConfig = .init(mosaicWidth: 20,
                                                  mosaiclineWidth: 25,
                                                  smearWidth: 30)
-    
+
     public struct MosaicConfig {
         /// 生成马赛克的大小
         public let mosaicWidth: CGFloat

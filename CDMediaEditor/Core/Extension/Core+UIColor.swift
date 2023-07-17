@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIColor {
-    
+
     convenience init(hexString: String) {
         let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
@@ -30,7 +30,7 @@ extension UIColor {
     public class var systemTintColor: UIColor {
         UIColor.init(red: 0, green: 0.47843137254901963, blue: 1, alpha: 1)
     }
-    
+
     var isWhite: Bool {
         var red: CGFloat = 0
         var green: CGFloat = 0

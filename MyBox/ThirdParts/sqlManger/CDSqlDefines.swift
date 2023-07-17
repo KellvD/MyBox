@@ -45,7 +45,7 @@ var db_markInfo = Expression<String>("markInfo")
 var db_basePwd = Expression<String>("basePwd")
 var db_fakePwd = Expression<String>("fakePwd")
 
-//MARK:musicInfo
+// MARK: musicInfo
 var db_musicId = Expression<Int>("musicId")
 var db_musicName = Expression<String>("musicName")
 var db_musicMark = Expression<String>("musicMark")
@@ -54,14 +54,14 @@ var db_musicClassId = Expression<Int>("musicClassId")
 var db_musicSinger = Expression<String>("musicSinger")
 var db_musicPath = Expression<String>("musicPath")
 var db_musicImage = Expression<String>("musicImage")
-//MARK:musicClass
+// MARK: musicClass
 var db_classId = Expression<Int>("classId")
 var db_className = Expression<String>("className")
 var db_classAvatar = Expression<String>("classAvatar")
 var db_classCreateTime = Expression<Int>("classCreateTime")
 var db_superId = Expression<Int>("superId")
 
-//MARK:CDAttendanceInfo
+// MARK: CDAttendanceInfo
 var db_attendanceId = Expression<Int>("attendanceId")
 var db_time = Expression<Int>("time")
 var db_day = Expression<Int>("day")
@@ -70,8 +70,6 @@ var db_year = Expression<Int>("year")
 var db_title = Expression<String>("title")
 var db_type = Expression<Int>("type")
 var db_statue = Expression<Int>("statue")
-
-
 
 var db_novelName = Expression<String>("novelName")
 var db_novelPath = Expression<String>("novelPath")

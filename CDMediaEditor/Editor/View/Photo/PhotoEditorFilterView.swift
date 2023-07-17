@@ -16,16 +16,16 @@ protocol PhotoEditorFilterViewDelegate: AnyObject {
 }
 
 class PhotoEditorFilterView: UIView {
-    
+
     weak var delegate: PhotoEditorFilterViewDelegate?
-    
+
     lazy var backgroundView: UIVisualEffectView = {
         let visualEffect = UIBlurEffect.init(style: .dark)
         let view = UIVisualEffectView.init(effect: visualEffect)
         view.contentView.addSubview(collectionView)
         return view
     }()
-    
+
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout.init()
         flowLayout.scrollDirection = .horizontal
@@ -34,7 +34,7 @@ class PhotoEditorFilterView: UIView {
         flowLayout.itemSize = CGSize(width: 60, height: 100)
         return flowLayout
     }()
-    
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 50), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -48,7 +48,7 @@ class PhotoEditorFilterView: UIView {
         collectionView.register(PhotoEditorFilterViewCell.self, forCellWithReuseIdentifier: "PhotoEditorFilterViewCellID")
         return collectionView
     }()
-    
+
     lazy var sliderView: PhotoEditorFilterSlider = {
         let slider = PhotoEditorFilterSlider.init()
         slider.isHidden = true
@@ -65,7 +65,7 @@ class PhotoEditorFilterView: UIView {
         slider.addTarget(self, action: #selector(sliderTouchUpInside(slider:)), for: [.touchUpInside, .touchCancel, .touchUpOutside])
         return slider
     }()
-    
+
     @objc func sliderDidChanged(slider: UISlider) {
         if currentSelectedIndex < 0 {
             return
@@ -75,7 +75,7 @@ class PhotoEditorFilterView: UIView {
         }
         delegate?.filterView(self, didChanged: slider.value)
     }
-    
+
     @objc func sliderTouchUpInside(slider: UISlider) {
         if currentSelectedIndex < 0 {
             return
@@ -86,7 +86,7 @@ class PhotoEditorFilterView: UIView {
         delegate?.filterView(self, touchUpInside: slider.value)
     }
     var filters: [PhotoEditorFilter] = []
-    var image: UIImage? = nil {
+    var image: UIImage? {
         didSet {
             collectionView.reloadData()
             scrollToSelectedCell()
@@ -118,7 +118,7 @@ class PhotoEditorFilterView: UIView {
                 currentSelectedIndex = index + 1
                 if filterInfo.defaultValue == -1 {
                     sliderView.isHidden = true
-                }else {
+                } else {
                     sliderView.isHidden = false
                     sliderView.value = value
                 }
@@ -143,7 +143,7 @@ class PhotoEditorFilterView: UIView {
         collectionView.frame = CGRect(x: 0, y: 0, width: width, height: 120)
         flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 15 + UIDevice.leftMargin, bottom: 0, right: 15 + UIDevice.rightMargin)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -174,7 +174,7 @@ extension PhotoEditorFilterView: UICollectionViewDataSource, UICollectionViewDel
         currentFilter.isSelected = false
         if let currentCell = collectionView.cellForItem(at: IndexPath(item: currentSelectedIndex, section: 0)) as? PhotoEditorFilterViewCell {
             currentCell.updateSelectedView(true)
-        }else {
+        } else {
             collectionView.reloadItems(at: [IndexPath(item: currentSelectedIndex, section: 0)])
         }
         if let cell = collectionView.cellForItem(at: indexPath) as? PhotoEditorFilterViewCell {
@@ -183,7 +183,7 @@ extension PhotoEditorFilterView: UICollectionViewDataSource, UICollectionViewDel
             cell.updateSelectedView(false)
             if cell.filter.defaultValue == -1 {
                 sliderView.isHidden = true
-            }else {
+            } else {
                 sliderView.isHidden = false
                 sliderView.value = cell.filter.defaultValue
             }
@@ -219,7 +219,7 @@ class PhotoEditorFilterViewCell: UICollectionViewCell {
         view.contentMode = .scaleAspectFill
         return view
     }()
-    
+
     lazy var filterNameLb: UILabel = {
         let label = UILabel.init()
         label.textColor = .white
@@ -228,7 +228,7 @@ class PhotoEditorFilterViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         return label
     }()
-    
+
     lazy var selectedView: UIView = {
         let view = UIView.init()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
@@ -237,7 +237,7 @@ class PhotoEditorFilterViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 4
         return view
     }()
-    
+
     var selectedColor: UIColor? {
         didSet {
             selectedView.layer.borderColor = selectedColor?.cgColor
@@ -252,18 +252,18 @@ class PhotoEditorFilterViewCell: UICollectionViewCell {
             }
         }
     }
-    
+
     func updateSelectedView(_ isHidden: Bool) {
         selectedView.isHidden = isHidden
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(imageView)
         contentView.addSubview(selectedView)
         contentView.addSubview(filterNameLb)
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = CGRect(x: 4, y: 4, width: width - 8, height: width - 8)
@@ -275,7 +275,7 @@ class PhotoEditorFilterViewCell: UICollectionViewCell {
         }
         filterNameLb.frame = CGRect(x: 0, y: filterNameY, width: width, height: filterNameHeight)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

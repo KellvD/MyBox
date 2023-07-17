@@ -61,7 +61,7 @@ class VideoEditorMusicView: UIView {
         flowLayout.minimumInteritemSpacing = 0
         return flowLayout
     }()
-    
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 50), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -75,7 +75,7 @@ class VideoEditorMusicView: UIView {
         collectionView.register(VideoEditorMusicViewCell.self, forCellWithReuseIdentifier: "VideoEditorMusicViewCellID")
         return collectionView
     }()
-    
+
     lazy var backgroundButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("配乐".localized, for: .normal)
@@ -90,7 +90,7 @@ class VideoEditorMusicView: UIView {
         button.alpha = musics.isEmpty ? 0 : 1
         return button
     }()
-    
+
     lazy var originalSoundButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("视频原声".localized, for: .normal)
@@ -104,7 +104,7 @@ class VideoEditorMusicView: UIView {
         button.isSelected = true
         return button
     }()
-    
+
     @objc func didButtonClick(button: UIButton) {
         if isloading {
             return
@@ -116,10 +116,10 @@ class VideoEditorMusicView: UIView {
                     selectedIndex = 0
                 }
                 playMusic()
-            }else {
+            } else {
                 stopMusic()
             }
-        }else {
+        } else {
             delegate?.musicView(self, didOriginalSoundButtonClick: button.isSelected)
         }
     }
@@ -153,7 +153,7 @@ class VideoEditorMusicView: UIView {
     @objc func appDidEnterPlayGround() {
         if backgroundButton.isSelected && beforeIsSelect {
             playMusic()
-        }else {
+        } else {
             backgroundButton.isSelected = false
         }
         beforeIsSelect = false
@@ -205,11 +205,11 @@ class VideoEditorMusicView: UIView {
         collectionView.reloadData()
         isloading = true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         bgMaskLayer.frame = bounds
@@ -228,19 +228,19 @@ class VideoEditorMusicView: UIView {
         setBottomButtonFrame()
     }
     func setBottomButtonFrame() {
-        
+
         let buttonHeight: CGFloat = 25
         let imageWidth = backgroundButton.currentImage?.width ?? 0
         let bgTextWidth = backgroundButton.currentTitle?.width(ofFont: UIFont.mediumPingFang(ofSize: 16), maxHeight: buttonHeight) ?? 0
         let bgButtonWidth = imageWidth + bgTextWidth + 10
-        
+
         let originalTextWidth = originalSoundButton.currentTitle?.width(ofFont: UIFont.mediumPingFang(ofSize: 16), maxHeight: buttonHeight) ?? 0
         let originalButtonWidth = imageWidth + originalTextWidth + 10
         let margin: CGFloat = 20
         backgroundButton.frame = CGRect(x: width * 0.5 - margin - bgButtonWidth, y: collectionView.frame.maxY + 20, width: bgButtonWidth, height: buttonHeight)
-        
+
         originalSoundButton.frame = CGRect(x: width * 0.5 + margin, y: collectionView.frame.maxY + 20, width: originalButtonWidth, height: buttonHeight)
-        
+
         if musics.isEmpty {
             originalSoundButton.centerX = width * 0.5
         }
@@ -268,7 +268,7 @@ extension VideoEditorMusicView: UICollectionViewDataSource, UICollectionViewDele
         selectedIndex = indexPath.item
         if collectionView.contentOffset.x == offsetX {
             playMusic()
-        }else {
+        } else {
             collectionView.setContentOffset(CGPoint(x: offsetX, y: collectionView.contentOffset.y), animated: true)
         }
     }
@@ -289,7 +289,7 @@ extension VideoEditorMusicView: UICollectionViewDataSource, UICollectionViewDele
             targetContentOffset.pointee.x = offsetX
             if scrollView.contentOffset.x != offsetX {
                 scrollView.setContentOffset(CGPoint(x: offsetX, y: scrollView.contentOffset.y), animated: true)
-            }else {
+            } else {
                 playMusic()
             }
         } else {
@@ -338,7 +338,7 @@ extension VideoEditorMusicView: UICollectionViewDataSource, UICollectionViewDele
                 return
             }
             beforeCell.stopMusic()
-        }else {
+        } else {
             if currentPlayIndex >= 0 {
                 let url = musics[currentPlayIndex].audioURL
                 PhotoManager.shared.suspendTask(url)
@@ -392,36 +392,36 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
         collectionView.register(VideoEditorMusicLyricViewCell.self, forCellWithReuseIdentifier: "VideoEditorMusicLyricViewCellID")
         return collectionView
     }()
-    
+
     lazy var shadeView: UIView = {
         let view = UIView.init()
         view.addSubview(collectionView)
         view.layer.mask = maskLayer
         return view
     }()
-    
+
     lazy var maskLayer: CAGradientLayer = {
         let maskLayer = CAGradientLayer.init()
         maskLayer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor, UIColor.white.cgColor, UIColor.clear.cgColor]
-        maskLayer.startPoint = CGPoint(x: 0, y: 1);
-        maskLayer.endPoint = CGPoint(x: 1, y: 1);
-        maskLayer.locations = [0.0, 0.1, 0.9, 1.0];
+        maskLayer.startPoint = CGPoint(x: 0, y: 1)
+        maskLayer.endPoint = CGPoint(x: 1, y: 1)
+        maskLayer.locations = [0.0, 0.1, 0.9, 1.0]
         return maskLayer
     }()
-    
+
     lazy var musicIconView: UIImageView = {
         let view = UIImageView.init(image: "hx_editor_tools_music".image?.withRenderingMode(.alwaysTemplate))
         view.tintColor = .white
         view.size = view.image?.size ?? .zero
         return view
     }()
-    
+
     lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .white)
         view.isHidden = true
         return view
     }()
-    
+
     var music: VideoEditorMusic! {
         didSet {
             if music.isLoading {
@@ -435,13 +435,13 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
             if let songName = music.songName, !songName.isEmpty,
                let singer = music.singer, !singer.isEmpty {
                 songNameLb.text = songName + " - " + singer
-            }else {
+            } else {
                 songNameLb.text = music.songName
             }
             collectionView.reloadData()
             if music.isSelected {
                 playMusic { _ in  }
-            }else {
+            } else {
                 resetStatus()
             }
         }
@@ -468,7 +468,7 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
             completion(music.audioURL.path)
             didPlay(audioPath: music.audioURL.path)
             music.isSelected = true
-        }else if checkNetworkURL() {
+        } else if checkNetworkURL() {
             let key = music.audioURL.absoluteString
             let audioTmpURL = PhotoTools.getAudioTmpURL(for: key)
             if PhotoTools.isCached(forAudio: key) {
@@ -483,22 +483,22 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
                 toFile: audioTmpURL,
                 ext: music
             ) {
-                audioURL, error, ext in
+                audioURL, _, ext in
                 self.hideLoading()
                 if let audioURL = audioURL,
                    let music = ext as? VideoEditorMusic {
                     completion(audioURL.path)
                     if music == self.music {
                         self.didPlay(audioPath: audioURL.path)
-                    }else {
+                    } else {
                         PhotoManager.shared.playMusic(filePath: audioURL.path) {}
                     }
                     music.isSelected = true
-                }else {
+                } else {
                     self.resetStatus()
                 }
             }
-        }else {
+        } else {
             resetStatus()
         }
     }
@@ -555,7 +555,7 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
                 self.setPreciseContentOffset(x: timeOffsetX, y: 0)
                 self.scrollLyric(time: duration)
             }
-        }else {
+        } else {
             if PhotoManager.shared.playMusic(filePath: audioPath, finished: { [weak self] in
                 guard let self = self else { return }
                 if self.music.lyricIsEmpty {
@@ -569,15 +569,15 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
                 }
                 if let time = PhotoManager.shared.audioPlayer?.duration {
                     scrollLyric(time: time)
-                }else if let time = music.time {
+                } else if let time = music.time {
                     scrollLyric(time: time)
-                }else if let time = music.lyrics.last?.startTime {
+                } else if let time = music.lyrics.last?.startTime {
                     scrollLyric(time: time + 5)
                 }
             }
         }
     }
-    
+
     func scrollLyric(time: TimeInterval) {
         playTimer?.cancel()
         let startPointX = -(width - 15)
@@ -605,12 +605,12 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
         playTimer.resume()
         self.playTimer = playTimer
     }
-    
-    func setPreciseContentOffset( x:CGFloat, y:CGFloat) {
-        let point = CGPoint(x: x,y: y)
+
+    func setPreciseContentOffset( x: CGFloat, y: CGFloat) {
+        let point = CGPoint(x: x, y: y)
         collectionView.bounds = CGRect(origin: point, size: collectionView.size)
     }
-    
+
     func stopMusic() {
         music.isSelected = false
         if checkNetworkURL() {
@@ -641,11 +641,11 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
         contentView.addSubview(animationView)
         contentView.addSubview(songNameLb)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         bgView.frame = bounds
@@ -659,10 +659,10 @@ class VideoEditorMusicViewCell: UICollectionViewCell {
         shadeView.frame = CGRect(x: 0, y: musicIconView.frame.maxY + 10, width: width, height: height - musicIconView.frame.maxY - 20)
         collectionView.frame = shadeView.bounds
         maskLayer.frame = CGRect(x: 10, y: 0, width: shadeView.width - 20, height: shadeView.height)
-        
+
         loadingView.center = CGPoint(x: width * 0.5, y: height * 0.5)
     }
-    
+
     deinit {
         playTimer?.cancel()
     }
@@ -686,14 +686,14 @@ extension VideoEditorMusicViewCell: UICollectionViewDataSource, UICollectionView
 }
 
 class VideoEditorMusicLyricViewCell: UICollectionViewCell {
-    
+
     lazy var lyricLb: UILabel = {
         let label = UILabel.init()
         label.font = .mediumPingFang(ofSize: 16)
         label.textColor = .white
         return label
     }()
-    
+
     var lyric: VideoEditorLyric! {
         didSet {
             lyricLb.text = lyric.lyric
@@ -710,5 +710,5 @@ class VideoEditorMusicLyricViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

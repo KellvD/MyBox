@@ -22,7 +22,7 @@ extension UIImageView {
         context.translateBy(x: -point.x, y: -point.y)
         // 将图像渲染到 context 中
         layer.render(in: context)
-        
+
         return UIColor(red: CGFloat(pixel[0]) / 255.0,
                        green: CGFloat(pixel[1]) / 255.0,
                        blue: CGFloat(pixel[2]) / 255.0,

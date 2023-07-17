@@ -9,16 +9,13 @@
 import UIKit
 
 class CDAppendVideoViewController: CDBaseAllViewController {
-    var handle:((_ success:Bool) -> (Void))!
-    var videoArray:[CDSafeFileInfo] = []
-    
-    
+    var handle:((_ success: Bool) -> Void)!
+    var videoArray: [CDSafeFileInfo] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
     }
-    
 
     /*
     // MARK: - Navigation

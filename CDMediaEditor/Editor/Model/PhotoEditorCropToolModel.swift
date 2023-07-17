@@ -8,7 +8,7 @@
 import UIKit
 
 class PhotoEditorCropToolModel: Equatable {
-    
+
     var size: CGSize = .zero
     var scaleSize: CGSize = .zero
     var widthRatio: CGFloat = 0
@@ -22,7 +22,7 @@ class PhotoEditorCropToolModel: Equatable {
         }
     }
     var isSelected: Bool = false
-    
+
     static func == (lhs: PhotoEditorCropToolModel, rhs: PhotoEditorCropToolModel) -> Bool {
         return lhs === rhs
     }

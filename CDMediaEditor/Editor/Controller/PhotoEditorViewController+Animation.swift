@@ -18,7 +18,7 @@ extension PhotoEditorViewController {
             self.setChartletViewFrame()
         }
     }
-    
+
     func showFilterView() {
         UIView.animate(withDuration: 0.25) {
             self.setFilterViewFrame()
@@ -29,14 +29,14 @@ extension PhotoEditorViewController {
             self.setFilterViewFrame()
         }
     }
-    
+
     func showBrushColorView() {
         brushColorView.isHidden = false
         UIView.animate(withDuration: 0.25) {
             self.brushColorView.alpha = 1
         }
     }
-    
+
     func hiddenBrushColorView() {
         if brushColorView.isHidden {
             return
@@ -50,7 +50,7 @@ extension PhotoEditorViewController {
             self.brushColorView.isHidden = true
         }
     }
-    
+
     func showMosaicToolView() {
         mosaicToolView.isHidden = false
         UIView.animate(withDuration: 0.25) {
@@ -75,11 +75,11 @@ extension PhotoEditorViewController {
             cropConfirmView.isHidden = false
             cropToolView.isHidden = false
             hidenTopView()
-        }else {
+        } else {
             if let option = currentToolOption {
                 if option.type == .graffiti {
                     imageView.drawEnabled = true
-                }else if option.type == .mosaic {
+                } else if option.type == .mosaic {
                     imageView.mosaicEnabled = true
                 }
             }
@@ -88,7 +88,7 @@ extension PhotoEditorViewController {
         UIView.animate(withDuration: 0.25) {
             self.cropConfirmView.alpha = self.state == .cropping ? 1 : 0
             self.cropToolView.alpha = self.state == .cropping ? 1 : 0
-        } completion: { (isFinished) in
+        } completion: { (_) in
             if self.state != .cropping {
                 self.cropConfirmView.isHidden = true
                 self.cropToolView.isHidden = true
@@ -103,10 +103,10 @@ extension PhotoEditorViewController {
         if let option = currentToolOption {
             if option.type == .graffiti {
                 brushColorView.isHidden = false
-            }else if option.type == .mosaic {
+            } else if option.type == .mosaic {
                 mosaicToolView.isHidden = false
             }
-        }else {
+        } else {
             imageView.stickerEnabled = true
         }
         UIView.animate(withDuration: 0.25) {
@@ -116,7 +116,7 @@ extension PhotoEditorViewController {
             if let option = self.currentToolOption {
                 if option.type == .graffiti {
                     self.brushColorView.alpha = 1
-                }else if option.type == .mosaic {
+                } else if option.type == .mosaic {
                     self.mosaicToolView.alpha = 1
                 }
             }
@@ -131,11 +131,11 @@ extension PhotoEditorViewController {
             if let option = self.currentToolOption {
                 if option.type == .graffiti {
                     self.brushColorView.alpha = 0
-                }else if option.type == .mosaic {
+                } else if option.type == .mosaic {
                     self.mosaicToolView.alpha = 0
                 }
             }
-        } completion: { (isFinished) in
+        } completion: { (_) in
             if self.topViewIsHidden {
                 self.toolView.isHidden = true
                 self.topView.isHidden = true

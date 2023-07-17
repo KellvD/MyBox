@@ -8,24 +8,24 @@
 
 import UIKit
 
-class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegate {
+class CDAudioRecordViewController: CDBaseAllViewController, CDAudioManagerDelegate {
 
     public var folderId = 0
-    private var cancleBtn:UIButton!
-    private var saveBtn:UIButton!
-    private var recordBtn:UIButton!
-    private var leftFirstLine:UIImageView!
-    private var rightFirstLine:UIImageView!
-    private var leftSecondLine:UIImageView!
-    private var rightSecondLine:UIImageView!
-    private var textField:UITextField!
-    private var circleView:CDCircleProcess!
-    private var lineTimer:Timer!
-    private var newFilePath:String!
-    private var hasRechedMaxTimeLength:Bool!
-    private var timerCount:Int = 0
+    private var cancleBtn: UIButton!
+    private var saveBtn: UIButton!
+    private var recordBtn: UIButton!
+    private var leftFirstLine: UIImageView!
+    private var rightFirstLine: UIImageView!
+    private var leftSecondLine: UIImageView!
+    private var rightSecondLine: UIImageView!
+    private var textField: UITextField!
+    private var circleView: CDCircleProcess!
+    private var lineTimer: Timer!
+    private var newFilePath: String!
+    private var hasRechedMaxTimeLength: Bool!
+    private var timerCount: Int = 0
     private let max_Time = 60 * 20
-    private var audioManager:CDAudioManager!
+    private var audioManager: CDAudioManager!
     deinit {
         self.cancleBtn = nil
         self.saveBtn = nil
@@ -122,9 +122,9 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
     @objc func cancleReocrdClick() {
         if circleView.gProgress > 0.0 {
             let alert = UIAlertController(title: "警告".localize, message: "您要放弃本次录音么？".localize, preferredStyle: .alert)
-        
-            alert.addAction(UIAlertAction(title: "否".localize, style: .cancel, handler: { (action) in }))
-            alert.addAction(UIAlertAction(title: "是".localize, style: .default, handler: { (action) in
+
+            alert.addAction(UIAlertAction(title: "否".localize, style: .cancel, handler: { (_) in }))
+            alert.addAction(UIAlertAction(title: "是".localize, style: .default, handler: { (_) in
                 self.recordStop()
                 self.newFilePath.delete()
                 self.navigationController?.popViewController(animated: true)
@@ -139,29 +139,29 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
         saveBtn.isEnabled = false
         recordBtn.isSelected = true
     }
-    func recordPause(){
+    func recordPause() {
         audioManager.pause()
         cancleBtn.isEnabled = true
         saveBtn.isEnabled = true
         recordBtn.isSelected = false
     }
-    func recordStop(){
+    func recordStop() {
         audioManager.stop()
     }
-    
+
     @objc func finishRecordClick() {
 
         let alert = UIAlertController(title: "存储语音".localize, message: "语音名称不能超过30个字符".localize, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: "否".localize, style: .cancel, handler: { (action) in }))
+        alert.addAction(UIAlertAction(title: "否".localize, style: .cancel, handler: { (_) in }))
         alert.addTextField { (textFil) in
             textFil.text = "未命名".localize
             self.textField = textFil
 
         }
-        alert.addAction(UIAlertAction(title: "是".localize, style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "是".localize, style: .default, handler: { (_) in
 
-            if self.textField != nil{
+            if self.textField != nil {
                 let tmpStr = self.textField.text!
                 let len = tmpStr.getLength(needTrimSpaceCheck: true)
                 if len > 30 {
@@ -170,13 +170,13 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
                 }
                 self.recordStop()
                 self.textField.resignFirstResponder()
-                let audioPath = String.AudioPath().appendingPathComponent(str:"\(tmpStr).aac")
+                let audioPath = String.AudioPath().appendingPathComponent(str: "\(tmpStr).aac")
 
-                //从录音路劲拷贝到重命名路径
+                // 从录音路劲拷贝到重命名路径
                 try! FileManager.default.copyItem(atPath: self.newFilePath, toPath: audioPath)
                 try! FileManager.default.removeItem(atPath: self.newFilePath)
-                CDSignalTon.shared.saveFileWithUrl(fileUrl: audioPath.url, folderId: self.folderId, subFolderType: .AudioFolder,isFromDocment: false)
-                
+                CDSignalTon.shared.saveFileWithUrl(fileUrl: audioPath.url, folderId: self.folderId, subFolderType: .AudioFolder, isFromDocment: false)
+
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
 
@@ -185,24 +185,24 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    @objc func startRecordClick(){
+    @objc func startRecordClick() {
         checkPermission(type: .micorphone) { (isAllow) in
             if isAllow {
                 DispatchQueue.main.async { [self] in
-                    if self.audioManager != nil{
+                    if self.audioManager != nil {
                         if self.audioManager.isRecording {
                             self.recordPause()
-                        }else{
+                        } else {
                             self.recordStart()
                         }
-                        
-                    }else{
+
+                    } else {
                         self.newFilePath = String.AudioPath().appendingPathComponent(str: "\(GetTimestamp(nil)).aac")
                         self.audioManager = CDAudioManager(audioUrl: self.newFilePath.url, delay: 0.1, model: .record, delegate: self)
                         self.recordStart()
                     }
                 }
-            }else{
+            } else {
                 openPermission(type: .micorphone, viewController: self)
             }
         }
@@ -219,7 +219,7 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
             if timeLength > max_Time {
                 startRecordClick()
             }
-            self.circleView.changeProgress(progress: Double(timeLength) / Double(max_Time), text: String(format:"%.2d:%.2d", minutes, seconds))
+            self.circleView.changeProgress(progress: Double(timeLength) / Double(max_Time), text: String(format: "%.2d:%.2d", minutes, seconds))
         }
         if leftFirstLine.isHidden {
             leftFirstLine.isHidden = false
@@ -230,17 +230,17 @@ class CDAudioRecordViewController: CDBaseAllViewController,CDAudioManagerDelegat
         if audioManager.isRecording {
             leftFirstLine.minX += 30.0
             leftSecondLine.minX += 30.0
-            
+
             rightFirstLine.minX += 30.0
             rightSecondLine.minX += 30.0
 
-            if leftFirstLine.minX > 0.0 && leftFirstLine.minX < CDSCREEN_WIDTH{
+            if leftFirstLine.minX > 0.0 && leftFirstLine.minX < CDSCREEN_WIDTH {
 
                 rightFirstLine.minX = leftFirstLine.minX - CDSCREEN_WIDTH + 1.0
                 rightSecondLine.minX = leftFirstLine.minX - CDSCREEN_WIDTH + 1.0
             }
 
-            if rightFirstLine.minX > 0.0 && rightFirstLine.minX < CDSCREEN_WIDTH{
+            if rightFirstLine.minX > 0.0 && rightFirstLine.minX < CDSCREEN_WIDTH {
 
                 leftFirstLine.minX = rightFirstLine.minX - CDSCREEN_WIDTH + 1.0
                 leftSecondLine.minX = rightFirstLine.minX - CDSCREEN_WIDTH + 1.0

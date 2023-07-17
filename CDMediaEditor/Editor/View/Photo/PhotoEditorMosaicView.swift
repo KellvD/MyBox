@@ -20,7 +20,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         case mosaic
         case smear
     }
-    
+
     weak var delegate: PhotoEditorMosaicViewDelegate?
     var originalImage: UIImage? {
         didSet {
@@ -39,7 +39,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         mosaicPathLayer.lineJoin = .round
         return mosaicPathLayer
     }()
-    
+
     var scale: CGFloat = 1
     let mosaicLineWidth: CGFloat
     let imageWidth: CGFloat
@@ -51,7 +51,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         didSet { isUserInteractionEnabled = enabled }
     }
     var canUndo: Bool { !mosaicPaths.isEmpty }
-    
+
     init(mosaicConfig: PhotoEditorConfiguration.MosaicConfig) {
         mosaicLineWidth = mosaicConfig.mosaiclineWidth
         imageWidth = mosaicConfig.smearWidth
@@ -66,13 +66,13 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         pan.delegate = self
         addGestureRecognizer(pan)
     }
-    
+
     var mosaicPaths: [PhotoEditorMosaicPath] = []
     var mosaicPoints: [CGPoint] = []
     var smearLayers: [PhotoEditorMosaicSmearLayer] = []
     var smearAngles: [CGFloat] = []
     var smearColors: [UIColor] = []
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if otherGestureRecognizer.isKind(of: UITapGestureRecognizer.self) &&
             otherGestureRecognizer.view is PhotoEditorView {
@@ -94,7 +94,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
                     let bezierPath = PhotoEditorMosaicPath(cgPath: mosaicPath, type: .mosaic)
                     bezierPath.move(to: point)
                     mosaicPathLayer.path = bezierPath.cgPath
-                }else {
+                } else {
                     mosaicPathLayer.path = path.cgPath
                 }
                 mosaicPaths.append(path)
@@ -114,7 +114,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
                     mosaicPoints.append(CGPoint(x: point.x / width, y: point.y / height))
                     mosaicPathLayer.path = path.cgPath
                 }
-            }else if type == .smear {
+            } else if type == .smear {
                 let image = "hx_editor_mosaic_brush_image".image?.withRenderingMode(.alwaysTemplate)
                 let pointXArray = [point.x - 4, point.x + 4, point.x - 3, point.x + 3, point.x - 2, point.x + 2, point.x]
                 let pointYArray = [point.y - 4, point.y + 4, point.y - 3, point.y + 3, point.y - 2, point.y + 2, point.y]
@@ -160,7 +160,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
                     path?.angles = smearAngles
                     path?.smearColors = smearColors
                 }
-            }else {
+            } else {
                 undo()
             }
             smearAngles.removeAll()
@@ -203,8 +203,8 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         let b = abs(p1.y - p2.y)
         let c = abs(p3.x - p2.x)
         let d = abs(p3.y - p2.y)
-        
-        if (a < 1.0 && b < 1.0) || (c < 1.0 && d < 1.0){
+
+        if (a < 1.0 && b < 1.0) || (c < 1.0 && d < 1.0) {
             return 0
         }
         let e = a * c + b * d
@@ -215,13 +215,13 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         if p3.x < p2.x {
             if p3.y < p2.y {
                 return 270 + angle
-            }else {
+            } else {
                 return 270 - angle
             }
-        }else {
+        } else {
             if p3.y < p2.y {
                 return 90 - angle
-            }else {
+            } else {
                 return 90 + angle
             }
         }
@@ -236,10 +236,10 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
                 }
                 if mosaicPath.isEmpty {
                     mosaicPathLayer.path = nil
-                }else {
+                } else {
                     mosaicPathLayer.path = mosaicPath.cgPath
                 }
-            }else if lastPath.type == .smear {
+            } else if lastPath.type == .smear {
                 for subLayer in lastPath.smearLayers {
                     subLayer.removeFromSuperlayer()
                 }
@@ -277,14 +277,14 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
                     let newPoint = CGPoint(x: point.x * viewSize.width, y: point.y * viewSize.height)
                     if index == 0 {
                         path.move(to: newPoint)
-                    }else {
+                    } else {
                         path.addLine(to: newPoint)
                     }
                 }
                 path.points = mosaicData.points
                 mosaicPath.append(path)
                 mosaicPaths.append(path)
-            }else if mosaicData.type == .smear {
+            } else if mosaicData.type == .smear {
                 let image = "hx_editor_mosaic_brush_image".image?.withRenderingMode(.alwaysTemplate)
                 let path = PhotoEditorMosaicPath(type: .smear, width: mosaicData.lineWidth)
                 var layers: [PhotoEditorMosaicSmearLayer] = []
@@ -309,7 +309,7 @@ class PhotoEditorMosaicView: UIView, UIGestureRecognizerDelegate {
         }
         if mosaicPath.isEmpty {
             mosaicPathLayer.path = nil
-        }else {
+        } else {
             mosaicPathLayer.path = mosaicPath.cgPath
         }
     }
@@ -340,7 +340,7 @@ class PhotoEditorMosaicPath: PhotoEditorBrushPath {
         self.init(type: type, width: 0)
         self.cgPath = cgPath
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -355,7 +355,7 @@ class PhotoEditorMosaicSmearLayer: CALayer {
         self.data = data
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -397,7 +397,7 @@ extension PhotoEditorMosaicData: Codable {
         case lineWidth
         case angles
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         type = try container.decode(PhotoEditorMosaicView.MosaicType.self, forKey: .type)
@@ -407,7 +407,7 @@ extension PhotoEditorMosaicData: Codable {
         lineWidth = try container.decode(CGFloat.self, forKey: .lineWidth)
         angles = try container.decode([CGFloat].self, forKey: .angles)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)

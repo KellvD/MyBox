@@ -8,20 +8,20 @@
 
 import UIKit
 import SnapKit
-enum CDSelectIconState:Int  {
-    case hide = 1 //隐藏
-    case show = 2 //显示
-    case selected = 3 //选中
+enum CDSelectIconState: Int {
+    case hide = 1 // 隐藏
+    case show = 2 // 显示
+    case selected = 3 // 选中
 }
 class CDFileTableViewCell: UITableViewCell {
 
-    var fileNameL:UILabel!
-    var fileCreateTimeL:UILabel!
-    var audioLengthL:UILabel!
-    var headImage:UIImageView!
-    var selectImage:UIImageView!
-    var isSelect:Bool = false
-    var showSelectIcon:CDSelectIconState!
+    var fileNameL: UILabel!
+    var fileCreateTimeL: UILabel!
+    var audioLengthL: UILabel!
+    var headImage: UIImageView!
+    var selectImage: UIImageView!
+    var isSelect: Bool = false
+    var showSelectIcon: CDSelectIconState!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 
@@ -34,20 +34,20 @@ class CDFileTableViewCell: UITableViewCell {
         headImage = UIImageView(frame: CGRect(x: 10, y: 10, width: 45, height: 45))
         self.contentView.addSubview(headImage)
 
-        fileNameL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: 10, width: CDSCREEN_WIDTH-75, height: 25))
+        fileNameL = UILabel(frame: CGRect(x: headImage.frame.maxX+10, y: 10, width: CDSCREEN_WIDTH-75, height: 25))
         fileNameL.textColor = .textBlack
         fileNameL.font = .mid
         fileNameL.lineBreakMode = .byTruncatingMiddle
         fileNameL.textAlignment = .left
         self.contentView.addSubview(fileNameL)
 
-        fileCreateTimeL = UILabel(frame:CGRect(x: headImage.frame.maxX+10, y: fileNameL.frame.maxY, width: 150, height: 25))
+        fileCreateTimeL = UILabel(frame: CGRect(x: headImage.frame.maxX+10, y: fileNameL.frame.maxY, width: 150, height: 25))
         fileCreateTimeL.textColor = .textGray
         fileCreateTimeL.textAlignment = .left
         fileCreateTimeL.font = .small
         self.contentView.addSubview(fileCreateTimeL)
 
-        audioLengthL = UILabel(frame:CGRect(x: CDSCREEN_WIDTH-95, y: fileNameL.frame.maxY, width: 80, height: 30))
+        audioLengthL = UILabel(frame: CGRect(x: CDSCREEN_WIDTH-95, y: fileNameL.frame.maxY, width: 80, height: 30))
         audioLengthL.textAlignment = .center
         audioLengthL.textColor = .textGray
         audioLengthL.font = .small
@@ -70,8 +70,7 @@ class CDFileTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-
-    func setConfigFileData(fileInfo:CDSafeFileInfo) {
+    func setConfigFileData(fileInfo: CDSafeFileInfo) {
         fileNameL.text = fileInfo.fileName
         fileCreateTimeL.text = GetTimeFormat(fileInfo.createTime)
 
@@ -83,18 +82,18 @@ class CDFileTableViewCell: UITableViewCell {
         } else if showSelectIcon == .selected {
             selectImage.image = LoadImage("selected")
         }
-        
+
         if fileInfo.fileType == .AudioType {
             audioLengthL.isHidden = false
             audioLengthL.text = GetMMSSFromSS(timeLength: fileInfo.timeLength)
         }
     }
-    
-    func setConfigFolderData(folder:CDSafeFolder) {
+
+    func setConfigFolderData(folder: CDSafeFolder) {
         fileNameL.text = folder.folderName
         fileCreateTimeL.text = GetTimeFormat(folder.createTime)
         headImage.image = UIImage(named: "file_dir_big")
-        
+
         selectImage.isHidden = showSelectIcon == .hide
         if showSelectIcon == .show {
             selectImage.image = LoadImage("no_selected")
@@ -102,18 +101,17 @@ class CDFileTableViewCell: UITableViewCell {
             selectImage.image = LoadImage("selected")
         }
     }
-    
-}
 
+}
 
 class CDFolderTableViewCell: UITableViewCell {
 
-    private var headImageView:UIImageView!
-    private var titleLabel:UILabel!
-    private var separatorLine:UIView!
+    private var headImageView: UIImageView!
+    private var titleLabel: UILabel!
+    private var separatorLine: UIView!
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         let view = UIView()
         self.selectedBackgroundView = view
         self.selectedBackgroundView?.backgroundColor = .cellSelectColor
@@ -135,7 +133,7 @@ class CDFolderTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.height.equalTo(25.0)
         }
-        
+
         separatorLine = UIView()
         separatorLine.backgroundColor = .separatorColor
         self.contentView.addSubview(separatorLine)
@@ -152,7 +150,7 @@ class CDFolderTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configDataWith(folderInfo:CDSafeFolder) -> Void {
+    func configDataWith(folderInfo: CDSafeFolder) {
         switch folderInfo.folderType {
         case .ImageFolder:
             self.headImageView.image = UIImage(named: "icon_image")
@@ -165,17 +163,17 @@ class CDFolderTableViewCell: UITableViewCell {
         case .none:
             break
         }
-        
+
         self.titleLabel.text = folderInfo.folderName
     }
-    
-    var separatorLineIsHidden:Bool{
-        set{
+
+    var separatorLineIsHidden: Bool {
+        set {
             separatorLine.isHidden = newValue
         }
-        get{
+        get {
             return false
         }
     }
-    
+
 }

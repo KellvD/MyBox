@@ -8,24 +8,24 @@
 import UIKit
 
 public struct PhotoEditResult {
-    
+
     public enum ImageType: Int, Codable {
         /// 静态图
         case normal
         /// 动图
         case gif
     }
-    
+
     /// 编辑后的缩略图片，如果为gif则为封面图片
     /// 适合在多图列表展示，预览原图或者大图请使用 editedImageURL
     public let editedImage: UIImage
-    
+
     /// 编辑后的图片本地地址
     public let editedImageURL: URL
-    
+
     /// 图片类型
     public let imageType: ImageType
-    
+
     /// 编辑状态数据
     let editedData: PhotoEditData
 }

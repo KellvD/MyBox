@@ -8,7 +8,7 @@
 import Foundation
 
 extension Data {
-    
+
     var imageContentType: ImageContentType {
         var values = [UInt8](repeating: 0, count: 1)
         copyBytes(to: &values, count: 1)
@@ -23,7 +23,7 @@ extension Data {
             return .unknown
         }
     }
-    
+
     var isGif: Bool {
         get {
             imageContentType == .gif

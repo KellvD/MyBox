@@ -9,12 +9,12 @@
 import UIKit
 
 public class SelectBoxView: UIControl {
-    
+
     public enum Style: Int {
-        case number //!< 数字
-        case tick   //!< √
+        case number // !< 数字
+        case tick   // !< √
     }
-    
+
     public var text: String = "0" {
         didSet {
             if config.style == .number {
@@ -52,14 +52,14 @@ public class SelectBoxView: UIControl {
         tickLayer.contentsScale = UIScreen.main.scale
         return tickLayer
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.addSublayer(backgroundLayer)
         layer.addSublayer(textLayer)
         layer.addSublayer(tickLayer)
     }
-    
+
     func backgroundPath() -> CGPath {
         let strokePath = UIBezierPath.init(roundedRect: CGRect(x: 0, y: 0, width: width, height: height), cornerRadius: height / 2)
         return strokePath.cgPath
@@ -69,7 +69,7 @@ public class SelectBoxView: UIControl {
         if isSelected {
             backgroundLayer.fillColor = PhotoManager.isDark ? config.selectedBackgroudDarkColor.cgColor : config.selectedBackgroundColor.cgColor
             backgroundLayer.lineWidth = 0
-        }else {
+        } else {
             backgroundLayer.lineWidth = config.borderWidth
             backgroundLayer.fillColor = PhotoManager.isDark ? config.darkBackgroundColor.cgColor : config.backgroundColor.cgColor
             backgroundLayer.strokeColor = PhotoManager.isDark ? config.borderDarkColor.cgColor : config.borderColor.cgColor
@@ -83,14 +83,14 @@ public class SelectBoxView: UIControl {
         if !isSelected {
             textLayer.string = nil
         }
-        
+
         let font = UIFont.mediumPingFang(ofSize: config.titleFontSize)
         var textHeight: CGFloat
         var textWidth: CGFloat
         if textSize.equalTo(CGSize.zero) {
             textHeight = text.height(ofFont: font, maxWidth: CGFloat(MAXFLOAT))
             textWidth = text.width(ofFont: font, maxHeight: textHeight)
-        }else {
+        } else {
             textHeight = textSize.height
             textWidth = textSize.width
         }
@@ -99,7 +99,7 @@ public class SelectBoxView: UIControl {
         textLayer.fontSize = config.titleFontSize
         textLayer.foregroundColor = PhotoManager.isDark ? config.titleDarkColor.cgColor : config.titleColor.cgColor
     }
-    
+
     func tickPath() -> CGPath {
         let tickPath = UIBezierPath.init()
         tickPath.move(to: CGPoint(x: scale(8), y: height * 0.5 + scale(1)))
@@ -118,7 +118,7 @@ public class SelectBoxView: UIControl {
         tickLayer.strokeColor = PhotoManager.isDark ? config.tickDarkColor.cgColor : config.tickColor.cgColor
         tickLayer.fillColor = UIColor.clear.cgColor
     }
-    
+
     public func updateLayers() {
         backgroundLayer.frame = bounds
         if config.style == .tick {
@@ -128,15 +128,15 @@ public class SelectBoxView: UIControl {
         drawTextLayer()
         drawTickLayer()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func scale(_ numerator: CGFloat) -> CGFloat {
         return numerator / 30 * height
     }
-    
+
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if isUserInteractionEnabled && CGRect(x: -15, y: -15, width: width + 30, height: height + 30).contains(point) {
             return self

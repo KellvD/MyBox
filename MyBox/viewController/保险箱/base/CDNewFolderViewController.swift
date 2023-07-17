@@ -10,9 +10,9 @@ import UIKit
 
 class CDNewFolderViewController: CDBaseAllViewController {
 
-    private var folderNameField:UITextField!
-    private var iconImageV:UIImageView!
-    private var selectType:NSFolderType = .ImageFolder
+    private var folderNameField: UITextField!
+    private var iconImageV: UIImageView!
+    private var selectType: NSFolderType = .ImageFolder
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -45,8 +45,8 @@ class CDNewFolderViewController: CDBaseAllViewController {
         let space = (CDSCREEN_WIDTH - 15.0 * 2 - 60.0 * 4)/3
         let OY = secondLine.frame.maxY+5
 
-        let imageArr = ["icon_image","icon_audio","icon_media","icon_txt"]
-        let titleArr = ["图片文件".localize, "音频文件".localize,"视频文件".localize,"文本文件".localize]
+        let imageArr = ["icon_image", "icon_audio", "icon_media", "icon_txt"]
+        let titleArr = ["图片文件".localize, "音频文件".localize, "视频文件".localize, "文本文件".localize]
 
         for i in 0..<imageArr.count {
             let button = UIButton(frame: CGRect(x: 15.0 + (60.0 + space) * CGFloat(i),
@@ -65,15 +65,15 @@ class CDNewFolderViewController: CDBaseAllViewController {
         }
     }
 
-    @objc func onTapClick(sender:UIButton){
+    @objc func onTapClick(sender: UIButton) {
         selectType = NSFolderType(rawValue: sender.tag)!
         iconImageV.image = sender.currentImage
     }
 
-    @objc func doneBtnClick(){
+    @objc func doneBtnClick() {
 
         let folderName = folderNameField.text!.isEmpty ? "未命名文件夹".localize : folderNameField.text!
-        if(folderName.matches(pattern: symbolExpression) || folderName.isContainsEmoji()){
+        if folderName.matches(pattern: symbolExpression) || folderName.isContainsEmoji() {
             let alert = UIAlertController(title: nil, message: "名称中不能包含表情及字符".localize, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "知道了".localize, style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -104,4 +104,3 @@ class CDNewFolderViewController: CDBaseAllViewController {
     */
 
 }
-

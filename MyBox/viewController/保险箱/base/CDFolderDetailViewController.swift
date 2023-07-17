@@ -8,18 +8,18 @@
 
 import UIKit
 
-class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
+class CDFolderDetailViewController: CDBaseAllViewController, UITableViewDelegate, UITableViewDataSource {
 
-    public var folderInfo:CDSafeFolder!
+    public var folderInfo: CDSafeFolder!
     private var optionValueArr: [[String]] = [[]]
-    private var tableView:UITableView!
-    private var fakeSwitch:UISwitch!
+    private var tableView: UITableView!
+    private var fakeSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
         initOptionValue()
         self.title = "文件夹简介"
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: CDViewHeight), style: .grouped)
-        tableView.delegate = self;
+        tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         self.view.addSubview(tableView)
@@ -35,37 +35,36 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             tableView.tableFooterView = footView
         }
     }
-    
+
     lazy var optionTitleArr: [[String]] = {
-        var arr = [["名称"],["创建时间","修改时间"],["文件数量","大小"],["访客不可见"]]
+        var arr = [["名称"], ["创建时间", "修改时间"], ["文件数量", "大小"], ["访客不可见"]]
         if CDSignalTon.shared.loginType == .fake {
-            arr = [["名称"],["创建时间","修改时间"],["文件数量","大小"]]
+            arr = [["名称"], ["创建时间", "修改时间"], ["文件数量", "大小"]]
         }
         return arr
     }()
-    
-    func initOptionValue(){
+
+    func initOptionValue() {
         optionValueArr.removeAll()
         var totalSize = 0
         if folderInfo.folderType == .TextFolder {
             totalSize = GetFolderSize(folderPath: String.RootPath().appendingPathComponent(str: folderInfo.folderPath))
-        }else{
+        } else {
             totalSize = CDSqlManager.shared.queryOneFolderSize(folderId: folderInfo.folderId)
         }
         let fileCount = CDSqlManager.shared.queryOneFolderFileCount(folderId: folderInfo.folderId)
         let folderCount = CDSqlManager.shared.queryOneFolderSubFolderCount(folderId: folderInfo.folderId)
-        
+
        optionValueArr = [
             [folderInfo.folderName],
-            [GetTimeFormat(folderInfo.createTime),GetTimeFormat(folderInfo.modifyTime)],
-            ["\(fileCount + folderCount)",GetSizeFormat(fileSize: totalSize)]
+            [GetTimeFormat(folderInfo.createTime), GetTimeFormat(folderInfo.modifyTime)],
+            ["\(fileCount + folderCount)", GetSizeFormat(fileSize: totalSize)]
         ]
         if CDSignalTon.shared.loginType != .fake {
-            optionValueArr.append([""]) //访客开关
+            optionValueArr.append([""]) // 访客开关
         }
     }
-        
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return optionTitleArr.count
     }
@@ -73,30 +72,30 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         optionTitleArr[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CELL_HEIGHT
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return SECTION_SPACE
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.01
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellId = "MineSwitchCell"
-        var cell:CDSwitchCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as? CDSwitchCell
+        var cell: CDSwitchCell! = tableView.dequeueReusableCell(withIdentifier: cellId) as? CDSwitchCell
         if cell == nil {
             cell = CDSwitchCell(style: .default, reuseIdentifier: cellId)
             cell.selectionStyle = .none
@@ -117,7 +116,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         }
         cell.separatorLineIsHidden = indexPath.row == optionTitleArr[indexPath.section].count - 1
         return cell
-        
+
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -138,16 +137,16 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
             }
             self.navigationController?.pushViewController(markVC, animated: true)
         }
-        
-    }
-    
-    @objc func chnageFakeModel(swi:UISwitch){
 
-        if swi.isOn{
+    }
+
+    @objc func chnageFakeModel(swi: UISwitch) {
+
+        if swi.isOn {
             CDHUDManager.shared.showText("访客可见模式关闭".localize)
             CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .invisible, folderId: folderInfo.folderId)
             CDPrintManager.log("访客可见模式关闭", type: .InfoLog)
-        }else{
+        } else {
             CDHUDManager.shared.showText("访客可见模式打开".localize)
             CDSqlManager.shared.updateOneSafeFolderFakeType(fakeType: .visible, folderId: folderInfo.folderId)
             CDPrintManager.log("访客可见模式打开", type: .InfoLog)
@@ -156,7 +155,7 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
 
     }
 
-    @objc func delectFolderClick(){
+    @objc func delectFolderClick() {
 
         CDSqlManager.shared.deleteOneFolder(folderId: folderInfo.folderId)
         let allFileArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
@@ -173,12 +172,10 @@ class CDFolderDetailViewController: CDBaseAllViewController,UITableViewDelegate,
         self.navigationController?.popViewController(animated: true)
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

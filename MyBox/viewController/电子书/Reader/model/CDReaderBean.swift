@@ -9,48 +9,46 @@
 import UIKit
 import CoreText
 
- let TopSpacing:CGFloat = 40.0
- let BottomSpacing:CGFloat = 40.0
- let LeftSpacing:CGFloat = 20.0
- let RightSpacing:CGFloat =  20.0
-//let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
-//let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
-//let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
-//let iPhoneX = (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0) || (UIScreen.main.bounds.size.width == 414.0 && UIScreen.main.bounds.size.height == 869.0)
+ let TopSpacing: CGFloat = 40.0
+ let BottomSpacing: CGFloat = 40.0
+ let LeftSpacing: CGFloat = 20.0
+ let RightSpacing: CGFloat =  20.0
+// let CDSCREEN_WIDTH = UIScreen.main.bounds.size.width
+// let CDSCREEN_HEIGTH = UIScreen.main.bounds.size.height
+// let CDViewHeight = CDSCREEN_HEIGTH - NavigationHeight - StatusHeight
+// let iPhoneX = (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0) || (UIScreen.main.bounds.size.width == 414.0 && UIScreen.main.bounds.size.height == 869.0)
 //
-//let StatusHeight:CGFloat = iPhoneX ? 44.0 : 20.0
-//let NavigationHeight:CGFloat = 44
+// let StatusHeight:CGFloat = iPhoneX ? 44.0 : 20.0
+// let NavigationHeight:CGFloat = 44
 
-class CDReaderModel: NSObject,NSCoding {
+class CDReaderModel: NSObject, NSCoding {
 
-    public var resourceUrl:URL! //小说路径
-    public var name:String!    //小说名
-    public var gcontent:String! //小说内容
-    @objc dynamic var chaptersArr:[CDChapterModel] = []  //小说章节
-    public var chapterModel:CDChapterModel! //小说当前章节chapterModel = chaptersArr[chapterIndex]
-    public var pageIndex:Int = 0 //当前阅读的页数
-    public var chapterIndex:Int = 0 //当前阅读的章节数
-    private var chapterThread:Thread!
-    init(content:String) {
+    public var resourceUrl: URL! // 小说路径
+    public var name: String!    // 小说名
+    public var gcontent: String! // 小说内容
+    @objc dynamic var chaptersArr: [CDChapterModel] = []  // 小说章节
+    public var chapterModel: CDChapterModel! // 小说当前章节chapterModel = chaptersArr[chapterIndex]
+    public var pageIndex: Int = 0 // 当前阅读的页数
+    public var chapterIndex: Int = 0 // 当前阅读的章节数
+    private var chapterThread: Thread!
+    init(content: String) {
         super.init()
         gcontent = content
-        self.addObserver(self, forKeyPath: "chaptersArr", options: [.new,.old], context: nil)
-       
+        self.addObserver(self, forKeyPath: "chaptersArr", options: [.new, .old], context: nil)
 
-        
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+
         let new = change?[NSKeyValueChangeKey.newKey] as? [CDChapterModel]
         let old = change?[NSKeyValueChangeKey.oldKey] as? [CDChapterModel]
         if old?.count == 0 && new?.count ?? 0 > 0 {
             chapterModel = new?[0]
             NotificationCenter.default.post(name: NSNotification.Name("TXTLoadToModel"), object: nil)
         }
-        
+
     }
-    
+
     func encode(with coder: NSCoder) {
         coder.encode(gcontent, forKey: "gcontent")
         coder.encode(pageIndex, forKey: "pageIndex")
@@ -58,7 +56,7 @@ class CDReaderModel: NSObject,NSCoding {
         coder.encode(resourceUrl, forKey: "resource")
         coder.encode(name, forKey: "name")
     }
-    
+
     /**
     解析
     */
@@ -72,50 +70,49 @@ class CDReaderModel: NSObject,NSCoding {
         resourceUrl = coder.decodeObject(forKey: "resource") as? URL
         chapterModel = chaptersArr[chapterIndex]
     }
-    
+
     /**
     将资源更新保存到本地
     */
-    static func updateLocalModel(model:CDReaderModel,url:URL){
+    static func updateLocalModel(model: CDReaderModel, url: URL) {
         let key = (url.path as NSString).lastPathComponent
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(model, forKey: key)
         archiver.finishEncoding()
         UserDefaults.standard.set(data, forKey: key)
-        
+
     }
-    
+
     /**
     从本地获取资源
     */
-    static func getLocalModel(url:URL) ->CDReaderModel{
+    static func getLocalModel(url: URL) -> CDReaderModel {
         let key = (url.path as NSString).lastPathComponent
-        let data = UserDefaults.standard.object(forKey: key) as? Data
-        if data == nil {
+        guard let data = UserDefaults.standard.object(forKey: key) as? Data else {
             let model = CDReaderModel(content: encodeUrl(url: url)!)
             model.resourceUrl = url
             model.name = (key as NSString).deletingPathExtension
             CDReaderModel.updateLocalModel(model: model, url: url)
             return model
         }
-        let unarchive = NSKeyedUnarchiver(forReadingWith: data!)
-        let model = unarchive.decodeObject(forKey: key) as! CDReaderModel
+        let unarchive = try? NSKeyedUnarchiver(forReadingFrom: data)
+        let model = unarchive!.decodeObject(forKey: key) as! CDReaderModel
         model.chapterModel = model.chaptersArr[model.chapterIndex]
         return model
     }
     /**
      销毁本地数据
      */
-    func destoryLocalModel(filePath:String){
+    func destoryLocalModel(filePath: String) {
         let key = (filePath as NSString).lastPathComponent
         UserDefaults.standard.removeObject(forKey: key)
     }
-    
+
     /**
     对章节分页
     */
-    public func getPageIndex(offset:NSInteger,chapterIndex:NSInteger) -> NSInteger {
+    public func getPageIndex(offset: NSInteger, chapterIndex: NSInteger) -> NSInteger {
         let chapter = chaptersArr[chapterIndex]
         let pageArr = chapter.pageArray
         for i in 0..<pageArr.count {
@@ -128,59 +125,54 @@ class CDReaderModel: NSObject,NSCoding {
         }
         return 0
     }
-    
-   
+
 }
 
-
 class CDChapterModel: NSObject {
-    var pageArray:[Int] = []
+    var pageArray: [Int] = []
     var title = String()
     var pageCount = Int()
-    private var gcontent:String?
+    private var gcontent: String?
     override init() {
         super.init()
-        
+
     }
-    var content:String?{
+    var content: String? {
         get {
             return gcontent
         }
-        set{
+        set {
             gcontent = newValue
-            paginate(bounds:CGRect(x: LeftSpacing, y: TopSpacing, width: UIScreen.main.bounds.width - LeftSpacing - RightSpacing, height: UIScreen.main.bounds.height - TopSpacing - BottomSpacing))
-            
+            paginate(bounds: CGRect(x: LeftSpacing, y: TopSpacing, width: UIScreen.main.bounds.width - LeftSpacing - RightSpacing, height: UIScreen.main.bounds.height - TopSpacing - BottomSpacing))
+
         }
     }
-    
-    
-    
+
     func updateFont() {
-        paginate(bounds:CGRect(x: LeftSpacing, y: TopSpacing, width: UIScreen.main.bounds.width - LeftSpacing - RightSpacing, height: UIScreen.main.bounds.height - TopSpacing - BottomSpacing))
+        paginate(bounds: CGRect(x: LeftSpacing, y: TopSpacing, width: UIScreen.main.bounds.width - LeftSpacing - RightSpacing, height: UIScreen.main.bounds.height - TopSpacing - BottomSpacing))
     }
-    
-    
-    func paginate(bounds:CGRect) {
+
+    func paginate(bounds: CGRect) {
         pageArray.removeAll()
         let attrString = NSMutableAttributedString(string: gcontent!)
         let attribute = parserAttribute()
         attrString.setAttributes(attribute, range: NSRange(location: 0, length: attrString.length))
         let frameSetter = CTFramesetterCreateWithAttributedString(attrString)
         let path = CGPath.init(rect: bounds, transform: nil)
-        
-        var currentOffset = 0;
-        var currentInnerOffset = 0;
-        var hasMorePages = true;
+
+        var currentOffset = 0
+        var currentInnerOffset = 0
+        var hasMorePages = true
         // 防止死循环，如果在同一个位置获取CTFrame超过2次，则跳出循环
-        let preventDeadLoopSign = currentOffset;
-        var samePlaceRepeatCount = 0;
+        let preventDeadLoopSign = currentOffset
+        var samePlaceRepeatCount = 0
         while hasMorePages {
             if preventDeadLoopSign == currentOffset {
                 samePlaceRepeatCount += 1
             } else {
                 samePlaceRepeatCount = 0
             }
-            
+
             if samePlaceRepeatCount > 1 {
                 if pageArray.count == 0 {
                     pageArray.append(currentOffset)
@@ -195,19 +187,18 @@ class CDChapterModel: NSObject {
             pageArray.append(currentOffset)
             let frame = CTFramesetterCreateFrame(frameSetter, CFRange(location: currentInnerOffset, length: 0), path, nil)
             let range = CTFrameGetVisibleStringRange(frame)
-            
+
             if range.location + range.length != attrString.length {
                 currentOffset += range.length
                 currentInnerOffset += range.length
             } else {
-                hasMorePages = false;
+                hasMorePages = false
             }
         }
         pageCount = pageArray.count
     }
-    
-    
-    func stringOfPage(index:Int) -> String {
+
+    func stringOfPage(index: Int) -> String {
         assert(true, "stringOfPage-Index out of range")
         let local = pageArray[index]
         var length = 0
@@ -219,7 +210,7 @@ class CDChapterModel: NSObject {
         let subStr = (gcontent! as NSString).substring(with: NSRange(location: local, length: length))
         return subStr as String
     }
-    
+
 }
 
 let day = UIColor(red: 246/255.0, green: 245/255.0, blue: 249/255.0, alpha: 1.0)
@@ -230,15 +221,15 @@ let dayBorder = UIColor(red: 62/255.0, green: 137/255.0, blue: 237/255.0, alpha:
 let nightBorder = UIColor(red: 62/255.0, green: 137/255.0, blue: 237/255.0, alpha: 1.0)
 let eyeBorder = UIColor(red: 64/255.0, green: 153/255.0, blue: 44/255.0, alpha: 1.0)
 
-let MaxFont:Float = 40
-let MinFont:Float = 14
-let LineSpace:CGFloat = 10
-class CDReaderConfig: NSObject,NSCoding {
-    var lineSpace:CGFloat! //行宽
-    var theme:UIColor!     //背景色
-    var fontColor:UIColor! //字体色
-    var fontSize:Float!    //字体大小
-    
+let MaxFont: Float = 40
+let MinFont: Float = 14
+let LineSpace: CGFloat = 10
+class CDReaderConfig: NSObject, NSCoding {
+    var lineSpace: CGFloat! // 行宽
+    var theme: UIColor!     // 背景色
+    var fontColor: UIColor! // 字体色
+    var fontSize: Float!    // 字体大小
+
     override init() {
         super.init()
         let data = UserDefaults.standard.object(forKey: "CDReaderConfig") as? Data
@@ -249,33 +240,33 @@ class CDReaderConfig: NSObject,NSCoding {
             fontSize = config.fontSize
             fontColor = config.fontColor
             theme = config.theme
-            
+
         } else {
-            //初始化 默认
+            // 初始化 默认
             lineSpace = LineSpace
             fontSize = MinFont
             fontColor = night
             theme = day
             CDReaderConfig.updateLocalConfig(conflg: self)
         }
-        
+
     }
-    
-    static func updateLocalConfig(conflg:CDReaderConfig) {
+
+    static func updateLocalConfig(conflg: CDReaderConfig) {
         let data = NSMutableData()
         let archive = NSKeyedArchiver(forWritingWith: data)
         archive.encode(conflg, forKey: "CDReaderConfig")
         archive.finishEncoding()
         UserDefaults.standard.set(data, forKey: "CDReaderConfig")
     }
-    
+
     func encode(with coder: NSCoder) {
         coder.encode(fontSize, forKey: "fontSize")
         coder.encode(lineSpace, forKey: "lineSpace")
         coder.encode(fontColor, forKey: "fontColor")
         coder.encode(theme, forKey: "theme")
     }
-    
+
     required init?(coder: NSCoder) {
         super.init()
         fontColor = coder.decodeObject(forKey: "fontColor") as? UIColor

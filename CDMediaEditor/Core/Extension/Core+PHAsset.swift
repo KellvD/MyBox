@@ -5,13 +5,12 @@
 //  Created by Slience on 2021/6/9.
 //
 
-
 import Photos
 
 public extension PHAsset {
-    
+
     var isImageAnimated: Bool {
-        var isAnimated : Bool = false
+        var isAnimated: Bool = false
         let fileName = value(forKey: "filename") as? String
         if fileName != nil {
             isAnimated = fileName!.hasSuffix("GIF")
@@ -23,9 +22,9 @@ public extension PHAsset {
         }
         return isAnimated
     }
-    
+
     var isLivePhoto: Bool {
-        var isLivePhoto : Bool = false
+        var isLivePhoto: Bool = false
         if #available(iOS 9.1, *) {
             isLivePhoto = mediaSubtypes == .photoLive
             if #available(iOS 11, *) {
@@ -36,7 +35,7 @@ public extension PHAsset {
         }
         return isLivePhoto
     }
-    
+
     /// 如果在获取到PHAsset之前还未下载的iCloud，之后下载了还是会返回存在
     var inICloud: Bool {
         var isICloud = false
@@ -55,7 +54,7 @@ public extension PHAsset {
                     break
                 }
             }
-        }else if mediaType == PHAssetMediaType.video {
+        } else if mediaType == PHAssetMediaType.video {
             let resourceArray = PHAssetResource.assetResources(for: self)
             let bIsLocallayAvailable = resourceArray.first?.value(forKey: "locallyAvailable") as? Bool ?? true
             if !bIsLocallayAvailable {
@@ -64,9 +63,9 @@ public extension PHAsset {
         }
         return isICloud
     }
-    
+
     func checkAdjustmentStatus(completion: @escaping (Bool) -> Void) {
-        self.requestContentEditingInput(with: nil) { (input, info) in
+        self.requestContentEditingInput(with: nil) { (input, _) in
             let avAsset = input?.audiovisualAsset
             var isAdjusted: Bool = false
             if let path = avAsset != nil ? avAsset?.description : input?.fullSizeImageURL?.path {

@@ -28,10 +28,10 @@ class EditorStickerItemView: UIView {
         return view
     }()
     var item: EditorStickerItem
-    
+
     var scale: CGFloat
     var touching: Bool = false
-     
+
     var isSelected: Bool = false {
         willSet {
             if isSelected == newValue {
@@ -43,20 +43,20 @@ class EditorStickerItemView: UIView {
             layer.cornerRadius = newValue ? 1 / scale : 0
             layer.borderWidth = newValue ? 1 / scale : 0
             isUserInteractionEnabled = newValue
-            
+
             if newValue {
                 update(size: contentView.item.frame.size)
-            }else {
+            } else {
                 firstTouch = false
             }
         }
     }
     var itemMargin: CGFloat = 20
-    
+
     var initialScale: CGFloat = 1
     var initialPoint: CGPoint = .zero
     var initialRadian: CGFloat = 0
-    
+
     init(item: EditorStickerItem, scale: CGFloat) {
         self.item = item
         self.scale = scale
@@ -91,7 +91,7 @@ class EditorStickerItemView: UIView {
         let rotationGR = UIRotationGestureRecognizer(target: self, action: #selector(contentViewRotationClick(rotationGR:)))
         contentView.addGestureRecognizer(rotationGR)
     }
-    
+
     @objc func contentViewTapClick(tapGR: UITapGestureRecognizer) {
         if let shouldTouch = delegate?.stickerItemView(shouldTouchBegan: self), !shouldTouch {
             return
@@ -133,7 +133,7 @@ class EditorStickerItemView: UIView {
             if let moveToCenter = delegate?.stickerItemView(self, moveToCenter: rect), !isDelete {
                 let keyWindow = UIApplication.shared.keyWindow
                 if let view = keyWindow, moveToCenter,
-                   let viewCenter = superview?.convert(CGPoint(x: view.width * 0.5, y: view.height * 0.5), from: view){
+                   let viewCenter = superview?.convert(CGPoint(x: view.width * 0.5, y: view.height * 0.5), from: view) {
                     UIView.animate(withDuration: 0.25) {
                         self.center = viewCenter
                     }
@@ -184,27 +184,27 @@ class EditorStickerItemView: UIView {
                 if superMirrorType == .none {
                     if mirrorType == .horizontal {
                         radian = initialRadian - rotationGR.rotation
-                    }else {
+                    } else {
                         radian = initialRadian + rotationGR.rotation
                     }
-                }else {
+                } else {
                     if mirrorType == .horizontal {
                         radian = initialRadian - rotationGR.rotation
-                    }else {
+                    } else {
                         radian = initialRadian + rotationGR.rotation
                     }
                 }
-            }else {
+            } else {
                 if superMirrorType == .none {
                     if mirrorType == .horizontal {
                         radian = initialRadian - rotationGR.rotation
-                    }else {
+                    } else {
                         radian = initialRadian + rotationGR.rotation
                     }
-                }else {
+                } else {
                     if mirrorType == .horizontal {
                         radian = initialRadian - rotationGR.rotation
-                    }else {
+                    } else {
                         radian = initialRadian + rotationGR.rotation
                     }
                 }
@@ -242,32 +242,32 @@ class EditorStickerItemView: UIView {
         }
         if isInitialize {
             self.pinchScale = pinchScale
-        }else {
+        } else {
             if isPinch {
                 if pinchScale > maxScale {
                     if pinchScale < initialScale {
                         self.pinchScale = pinchScale
-                    }else {
+                    } else {
                         if initialScale < maxScale {
                             self.pinchScale = min(max(pinchScale, minScale), maxScale)
-                        }else {
+                        } else {
                             self.pinchScale = initialScale
                         }
                     }
-                }else if pinchScale < minScale {
+                } else if pinchScale < minScale {
                     if pinchScale > initialScale {
                         self.pinchScale = pinchScale
-                    }else {
+                    } else {
                         if minScale < initialScale {
                             self.pinchScale = min(max(pinchScale, minScale), maxScale)
-                        }else {
+                        } else {
                             self.pinchScale = initialScale
                         }
                     }
-                }else {
+                } else {
                     self.pinchScale = min(max(pinchScale, minScale), maxScale)
                 }
-            }else {
+            } else {
                 self.pinchScale = pinchScale
             }
         }
@@ -276,7 +276,7 @@ class EditorStickerItemView: UIView {
         if touching {
             margin *= scale
             contentView.transform = .init(scaleX: self.pinchScale * scale, y: self.pinchScale * scale)
-        }else {
+        } else {
             contentView.transform = .init(scaleX: self.pinchScale, y: self.pinchScale)
         }
         var rect = frame
@@ -285,7 +285,7 @@ class EditorStickerItemView: UIView {
         rect.size.width = contentView.width + margin
         rect.size.height = contentView.height + margin
         frame = rect
-        
+
         contentView.center = CGPoint(x: rect.width * 0.5, y: rect.height * 0.5)
         if isMirror {
             if let superView = superview, superView is EditorStickerView {
@@ -293,27 +293,27 @@ class EditorStickerItemView: UIView {
                     if mirrorType == .horizontal {
                         transform = transform.scaledBy(x: -1, y: 1)
                     }
-                }else {
+                } else {
                     if mirrorType == .none {
                         transform = transform.scaledBy(x: -1, y: 1)
                     }
                 }
-            }else {
+            } else {
                 if superMirrorType == .none {
                     if mirrorType == .horizontal {
                         if superAngle.truncatingRemainder(dividingBy: 180) != 0 {
                             transform = transform.scaledBy(x: 1, y: -1)
-                        }else {
+                        } else {
                             transform = transform.scaledBy(x: -1, y: 1)
                         }
                     }
-                }else {
+                } else {
                     if mirrorType == .horizontal {
                         transform = transform.scaledBy(x: -1, y: 1)
-                    }else {
+                    } else {
                         if superAngle.truncatingRemainder(dividingBy: 180) != 0 {
                             transform = transform.scaledBy(x: -1, y: -1)
-                        }else {
+                        } else {
                             transform = transform.scaledBy(x: 1, y: 1)
                         }
                     }
@@ -325,7 +325,7 @@ class EditorStickerItemView: UIView {
             if touching {
                 layer.borderWidth = 1
                 layer.cornerRadius = 1
-            }else {
+            } else {
                 layer.borderWidth = 1 / scale
                 layer.cornerRadius = 1 / scale
             }
@@ -342,10 +342,10 @@ class EditorStickerItemView: UIView {
         frame.size = CGSize(width: size.width + itemMargin / scale, height: size.height + itemMargin / scale)
         self.frame = frame
         self.center = center
-        
+
         contentView.transform = .identity
         transform = .identity
-        
+
         contentView.size = size
         contentView.center = CGPoint(x: width * 0.5, y: height * 0.5)
         update(pinchScale: pinchScale, rotation: radian, isMirror: isMirror)
@@ -356,7 +356,7 @@ class EditorStickerItemView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

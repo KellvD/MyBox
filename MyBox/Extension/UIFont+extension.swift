@@ -8,28 +8,27 @@
 
 import Foundation
 import UIKit
-extension UIFont{
-    class var small:UIFont{
-        get{ return UIFont.systemFont(ofSize: 12) }
+extension UIFont {
+    class var small: UIFont {
+        get { return UIFont.systemFont(ofSize: 12) }
     }
-    
-    class var midSmall:UIFont{
-        get{ return UIFont.systemFont(ofSize: 15) }
+
+    class var midSmall: UIFont {
+        get { return UIFont.systemFont(ofSize: 15) }
     }
-    
-    class var mid:UIFont{
-        get{ return UIFont.systemFont(ofSize: 17) }
+
+    class var mid: UIFont {
+        get { return UIFont.systemFont(ofSize: 17) }
     }
-    
-    class var large:UIFont{
-        get{ return UIFont.systemFont(ofSize: 20) }
+
+    class var large: UIFont {
+        get { return UIFont.systemFont(ofSize: 20) }
     }
-    
+
 }
 
-
-extension UIFont{
-    class func font(_ size:CGFloat)->UIFont{
+extension UIFont {
+    class func font(_ size: CGFloat) -> UIFont {
         return UIFont.systemFont(ofSize: size)
     }
 }

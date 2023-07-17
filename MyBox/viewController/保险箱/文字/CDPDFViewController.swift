@@ -9,30 +9,30 @@
 import UIKit
 import PDFKit
 
-@available(iOS 11.0,*)
+@available(iOS 11.0, *)
 class CDPDFViewController: UIViewController {
 
-    var filePath:String!
+    var filePath: String!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.addSubview(pdfView)
         let pdfDoc = PDFDocument(url: filePath.url)
         pdfView.document = pdfDoc
-    
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ddeko))
     }
-    
+
     lazy private var pdfView: PDFView = {
-        //展示PDF
+        // 展示PDF
         let g_pdfView = PDFView(frame: view.bounds)
         g_pdfView.displayMode = .singlePage
         g_pdfView.displayDirection = .horizontal
-        g_pdfView.usePageViewController(true, withViewOptions: [UIPageViewController.OptionsKey.interPageSpacing:20])
+        g_pdfView.usePageViewController(true, withViewOptions: [UIPageViewController.OptionsKey.interPageSpacing: 20])
         g_pdfView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
         return g_pdfView
     }()
-    
+
     lazy var thumbView: PDFThumbnailView = {
         let g_thumbView = PDFThumbnailView(frame: self.view.bounds)
         g_thumbView.pdfView = pdfView
@@ -41,11 +41,11 @@ class CDPDFViewController: UIViewController {
         return g_thumbView
     }()
 
-    @objc func onTap(){
-        
+    @objc func onTap() {
+
     }
 
-    @objc func ddeko(){
+    @objc func ddeko() {
         pdfView.isHidden = true
         self.view .addSubview(thumbView)
     }

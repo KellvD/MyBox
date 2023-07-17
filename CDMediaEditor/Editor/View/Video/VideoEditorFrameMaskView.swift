@@ -17,7 +17,7 @@ class VideoEditorFrameMaskView: UIView {
     var validRectX: CGFloat {
         30 + UIDevice.leftMargin
     }
-    
+
     weak var delegate: VideoEditorFrameMaskViewDelegate?
     var validRect: CGRect = .zero {
         didSet {
@@ -56,35 +56,35 @@ class VideoEditorFrameMaskView: UIView {
         gripMaskLayer.strokeColor = UIColor.lightGray.cgColor
         return gripMaskLayer
     }()
-    
+
     func drawMaskLayer() {
         let maskPath = UIBezierPath.init(rect: bounds)
         maskPath.append(UIBezierPath.init(rect: CGRect(x: validRect.minX + 4, y: validRect.minY + 2, width: validRect.width - 8, height: validRect.height - 4)).reversing())
         maskLayer.path = maskPath.cgPath
-        
+
         let restrictionpath = UIBezierPath.init(rect: validRect)
         restrictionLayer.path = restrictionpath.cgPath
-        
+
         let controlPath = UIBezierPath.init()
         controlPath.move(to: CGPoint(x: validRect.minX, y: validRect.minY - 2))
         controlPath.addLine(to: CGPoint(x: validRect.minX, y: validRect.maxY + 2))
         controlPath.move(to: CGPoint(x: validRect.maxX, y: validRect.minY - 2))
         controlPath.addLine(to: CGPoint(x: validRect.maxX, y: validRect.maxY + 2))
         controlLayer.path = controlPath.cgPath
-        
+
         let gripPath = UIBezierPath.init()
         gripPath.move(to: CGPoint(x: validRect.minX - 1.5, y: validRect.midY - 4))
         gripPath.addLine(to: CGPoint(x: validRect.minX - 1.5, y: validRect.midY + 4))
         gripPath.move(to: CGPoint(x: validRect.minX + 1.5, y: validRect.midY - 4))
         gripPath.addLine(to: CGPoint(x: validRect.minX + 1.5, y: validRect.midY + 4))
-        
+
         gripPath.move(to: CGPoint(x: validRect.maxX - 1.5, y: validRect.midY - 4))
         gripPath.addLine(to: CGPoint(x: validRect.maxX - 1.5, y: validRect.midY + 4))
         gripPath.move(to: CGPoint(x: validRect.maxX + 1.5, y: validRect.midY - 4))
         gripPath.addLine(to: CGPoint(x: validRect.maxX + 1.5, y: validRect.midY + 4))
         gripMaskLayer.path = gripPath.cgPath
     }
-    
+
     lazy var leftControl: UIView = {
         let leftControl = UIView.init()
         leftControl.tag = 0
@@ -109,35 +109,35 @@ class VideoEditorFrameMaskView: UIView {
         addSubview(leftControl)
         addSubview(rightControl)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc func panGestureRecognizerAction(panGR: UIPanGestureRecognizer) {
         var point = panGR.location(in: self)
         var rect = validRect
-         
+
         let minX = imageWidth * 0.5 + validRectX
-        
+
         switch panGR.view?.tag {
         case 0:
             if point.x < minX {
                 point.x = minX
-            }else {
+            } else {
                 if rightControl.x - point.x - imageWidth * 0.5 <= minWidth {
                     point.x = rightControl.x - minWidth - imageWidth * 0.5
                 }
             }
             point.y = 0
-            
+
             rect.size.width = rect.maxX - point.x
             rect.origin.x = point.x
         case 1:
             let maxX = width - imageWidth * 0.5 - validRectX
             if point.x > maxX {
                 point.x = maxX
-            }else {
+            } else {
                 if point.x - leftControl.frame.maxX - imageWidth * 0.5 <= minWidth {
                     point.x = leftControl.frame.maxX + minWidth + imageWidth * 0.5
                 }

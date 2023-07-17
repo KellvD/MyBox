@@ -1,4 +1,4 @@
- //
+//
 //  CDAudioViewController.swift
 //  MyRule
 //
@@ -7,49 +7,49 @@
 //
 
 import UIKit
-class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITableViewDataSource {
+class CDAudioViewController: CDBaseAllViewController, UITableViewDelegate, UITableViewDataSource {
 
-    public var folderInfo:CDSafeFolder!
-    private var tableblew:UITableView!
-    private var toolbar:CDToolBar!
-    private var batchBtn:UIButton!
-    private var backBtn:UIButton!
-    @objc dynamic private var fileArr:[CDSafeFileInfo] = []
-    private var curPlayCellPath:IndexPath?
-    private var selectCount:Int = 0
-    private var selectedAudioArr:[CDSafeFileInfo] = []
-    private var isNeedReloadData:Bool = false //是否刷新数据
+    public var folderInfo: CDSafeFolder!
+    private var tableblew: UITableView!
+    private var toolbar: CDToolBar!
+    private var batchBtn: UIButton!
+    private var backBtn: UIButton!
+    @objc dynamic private var fileArr: [CDSafeFileInfo] = []
+    private var curPlayCellPath: IndexPath?
+    private var selectCount: Int = 0
+    private var selectedAudioArr: [CDSafeFileInfo] = []
+    private var isNeedReloadData: Bool = false // 是否刷新数据
     deinit {
         super.removeObserver(self, forKeyPath: "fileArr")
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableblew.setEditing(false, animated: false)
-        //push,present前设置pop，dismiss后本界面是否刷新数据。原则上离开本界面后对数据有操作的都需要刷新
+        // push,present前设置pop，dismiss后本界面是否刷新数据。原则上离开本界面后对数据有操作的都需要刷新
         if isNeedReloadData {
             isNeedReloadData = false
             refreshData()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "语音文件"
         isNeedReloadData = true
-        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight),barType: .ImageTools, superVC: self)
+        self.toolbar = CDToolBar(frame: CGRect(x: 0, y: CDSCREEN_HEIGTH - BottomBarHeight, width: CDSCREEN_WIDTH, height: BottomBarHeight), barType: .ImageTools, superVC: self)
 
         view.addSubview(self.toolbar)
-        
+
         tableblew = UITableView(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: toolbar.minY), style: .plain)
         tableblew.delegate = self
         tableblew.dataSource = self
         tableblew.separatorStyle = .none
         view.addSubview(tableblew)
         tableblew.register(CDFileTableViewCell.self, forCellReuseIdentifier: "audioCellId")
-        
+
         batchBtn = UIButton(type: .custom)
         batchBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 45)
-        batchBtn.setImage(UIImage(named: "edit"), for: .normal);
+        batchBtn.setImage(UIImage(named: "edit"), for: .normal)
         batchBtn.addTarget(self, action: #selector(batchBtnClick), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: batchBtn!)
 
@@ -59,44 +59,42 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backBtn!)
 
-
-
-        super.addObserver(super.self, forKeyPath: "fileArr", options: [.new,.old], context: nil)
+        super.addObserver(super.self, forKeyPath: "fileArr", options: [.new, .old], context: nil)
 
     }
-    
+
     private func refreshData() {
         toolbar.enableReloadBar(isEnable: false)
         fileArr = CDSqlManager.shared.queryAllFileFromFolder(folderId: folderInfo.folderId)
         tableblew.reloadData()
     }
 
-    private func handelSelectedArr(){
+    private func handelSelectedArr() {
         selectedAudioArr.removeAll()
         fileArr.forEach { (tmpFile) in
-            if tmpFile.isSelected == .yes{
+            if tmpFile.isSelected == .yes {
                 selectedAudioArr.append(tmpFile)
             }
         }
     }
-    //批量操作
-    @objc func batchBtnClick(){
+    // 批量操作
+    @objc func batchBtnClick() {
         banchHandleFiles(isSelected: !batchBtn.isSelected)
     }
 
-    private func banchHandleFiles(isSelected:Bool){
+    private func banchHandleFiles(isSelected: Bool) {
 //        playView.stopPlayer()
         selectCount = 0
         batchBtn.isSelected = isSelected
-        if (batchBtn.isSelected) { //点了选择操作
+        if batchBtn.isSelected { // 点了选择操作
             self.backBtn.setTitle("全选".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "no_edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: true)
             fileArr.forEach { (file) in
                 file.isSelected = .no
             }
-        }else{
-            //1.全选变返回
+        } else {
+            // 1.全选变返回
             self.backBtn.setTitle("返回".localize, for: .normal)
             batchBtn.setImage(UIImage(named: "edit"), for: .normal)
             toolbar.hiddenReloadBar(isMulit: false)
@@ -106,85 +104,85 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         }
         tableblew.reloadData()
     }
-    
-    //返回
-    @objc func backBtnClick(){
+
+    // 返回
+    @objc func backBtnClick() {
         if batchBtn.isSelected { //
-            if (self.backBtn.currentTitle == "全选".localize) { //全选
+            if self.backBtn.currentTitle == "全选".localize { // 全选
                 fileArr.forEach { (tmpFile) in
                     tmpFile.isSelected = .yes
                 }
                 selectCount = fileArr.count
-            }else{
+            } else {
                 fileArr.forEach { (tmpFile) in
                     tmpFile.isSelected = .no
                 }
                 selectCount = 0
             }
             refreshUI()
-            
-        }else{
+
+        } else {
             self.navigationController?.popViewController(animated: true)
         }
 
     }
-    
-    func refreshUI(){
+
+    func refreshUI() {
         toolbar.enableReloadBar(isEnable: selectCount > 0)
         toolbar.appendItem.isEnabled = selectCount >= 2
-        if selectCount == fileArr.count && fileArr.count > 0{
+        if selectCount == fileArr.count && fileArr.count > 0 {
             self.backBtn.setTitle("全不选".localize, for: .normal)
             backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
             backBtn.contentHorizontalAlignment = .left
-        }else{
+        } else {
             backBtn.setTitle("全选".localize, for: .normal)
         }
         tableblew.reloadData()
     }
-    
-    //MARK: 导入
-    @objc func documentItemClick(){
+
+    // MARK: 导入
+    @objc func documentItemClick() {
         isNeedReloadData = true
         let documentTypes = ["public.audio"]
         super.subFolderId = folderInfo.folderId
         super.subFolderType = folderInfo.folderType
-        super.docuemntPickerComplete = {[unowned self](_ success:Bool) -> Void in
+        super.docuemntPickerComplete = {[unowned self](_ success: Bool) -> Void in
             if success {
                 self.refreshData()
             }
         }
         presentDocumentPicker(documentTypes: documentTypes)
     }
-    
-    //MARK: 录入
-    @objc func importItemClick(){
+
+    // MARK: 录入
+    @objc func importItemClick() {
         isNeedReloadData = true
         let recordVC = CDAudioRecordViewController()
         recordVC.folderId = folderInfo.folderId
         self.navigationController?.pushViewController(recordVC, animated: true)
     }
 
-    //MARK:分享事件
-    @objc func shareBarItemClick(){
+    // MARK: 分享事件
+    @objc func shareBarItemClick() {
         handelSelectedArr()
-        var shareArr:[NSObject] = []
-        for index in 0..<self.selectedAudioArr.count{
-            let file:CDSafeFileInfo = self.selectedAudioArr[index]
+        var shareArr: [NSObject] = []
+        for index in 0..<self.selectedAudioArr.count {
+            let file: CDSafeFileInfo = self.selectedAudioArr[index]
             let videoPath = String.RootPath().appendingPathComponent(str: file.filePath)
             let url = videoPath.url
             shareArr.append(url as NSObject)
         }
-        presentShareActivityWith(dataArr: shareArr) { (error) in
+        presentShareActivityWith(dataArr: shareArr) { (_) in
             self.banchHandleFiles(isSelected: false)
         }
     }
 
-    //MARK:删除
-    @objc func deleteBarItemClick(){
+    // MARK: 删除
+    @objc func deleteBarItemClick() {
         handelSelectedArr()
         let btnTitle = selectedAudioArr.count > 1 ? String(format: "删除%d条语音".localize, selectedAudioArr.count):"删除语音".localize
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (action) in
+        sheet.addAction(UIAlertAction(title: btnTitle, style: .destructive, handler: { (_) in
             CDHUDManager.shared.showWait("删除中...".localize)
             self.selectedAudioArr.forEach({ (tmpFile) in
                 let defaultPath = String.RootPath().appendingPathComponent(str: tmpFile.filePath)
@@ -201,25 +199,25 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         }))
         sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
-        
+
     }
 
-    //拼接
-    @objc func appendItemClick(){
+    // 拼接
+    @objc func appendItemClick() {
         handelSelectedArr()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "合成选中的\(selectedAudioArr.count)条音频", style: .default, handler: {[unowned self] (action) in
+        sheet.addAction(UIAlertAction(title: "合成选中的\(selectedAudioArr.count)条音频", style: .default, handler: {[unowned self] (_) in
             DispatchQueue.main.async {
                 CDHUDManager.shared.showWait("正在处理中...".localize)
             }
-            
+
             CDSignalTon.shared.appendAudio(folderId: self.folderInfo.folderId, appendFile: self.selectedAudioArr) {[unowned self] (success) in
                 DispatchQueue.main.async {
                     CDHUDManager.shared.hideWait()
                     self.refreshData()
-                    if success{
+                    if success {
                         CDHUDManager.shared.showText("合成成功".localize)
-                    }else{
+                    } else {
                         CDHUDManager.shared.showText("合成失败".localize)
                     }
                 }
@@ -228,7 +226,6 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
         sheet.addAction(UIAlertAction(title: "取消".localize, style: .cancel, handler: nil))
         self.present(sheet, animated: true, completion: nil)
     }
-
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -242,7 +239,7 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cellId = "audioCellId"
-        var cell:CDFileTableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? CDFileTableViewCell
+        var cell: CDFileTableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? CDFileTableViewCell
         if cell == nil {
             cell = CDFileTableViewCell(style: .default, reuseIdentifier: cellId)
         }
@@ -251,33 +248,33 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             let tmpFile = fileArr[indexPath.row]
             if tmpFile.isSelected == .yes {
                 cell.showSelectIcon = .selected
-            }else{
+            } else {
                cell.showSelectIcon = .show
             }
-        }else{
+        } else {
             cell.showSelectIcon = .hide
         }
-        let fileInfo:CDSafeFileInfo = fileArr[indexPath.row]
+        let fileInfo: CDSafeFileInfo = fileArr[indexPath.row]
         cell.setConfigFileData(fileInfo: fileInfo)
 
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if batchBtn.isSelected{
+        if batchBtn.isSelected {
             let tmpFile = fileArr[indexPath.row]
             if tmpFile.isSelected == .yes {
                 selectCount -= 1
                 tmpFile.isSelected = .no
-            }else{
+            } else {
                 selectCount += 1
                 tmpFile.isSelected = .yes
             }
 
             refreshUI()
-        }else{
+        } else {
             curPlayCellPath = indexPath
-            let fileInfo:CDSafeFileInfo = fileArr[indexPath.row]
+            let fileInfo: CDSafeFileInfo = fileArr[indexPath.row]
             tableblew.deselectRow(at: indexPath, animated: false)
             let audioPath = String.RootPath().appendingPathComponent(str: fileInfo.filePath)
             let playVC = CDAudioPlayViewController()
@@ -285,19 +282,18 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
             playVC.fileName = fileInfo.fileName
             playVC.timeLength = fileInfo.timeLength
             self.navigationController?.pushViewController(playVC, animated: true)
-            
 
         }
 
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if batchBtn.isSelected{
+        if batchBtn.isSelected {
             let tmpFile = fileArr[indexPath.row]
             if tmpFile.isSelected == .yes {
                 selectCount -= 1
                 tmpFile.isSelected = .no
-            }else{
+            } else {
                 selectCount += 1
                 tmpFile.isSelected = .yes
             }
@@ -307,39 +303,38 @@ class CDAudioViewController: CDBaseAllViewController,UITableViewDelegate,UITable
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return !batchBtn.isSelected
     }
-    
+
     @available(iOS, introduced: 8.0, deprecated: 13.0)
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let tmpFile:CDSafeFileInfo = fileArr[indexPath.row]
-        let detail = UITableViewRowAction(style: .normal, title: "详情".localize) { (action, index) in
+
+        let tmpFile: CDSafeFileInfo = fileArr[indexPath.row]
+        let detail = UITableViewRowAction(style: .normal, title: "详情".localize) { (_, _) in
             let fileDVC = CDFileDetailViewController()
             fileDVC.fileInfo = tmpFile
             self.navigationController?.pushViewController(fileDVC, animated: true)
         }
         return [detail]
     }
-    
+
     @available(iOS 11, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let tmpFile:CDSafeFileInfo = fileArr[indexPath.row]
-        let detail = UIContextualAction(style: .normal, title: "👁‍🗨") { (action, view, handle) in
+        let tmpFile: CDSafeFileInfo = fileArr[indexPath.row]
+        let detail = UIContextualAction(style: .normal, title: "👁‍🗨") { (_, _, _) in
             let fileDVC = CDFileDetailViewController()
             fileDVC.fileInfo = tmpFile
             self.navigationController?.pushViewController(fileDVC, animated: true)
         }
         detail.image = UIImage(named: "fileDetail")
         //
-        let delete = UIContextualAction(style: .normal, title: "删除".localize) { (action, view, handle) in
+        let delete = UIContextualAction(style: .normal, title: "删除".localize) { (_, _, _) in
             tmpFile.isSelected = .yes
             self.deleteBarItemClick()
         }
         delete.image = LoadImage("delete-white")
         delete.backgroundColor = .red
-        let action = UISwipeActionsConfiguration(actions: [delete,detail])
+        let action = UISwipeActionsConfiguration(actions: [delete, detail])
         return action
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

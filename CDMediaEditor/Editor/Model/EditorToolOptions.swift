@@ -8,13 +8,13 @@
 import Foundation
 
 public class EditorToolOptions {
-    
+
     /// icon图标
     public let imageName: String
-    
+
     /// 类型
     public let type: `Type`
-    
+
     public init(imageName: String,
                 type: `Type`) {
         self.imageName = imageName

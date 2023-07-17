@@ -8,9 +8,9 @@
 import UIKit
 import Photos
 
-public typealias AVAssetExportSessionResultHandler = (AVAssetExportSession?, [AnyHashable : Any]?) -> Void
+public typealias AVAssetExportSessionResultHandler = (AVAssetExportSession?, [AnyHashable: Any]?) -> Void
 public extension AssetManager {
-    
+
     /// 获取 AVAssetExportSession
     /// - Parameters:
     ///   - asset: 对应视频的 PHAsset 对象
@@ -25,32 +25,32 @@ public extension AssetManager {
                                            deliveryMode: PHVideoRequestOptionsDeliveryMode = .automatic,
                                            iCloudHandler: ((PHImageRequestID) -> Void)?,
                                            progressHandler: PHAssetVideoProgressHandler?,
-                                           resultHandler: @escaping (AVAssetExportSession?, [AnyHashable : Any]?, Bool) -> Void) -> PHImageRequestID {
+                                           resultHandler: @escaping (AVAssetExportSession?, [AnyHashable: Any]?, Bool) -> Void) -> PHImageRequestID {
         let version = PHVideoRequestOptionsVersion.current
         return requestExportSession(forVideo: asset, exportPreset: exportPreset, version: version, deliveryMode: deliveryMode, isNetworkAccessAllowed: false, progressHandler: progressHandler) { (exportSession, info) in
             DispatchQueue.main.async {
                 if self.assetDownloadFinined(for: info) {
                     resultHandler(exportSession, info, true)
-                }else {
+                } else {
                     if self.assetIsInCloud(for: info) {
                         let iCloudRequestID = self.requestExportSession(forVideo: asset, exportPreset: exportPreset, version: version, deliveryMode: deliveryMode, isNetworkAccessAllowed: true, progressHandler: progressHandler) { (iCloudExportSession, iCloudInfo) in
                             DispatchQueue.main.async {
                                 if self.assetDownloadFinined(for: iCloudInfo) {
                                     resultHandler(iCloudExportSession, iCloudInfo, true)
-                                }else {
+                                } else {
                                     resultHandler(nil, iCloudInfo, false)
                                 }
                             }
                         }
                         iCloudHandler?(iCloudRequestID)
-                    }else {
+                    } else {
                         resultHandler(nil, info, false)
                     }
                 }
             }
         }
     }
-    
+
     /// 获取 AVAssetExportSession
     @discardableResult
     class func requestExportSession(forVideo asset: PHAsset,
@@ -67,23 +67,22 @@ public extension AssetManager {
         options.progressHandler = progressHandler
         return requestExportSession(forVideo: asset, options: options, exportPreset: exportPreset, resultHandler: resultHandler)
     }
-    
-    
+
     /// 获取 AVAssetExportSession
     @discardableResult
     class func requestExportSession(forVideo asset: PHAsset,
                                            options: PHVideoRequestOptions,
                                            exportPreset: String,
                                            resultHandler: @escaping AVAssetExportSessionResultHandler) -> PHImageRequestID {
-        
+
         return PHImageManager.default().requestExportSession(forVideo: asset,
                                                              options: options,
                                                              exportPreset: exportPreset, resultHandler:
                                                                 resultHandler)
     }
-    
+
     class func exportVideoURL(forVideo asset: PHAsset,
-                              toFile fileURL:URL,
+                              toFile fileURL: URL,
                               exportPreset: String,
                               completionHandler: @escaping (Result<URL, AssetManager.AVAssetError>) -> Void) {
         requestAVAsset(for: asset, iCloudHandler: nil, progressHandler: nil) { (result) in
@@ -92,7 +91,7 @@ public extension AssetManager {
                 self.exportVideoURL(forVideo: avResult.avAsset, toFile: fileURL, exportPreset: exportPreset) { videoURL, error in
                     if let videoURL = videoURL {
                         completionHandler(.success(videoURL))
-                    }else {
+                    } else {
                         completionHandler(.failure(.init(info: avResult.info, error: .exportFailed(error))))
                     }
                 }
@@ -101,9 +100,9 @@ public extension AssetManager {
             }
         }
     }
-    
+
     class func exportVideoURL(forVideo avAsset: AVAsset,
-                              toFile fileURL:URL,
+                              toFile fileURL: URL,
                               exportPreset: String,
                               completionHandler: @escaping (URL?, Error?) -> Void) {
         var presetName = exportPreset
@@ -111,9 +110,9 @@ public extension AssetManager {
         if !presets.contains(exportPreset) {
             if presets.contains(AVAssetExportPresetHighestQuality) {
                 presetName = AVAssetExportPresetHighestQuality
-            }else if presets.contains(AVAssetExportPreset1280x720) {
+            } else if presets.contains(AVAssetExportPreset1280x720) {
                 presetName = AVAssetExportPreset1280x720
-            }else {
+            } else {
                 presetName = AVAssetExportPresetMediumQuality
             }
         }

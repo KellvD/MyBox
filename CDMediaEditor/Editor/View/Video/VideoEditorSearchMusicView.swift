@@ -168,7 +168,7 @@ class VideoEditorSearchMusicView: UIView {
         if currentSelectItem >= 0 {
             if let cell = collectionView.cellForItem(at: IndexPath(item: currentSelectItem, section: 0)) as? VideoEditorMusicViewCell {
                 cell.stopMusic()
-            }else {
+            } else {
                 musics[currentSelectItem].isSelected = false
                 let url = musics[currentSelectItem].audioURL
                 PhotoManager.shared.suspendTask(url)
@@ -219,10 +219,10 @@ class VideoEditorSearchMusicView: UIView {
         finishButton.height = 30
         finishButton.centerY = topView.height * 0.5
         finishButton.x = width - UIDevice.rightMargin - 12 - finishButton.width
-        
+
         searchView.frame = CGRect(x: 12 + UIDevice.leftMargin, y: topView.frame.maxY + 12, width: width - 24 - UIDevice.leftMargin - UIDevice.rightMargin, height: 35)
         searchBgView.frame = searchView.frame
-        
+
         setupCollectionInset()
         collectionView.frame = CGRect(x: 0, y: searchView.frame.maxY + 12, width: width, height: height - searchView.frame.maxY - 12)
     }
@@ -279,7 +279,7 @@ extension VideoEditorSearchMusicView: UICollectionViewDataSource, UICollectionVi
         if currentSelectItem >= 0 {
             if let lastCell = collectionView.cellForItem(at: IndexPath(item: currentSelectItem, section: 0)) as? VideoEditorMusicViewCell {
                 lastCell.stopMusic()
-            }else {
+            } else {
                 musics[currentSelectItem].isSelected = false
                 let url = musics[currentSelectItem].audioURL
                 PhotoManager.shared.suspendTask(url)
@@ -318,7 +318,7 @@ extension VideoEditorSearchMusicView: UICollectionViewDataSource, UICollectionVi
                     DispatchQueue.main.async {
                         if !hasMore {
                             self.addNoMore()
-                        }else {
+                        } else {
                             self.removeNoMore()
                         }
                     }
@@ -337,11 +337,11 @@ extension VideoEditorSearchMusicView: UICollectionViewDataSource, UICollectionVi
             if !isLoadMore {
                 collectionView.contentInset = UIEdgeInsets(top: top + 40, left: left, bottom: bottom, right: right)
                 loadBgView.frame = CGRect(x: 0, y: -40, width: collectionView.width - left - right, height: 40)
-            }else {
+            } else {
                 collectionView.contentInset = UIEdgeInsets(top: top, left: left, bottom: bottom + 40, right: right)
                 loadBgView.frame = CGRect(x: 0, y: collectionView.contentSize.height + top + 10, width: collectionView.width - left - right, height: 40)
             }
-        }else {
+        } else {
             collectionView.contentInset = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
             if !hasMore {
                 noMoreView.frame = CGRect(x: 0, y: collectionView.contentSize.height + top + 10, width: collectionView.width - left - right, height: 40)
@@ -369,7 +369,7 @@ extension VideoEditorSearchMusicView: UITextFieldDelegate {
             DispatchQueue.main.async {
                 if !hasMore {
                     self.addNoMore()
-                }else {
+                } else {
                     self.removeNoMore()
                 }
             }
@@ -377,7 +377,7 @@ extension VideoEditorSearchMusicView: UITextFieldDelegate {
         })
         return true
     }
-    
+
     func startLoading(isMore: Bool) {
         isLoading = true
         let top: CGFloat = 10
@@ -387,7 +387,7 @@ extension VideoEditorSearchMusicView: UITextFieldDelegate {
         if !isMore {
             collectionView.contentInset = UIEdgeInsets(top: top + 40, left: left, bottom: bottom, right: right)
             loadBgView.frame = CGRect(x: 0, y: -40, width: collectionView.width - left - right, height: 40)
-        }else {
+        } else {
             collectionView.contentInset = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
             loadBgView.frame = CGRect(x: 0, y: collectionView.contentSize.height + top + 10, width: collectionView.width - left - right, height: 40)
         }

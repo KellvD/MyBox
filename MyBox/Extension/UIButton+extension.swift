@@ -8,17 +8,16 @@
 
 import UIKit
 
-
-extension UIButton{
-    convenience init(frame:CGRect,text:String?,textColor:UIColor?,target: Any?,function:Selector) {
+extension UIButton {
+    convenience init(frame: CGRect, text: String?, textColor: UIColor?, target: Any?, function: Selector) {
         self.init(type: .custom)
         self.frame = frame
         setTitle(text, for: .normal)
         setTitleColor(textColor, for: .normal)
         addTarget(target, action: function, for: .touchUpInside)
     }
-        
-    convenience init(frame:CGRect,text:String?,textColor:UIColor?,imageNormal:String?,target: Any?,function:Selector,supView:UIView) {
+
+    convenience init(frame: CGRect, text: String?, textColor: UIColor?, imageNormal: String?, target: Any?, function: Selector, supView: UIView) {
         self.init(type: .custom)
         self.frame = frame
         setTitle(text, for: .normal)
@@ -27,21 +26,21 @@ extension UIButton{
         addTarget(target, action: function, for: .touchUpInside)
         supView.addSubview(self)
     }
-    
+
     /// 设置按钮图片位置
     /// - Parameters:
     ///   - edge: 图片位置
     ///   - space: 图片和文字的距离
-    func setImagePosition(edge:UIRectEdge,space:CGFloat){
-        
+    func setImagePosition(edge: UIRectEdge, space: CGFloat) {
+
         let imageWidth = self.imageView!.frame.width - self.imageEdgeInsets.left - self.imageEdgeInsets.right
         let imageHeight = self.imageView!.frame.height - self.imageEdgeInsets.top - self.imageEdgeInsets.bottom
         let labelWidth = self.titleLabel!.intrinsicContentSize.width
         let labelHeight = self.titleLabel!.intrinsicContentSize.height
-        
+
         var imageEdge = UIEdgeInsets.zero
         var labelEdge = UIEdgeInsets.zero
-        
+
         switch edge {
         case .top:
             imageEdge = UIEdgeInsets(top: -labelHeight - space/2.0, left: 0, bottom: 0, right: -labelWidth)
@@ -58,12 +57,12 @@ extension UIButton{
         default:
             break
         }
-        
+
         self.imageEdgeInsets = imageEdge
         self.titleEdgeInsets = labelEdge
     }
-    
-    func setTitleSpace(title:String,space:CGFloat){
+
+    func setTitleSpace(title: String, space: CGFloat) {
         let attr = NSMutableAttributedString(string: title)
         attr.addAttribute(.kern, value: space, range: NSRange(location: 0, length: title.count))
         self.setAttributedTitle(attr, for: .normal)

@@ -23,7 +23,7 @@ extension PhotoTools {
             return nil
         }
         let gifProperty = [
-            kCGImagePropertyGIFDictionary : [
+            kCGImagePropertyGIFDictionary: [
                 kCGImagePropertyGIFHasGlobalColorMap: true,
                 kCGImagePropertyColorModel: kCGImagePropertyColorModelRGB,
                 kCGImagePropertyDepth: 8,
@@ -34,8 +34,8 @@ extension PhotoTools {
         for (index, image) in images.enumerated() {
             let delay = delays[index]
             let framePreperty = [
-                kCGImagePropertyGIFDictionary : [
-                    kCGImagePropertyGIFDelayTime : delay
+                kCGImagePropertyGIFDictionary: [
+                    kCGImagePropertyGIFDelayTime: delay
                 ]
             ]
             if let cgImage = image.cgImage {
@@ -48,15 +48,15 @@ extension PhotoTools {
         removeFile(fileURL: imageURL)
         return nil
     }
-    
+
     class func getFrameDuration(from gifInfo: [String: Any]?) -> TimeInterval {
         let defaultFrameDuration = 0.1
         guard let gifInfo = gifInfo else { return defaultFrameDuration }
-        
+
         let unclampedDelayTime = gifInfo[kCGImagePropertyGIFUnclampedDelayTime as String] as? NSNumber
         let delayTime = gifInfo[kCGImagePropertyGIFDelayTime as String] as? NSNumber
         let duration = unclampedDelayTime ?? delayTime
-        
+
         guard let frameDuration = duration else { return defaultFrameDuration }
         return frameDuration.doubleValue > 0.011 ? frameDuration.doubleValue : defaultFrameDuration
     }
@@ -69,11 +69,11 @@ extension PhotoTools {
         let gifInfo = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any]
         return getFrameDuration(from: gifInfo)
     }
-    
+
     public class func defaultColors() -> [String] {
         ["#ffffff", "#2B2B2B", "#FA5150", "#FEC200", "#07C160", "#10ADFF", "#6467EF"]
     }
-    
+
     #if canImport(Kingfisher)
     public class func defaultTitleChartlet() -> [EditorChartlet] {
         let title = EditorChartlet(
@@ -81,7 +81,7 @@ extension PhotoTools {
         )
         return [title]
     }
-    
+
     public class func defaultNetworkChartlet() -> [EditorChartlet] {
         var chartletList: [EditorChartlet] = []
         for index in 1...40 {
@@ -94,7 +94,7 @@ extension PhotoTools {
         return chartletList
     }
     #endif
-    
+
     /// 默认滤镜
     public class func defaultFilters() -> [PhotoEditorFilterInfo] {
         return [
@@ -102,7 +102,7 @@ extension PhotoTools {
                 filterName: "老电影".localized,
                 defaultValue: 1
             ) {
-                (image, lastImage, value, event) in
+                (image, _, value, event) in
                 if event == .touchUpInside {
                     return oldMovie(image, value: value)
                 }
@@ -138,7 +138,7 @@ extension PhotoTools {
                 filterName: "模糊".localized,
                 defaultValue: 0.5
             ) {
-                (image, lastImage, value, event) in
+                (image, _, value, event) in
                 if event == .touchUpInside {
                     return image.filter(
                         name: "CIGaussianBlur",
@@ -201,7 +201,7 @@ extension PhotoTools {
             }
         ]
     }
-    
+
     class func oldMovie(_ image: UIImage,
                         value: Float) -> UIImage? {
         let inputImage = CIImage.init(image: image)!
@@ -239,7 +239,7 @@ extension PhotoTools {
         }
         return nil
     }
-    
+
     /// 视频添加背景音乐
     /// - Parameters:
     ///   - videoURL: 视频地址
@@ -263,7 +263,7 @@ extension PhotoTools {
                 if let videoTrack = videoAsset.tracks(withMediaType: .video).first {
                     try compositionVideoTrack?.insertTimeRange(videoTimeRange, of: videoTrack, at: .zero)
                 }
-            
+
             let audioMix = AVMutableAudioMix()
             var newAudioInputParams: AVMutableAudioMixInputParameters?
             if let audioURL = audioURL {
@@ -285,7 +285,7 @@ extension PhotoTools {
                             let seconds = videoDuration - audioDuration * Double(divisor)
                             try newAudioTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: CMTimeMakeWithSeconds(seconds, preferredTimescale: audioAsset.duration.timescale)), of: audioTrack, at: atTime)
                         }
-                    }else {
+                    } else {
                         let audioTimeRange = CMTimeRangeMake(start: .zero, duration: videoTimeRange.duration)
                         try newAudioTrack?.insertTimeRange(audioTimeRange, of: audioTrack, at: .zero)
                     }
@@ -294,7 +294,7 @@ extension PhotoTools {
                 newAudioInputParams?.setVolumeRamp(fromStartVolume: audioVolume, toEndVolume: audioVolume, timeRange: CMTimeRangeMake(start: .zero, duration: videoAsset.duration))
                 newAudioInputParams?.trackID =  newAudioTrack?.trackID ?? kCMPersistentTrackID_Invalid
             }
-            
+
             if let originalVoiceTrack = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
                 if let audioTrack = videoAsset.tracks(withMediaType: .audio).first {
                     try originalVoiceTrack.insertTimeRange(videoTimeRange, of: audioTrack, at: .zero)
@@ -305,10 +305,10 @@ extension PhotoTools {
                 originalAudioInputParams.trackID = originalVoiceTrack.trackID
                 if let newAudioInputParams = newAudioInputParams {
                     audioMix.inputParameters = [newAudioInputParams, originalAudioInputParams]
-                }else {
+                } else {
                     audioMix.inputParameters = [originalAudioInputParams]
                 }
-            }else {
+            } else {
                 if let newAudioInputParams = newAudioInputParams {
                     audioMix.inputParameters = [newAudioInputParams]
                 }
@@ -319,10 +319,10 @@ extension PhotoTools {
                     exportSession.outputURL = outputURL
                     if supportedTypeArray.contains(AVFileType.mp4) {
                         exportSession.outputFileType = .mp4
-                    }else if supportedTypeArray.isEmpty {
+                    } else if supportedTypeArray.isEmpty {
                         completion(nil)
                         return
-                    }else {
+                    } else {
                         exportSession.outputFileType = supportedTypeArray.first
                     }
                     exportSession.shouldOptimizeForNetworkUse = true

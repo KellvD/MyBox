@@ -33,14 +33,14 @@ class PhotoEditorScrollView: UIScrollView {
 }
 
 class EditorImageResizerView: UIView {
-    
+
     enum ImageOrientation {
         case up
         case left
         case right
         case down
     }
-    
+
     deinit {
 //        print("deinit", self)
     }
@@ -57,7 +57,7 @@ class EditorImageResizerView: UIView {
         containerView.addSubview(controlView)
         return containerView
     }()
-    
+
     lazy var scrollView: PhotoEditorScrollView = {
         let scrollView = PhotoEditorScrollView.init(frame: .zero)
         scrollView.delegate = self
@@ -73,7 +73,7 @@ class EditorImageResizerView: UIView {
         scrollView.addSubview(imageView)
         return scrollView
     }()
-    
+
     let mosaicConfig: PhotoEditorConfiguration.MosaicConfig
     lazy var imageView: PhotoEditorContentView = {
         let imageView = PhotoEditorContentView.init(mosaicConfig: mosaicConfig)
@@ -114,7 +114,7 @@ class EditorImageResizerView: UIView {
         }
         return imageView
     }()
-    
+
     lazy var maskBgView: EditorImageResizerMaskView = {
         let maskBgView = EditorImageResizerMaskView.init(isMask: true, maskType: cropConfig.maskType)
         maskBgView.isRoundCrop = cropConfig.isRoundCrop
@@ -123,7 +123,7 @@ class EditorImageResizerView: UIView {
         maskBgView.isUserInteractionEnabled = false
         return maskBgView
     }()
-    
+
     lazy var maskLinesView: EditorImageResizerMaskView = {
         let maskLinesView = EditorImageResizerMaskView.init(isMask: false)
         maskLinesView.isRoundCrop = cropConfig.isRoundCrop
@@ -162,7 +162,7 @@ class EditorImageResizerView: UIView {
     var cropSize: CGSize = .zero
     /// 有裁剪记录
     var hasCropping: Bool = false
-    
+
     /// 上一次裁剪数据
     var oldZoomScale: CGFloat = 0
     var oldContentOffset: CGPoint = .zero
@@ -173,7 +173,7 @@ class EditorImageResizerView: UIView {
     var oldAngle: CGFloat = 0
     var oldTransform: CGAffineTransform = .identity
     var oldMirrorType: MirrorType = .none
-    
+
     /// 是否原始宽高比
     var isOriginalRatio: Bool = false
     /// 当前宽高比
@@ -185,10 +185,10 @@ class EditorImageResizerView: UIView {
             imageView.stickerView.angle = currentAngle
         }
     }
-    
+
     var rotating: Bool = false
     var mirroring: Bool = false
-    
+
     var drawEnabled: Bool {
         get { imageView.drawView.enabled }
         set { imageView.drawView.enabled = newValue }
@@ -201,16 +201,16 @@ class EditorImageResizerView: UIView {
         get { imageView.mosaicView.enabled }
         set { imageView.mosaicView.enabled = newValue }
     }
-    
+
     var isDrawing: Bool { imageView.drawView.isDrawing }
-    
+
     var zoomScale: CGFloat = 1 {
         didSet { imageView.zoomScale = zoomScale * scrollView.zoomScale }
     }
-    
-    var filter: PhotoEditorFilter? = nil
+
+    var filter: PhotoEditorFilter?
     var filterValue: Float = 0
-    
+
     init(cropConfig: PhotoCroppingConfiguration,
          mosaicConfig: PhotoEditorConfiguration.MosaicConfig) {
         self.cropConfig = cropConfig
@@ -221,9 +221,9 @@ class EditorImageResizerView: UIView {
     func getEditedData() -> PhotoEditData {
         let brushData = imageView.drawView.getBrushData()
         let rect = maskBgView.convert(controlView.frame, to: imageView)
-        
+
         let offsetScale = CGPoint(x: rect.minX / baseImageSize.width, y: rect.minY / baseImageSize.height)
-        var cropData: PhotoEditCropData? = nil
+        var cropData: PhotoEditCropData?
         if canReset() {
             cropData = .init(cropSize: cropSize,
                              zoomScale: oldZoomScale,
@@ -265,7 +265,7 @@ class EditorImageResizerView: UIView {
         let offsetY = baseImageSize.height * cropData.offsetScale.y * oldZoomScale - scrollViewContentInset.top
         oldContentOffset = CGPoint(x: offsetX, y: offsetY)
         oldMaskRect = rect
-        
+
         imageView.stickerView.angle = oldAngle
         imageView.stickerView.mirrorType = oldMirrorType
     }
@@ -302,7 +302,7 @@ class EditorImageResizerView: UIView {
         let maxControlRect = CGRect(x: contentInsets.left, y: contentInsets.top, width: containerView.width - contentInsets.left - contentInsets.right, height: containerView.height - contentInsets.top - contentInsets.bottom)
         controlView.maxImageresizerFrame = maxControlRect
     }
-    
+
     /// 更新图片
     func updateImage(_ image: UIImage) {
         imageView.setImage(image)
@@ -328,7 +328,7 @@ class EditorImageResizerView: UIView {
         case .original:
             if cropConfig.fixedRatio {
                 controlView.aspectRatio = imageView.image!.size
-            }else {
+            } else {
                 controlView.aspectRatio = .zero
             }
         case .ratio_1x1:
@@ -348,7 +348,7 @@ class EditorImageResizerView: UIView {
         case .custom(let aspectRatio):
             if aspectRatio.equalTo(.zero) && cropConfig.fixedRatio {
                 controlView.aspectRatio = imageView.image!.size
-            }else {
+            } else {
                 controlView.aspectRatio = aspectRatio
             }
         }
@@ -359,14 +359,14 @@ class EditorImageResizerView: UIView {
         let aspectRatio = controlView.aspectRatio
         if aspectRatio.equalTo(.zero) {
             isOriginalRatio = true
-        }else {
+        } else {
             if aspectRatio.width / aspectRatio.height == imageScale {
                 isOriginalRatio = true
             }
         }
     }
     /// 获取当前宽高比下裁剪框的位置大小
-    func getInitializationRatioMaskRect() -> CGRect{
+    func getInitializationRatioMaskRect() -> CGRect {
         let maxWidth = containerView.width - contentInsets.left - contentInsets.right
         let maxHeight = containerView.height - contentInsets.top - contentInsets.bottom
         var maskWidth = maxWidth
@@ -393,7 +393,7 @@ class EditorImageResizerView: UIView {
             maskBgView.alpha = 1
             maskBgView.isHidden = false
             maskBgView.updateBlackMask(isShow: true, animated: false, completion: nil)
-        }else {
+        } else {
             currentAngle = 0
             /// 之前没有裁剪记录时，需要清除上一次设置的宽高比
             if !isFixedRatio {
@@ -424,26 +424,26 @@ class EditorImageResizerView: UIView {
                 self.scrollView.zoomScale = zoomScale
                 if self.hasCropping {
                     self.scrollView.contentOffset = self.checkZoomOffset(self.oldContentOffset, self.scrollView.contentInset)
-                }else {
+                } else {
                     if !self.isOriginalRatio {
                         let offset = CGPoint(x: -self.scrollView.contentInset.left + (self.imageView.width * 0.5 - maskViewFrame.width * 0.5), y: -self.scrollView.contentInset.top + (self.imageView.height * 0.5 - maskViewFrame.height * 0.5))
                         self.scrollView.contentOffset = offset
                     }
                 }
-            } completion: { (isFinished) in
+            } completion: { (_) in
                 self.maskBgView.updateBlackMask(isShow: false, animated: animated, completion: nil)
                 self.showMaskView(animated)
                 self.maskLinesView.setupShadow(false)
                 completion?()
             }
-        }else {
+        } else {
             if hasCropping {
                 scrollView.contentInset = oldContentInset
             }
             scrollView.zoomScale = zoomScale
             if hasCropping {
                 scrollView.contentOffset = checkZoomOffset(oldContentOffset, oldContentInset)
-            }else {
+            } else {
                 if !isOriginalRatio {
                     let offset = CGPoint(x: -scrollView.contentInset.left + (imageView.width * 0.5 - maskViewFrame.width * 0.5), y: -scrollView.contentInset.top + (imageView.height * 0.5 - maskViewFrame.height * 0.5))
                     scrollView.contentOffset = offset
@@ -478,7 +478,7 @@ class EditorImageResizerView: UIView {
             oldAngle = currentAngle
             oldMirrorType = mirrorType
             oldTransform = scrollView.transform
-        }else {
+        } else {
             oldTransform = .identity
             hasCropping = false
         }
@@ -512,7 +512,7 @@ class EditorImageResizerView: UIView {
         updateMaskViewFrame(to: maskRect, animated: animated)
         hiddenMaskView(animated, onlyLines: true)
         maskBgView.updateBlackMask(isShow: true, animated: false, completion: nil)
-        
+
         let scrollCotentInset = getScrollViewContentInset(maskRect)
         if animated {
             UIView.animate(withDuration: 0.25, delay: 0, options: .curveLinear) {
@@ -525,7 +525,7 @@ class EditorImageResizerView: UIView {
                 self.maskBgView.isHidden = true
                 self.maskBgView.alpha = 0
             }
-        }else {
+        } else {
             updateScrollViewContentInset(maskRect)
             scrollView.zoomScale = zoomScale
             scrollView.contentOffset = getZoomOffset(fromRect: controlBeforeRect, zoomScale: zoomScale, scrollCotentInset: scrollCotentInset)
@@ -573,7 +573,7 @@ class EditorImageResizerView: UIView {
                 completion?()
                 self?.clipsToBounds = true
             }
-        }else {
+        } else {
             /// 还原到初始状态
             clipsToBounds = false
             currentAngle = 0
@@ -675,7 +675,7 @@ class EditorImageResizerView: UIView {
             currentAspectRatio = controlView.aspectRatio
             // 检测是否是原始宽高比
             checkOriginalRatio()
-        }else {
+        } else {
             // 停止定时器
             stopControlTimer()
             stopShowMaskBgTimer()
@@ -714,19 +714,19 @@ class EditorImageResizerView: UIView {
                     offsetX = offsetX - controlAfterRect.width * 0.5 * zoomScale
                     offsetY = offsetY - controlAfterRect.height * 0.5 * zoomScale
                     self.scrollView.contentOffset = self.checkZoomOffset(CGPoint(x: offsetX, y: offsetY), scrollViewContentInset)
-                } completion: { (isFinished) in
+                } completion: { (_) in
                     self.changedMaskRectCompletion()
                 }
-            }else {
+            } else {
                 scrollView.contentInset = scrollViewContentInset
                 let offset = checkZoomOffset(scrollView.contentOffset, scrollViewContentInset)
                 if !offset.equalTo(scrollView.contentOffset) {
                     UIView.animate(withDuration: 0.25, delay: 0, options: .curveLinear) {
                         self.scrollView.contentOffset = offset
-                    } completion: { (isFinished) in
+                    } completion: { (_) in
                         self.changedMaskRectCompletion()
                     }
-                }else {
+                } else {
                     changedMaskRectCompletion()
                 }
             }
@@ -794,12 +794,12 @@ class EditorImageResizerView: UIView {
                 maskHeight = maxHeight
             }
             let maskRect = CGRect(x: contentInsets.left + (maxWidth - maskWidth) * 0.5, y: contentInsets.top + (maxHeight - maskHeight) * 0.5, width: maskWidth, height: maskHeight)
-            
+
             updateMaskViewFrame(to: maskRect, animated: true)
         }
         UIView.animate(withDuration: 0.25, delay: 0, options: [.curveLinear]) {
             self.rotateHandler(angleInRadians: angleInRadians, beforeZoomScale: beforeZoomScale, controlBeforeRect: controlBeforeRect)
-        } completion: { (isFinished) in
+        } completion: { (_) in
             self.maskLinesView.setupShadow(false)
             self.changedMaskRectCompletion()
             self.rotating = false
@@ -811,22 +811,22 @@ class EditorImageResizerView: UIView {
         let zoomScale = getScrollViewMinimumZoomScale(controlView.frame)
         scrollView.minimumZoomScale = zoomScale
         scrollView.zoomScale = zoomScale * beforeZoomScale
-        
+
         let controlAfterRect = maskBgView.convert(controlView.frame, to: imageView)
-        
-        var offsetX = controlBeforeRect.midX * scrollView.zoomScale - scrollView.contentInset.left 
+
+        var offsetX = controlBeforeRect.midX * scrollView.zoomScale - scrollView.contentInset.left
         var offsetY = controlBeforeRect.midY * scrollView.zoomScale - scrollView.contentInset.top
         offsetX = offsetX - controlAfterRect.width * 0.5 * scrollView.zoomScale
         offsetY = offsetY - controlAfterRect.height * 0.5 * scrollView.zoomScale
         scrollView.contentOffset = checkZoomOffset(CGPoint(x: offsetX, y: offsetY), scrollView.contentInset)
     }
     func resetScrollViewTransform(transform: CGAffineTransform? = nil, angleInRadians: CGFloat = 0, animated: Bool = false) {
-        
+
         let scrollViewFrame = scrollView.frame
         var rotateTransform: CGAffineTransform
         if let transform = transform {
             rotateTransform = transform
-        }else {
+        } else {
             var identityTransForm = CGAffineTransform.identity
             if mirrorType == .horizontal {
                 identityTransForm = identityTransForm.scaledBy(x: -1, y: 1)
@@ -839,7 +839,7 @@ class EditorImageResizerView: UIView {
                 self.scrollView.frame = scrollViewFrame
             } completion: { (_) in
             }
-        }else {
+        } else {
             scrollView.transform = rotateTransform
             scrollView.frame = scrollViewFrame
         }
@@ -859,7 +859,7 @@ class EditorImageResizerView: UIView {
                 self.changedMaskRectCompletion()
                 self.mirroring = false
             }
-        }else {
+        } else {
             mirrorHorizontallyHandler()
             maskLinesView.setupShadow(false)
             changedMaskRectCompletion()
@@ -883,7 +883,7 @@ class EditorImageResizerView: UIView {
             default:
                 scrollView.transform = rotateTransform.scaledBy(x: -1, y: 1)
             }
-        }else {
+        } else {
             mirrorType = .none
             switch currentAngle {
             case -90, 90:
@@ -943,7 +943,7 @@ class EditorImageResizerView: UIView {
                     self.imageView.stickerView.layer.contents = nil
                 }
             }
-            var otherImage: UIImage? = nil
+            var otherImage: UIImage?
             if !otherImages.isEmpty {
                 otherImage = UIImage.merge(images: otherImages)?.scaleToFillSize(size: inputImage.size)
             }
@@ -986,7 +986,7 @@ class EditorImageResizerView: UIView {
         }
         return nil
     }
-    func cropImage(_ inputImage: UIImage?, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage?  {
+    func cropImage(_ inputImage: UIImage?, toRect cropRect: CGRect, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
         var image = inputImage?.cropImage(toRect: cropRect, viewWidth: viewWidth, viewHeight: viewHeight)
         if cropConfig.isRoundCrop {
             image = image?.roundCropping()
@@ -1003,7 +1003,7 @@ class EditorImageResizerView: UIView {
         return image
     }
     /// 更新scrollView的显示内容
-    func updateScrollViewContent(contentInset: UIEdgeInsets?, zoomScale: CGFloat, contentOffset: CGPoint, animated: Bool, resetAngle: Bool = false, completion: (()->())? = nil) {
+    func updateScrollViewContent(contentInset: UIEdgeInsets?, zoomScale: CGFloat, contentOffset: CGPoint, animated: Bool, resetAngle: Bool = false, completion: (()->Void)? = nil) {
         if animated {
             UIView.animate(withDuration: 0.25, delay: 0, options: .curveLinear) {
                 if resetAngle {
@@ -1014,10 +1014,10 @@ class EditorImageResizerView: UIView {
                 }
                 self.scrollView.zoomScale = zoomScale
                 self.scrollView.contentOffset = contentOffset
-            } completion: { (isFinished) in
+            } completion: { (_) in
                 completion?()
             }
-        }else {
+        } else {
             if resetAngle {
                 resetScrollViewTransform()
             }
@@ -1029,7 +1029,7 @@ class EditorImageResizerView: UIView {
             completion?()
         }
     }
-    
+
     /// 更新scrollView,停止定时器
     func resetOther() {
         updateScrollView()
@@ -1041,8 +1041,8 @@ class EditorImageResizerView: UIView {
     func updateContentInsets() {
         if UIDevice.isPortrait {
             contentInsets = UIEdgeInsets(top: 20 + UIDevice.generalStatusBarHeight, left: 30 + UIDevice.leftMargin, bottom: 125 + UIDevice.bottomMargin, right: 30 + UIDevice.rightMargin)
-        }else {
-            contentInsets = UIEdgeInsets(top: 20 , left: 30 + UIDevice.leftMargin, bottom: 125 + UIDevice.bottomMargin, right: 30 + UIDevice.rightMargin)
+        } else {
+            contentInsets = UIEdgeInsets(top: 20, left: 30 + UIDevice.leftMargin, bottom: 125 + UIDevice.bottomMargin, right: 30 + UIDevice.rightMargin)
         }
     }
     /// 屏幕旋转时需要还原到初始配置
@@ -1054,7 +1054,7 @@ class EditorImageResizerView: UIView {
         let maxControlRect = CGRect(x: contentInsets.left, y: contentInsets.top, width: containerView.width - contentInsets.left - contentInsets.right, height: containerView.height - contentInsets.top - contentInsets.bottom)
         controlView.maxImageresizerFrame = maxControlRect
     }
-    
+
     func setViewFrame(_ frame: CGRect) {
         containerView.frame = frame
         maskBgView.frame = containerView.bounds
@@ -1070,18 +1070,18 @@ class EditorImageResizerView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }
 // MARK: ScrollView Action
 extension EditorImageResizerView {
-    
+
     /// 获取初始缩放比例
     func getInitialZoomScale() -> CGFloat {
         let maxWidth = containerView.width - contentInsets.left - contentInsets.right
         let maxHeight = containerView.height - contentInsets.top - contentInsets.bottom
         var imageWidth: CGFloat
         var imageHeight: CGFloat
-        
+
         switch getImageOrientation() {
         case .up, .down:
             imageWidth = maxWidth
@@ -1090,7 +1090,7 @@ extension EditorImageResizerView {
                 imageHeight = maxHeight
                 imageWidth = imageHeight * imageScale
             }
-            
+
             if !isOriginalRatio {
                 let maskRect = getInitializationRatioMaskRect()
                 if imageHeight < maskRect.height {
@@ -1107,7 +1107,7 @@ extension EditorImageResizerView {
                 imageWidth = maxHeight
                 imageHeight = imageWidth / imageScale
             }
-            
+
             if !isOriginalRatio {
                 let maskRect = getInitializationRatioMaskRect()
                 if imageWidth < maskRect.height {
@@ -1122,7 +1122,7 @@ extension EditorImageResizerView {
         let minimumZoomScale = imageWidth / baseImageSize.width
         return minimumZoomScale
     }
-    
+
     /// 更新scrollView属性
     func updateScrollView() {
         scrollView.alwaysBounceVertical = state == .cropping
@@ -1141,7 +1141,7 @@ extension EditorImageResizerView {
             if isOld ? oldMirrorType == .horizontal : mirrorType == .horizontal {
                 left = containerView.width - rect.maxX
                 right = rect.minX
-            }else {
+            } else {
                 left = rect.minX
                 right = containerView.width - rect.maxX
             }
@@ -1154,7 +1154,7 @@ extension EditorImageResizerView {
             if isOld ? oldMirrorType == .horizontal : mirrorType == .horizontal {
                 top = containerView.width - rect.maxX
                 bottom = rect.minX
-            }else {
+            } else {
                 top = rect.minX
                 bottom = containerView.width - rect.maxX
             }
@@ -1167,7 +1167,7 @@ extension EditorImageResizerView {
             if isOld ? oldMirrorType == .horizontal : mirrorType == .horizontal {
                 left = rect.minX
                 right = containerView.width - rect.maxX
-            }else {
+            } else {
                 left = containerView.width - rect.maxX
                 right = rect.minX
             }
@@ -1180,7 +1180,7 @@ extension EditorImageResizerView {
             if isOld ? oldMirrorType == .horizontal : mirrorType == .horizontal {
                 top = rect.minX
                 bottom = containerView.width - rect.maxX
-            }else {
+            } else {
                 top = containerView.width - rect.maxX
                 bottom = rect.minX
             }
@@ -1191,7 +1191,7 @@ extension EditorImageResizerView {
     func updateScrollViewContentInset(_ rect: CGRect) {
         scrollView.contentInset = getScrollViewContentInset(rect)
     }
-    
+
     /// 根据裁剪框大小获取最小缩放比例
     /// - Parameter rect: 线框大小
     /// - Returns: 最小缩放比例
@@ -1214,7 +1214,7 @@ extension EditorImageResizerView {
                     minZoomScale *= rectH / scaleHeight
                 }
             }
-        }else {
+        } else {
             switch getImageOrientation() {
             case .up, .down:
                 minZoomScale = rectH / baseImageSize.height
@@ -1276,13 +1276,13 @@ extension EditorImageResizerView {
                     self.maskBgView.alpha = 0
                 }
                 self.maskLinesView.alpha = 0
-            } completion: { (isFinished) in
+            } completion: { (_) in
                 if !onlyLines {
                     self.maskBgView.isHidden = true
                 }
                 self.maskLinesView.isHidden = true
             }
-        }else {
+        } else {
             if !onlyLines {
                 self.maskBgView.isHidden = true
                 self.maskBgView.alpha = 0
@@ -1291,7 +1291,7 @@ extension EditorImageResizerView {
             self.maskLinesView.alpha = 0
         }
     }
-    
+
     /// 隐藏遮罩界面
     func showMaskView(_ animated: Bool) {
         if animated {
@@ -1300,9 +1300,9 @@ extension EditorImageResizerView {
             UIView.animate(withDuration: 0.25, delay: 0, options: .curveLinear) {
                 self.maskBgView.alpha = 1
                 self.maskLinesView.alpha = 1
-            } completion: { (isFinished) in
+            } completion: { (_) in
             }
-        }else {
+        } else {
             self.maskBgView.isHidden = false
             self.maskLinesView.isHidden = false
             self.maskBgView.alpha = 1
@@ -1395,7 +1395,7 @@ extension EditorImageResizerView: UIScrollViewDelegate {
         if !decelerate {
             if inControlTimer {
                 startControlTimer()
-            }else {
+            } else {
                 startShowMaskBgTimer()
             }
             delegate?.imageResizerView(didEndDecelerating: self)
@@ -1407,7 +1407,7 @@ extension EditorImageResizerView: UIScrollViewDelegate {
         }
         if inControlTimer {
             startControlTimer()
-        }else {
+        } else {
             startShowMaskBgTimer()
         }
         delegate?.imageResizerView(didEndDecelerating: self)
@@ -1417,7 +1417,7 @@ extension EditorImageResizerView: UIScrollViewDelegate {
     }
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         updateScrollViewContentInset(controlView.frame)
-        
+
     }
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         if state != .cropping {
@@ -1436,7 +1436,7 @@ extension EditorImageResizerView: UIScrollViewDelegate {
         zoomScale = scale
         if inControlTimer {
             startControlTimer()
-        }else {
+        } else {
             startShowMaskBgTimer()
         }
         delegate?.imageResizerView(didEndZooming: self)
@@ -1444,7 +1444,7 @@ extension EditorImageResizerView: UIScrollViewDelegate {
 }
 // MARK: EditorImageResizerControlViewDelegate
 extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
-    
+
     func controlView(beganChanged controlView: EditorImageResizerControlView, _ rect: CGRect) {
         delegate?.imageResizerView(willChangedMaskRect: self)
         hideMaskBgView()
@@ -1457,7 +1457,7 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
         }
         maskBgView.updateLayers(rect, false)
         maskLinesView.updateLayers(rect, false)
-        
+
         scrollView.minimumZoomScale = getScrollViewMinimumZoomScale(rect)
         var imageViewHeight: CGFloat
         var imageViewWidth: CGFloat
@@ -1496,12 +1496,12 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
         controlTimer = timer
         inControlTimer = true
     }
-    
+
     func stopControlTimer() {
         controlTimer?.invalidate()
         controlTimer = nil
     }
-    
+
     @objc func controlTimerAction() {
         adjustmentViews(true)
     }
@@ -1548,7 +1548,7 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
         case .up:
             if mirrorType == .horizontal {
                 offsetX = offset.x + (rect.midX - beforeRect.midX)
-            }else {
+            } else {
                 offsetX = offset.x - (rect.midX - beforeRect.midX)
             }
             offsetY = offset.y - (rect.midY - beforeRect.midY)
@@ -1556,13 +1556,13 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
             offsetX = offset.x + (rect.midY - beforeRect.midY)
             if mirrorType == .horizontal {
                 offsetY = offset.y + (rect.midX - beforeRect.midX)
-            }else {
+            } else {
                 offsetY = offset.y - (rect.midX - beforeRect.midX)
             }
         case .down:
             if mirrorType == .horizontal {
                 offsetX = offset.x - (rect.midX - beforeRect.midX)
-            }else {
+            } else {
                 offsetX = offset.x + (rect.midX - beforeRect.midX)
             }
             offsetY = offset.y + (rect.midY - beforeRect.midY)
@@ -1570,7 +1570,7 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
             offsetX = offset.x - (rect.midY - beforeRect.midY)
             if mirrorType == .horizontal {
                 offsetY = offset.y - (rect.midX - beforeRect.midX)
-            }else {
+            } else {
                 offsetY = offset.y + (rect.midX - beforeRect.midX)
             }
         }
@@ -1586,7 +1586,7 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
                     offset = self.getZoomOffset(fromRect: controlBeforeRect, zoomScale: zoomScale, scrollCotentInset: scrollCotentInset)
                 }
                 self.scrollView.contentOffset = offset
-            } completion: { (isFinished) in
+            } completion: { (_) in
                 if showMaskShadow {
                     self.maskLinesView.setupShadow(false)
                 }
@@ -1594,7 +1594,7 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
                 self.inControlTimer = false
                 self.delegate?.imageResizerView(didEndChangedMaskRect: self)
             }
-        }else {
+        } else {
             updateScrollViewContentInset(rect)
             if needZoomScale {
                 /// 需要进行缩放
@@ -1661,10 +1661,10 @@ extension EditorImageResizerView: EditorImageResizerControlViewDelegate {
             let scale = scrollView.maximumZoomScale - scrollView.zoomScale
             if scale > 0 {
                 widthScale = scrollView.maximumZoomScale
-            }else {
+            } else {
                 isMaxZoom = true
             }
-        }else {
+        } else {
             widthScale *= scrollView.zoomScale
         }
         return isMaxZoom ? scrollView.zoomScale : widthScale

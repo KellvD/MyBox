@@ -24,6 +24,8 @@
 		7B7D6A3EBFC0918191A7CE83 /* Pods_CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8030AD8D70A859E636253C25 /* Pods_CDMediaEditor.framework */; };
 		84D3C4F6B834002915F39351 /* Pods_CDIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBCE9C94B3FF95BD9E17E8E6 /* Pods_CDIndicator.framework */; };
 		890988EAE4691568ABECD92D /* Pods_MyBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64BA84B68FFF6438CFA05037 /* Pods_MyBox.framework */; };
+		B53210A22A31C2200072A10A /* UIView+Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53210A12A31C2200072A10A /* UIView+Rect.swift */; };
+		B53210A42A31C2E90072A10A /* UIView+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53210A32A31C2E90072A10A /* UIView+Components.swift */; };
 		B57A29BD290E58CB0094D3F8 /* Emoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B57A29BC290E58CB0094D3F8 /* Emoji.bundle */; };
 		B5B057D729B04B90005D08AB /* CDJsonObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B057D629B04B90005D08AB /* CDJsonObject.swift */; };
 		EF29E2AC2712DA480041092B /* CDMediaEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF29E2A52712DA480041092B /* CDMediaEditor.framework */; };
@@ -422,6 +424,8 @@
 		8030AD8D70A859E636253C25 /* Pods_CDMediaEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDMediaEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C1D6365E89783CAB13F282 /* Pods-CDIndicator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDIndicator.release.xcconfig"; path = "Target Support Files/Pods-CDIndicator/Pods-CDIndicator.release.xcconfig"; sourceTree = "<group>"; };
 		A400F14B5B655D98B6BE37D9 /* Pods-CDIndicator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDIndicator.debug.xcconfig"; path = "Target Support Files/Pods-CDIndicator/Pods-CDIndicator.debug.xcconfig"; sourceTree = "<group>"; };
+		B53210A12A31C2200072A10A /* UIView+Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Rect.swift"; sourceTree = "<group>"; };
+		B53210A32A31C2E90072A10A /* UIView+Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Components.swift"; sourceTree = "<group>"; };
 		B57A29BC290E58CB0094D3F8 /* Emoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Emoji.bundle; sourceTree = "<group>"; };
 		B5B057D629B04B90005D08AB /* CDJsonObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDJsonObject.swift; sourceTree = "<group>"; };
 		C2BC4C0928BE9CD6636C6D33 /* Pods_Share.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Share.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1341,6 +1345,8 @@
 				EF91AE1B26D0A1AA00A6943F /* NSNotification+extension.swift */,
 				EF91AE1C26D0A1AA00A6943F /* UITextView+extension.swift */,
 				EF91AE1D26D0A1AA00A6943F /* UIView+animation.swift */,
+				B53210A12A31C2200072A10A /* UIView+Rect.swift */,
+				B53210A32A31C2E90072A10A /* UIView+Components.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1635,7 +1641,6 @@
 				73550FE32457C0AB009B7599 /* Resources */,
 				EF7C522824C2DAD600DA7605 /* Embed App Extensions */,
 				299C1926A4D0A26D61BBE8AF /* [CP] Embed Pods Frameworks */,
-				B56F9CB72945BAC10030F8CF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1972,23 +1977,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B56F9CB72945BAC10030F8CF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n$(PODS_ROOT)/SwiftLint/swiftlint\n";
-		};
 		E712BDBDBBEB3199E2567303 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2095,12 +2083,14 @@
 				EF91AF9D26D0A1AB00A6943F /* CDTextViewController.swift in Sources */,
 				EF91AF9A26D0A1AB00A6943F /* CDPDFViewController.swift in Sources */,
 				EF91AF8826D0A1AB00A6943F /* CDReaderToolBar.swift in Sources */,
+				B53210A22A31C2200072A10A /* UIView+Rect.swift in Sources */,
 				EF91AFA026D0A1AB00A6943F /* CDMarkFileViewController.swift in Sources */,
 				EF91AF8A26D0A1AB00A6943F /* CDReaderBean.swift in Sources */,
 				EF91AFE526D0A1AB00A6943F /* CDFaceLockViewController.swift in Sources */,
 				EF82F877273696BF0086CCA0 /* UIImage+Gif.swift in Sources */,
 				EF29E3AE2712DBEA0041092B /* CDMonthAttendanceView.swift in Sources */,
 				EF82F87B273697040086CCA0 /* CDCameraBottomBar.swift in Sources */,
+				B53210A42A31C2E90072A10A /* UIView+Components.swift in Sources */,
 				EF91AFA926D0A1AB00A6943F /* CDVideoScrollerViewController.swift in Sources */,
 				EF91AF0C26D0A1AB00A6943F /* CDPickerView.swift in Sources */,
 				EF91AFE326D0A1AB00A6943F /* CDImageViewController.swift in Sources */,

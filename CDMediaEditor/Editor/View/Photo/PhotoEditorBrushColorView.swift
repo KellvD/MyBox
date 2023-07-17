@@ -27,7 +27,7 @@ class PhotoEditorBrushColorView: UIView {
         flowLayout.itemSize = CGSize(width: 37, height: 37)
         return flowLayout
     }()
-    
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -41,13 +41,13 @@ class PhotoEditorBrushColorView: UIView {
         collectionView.register(PhotoEditorBrushColorViewCell.self, forCellWithReuseIdentifier: "PhotoEditorBrushColorViewCellID")
         return collectionView
     }()
-    
+
     var canUndo: Bool = false {
         didSet {
             undoButton.isEnabled = canUndo
         }
     }
-    
+
     lazy var undoButton: UIButton = {
         let button = UIButton.init(type: .system)
         button.setImage(UIImage.image(for: "hx_editor_brush_repeal"), for: .normal)
@@ -56,24 +56,24 @@ class PhotoEditorBrushColorView: UIView {
         button.isEnabled = false
         return button
     }()
-    
+
     @objc func didUndoClick(button: UIButton) {
         delegate?.brushColorView(didUndoButton: self)
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(collectionView)
         addSubview(undoButton)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         collectionView.frame = bounds
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 12 + UIDevice.leftMargin, bottom: 0, right: height + UIDevice.rightMargin)
         undoButton.frame = CGRect(x: width - UIDevice.rightMargin - height, y: 0, width: height, height: height)
@@ -103,7 +103,7 @@ class PhotoEditorBrushColorViewCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         return view
     }()
-    
+
     lazy var colorView: UIView = {
         let view = UIView.init()
         view.size = CGSize(width: 16, height: 16)
@@ -111,19 +111,19 @@ class PhotoEditorBrushColorViewCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         return view
     }()
-    
+
     var colorHex: String! {
         didSet {
             let color = colorHex.color
             if color.isWhite {
                 colorBgView.backgroundColor = "#dadada".color
-            }else {
+            } else {
                 colorBgView.backgroundColor = .white
             }
             colorView.backgroundColor = color
         }
     }
-    
+
     override var isSelected: Bool {
         didSet {
             UIView.animate(withDuration: 0.2) {
@@ -132,20 +132,20 @@ class PhotoEditorBrushColorViewCell: UICollectionViewCell {
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(colorBgView)
         contentView.addSubview(colorView)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         colorBgView.center = CGPoint(x: width / 2, y: height / 2)
         colorView.center = CGPoint(x: width / 2, y: height / 2)
     }

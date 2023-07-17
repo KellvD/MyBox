@@ -42,7 +42,7 @@ class EditorStickerView: UIView {
     var count: Int {
         subviews.count
     }
-    
+
     var selectView: EditorStickerItemView? {
         willSet {
             if let selectView = selectView,
@@ -61,7 +61,7 @@ class EditorStickerView: UIView {
     }()
     var trashViewDidRemove: Bool = false
     var trashViewIsVisible: Bool = false
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
@@ -89,7 +89,7 @@ class EditorStickerView: UIView {
                 itemView.resetRotaion()
                 selectView = itemView
             }
-        }else {
+        } else {
             if let selectView = selectView {
                 var rect = selectView.frame
                 rect = CGRect(x: rect.minX - 35, y: rect.minY - 35, width: rect.width + 70, height: rect.height + 70)
@@ -101,11 +101,11 @@ class EditorStickerView: UIView {
         }
         return view
     }
-    
+
     func update(item: EditorStickerItem) {
         selectView?.update(item: item)
     }
-    
+
     var beforeItemArg: CGFloat = 0
     var currentItemArg: CGFloat = 0
     var addWindowCompletion: Bool = false
@@ -120,15 +120,15 @@ class EditorStickerView: UIView {
                         if mirrorType == .horizontal {
                             if itemView.mirrorType == .none {
                                 itemView.mirrorType = .horizontal
-                            }else {
+                            } else {
                                 itemView.mirrorType = .none
                             }
                         }
-                    }else {
+                    } else {
                         if mirrorType == .none {
                             if itemView.mirrorType == .none {
                                 itemView.mirrorType = .horizontal
-                            }else {
+                            } else {
                                 itemView.mirrorType = .none
                             }
                         }
@@ -139,7 +139,7 @@ class EditorStickerView: UIView {
             }
         }
     }
-    
+
     @discardableResult
     func add(sticker item: EditorStickerItem, isSelected: Bool) -> EditorStickerItemView {
         selectView?.isSelected = false
@@ -157,7 +157,7 @@ class EditorStickerView: UIView {
                 height = UIScreen.main.bounds.height
             }
             pScale = min(ratio * width / itemView.width, ratio * height / itemView.height)
-        }else {
+        } else {
             pScale = min(min(self.width * self.scale - 40, itemView.width) / itemView.width, min(self.height * self.scale - 40, itemView.height) / itemView.height)
         }
         itemView.superAngle = angle
@@ -165,7 +165,7 @@ class EditorStickerView: UIView {
         var radians = angleRadians()
         if mirrorType == .none {
             radians = -radians
-        }else {
+        } else {
             if angle.truncatingRemainder(dividingBy: 180) == 0 {
                 radians = -radians
             }
@@ -208,12 +208,12 @@ class EditorStickerView: UIView {
         addSubview(itemView)
         if mirrorType == .none {
             itemView.update(pinchScale: itemView.pinchScale, rotation: itemView.radian - currentItemDegrees, isMirror: true)
-        }else {
+        } else {
             itemView.update(pinchScale: itemView.pinchScale, rotation: beforeItemArg + arg, isMirror: true)
         }
     }
-    
-    func windowAdd(itemView : EditorStickerItemView) {
+
+    func windowAdd(itemView: EditorStickerItemView) {
         beforeItemArg = itemView.radian
         addWindowCompletion = true
         let radians = angleRadians()
@@ -223,20 +223,20 @@ class EditorStickerView: UIView {
         UIApplication.shared.keyWindow?.addSubview(itemView)
         if mirrorType == .none {
             itemView.update(pinchScale: itemView.pinchScale, rotation: itemView.radian + radians, isMirror: true)
-        }else {
+        } else {
             if itemView.mirrorType == .horizontal {
                 itemView.update(pinchScale: itemView.pinchScale, rotation: itemView.radian + radians, isMirror: true)
-            }else {
+            } else {
                 if angle.truncatingRemainder(dividingBy: 180) != 0 {
                     itemView.update(pinchScale: itemView.pinchScale, rotation: itemView.radian + radians, isMirror: true)
-                }else {
+                } else {
                     itemView.update(pinchScale: itemView.pinchScale, rotation: itemView.radian - radians, isMirror: true)
                 }
             }
         }
         currentItemArg = itemView.radian
     }
-    
+
     func mirrorTransForm(radians: CGFloat) -> CGAffineTransform {
         let transfrom = CGAffineTransform(scaleX: -1, y: 1)
         switch radians {
@@ -252,7 +252,7 @@ class EditorStickerView: UIView {
             return transfrom
         }
     }
-    
+
     func angleRadians() -> CGFloat {
         switch angle {
         case 90:
@@ -271,7 +271,7 @@ class EditorStickerView: UIView {
             return 0
         }
     }
-    
+
     func showTrashView() {
         trashViewDidRemove = false
         trashViewIsVisible = true
@@ -285,7 +285,7 @@ class EditorStickerView: UIView {
             }
         }
     }
-    
+
     @objc func hideTrashView() {
         trashViewIsVisible = false
         trashViewDidRemove = true
@@ -297,14 +297,14 @@ class EditorStickerView: UIView {
             if !self.trashViewIsVisible {
                 self.trashView.removeFromSuperview()
                 self.trashView.inArea = false
-            }else {
+            } else {
                 self.trashView.y = UIScreen.main.bounds.height - UIDevice.bottomMargin - 20 - self.trashView.height
                 self.trashView.alpha = 1
             }
         }
 
     }
-    
+
     func stickerData() -> EditorStickerData? {
         var datas: [EditorStickerItemData] = []
         for subView in subviews {
@@ -332,7 +332,7 @@ class EditorStickerView: UIView {
             itemView.center = CGPoint(x: viewSize.width * itemData.centerScale.x, y: viewSize.height * itemData.centerScale.y)
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -342,21 +342,21 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
     func stickerItemView(_ itemView: EditorStickerItemView, updateStickerText item: EditorStickerItem) {
         delegate?.stickerView(self, updateStickerText: item)
     }
-    
+
     func stickerItemView(shouldTouchBegan itemView: EditorStickerItemView) -> Bool {
         if let selectView = selectView, itemView != selectView {
             return false
         }
         return true
     }
-    
+
     func stickerItemView(didTouchBegan itemView: EditorStickerItemView) {
         touching = true
         delegate?.stickerView(touchBegan: self)
         if let selectView = selectView, selectView != itemView {
             selectView.isSelected = false
             self.selectView = itemView
-        }else if selectView == nil {
+        } else if selectView == nil {
             selectView = itemView
         }
         if !addWindowCompletion {
@@ -367,13 +367,13 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
             showTrashView()
         }
     }
-    
+
     func stickerItemView(touchEnded itemView: EditorStickerItemView) {
         delegate?.stickerView(touchEnded: self)
         if let selectView = selectView, selectView != itemView {
             selectView.isSelected = false
             self.selectView = itemView
-        }else if selectView == nil {
+        } else if selectView == nil {
             selectView = itemView
         }
         resetItemView(itemView: itemView)
@@ -399,7 +399,7 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
             }
         }
     }
-    
+
     func stickerItemView(_ itemView: EditorStickerItemView, panGestureRecognizerChanged panGR: UIPanGestureRecognizer) {
         let point = panGR.location(in: UIApplication.shared.keyWindow)
         if trashView.frame.contains(point) && !trashViewDidRemove {
@@ -414,7 +414,7 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
                 shake.impactOccurred()
                 hasImpactFeedback = true
             }
-        }else {
+        } else {
             UIView.animate(withDuration: 0.2) {
                 self.selectView?.alpha = 1
             }
@@ -440,11 +440,11 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
                 itemView.removeFromSuperview()
             }
             selectView = nil
-        }else {
+        } else {
             if let selectView = selectView, selectView != itemView {
                 selectView.isSelected = false
                 self.selectView = itemView
-            }else if selectView == nil {
+            } else if selectView == nil {
                 selectView = itemView
             }
             resetItemView(itemView: itemView)
@@ -460,7 +460,7 @@ extension EditorStickerView: EditorStickerItemViewDelegate {
         }
         return 5
     }
-    
+
     func stickerItemView(_ itemView: EditorStickerItemView, minScale itemSize: CGSize) -> CGFloat {
         if let minScale = delegate?.stickerView(self, minScale: itemSize) {
             return minScale

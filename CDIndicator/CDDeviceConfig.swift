@@ -11,13 +11,13 @@ import SystemConfiguration
 
 class CDDeviceConfig: NSObject {
 
-    class func getPhoneName()->String{
+    class func getPhoneName() -> String {
         var systemInfo = utsname()
         uname(&systemInfo)
         let platform = withUnsafePointer(to: &systemInfo.machine.0) { ptr in
             return String(cString: ptr)
         }
-   
+
         if platform == "iPhone8,4" {return"iPhone SE"}
         if platform == "iPhone9,1" {return"iPhone 7"}
         if platform == "iPhone9,2" {return"iPhone 7 Plus"}
@@ -50,7 +50,7 @@ class CDDeviceConfig: NSObject {
         if platform == "iPad5,3" || platform == "iPad5,4" {return"iPad Air 2"}
         if platform == "iPad6,3" || platform == "iPad6,4" {return"iPad Pro 9.7"}
         if platform == "iPad6,7" || platform == "iPad6,8" {return"iPad Pro 12.9"}
-        if platform == "i386"    || platform == "x86_64"  {return"iPhone Simulator"}
+        if platform == "i386"    || platform == "x86_64" {return"iPhone Simulator"}
         return platform
 
     }

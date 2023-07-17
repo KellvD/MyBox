@@ -8,14 +8,13 @@
 
 import UIKit
 import CoreLocation
-class CDLocationManager: NSObject,CLLocationManagerDelegate {
+class CDLocationManager: NSObject, CLLocationManagerDelegate {
 
-    var location:CLLocation!
-    var cityName:String!
-    
-    
-    private var locationManager:CLLocationManager!
-    
+    var location: CLLocation!
+    var cityName: String!
+
+    private var locationManager: CLLocationManager!
+
     static let shared = CDLocationManager()
     override init() {
         super.init()
@@ -24,37 +23,37 @@ class CDLocationManager: NSObject,CLLocationManagerDelegate {
         locationManager.distanceFilter = 1000.0
         locationManager.delegate = self
     }
-    
-    func startLocation(){
+
+    func startLocation() {
         locationManager.startUpdatingLocation()
     }
-    
-    func stopLocation(){
+
+    func stopLocation() {
         locationManager.stopUpdatingLocation()
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.first!
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if error == nil{
+            if error == nil {
                 placemarks?.forEach({ (place) in
                     self.cityName = place.locality!
                 })
             }
         }
     }
-    
-    public func reverseGeocode(oTocation: CLLocation?,complete:@escaping (_ street:String)->Void){
+
+    public func reverseGeocode(oTocation: CLLocation?, complete:@escaping (_ street: String) -> Void) {
         if oTocation == nil {
             complete("西安市未央区")
             return
         }
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(oTocation!, preferredLocale: nil) { marks, error in
+        geocoder.reverseGeocodeLocation(oTocation!, preferredLocale: nil) { marks, _ in
             let mark = marks![0]
             complete(mark.name!)
-            
+
         }
     }
 }

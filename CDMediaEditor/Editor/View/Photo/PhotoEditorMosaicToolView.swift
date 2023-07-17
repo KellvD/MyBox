@@ -24,7 +24,7 @@ class PhotoEditorMosaicToolView: UIView {
         button.imageView?.tintColor = selectedColor
         return button
     }()
-    
+
     @objc func didMosaicClick(button: UIButton) {
         button.isSelected = true
         button.imageView?.tintColor = selectedColor
@@ -41,7 +41,7 @@ class PhotoEditorMosaicToolView: UIView {
         button.tintColor = .white
         return button
     }()
-    
+
     @objc func didSmearClick(button: UIButton) {
         button.isSelected = true
         button.imageView?.tintColor = selectedColor
@@ -57,7 +57,7 @@ class PhotoEditorMosaicToolView: UIView {
         button.isEnabled = false
         return button
     }()
-    
+
     @objc func didUndoClick(button: UIButton) {
         delegate?.mosaicToolView(didUndoClick: self)
     }
@@ -73,7 +73,7 @@ class PhotoEditorMosaicToolView: UIView {
                 mosaicButton.imageView?.tintColor = selectedColor
                 smearButton.isSelected = false
                 smearButton.imageView?.tintColor = nil
-            }else {
+            } else {
                 mosaicButton.isSelected = false
                 mosaicButton.imageView?.tintColor = nil
                 smearButton.isSelected = true
@@ -89,11 +89,11 @@ class PhotoEditorMosaicToolView: UIView {
         addSubview(smearButton)
         addSubview(undoButton)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         let buttonWidth = (width - UIDevice.leftMargin - UIDevice.rightMargin - height) * 0.5

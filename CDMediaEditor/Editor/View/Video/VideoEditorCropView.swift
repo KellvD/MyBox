@@ -19,9 +19,9 @@ protocol VideoEditorCropViewDelegate: NSObjectProtocol {
 }
 
 class VideoEditorCropView: UIView {
-    
+
     weak var delegate: VideoEditorCropViewDelegate?
-    
+
     let imageWidth: CGFloat = 8
     var validRectX: CGFloat {
         30 + UIDevice.leftMargin
@@ -33,7 +33,7 @@ class VideoEditorCropView: UIView {
         }
     }
     var config: VideoCroppingConfiguration
-    
+
     var videoFrameCount: Int = 0
     lazy var frameMaskView: VideoEditorFrameMaskView = {
         let frameMaskView = VideoEditorFrameMaskView.init()
@@ -89,7 +89,7 @@ class VideoEditorCropView: UIView {
         return lineView
     }()
     lazy var videoFrameMap: [Int: CGImage] = [:]
-    
+
     var videoSize: CGSize = .zero
     /// 一个item代表多少秒
     var interval: CGFloat = -1
@@ -97,13 +97,13 @@ class VideoEditorCropView: UIView {
     var itemHeight: CGFloat = 60
     var lineDidAnimate = false
     var imageGenerator: AVAssetImageGenerator?
-    
+
     convenience init(avAsset: AVAsset, config: VideoCroppingConfiguration) {
         self.init(config: config)
         self.avAsset = avAsset
         videoSize = PhotoTools.getVideoThumbnailImage(avAsset: avAsset, atTime: 0.1)?.size ?? .zero
     }
-    
+
     init(config: VideoCroppingConfiguration) {
         self.config = config
         super.init(frame: .zero)
@@ -114,11 +114,11 @@ class VideoEditorCropView: UIView {
         addSubview(totalTimeLb)
         addSubview(progressLineView)
     }
-    
+
     func configData() {
         imageGenerator?.cancelAllCGImageGeneration()
         videoFrameMap.removeAll()
-        
+
         collectionView.contentInset = UIEdgeInsets(top: 2, left: validRectX + imageWidth, bottom: 2, right: validRectX + imageWidth)
         let cellHeight = itemHeight - 4
         itemWidth = cellHeight / 16 * 9
@@ -145,21 +145,21 @@ class VideoEditorCropView: UIView {
         if videoSecond <= videoMaximumCropDuration {
             let itemCount = maxWidth / itemWidth
             singleItemSecond = videoSecond / itemCount
-            
+
             contentWidth = maxWidth
             videoFrameCount = Int(ceilf(Float(itemCount)))
             interval = singleItemSecond
-        }else {
+        } else {
             let singleSecondWidth = maxWidth / videoMaximumCropDuration
             singleItemSecond = itemWidth / singleSecondWidth
-            
+
             contentWidth = singleSecondWidth * videoSecond
             videoFrameCount = Int(ceilf(Float(contentWidth / itemWidth)))
             interval = singleItemSecond
         }
         if round(videoSecond) <= 0 {
             frameMaskView.minWidth = contentWidth
-        }else {
+        } else {
             var videoMinimunCropDuration = CGFloat(config.minimumVideoCroppingTime)
             if videoMinimunCropDuration < 1 {
                 videoMinimunCropDuration = 1
@@ -204,7 +204,7 @@ extension VideoEditorCropView {
         var x: CGFloat
         if time.seconds == getStartTime(real: true).seconds {
             x = mixX
-        }else {
+        } else {
             x = CGFloat(time.seconds / avAsset.duration.seconds) * contentWidth - collectionView.contentOffset.x
         }
         setLineAnimation(x: x, duration: TimeInterval(duration))
@@ -287,7 +287,7 @@ extension VideoEditorCropView {
         var second = (offsetX + validX) / contentWidth * videoDuration(real: real)
         if second < 0 {
             second = 0
-        }else if second > videoDuration(real: real) {
+        } else if second > videoDuration(real: real) {
             second = videoDuration(real: real)
         }
         return second
@@ -313,14 +313,14 @@ extension VideoEditorCropView {
         let maxOffsetX = contentWidth - (collectionView.width - inset.left)
         if offset.x < -inset.left {
             offset.x = -inset.left
-        }else if offset.x > maxOffsetX {
+        } else if offset.x > maxOffsetX {
             offset.x = maxOffsetX
         }
         collectionView.setContentOffset(offset, animated: false)
     }
 }
 extension VideoEditorCropView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         videoFrameCount
     }
@@ -352,16 +352,16 @@ extension VideoEditorCropView: UICollectionViewDataSource, UICollectionViewDeleg
         let maxIndex = videoFrameCount - 1
         if index == 0 {
             second = 0.1
-        }else if index >= maxIndex {
+        } else if index >= maxIndex {
             if avAsset.duration.seconds < 1 {
                 second = CGFloat(avAsset.duration.seconds - 0.1)
-            }else {
+            } else {
                 second = CGFloat(avAsset.duration.seconds - 0.5)
             }
-        }else {
+        } else {
             if avAsset.duration.seconds < 1 {
                 second = 0
-            }else {
+            } else {
                 second = CGFloat(index) * interval + interval * 0.5
             }
         }
@@ -377,8 +377,8 @@ extension VideoEditorCropView: UICollectionViewDataSource, UICollectionViewDeleg
         imageGenerator?.appliesPreferredTrackTransform = true
         imageGenerator?.requestedTimeToleranceAfter = .zero
         imageGenerator?.requestedTimeToleranceBefore = .zero
-         
-        var times:[NSValue] = []
+
+        var times: [NSValue] = []
         for index in 0..<videoFrameCount {
             let time = getVideoCurrentTime(for: index)
             times.append(NSValue.init(time: time))
@@ -386,7 +386,7 @@ extension VideoEditorCropView: UICollectionViewDataSource, UICollectionViewDeleg
         var index: Int = 0
         var hasError = false
         var errorIndex: [Int] = []
-        imageGenerator?.generateCGImagesAsynchronously(forTimes: times) { (time, cgImage, actualTime, result, error) in
+        imageGenerator?.generateCGImagesAsynchronously(forTimes: times) { (_, cgImage, _, result, _) in
             if result != .cancelled {
                 if let cgImage = cgImage {
                     self.videoFrameMap[index] = cgImage
@@ -398,10 +398,10 @@ extension VideoEditorCropView: UICollectionViewDataSource, UICollectionViewDeleg
                         hasError = false
                     }
                     self.setCurrentCell(image: UIImage.init(cgImage: cgImage), index: index)
-                }else {
+                } else {
                     if let cgImage = self.videoFrameMap[index - 1] {
                         self.setCurrentCell(image: UIImage.init(cgImage: cgImage), index: index)
-                    }else {
+                    } else {
                         errorIndex.append(index)
                         hasError = true
                     }

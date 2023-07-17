@@ -13,26 +13,26 @@ import Kingfisher
 #endif
 
 open class EditorController: UINavigationController {
-    
+
     public weak var photoEditorDelegate: PhotoEditorViewControllerDelegate? {
         didSet { photoEditor?.delegate = photoEditorDelegate }
     }
-    
+
     public weak var videoEditorDelegate: VideoEditorViewControllerDelegate? {
         didSet { videoEditor?.delegate = videoEditorDelegate }
     }
-    
+
     public var photoEditor: PhotoEditorViewController? {
         viewControllers.first as? PhotoEditorViewController
     }
-    
+
     public var videoEditor: VideoEditorViewController? {
         viewControllers.first as? VideoEditorViewController
     }
-    
+
     /// 当前编辑类型
     public let editorType: EditorType
-    
+
     /// 根据UIImage初始化
     /// - Parameters:
     ///   - image: 对应的UIImage
@@ -49,7 +49,7 @@ open class EditorController: UINavigationController {
         photoEditorVC.delegate = delegate
         self.viewControllers = [photoEditorVC]
     }
-    
+
     /// 根据Data初始化
     /// - Parameters:
     ///   - imageData: 对应图片的Data
@@ -72,7 +72,7 @@ open class EditorController: UINavigationController {
         photoEditorVC.delegate = delegate
         self.viewControllers = [photoEditorVC]
     }
-    
+
     #if canImport(Kingfisher)
     /// 编辑网络图片
     public init(networkImageURL: URL,
@@ -87,7 +87,7 @@ open class EditorController: UINavigationController {
         self.viewControllers = [photoEditorVC]
     }
     #endif
-    
+
     /// 编辑 Video
     /// - Parameters:
     ///   - videoURL: 本地视频地址
@@ -102,7 +102,7 @@ open class EditorController: UINavigationController {
                   config: config,
                   delegate: delegate)
     }
-    
+
     /// 编辑 AVAsset
     /// - Parameters:
     ///   - avAsset: 视频对应的AVAsset对象
@@ -119,7 +119,7 @@ open class EditorController: UINavigationController {
         videoEditorVC.delegate = delegate
         self.viewControllers = [videoEditorVC]
     }
-    
+
     /// 编辑网络视频
     /// - Parameters:
     ///   - networkVideoURL: 对应的网络视频地址
@@ -136,7 +136,7 @@ open class EditorController: UINavigationController {
         videoEditorVC.delegate = delegate
         self.viewControllers = [videoEditorVC]
     }
-    
+
     #if HXPICKER_ENABLE_PICKER
     /// 根据PhotoAsset初始化
     /// - Parameters:
@@ -155,7 +155,7 @@ open class EditorController: UINavigationController {
         videoEditorVC.delegate = delegate
         self.viewControllers = [videoEditorVC]
     }
-    
+
     /// 根据PhotoAsset初始化
     /// - Parameters:
     ///   - photoAsset: 照片对应的PhotoAsset对象
@@ -175,10 +175,10 @@ open class EditorController: UINavigationController {
         self.viewControllers = [photoEditorVC]
     }
     #endif
-    
+
     /// 编辑器配置
     let config: EditorConfiguration
-    
+
     open override var shouldAutorotate: Bool {
         config.shouldAutorotate
     }
@@ -187,7 +187,7 @@ open class EditorController: UINavigationController {
     }
     open override var childForScreenEdgesDeferringSystemGestures: UIViewController? {
         children.first
-    } 
+    }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

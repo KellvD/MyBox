@@ -8,26 +8,25 @@
 
 import UIKit
 
-
 class CDRippleView: UIView {
-    
-    private var shapeLayers:[CAShapeLayer] = []
-    private var fillColor:UIColor! /// 波纹填充色
-    private var timeInterval:TimeInterval = 0
-    private var duration:TimeInterval = 0
-    private var waveCount:Int! /// 波纹数量
-    private var minRadius:CGFloat!
-    private var animating:Bool = false
-    init(frame:CGRect,fillColor:UIColor,minRadius:CGFloat,waveCount:Int,timeInterval:TimeInterval,duration:TimeInterval) {
+
+    private var shapeLayers: [CAShapeLayer] = []
+    private var fillColor: UIColor! /// 波纹填充色
+    private var timeInterval: TimeInterval = 0
+    private var duration: TimeInterval = 0
+    private var waveCount: Int! /// 波纹数量
+    private var minRadius: CGFloat!
+    private var animating: Bool = false
+    init(frame: CGRect, fillColor: UIColor, minRadius: CGFloat, waveCount: Int, timeInterval: TimeInterval, duration: TimeInterval) {
         super.init(frame: frame)
-        self.fillColor = fillColor;
-        self.timeInterval = timeInterval;
-        self.duration = duration;
-        self.waveCount = waveCount;
-        self.minRadius = minRadius;
-        self.shapeLayers = [];
+        self.fillColor = fillColor
+        self.timeInterval = timeInterval
+        self.duration = duration
+        self.waveCount = waveCount
+        self.minRadius = minRadius
+        self.shapeLayers = []
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -35,26 +34,25 @@ class CDRippleView: UIView {
         super.layoutSubviews()
         reloadShapeLayers()
     }
-    public func startAnimating(){
+    public func startAnimating() {
         stopAnimating()
         animating = true
         for index in 0..<shapeLayers.count {
             let shapelayer = shapeLayers[index]
             let animation = newWaveAnimation()
-            let dic = ["1":animation,"2":shapelayer]
+            let dic = ["1": animation, "2": shapelayer]
             self.perform(#selector(appendAnimationParameters(dic:)), with: dic, afterDelay: Double(index) * timeInterval)
         }
     }
-    
-    
-    public func stopAnimating(){
+
+    public func stopAnimating() {
         animating = false
         for shapelayer in shapeLayers {
             shapelayer.removeAllAnimations()
         }
     }
-    
-    private func newShapeLayer()->CAShapeLayer{
+
+    private func newShapeLayer() -> CAShapeLayer {
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: minRadius * 2, height: minRadius * 2), cornerRadius: minRadius)
 
@@ -69,11 +67,11 @@ class CDRippleView: UIView {
         shapeLayer.strokeColor = UIColor.clear.cgColor
         return shapeLayer
     }
-    
-    private func newWaveAnimation()->CAAnimation{
+
+    private func newWaveAnimation() -> CAAnimation {
         let maxRadius = max(minRadius, min(self.bounds.width/2.0, self.bounds.height/2.0))
         let scale = maxRadius / minRadius
-        
+
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = NSValue(caTransform3D: CATransform3DIdentity)
         scaleAnimation.toValue = NSValue(caTransform3D: CATransform3DMakeScale(scale, scale, 1))
@@ -89,30 +87,30 @@ class CDRippleView: UIView {
         animationGroup.isRemovedOnCompletion = true
         return animationGroup
     }
-    
-    private func reloadShapeLayers(){
+
+    private func reloadShapeLayers() {
         for shapelayer in shapeLayers {
             shapelayer.removeAllAnimations()
             shapelayer.removeFromSuperlayer()
         }
         shapeLayers.removeAll()
-        
+
         for _ in 0..<waveCount {
             let shapeLayer = newShapeLayer()
             self.layer.addSublayer(shapeLayer)
             shapeLayers.append(shapeLayer)
         }
-        
+
         if animating {
             startAnimating()
-        }else{
+        } else {
             stopAnimating()
         }
-        
+
     }
-    
-    @objc private func appendAnimationParameters(dic:[String:Any]){
-        
+
+    @objc private func appendAnimationParameters(dic: [String: Any]) {
+
         let layer = dic["2"] as! CAShapeLayer
         let animation = dic["1"] as! CAAnimation
         if animating {
@@ -121,7 +119,7 @@ class CDRippleView: UIView {
     }
 }
 
-//class CDRippleView: UIView {
+// class CDRippleView: UIView {
 //
 //    private var firstGreyCircle:UIImageView!
 //    private var secondGreyCircle:UIImageView!
@@ -263,4 +261,4 @@ class CDRippleView: UIView {
 //        }
 //
 //    }
-//}
+// }

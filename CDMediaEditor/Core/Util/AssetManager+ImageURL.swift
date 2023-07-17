@@ -11,7 +11,7 @@ import Photos
 // MARK: 获取图片地址
 public extension AssetManager {
     typealias ImageURLResultHandler = (Result<URL, AssetError>) -> Void
-    
+
     /// 请求获取图片地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
@@ -20,7 +20,7 @@ public extension AssetManager {
                                resultHandler: @escaping ImageURLResultHandler) {
         requestImageURL(for: asset, suffix: "jpeg", resultHandler: resultHandler)
     }
-    
+
     /// 请求获取图片地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
@@ -32,14 +32,14 @@ public extension AssetManager {
         let imageURL = PhotoTools.getTmpURL(for: suffix)
         requestImageURL(for: asset, toFile: imageURL, resultHandler: resultHandler)
     }
-    
+
     /// 请求获取图片地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
     ///   - fileURL: 指定本地地址
     ///   - resultHandler: 获取结果
     class func requestImageURL(for asset: PHAsset,
-                               toFile fileURL:URL,
+                               toFile fileURL: URL,
                                resultHandler: @escaping ImageURLResultHandler) {
         asset.checkAdjustmentStatus { (isAdjusted) in
             if isAdjusted {
@@ -48,14 +48,14 @@ public extension AssetManager {
                     case .success(let dataResult):
                         if let imageURL = PhotoTools.write(toFile: fileURL, imageData: dataResult.imageData) {
                             resultHandler(.success(imageURL))
-                        }else {
+                        } else {
                             resultHandler(.failure(.fileWriteFailed))
                         }
                     case .failure(let error):
                         resultHandler(.failure(error.error))
                     }
                 }
-            }else {
+            } else {
                 var imageResource: PHAssetResource?
                 for resource in PHAssetResource.assetResources(for: asset) {
                     if resource.type == .photo {
@@ -78,7 +78,7 @@ public extension AssetManager {
                     DispatchQueue.main.async {
                         if error == nil {
                             resultHandler(.success(imageURL))
-                        }else {
+                        } else {
                             resultHandler(.failure(.assetResourceWriteDataFailed(error!)))
                         }
                     }
@@ -86,7 +86,7 @@ public extension AssetManager {
             }
         }
     }
-    
+
     /// 请求获取图片地址
     /// - Parameters:
     ///   - asset: 对应的 PHAsset 数据
@@ -97,7 +97,7 @@ public extension AssetManager {
                                resultHandler: @escaping (URL?, UIImage?) -> Void) -> PHContentEditingInputRequestID {
         let options = PHContentEditingInputRequestOptions.init()
         options.isNetworkAccessAllowed = true
-        return asset.requestContentEditingInput(with: options) { (input, info) in
+        return asset.requestContentEditingInput(with: options) { (input, _) in
             DispatchQueue.main.async {
                 resultHandler(input?.fullSizeImageURL, input?.displaySizeImage)
             }

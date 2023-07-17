@@ -9,10 +9,10 @@ import UIKit
 import Photos
 
 @available(iOS 9.1, *)
-public typealias LivePhotoResultHandler = (PHLivePhoto?, [AnyHashable : Any]?) -> Void
+public typealias LivePhotoResultHandler = (PHLivePhoto?, [AnyHashable: Any]?) -> Void
 
 public extension AssetManager {
-    
+
     /// 请求LivePhoto，如果资源在iCloud上会自动请求下载iCloud上的资源
     /// - Parameters:
     ///   - targetSize: 请求的目标大小
@@ -26,19 +26,19 @@ public extension AssetManager {
                                 targetSize: CGSize,
                                 iCloudHandler: @escaping (PHImageRequestID) -> Void,
                                 progressHandler: @escaping PHAssetImageProgressHandler,
-                                resultHandler: @escaping (PHLivePhoto?, [AnyHashable : Any]?, Bool) -> Void) -> PHImageRequestID {
+                                resultHandler: @escaping (PHLivePhoto?, [AnyHashable: Any]?, Bool) -> Void) -> PHImageRequestID {
         return requestLivePhoto(for: asset, targetSize: targetSize, isNetworkAccessAllowed: false, progressHandler: progressHandler) { (livePhoto, info) in
             if self.assetDownloadFinined(for: info) {
                 DispatchQueue.main.async {
                     resultHandler(livePhoto, info, true)
                 }
-            }else {
+            } else {
                 if self.assetIsInCloud(for: info) {
                     let iCloudRequestID = self.requestLivePhoto(for: asset, targetSize: targetSize, isNetworkAccessAllowed: true, progressHandler: progressHandler) { (livePhoto, info) in
                         DispatchQueue.main.async {
                             if self.assetDownloadFinined(for: info) {
                                 resultHandler(livePhoto, info, true)
-                            }else {
+                            } else {
                                 resultHandler(livePhoto, info, false)
                             }
                         }
@@ -46,7 +46,7 @@ public extension AssetManager {
                     DispatchQueue.main.async {
                         iCloudHandler(iCloudRequestID)
                     }
-                }else {
+                } else {
                     DispatchQueue.main.async {
                         resultHandler(livePhoto, info, false)
                     }
@@ -54,7 +54,7 @@ public extension AssetManager {
             }
         }
     }
-    
+
     @available(iOS 9.1, *)
     @discardableResult
     class func requestLivePhoto(for asset: PHAsset,
@@ -68,7 +68,7 @@ public extension AssetManager {
         options.progressHandler = progressHandler
         return requestLivePhoto(for: asset, targetSize: targetSize, options: options, resultHandler: resultHandler)
     }
-    
+
     @available(iOS 9.1, *)
     @discardableResult
     class func requestLivePhoto(for asset: PHAsset,

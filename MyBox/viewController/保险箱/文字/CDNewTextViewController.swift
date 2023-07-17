@@ -8,17 +8,16 @@
 
 import UIKit
 
+class CDNewTextViewController: CDBaseAllViewController, UITextViewDelegate {
 
-class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
-
-    private var textView:CDTextView!
-    private var menuView:UIToolbar!
+    private var textView: CDTextView!
+    private var menuView: UIToolbar!
     var folderId = 0
 //    var sf:CDp
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.title = "新文本".localize
         self.view.backgroundColor = UIColor.white
         let doneBtn = UIButton(type: .custom)
@@ -39,22 +38,19 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         CDPrintManager.log("已经进入newtext", type: .InfoLog)
     }
 
-
-
-    @objc func saveBtnClick(sender:UIButton){
-        let contentStr:String = textView.text.removeSpaceAndNewline()
-        if contentStr.isEmpty{
+    @objc func saveBtnClick(sender: UIButton) {
+        let contentStr: String = textView.text.removeSpaceAndNewline()
+        if contentStr.isEmpty {
             CDHUDManager.shared.showText("尚未输入内容".localize)
             return
         }
         sender.isUserInteractionEnabled = false
         textView.resignFirstResponder()
         CDSignalTon.shared.savePlainText(content: contentStr, folderId: folderId)
-        self.navigationController?.popViewController(animated: true);
+        self.navigationController?.popViewController(animated: true)
     }
 
-
-    //MARK:UITextViewDelegate
+    // MARK: UITextViewDelegate
     func textViewDidBeginEditing(_ textView: UITextView) {
         if menuView == nil {
             menuView = UIToolbar(frame: CGRect(x: 0, y: 0, width: CDSCREEN_WIDTH, height: 44))
@@ -79,32 +75,26 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
             doneBtn.setTitleColor(UIColor.white, for: .normal)
             doneBtn.contentHorizontalAlignment = .right
             let doneItem = UIBarButtonItem(customView: doneBtn)
-            menuView.setItems([pastrItem,space,doneItem], animated: true)
-
-        
+            menuView.setItems([pastrItem, space, doneItem], animated: true)
 
         }
     }
 
-    @objc func readFromPasteboard(){
+    @objc func readFromPasteboard() {
         let pasteStr = UIPasteboard.general.string!
         textView.text = textView.text + pasteStr
 
-
     }
 
-    @objc func disKeyBoard(){
+    @objc func disKeyBoard() {
 
         textView.resignFirstResponder()
     }
 
-
-    @objc func keyboardWillShow(notic:Notification){
-
+    @objc func keyboardWillShow(notic: Notification) {
 
     }
-    @objc func keyboardWillHide(notic:Notification){
-
+    @objc func keyboardWillHide(notic: Notification) {
 
     }
     deinit {
@@ -112,7 +102,5 @@ class CDNewTextViewController: CDBaseAllViewController,UITextViewDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     }
-
-
 
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 extension PhotoManager {
-    
+
     /// 创建语言Bundle
     /// - Parameter languageType: 对应的语言类型
     /// - Returns: 语言Bundle
@@ -64,20 +64,20 @@ extension PhotoManager {
                     if preferredLanguage.hasPrefix("zh") {
                         if preferredLanguage.range(of: "Hans") != nil {
                             language = "zh-Hans"
-                        }else {
+                        } else {
                             language = "zh-Hant"
                         }
                         break
-                    }else if preferredLanguage.hasPrefix("ja") {
+                    } else if preferredLanguage.hasPrefix("ja") {
                         language = "ja"
                         break
-                    }else if preferredLanguage.hasPrefix("ko") {
+                    } else if preferredLanguage.hasPrefix("ko") {
                         language = "ko"
                         break
-                    }else if preferredLanguage.hasPrefix("th") {
+                    } else if preferredLanguage.hasPrefix("th") {
                         language = "th"
                         break
-                    }else if preferredLanguage.hasPrefix("id") {
+                    } else if preferredLanguage.hasPrefix("id") {
                         language = "id"
                         break
                     }

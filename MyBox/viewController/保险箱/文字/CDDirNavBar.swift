@@ -8,15 +8,15 @@
 
 import UIKit
 
-@objc protocol CDDirNavBarDelegate:NSObjectProtocol  {
+@objc protocol CDDirNavBarDelegate: NSObjectProtocol {
     @objc func onSelectedDirWithFolderId(folderId: Int)
 }
-class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-    
-    weak var dirDelegate:CDDirNavBarDelegate!
-    var collectionView:UICollectionView!
-    
-    override init(frame:CGRect) {
+class CDDirNavBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    weak var dirDelegate: CDDirNavBarDelegate!
+    var collectionView: UICollectionView!
+
+    override init(frame: CGRect) {
         super.init(frame: frame)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -39,8 +39,8 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         self.collectionView.reloadData()
         self.collectionView.scrollToItem(at: IndexPath(item: CDSignalTon.shared.dirNavArr.count-1, section: 0), at: .centeredHorizontally, animated: true)
     }
-    
-    func numberOfItemsInSection(collectionView:UICollectionView) -> Int {
+
+    func numberOfItemsInSection(collectionView: UICollectionView) -> Int {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -49,15 +49,15 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identies = "CDDirListBarCell"
-        let cell:CDDirListBarCell = collectionView.dequeueReusableCell(withReuseIdentifier: identies, for: indexPath) as! CDDirListBarCell
+        let cell: CDDirListBarCell = collectionView.dequeueReusableCell(withReuseIdentifier: identies, for: indexPath) as! CDDirListBarCell
         var titleName = String()
         let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         titleName = folder.folderName
-        if indexPath.item ==  CDSignalTon.shared.dirNavArr.count - 1{
+        if indexPath.item ==  CDSignalTon.shared.dirNavArr.count - 1 {
             cell.titleLabel.text = titleName
             cell.bottomLine.isHidden = false
             cell.titleLabel.textColor = .customBlue
-        }else{
+        } else {
             cell.titleLabel.text = titleName + " > "
             cell.bottomLine.isHidden = true
             cell.titleLabel.textColor = .textGray
@@ -65,7 +65,7 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
         var frame = cell.titleLabel.frame
         frame.size.width = cell.frame.width
         cell.titleLabel.frame = frame
-        
+
         frame = cell.bottomLine.frame
         frame.size.width = cell.frame.width
         cell.bottomLine.frame = frame
@@ -74,10 +74,10 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
         let titleName = folder.folderName
-        let width:CGFloat = (titleName + " > ").labelWidth(height: 40, font: .mid)
+        let width: CGFloat = (titleName + " > ").labelWidth(height: 40, font: .mid)
         return CGSize(width: width, height: 40)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -89,28 +89,28 @@ class CDDirNavBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource,UI
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let folder = CDSignalTon.shared.dirNavArr[indexPath.item] as! CDSafeFolder
-        CDSignalTon.shared.dirNavArr.removeObjects(in: NSRange(location: indexPath.item + 1,length: CDSignalTon.shared.dirNavArr.count - 1 -  indexPath.item))
+        CDSignalTon.shared.dirNavArr.removeObjects(in: NSRange(location: indexPath.item + 1, length: CDSignalTon.shared.dirNavArr.count - 1 -  indexPath.item))
         self.reloadBarData()
         self.dirDelegate.onSelectedDirWithFolderId(folderId: folder.folderId)
     }
-    
+
 }
 
 class CDDirListBarCell: UICollectionViewCell {
-    var titleLabel:UILabel!
-    var bottomLine:UIView!
+    var titleLabel: UILabel!
+    var bottomLine: UIView!
     override init(frame: CGRect) {
         super.init(frame: frame)
         titleLabel = UILabel(frame: CGRect(x: 0, y: 2, width: frame.width, height: 40))
         titleLabel.font = .mid
         titleLabel.textAlignment = .center
         self.addSubview(titleLabel)
-        
+
         bottomLine = UIView(frame: CGRect(x: 0, y: 45, width: frame.width, height: 1.5))
         bottomLine.backgroundColor = .black
         self.addSubview(bottomLine)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -8,10 +8,10 @@
 import UIKit
 import Photos
 
-public typealias ImageResultHandler = (UIImage?, [AnyHashable : Any]?) -> Void
+public typealias ImageResultHandler = (UIImage?, [AnyHashable: Any]?) -> Void
 
 public extension AssetManager {
-    
+
     /// 请求获取缩略图
     /// - Parameters:
     ///   - asset: 资源对象
@@ -32,7 +32,7 @@ public extension AssetManager {
             }
         }
     }
-    
+
     /// 请求image
     /// - Parameters:
     ///   - asset: 资源对象

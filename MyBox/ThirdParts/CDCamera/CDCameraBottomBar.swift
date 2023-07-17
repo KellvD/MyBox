@@ -8,8 +8,7 @@
 
 import UIKit
 
-
-protocol CDCameraBottomBarDelegate:NSObjectProtocol  {
+protocol CDCameraBottomBarDelegate: NSObjectProtocol {
     func onTakePhoto()
     func onCameraTurnAround()
     func onCanclePhoto()
@@ -18,14 +17,13 @@ protocol CDCameraBottomBarDelegate:NSObjectProtocol  {
 
 class CDCameraBottomBar: UIView {
 
-    var delegate:CDCameraBottomBarDelegate!
+    weak var delegate: CDCameraBottomBarDelegate!
 
-    var takeButton:UIButton!
-    var cameraSwitch:UIButton!
-    var cancle:UIButton! //取消
-    var figBtn:UIButton! //美颜
-    var bgView:UIView!
-
+    var takeButton: UIButton!
+    var cameraSwitch: UIButton!
+    var cancle: UIButton! // 取消
+    var figBtn: UIButton! // 美颜
+    var bgView: UIView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +39,6 @@ class CDCameraBottomBar: UIView {
         takeButton.setImage(UIImage(named: "takePhoto"), for: .normal)
         takeButton.addTarget(self, action: #selector(onTakePhotoClick), for: .touchUpInside)
         self.addSubview(takeButton)
-
 
 //        let width = (frame.height-30)/2
 //        figBtn = UIButton(type: .custom)
@@ -66,27 +63,24 @@ class CDCameraBottomBar: UIView {
 
     }
 
-
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func onTakePhotoClick(){
-
+    @objc func onTakePhotoClick() {
 
         delegate.onTakePhoto()
     }
 
-    @objc func onCameraSwitchClick(){
+    @objc func onCameraSwitchClick() {
         delegate.onCameraTurnAround()
     }
 
-    @objc func onCameraCancleClick(){
+    @objc func onCameraCancleClick() {
         delegate.onCanclePhoto()
     }
 
-    @objc func onCameraFigClick(){
-        delegate.onFigPhoto();
+    @objc func onCameraFigClick() {
+        delegate.onFigPhoto()
     }
 }

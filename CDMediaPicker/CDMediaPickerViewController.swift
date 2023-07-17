@@ -9,17 +9,17 @@
 import UIKit
 import CoreLocation
 
-public protocol CDMediaPickerViewControllerDelegate{
-    func onMediaPickerDidFinished(picker:CDMediaPickerViewController,data:[String:Any?],index:Int,totalCount:Int)
-    func onMediaPickerDidCancle(picker:CDMediaPickerViewController)
+public protocol CDMediaPickerViewControllerDelegate {
+    func onMediaPickerDidFinished(picker: CDMediaPickerViewController, data: [String: Any?], index: Int, totalCount: Int)
+    func onMediaPickerDidCancle(picker: CDMediaPickerViewController)
 }
 
-public class CDMediaPickerViewController: UINavigationController,CDAssetSelectedDelagete{
-    public var pickerDelegate:CDMediaPickerViewControllerDelegate!
+public class CDMediaPickerViewController: UINavigationController, CDAssetSelectedDelagete {
+    public weak var pickerDelegate: CDMediaPickerViewControllerDelegate!
     public var isForVideo = false
-    var gphAssets:[CDPHAsset] = []
+    var gphAssets: [CDPHAsset] = []
     var totalCount = 0
-    public init(isVideo:Bool) {
+    public init(isVideo: Bool) {
         CDAssetTon.shared.mediaType = isVideo ? .CDMediaVideo : .CDMediaImage
         let albumVC = CDAlbumPickViewController()
         super.init(rootViewController: albumVC)
@@ -28,10 +28,9 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
         albumVC.assetDelegate = self
         albumVC.isSelectedVideo = isVideo
         isForVideo = isVideo
-        
 
     }
-    
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -44,16 +43,16 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
     }
 
     func selectedAssetsComplete(phAssets: [CDPHAsset]) {
-       
-        if isForVideo{
+
+        if isForVideo {
             totalCount = phAssets.count
             self.gphAssets = phAssets
             handleVideo()
-        }else{
+        } else {
             for i in 0..<phAssets.count {
                 autoreleasepool {
-                    let tmpAsset:CDPHAsset = phAssets[i]
-                    //Live图片本地暂无法保存
+                    let tmpAsset: CDPHAsset = phAssets[i]
+                    // Live图片本地暂无法保存
                     let createTime = Int(tmpAsset.asset.creationDate!.timeIntervalSince1970 * 1000)
                     let location = tmpAsset.asset.location ?? nil
                     if tmpAsset.format == .Live {
@@ -64,57 +63,56 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
 //                            }
 //                        }
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
-                            if image != nil{
-                                let dic:[String:Any?] = ["fileName":tmpAsset.fileName!,
-                                                        "file":image!,
-                                                        "imageType":"normal",
-                                                        "createTime":createTime,
-                                                        "location":location]
+                            if image != nil {
+                                let dic: [String: Any?] = ["fileName": tmpAsset.fileName!,
+                                                        "file": image!,
+                                                        "imageType": "normal",
+                                                        "createTime": createTime,
+                                                        "location": location]
                                 self.pickerDelegate.onMediaPickerDidFinished(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
-                                
+
                             }
                         }
-                    }else if tmpAsset.format == .Gif {
-                        CDAssetTon.shared.getImageDataFromAsset(asset: tmpAsset.asset) { (data, info) in
-                            if data != nil{
-                                let dic:[String:Any?] = ["fileName":tmpAsset.fileName!,
-                                                        "file":data!,
-                                                        "imageType":"gif",
-                                                        "createTime":createTime,
-                                                        "location":location]
+                    } else if tmpAsset.format == .Gif {
+                        CDAssetTon.shared.getImageDataFromAsset(asset: tmpAsset.asset) { (data, _) in
+                            if data != nil {
+                                let dic: [String: Any?] = ["fileName": tmpAsset.fileName!,
+                                                        "file": data!,
+                                                        "imageType": "gif",
+                                                        "createTime": createTime,
+                                                        "location": location]
                                 self.pickerDelegate.onMediaPickerDidFinished(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
                             }
                         }
-                    }else{
+                    } else {
                         CDAssetTon.shared.getOriginalPhotoFromAsset(asset: tmpAsset.asset) { (image) in
-                            if image != nil{
-                                let dic:[String:Any?] = ["fileName":tmpAsset.fileName!,
-                                                        "file":image!,
-                                                        "imageType":"normal",
-                                                        "createTime":createTime,
-                                                        "location":location]
+                            if image != nil {
+                                let dic: [String: Any?] = ["fileName": tmpAsset.fileName!,
+                                                        "file": image!,
+                                                        "imageType": "normal",
+                                                        "createTime": createTime,
+                                                        "location": location]
                                 self.pickerDelegate.onMediaPickerDidFinished(picker: self, data: dic, index: i + 1, totalCount: phAssets.count)
-                                
+
                             }
                         }
                     }
-                    
-                    
+
                 }
             }
         }
     }
 
 //    GCD队列
-    public func handleVideo(){
+    public func handleVideo() {
         let sem = DispatchSemaphore(value: 1)
-        DispatchQueue(label: "handleVideo",qos: .default).sync {
-            for index in 0..<gphAssets.count{
+        DispatchQueue(label: "handleVideo", qos: .default).sync {
+            for index in 0..<gphAssets.count {
                 sem.wait()
                 let tmpAsset = self.gphAssets[index]
                 CDAssetTon.shared.getVideoFromAsset(withAsset: tmpAsset.asset) { (tmpPath) in
                     if tmpPath != nil {
-                        let dic:[String:Any] = ["fileURL":URL(fileURLWithPath: tmpPath!)]
+                        let dic: [String: Any] = ["fileURL": URL(fileURLWithPath: tmpPath!)]
                         self.pickerDelegate.onMediaPickerDidFinished(picker: self, data: dic, index: index + 1, totalCount: self.totalCount)
                         sem.signal()
                     }
@@ -123,4 +121,3 @@ public class CDMediaPickerViewController: UINavigationController,CDAssetSelected
         }
     }
 }
-

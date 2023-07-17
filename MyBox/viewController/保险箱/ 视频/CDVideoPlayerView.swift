@@ -9,16 +9,16 @@
 import UIKit
 import AVKit
 
-typealias CDVideoPlayerProgressHandle = (_ process:Double)->()
+typealias CDVideoPlayerProgressHandle = (_ process: Double)->Void
 class CDVideoPlayerView: UIView {
 
-    private var playButton:UIButton!
-    private var videoTap:UITapGestureRecognizer!
-    private var coveryView:UIImageView!
-    private var gprocessHandle:CDVideoPlayerProgressHandle!
+    private var playButton: UIButton!
+    private var videoTap: UITapGestureRecognizer!
+    private var coveryView: UIImageView!
+    private var gprocessHandle: CDVideoPlayerProgressHandle!
     var player: AVPlayer!
     private var playerLayer: AVPlayerLayer!
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         coveryView = UIImageView()
@@ -30,29 +30,27 @@ class CDVideoPlayerView: UIView {
         playButton.setImage(LoadImage("play"), for: .normal)
         playButton.addTarget(self, action: #selector(onHandleVideoPlay), for: .touchUpInside)
         self.addSubview(playButton)
-        
-        
+
         videoTap = UITapGestureRecognizer(target: self, action: #selector(onPlayPause))
         self.addGestureRecognizer(videoTap)
         videoTap.isEnabled = false
 
-              
         NotificationCenter.default.addObserver(self, selector: #selector(onPlayFinished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
     }
 
     var videoPath: String! {
         didSet {
-            let mImgage:UIImage! = UIImage.previewImage(videoUrl: videoPath.url)
-            
+            let mImgage: UIImage! = UIImage.previewImage(videoUrl: videoPath.url)
+
             let itemH = (mImgage.size.height * frame.width)/mImgage.size.width
             coveryView.frame = CGRect(x: 0, y: (frame.height - itemH)/2, width: frame.width, height: itemH)
             coveryView.image = mImgage
             createPlayer()
-            
+
         }
     }
-    
+
     var processHandle: CDVideoPlayerProgressHandle {
         get {
             return gprocessHandle
@@ -62,12 +60,11 @@ class CDVideoPlayerView: UIView {
             self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [self] (cmTime) in
                 let currentTime = CMTimeGetSeconds(cmTime)
                 gprocessHandle(Double(currentTime))
-                
+
             }
         }
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,7 +74,7 @@ class CDVideoPlayerView: UIView {
         let playerItem = AVPlayerItem(asset: urlAsset)
         let session = AVAudioSession.sharedInstance()
         try! session.setCategory(.playAndRecord, options: .defaultToSpeaker)
-        
+
         dellocPlayer()
         player  = AVPlayer(playerItem: playerItem)
         playerLayer = AVPlayerLayer(player: self.player)
@@ -86,31 +83,30 @@ class CDVideoPlayerView: UIView {
         self.layer.addSublayer(playerLayer)
         self.layer.insertSublayer(playButton.layer, above: playerLayer)
     }
-    
-    @objc private func onHandleVideoPlay(){
-        if self.player == nil{
+
+    @objc private func onHandleVideoPlay() {
+        if self.player == nil {
             createPlayer()
         }
         playContinue()
     }
-    @objc func onPlayFinished(){
+    @objc func onPlayFinished() {
         setPlayerTime(currentTime: 0)
     }
-    
-    @objc private func onPlayPause(){
+
+    @objc private func onPlayPause() {
         if player == nil {
             return
         }
-        
-        if player.timeControlStatus == .playing  {
+
+        if player.timeControlStatus == .playing {
             self.videoTap.isEnabled = false
             self.playButton.isHidden = false
             self.player.pause()
         }
     }
-    
-    
-    public func dellocPlayer(){
+
+    public func dellocPlayer() {
 //        print("play delloc")
         if player == nil {
             return
@@ -124,25 +120,24 @@ class CDVideoPlayerView: UIView {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         self.videoTap.isEnabled = false
         self.playButton.isHidden = false
-        
+
     }
-    
-    public func playContinue(){
-        if player.timeControlStatus != .playing{
+
+    public func playContinue() {
+        if player.timeControlStatus != .playing {
             self.videoTap.isEnabled = true
             self.playButton.isHidden = true
             self.player.play()
         }
-        
-        
+
     }
-    
-    public func setPlayerTime(currentTime:Double){
-        
+
+    public func setPlayerTime(currentTime: Double) {
+
         onPlayPause()
         let seekTime = CMTimeMake(value: Int64(currentTime), timescale: 1)
         self.player.seek(to: seekTime)
 
     }
-    
+
 }

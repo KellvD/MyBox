@@ -15,7 +15,7 @@ protocol EditorImageResizerControlViewDelegate: AnyObject {
 
 class EditorImageResizerControlView: UIView {
     weak var delegate: EditorImageResizerControlViewDelegate?
-    
+
     lazy var topControl: UIView = {
         let view = UIView.init()
         let pan = UIPanGestureRecognizer.init(target: self, action: #selector(panGestureRecognizerHandler(pan:)))
@@ -64,7 +64,7 @@ class EditorImageResizerControlView: UIView {
         view.addGestureRecognizer(pan)
         return view
     }()
-    
+
     /// 固定比例
     var fixedRatio: Bool = false
     var aspectRatio: CGSize = .zero
@@ -92,7 +92,7 @@ class EditorImageResizerControlView: UIView {
         controls.append(rightTopControl.gestureRecognizers!.first!)
         controls.append(rightBottomControl.gestureRecognizers!.first!)
     }
-    
+
     func changeControl(enabled: Bool, index: Int) {
         for (item, control) in controls.enumerated() {
             if item != index {
@@ -100,7 +100,7 @@ class EditorImageResizerControlView: UIView {
             }
         }
     }
-    
+
     /// 代码沉余，待优化
     @objc func panGestureRecognizerHandler(pan: UIPanGestureRecognizer) {
         let view = pan.view
@@ -136,7 +136,7 @@ class EditorImageResizerControlView: UIView {
                         rectY = currentFrame.maxY - rectH
                         w = rectH * widthRatio
                     }
-                }else {
+                } else {
                     if w < 50 {
                         w = 50
                         rectH = w * heightRatio
@@ -163,7 +163,7 @@ class EditorImageResizerControlView: UIView {
                     }
                 }
             }
-        }else if view == leftControl {
+        } else if view == leftControl {
             rectX = rectX + point.x
             rectW = rectW - point.x
             if rectW < 50 {
@@ -182,7 +182,7 @@ class EditorImageResizerControlView: UIView {
                         rectW = h * widthRatio
                         rectX = currentFrame.maxX - rectW
                     }
-                }else {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         rectX = currentFrame.maxX - rectW
@@ -209,7 +209,7 @@ class EditorImageResizerControlView: UIView {
                     }
                 }
             }
-        }else if view == rightControl {
+        } else if view == rightControl {
             rectW = rectW + point.x
             if rectW < 50 {
                 rectW = 50
@@ -224,7 +224,7 @@ class EditorImageResizerControlView: UIView {
                         h = 50
                         rectW = h * widthRatio
                     }
-                }else {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         h = rectW * heightRatio
@@ -250,7 +250,7 @@ class EditorImageResizerControlView: UIView {
                     }
                 }
             }
-        }else if view == bottomControl {
+        } else if view == bottomControl {
             rectH = rectH + point.y
             if rectH < 50 {
                 rectH = 50
@@ -265,7 +265,7 @@ class EditorImageResizerControlView: UIView {
                         rectH = 50
                         w = rectH * widthRatio
                     }
-                }else {
+                } else {
                     if w < 50 {
                         w = 50
                         rectH = w * heightRatio
@@ -291,12 +291,12 @@ class EditorImageResizerControlView: UIView {
                     }
                 }
             }
-        }else if view == leftTopControl {
+        } else if view == leftTopControl {
             if fixedRatio && !aspectRatio.equalTo(.zero) {
                 if aspectRatio.width > aspectRatio.height {
                     rectW = rectW - point.x
                     rectH = rectW * heightRatio
-                }else {
+                } else {
                     rectH = rectH - point.y
                     rectW = rectH * widthRatio
                 }
@@ -305,7 +305,7 @@ class EditorImageResizerControlView: UIView {
                         rectH = 50
                         rectW = rectH * widthRatio
                     }
-                }else  {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         rectH = rectW * heightRatio
@@ -321,7 +321,7 @@ class EditorImageResizerControlView: UIView {
                 }
                 rectX = currentFrame.maxX - rectW
                 rectY = currentFrame.maxY - rectH
-            }else {
+            } else {
                 rectX = rectX + point.x
                 rectY = rectY + point.y
                 rectW = rectW - point.x
@@ -343,12 +343,12 @@ class EditorImageResizerControlView: UIView {
                     rectH = currentFrame.maxY - maxImageresizerFrame.minY
                 }
             }
-        }else if view == leftBottomControl {
+        } else if view == leftBottomControl {
             if fixedRatio && !aspectRatio.equalTo(.zero) {
                 if aspectRatio.width > aspectRatio.height {
                     rectW = rectW - point.x
                     rectH = rectW * heightRatio
-                }else {
+                } else {
                     rectH = rectH + point.y
                     rectW = rectH * widthRatio
                 }
@@ -357,7 +357,7 @@ class EditorImageResizerControlView: UIView {
                         rectH = 50
                         rectW = rectH * widthRatio
                     }
-                }else  {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         rectH = rectW * heightRatio
@@ -372,7 +372,7 @@ class EditorImageResizerControlView: UIView {
                     rectW = rectH * widthRatio
                 }
                 rectX = currentFrame.maxX - rectW
-            }else {
+            } else {
                 rectX = rectX + point.x
                 rectW = rectW - point.x
                 rectH = rectH + point.y
@@ -391,12 +391,12 @@ class EditorImageResizerControlView: UIView {
                     rectH = maxImageresizerFrame.maxY - currentFrame.minY
                 }
             }
-        }else if view == rightTopControl {
+        } else if view == rightTopControl {
             if fixedRatio && !aspectRatio.equalTo(.zero) {
                 if aspectRatio.width > aspectRatio.height {
                     rectW = rectW + point.x
                     rectH = rectW * heightRatio
-                }else {
+                } else {
                     rectH = rectH - point.y
                     rectW = rectH * widthRatio
                 }
@@ -405,7 +405,7 @@ class EditorImageResizerControlView: UIView {
                         rectH = 50
                         rectW = rectH * widthRatio
                     }
-                }else  {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         rectH = rectW * heightRatio
@@ -421,7 +421,7 @@ class EditorImageResizerControlView: UIView {
                     rectH = currentFrame.maxY - maxImageresizerFrame.minY
                     rectW = rectH * widthRatio
                 }
-            }else {
+            } else {
                 rectW = rectW + point.x
                 rectY = rectY + point.y
                 rectH = rectH - point.y
@@ -440,12 +440,12 @@ class EditorImageResizerControlView: UIView {
                     rectH = currentFrame.maxY - maxImageresizerFrame.minY
                 }
             }
-        }else if view == rightBottomControl {
+        } else if view == rightBottomControl {
             if fixedRatio && !aspectRatio.equalTo(.zero) {
                 if aspectRatio.width > aspectRatio.height {
                     rectW = rectW + point.x
                     rectH = rectW * heightRatio
-                }else {
+                } else {
                     rectH = rectH + point.y
                     rectW = rectH * widthRatio
                 }
@@ -454,7 +454,7 @@ class EditorImageResizerControlView: UIView {
                         rectH = 50
                         rectW = rectH * widthRatio
                     }
-                }else  {
+                } else {
                     if rectW < 50 {
                         rectW = 50
                         rectH = rectW * heightRatio
@@ -468,7 +468,7 @@ class EditorImageResizerControlView: UIView {
                     rectH = maxImageresizerFrame.maxY - currentFrame.minY
                     rectW = rectH * widthRatio
                 }
-            }else {
+            } else {
                 rectW = rectW + point.x
                 rectH = rectH + point.y
                 if rectW < 50 {
@@ -499,24 +499,24 @@ class EditorImageResizerControlView: UIView {
         }
         if topControl.frame.contains(point) {
             return topControl
-        }else if leftControl.frame.contains(point) {
+        } else if leftControl.frame.contains(point) {
             return leftControl
-        }else if rightControl.frame.contains(point) {
+        } else if rightControl.frame.contains(point) {
             return rightControl
-        }else if bottomControl.frame.contains(point) {
+        } else if bottomControl.frame.contains(point) {
             return bottomControl
-        }else if leftTopControl.frame.contains(point) {
+        } else if leftTopControl.frame.contains(point) {
             return leftTopControl
-        }else if leftBottomControl.frame.contains(point) {
+        } else if leftBottomControl.frame.contains(point) {
             return leftBottomControl
-        }else if rightTopControl.frame.contains(point) {
+        } else if rightTopControl.frame.contains(point) {
             return rightTopControl
-        }else if rightBottomControl.frame.contains(point) {
+        } else if rightBottomControl.frame.contains(point) {
             return rightBottomControl
         }
         return nil
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         let lineMarign: CGFloat = 20
@@ -529,7 +529,7 @@ class EditorImageResizerControlView: UIView {
         rightTopControl.frame = CGRect(x: width - lineMarign, y: -lineMarign, width: lineMarign * 2, height: lineMarign * 2)
         rightBottomControl.frame = CGRect(x: width - lineMarign, y: height - lineMarign, width: lineMarign * 2, height: lineMarign * 2)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
