@@ -1,0 +1,48 @@
+PODS:
+  - Kingfisher (7.7.0)
+  - MBProgressHUD (1.2.0)
+  - MJRefresh (3.7.5)
+  - SnapKit (5.6.0)
+  - SQLite.swift (0.14.1):
+    - SQLite.swift/standard (= 0.14.1)
+  - SQLite.swift/standard (0.14.1)
+  - SSZipArchive (2.4.3)
+  - SwiftSoup (2.6.0)
+  - UnrarKit (2.10):
+    - UnrarKit/unrar-lib (= 2.10)
+  - UnrarKit/unrar-lib (2.10)
+
+DEPENDENCIES:
+  - Kingfisher
+  - MBProgressHUD
+  - MJRefresh
+  - SnapKit
+  - SQLite.swift
+  - SSZipArchive
+  - SwiftSoup
+  - UnrarKit
+
+SPEC REPOS:
+  trunk:
+    - Kingfisher
+    - MBProgressHUD
+    - MJRefresh
+    - SnapKit
+    - SQLite.swift
+    - SSZipArchive
+    - SwiftSoup
+    - UnrarKit
+
+SPEC CHECKSUMS:
+  Kingfisher: f043ac666dfc96c1f37604f93effb45a7ee3a3e1
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
+  SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
+  SwiftSoup: dd9baab0fba4b6ab3ade23a6a47132ebd7d22cb1
+  UnrarKit: 62f535c7a34ec52d2514b9b148f33dcfa9a9dc39
+
+PODFILE CHECKSUM: f43cdece3ac13a68fee1abc0c9375a7190088c64
+
+COCOAPODS: 1.11.2
